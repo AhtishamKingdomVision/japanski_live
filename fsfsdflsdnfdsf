@@ -1,0 +1,46 @@
+warning: in the working copy of 'wp-content/cache/background-css/1/localhost/japanSki/wp-content/cache/min/1/ui/1.11.3/themes/smoothness/jquery-ui.css', LF will be replaced by CRLF the next time Git touches it
+ .../themes/kingdomvision-jsnew/css/responsive.css  |   2 [32m+[m[31m-[m
+ .../kingdomvision-jsnew/css/responsive.css.json    |   2 [32m+[m[31m-[m
+ .../themes/kingdomvision-jsnew/style.css           |   2 [32m+[m[31m-[m
+ .../themes/kingdomvision-jsnew/style.css.json      |   2 [32m+[m[31m-[m
+ .../cache/min/1/leaflet@1.9.4/dist/leaflet.css     |   2 [32m+[m[31m-[m
+ .../min/1/leaflet@1.9.4/dist/leaflet.css.json      |   2 [32m+[m[31m-[m
+ .../1/ui/1.11.3/themes/smoothness/jquery-ui.css    |   2 [32m+[m[31m-[m
+ .../ui/1.11.3/themes/smoothness/jquery-ui.css.json |   2 [32m+[m[31m-[m
+ .../index-mobile.html                              | 745 [31m-----------------[m
+ .../index-mobile.html_gzip                         | Bin [31m42569[m -> [32m0[m bytes
+ .../68-year-old-snowfall-record-broken/index.html  | 745 [31m-----------------[m
+ .../index.html_gzip                                | Bin [31m41394[m -> [32m0[m bytes
+ .../index-mobile.html                              | 927 [31m---------------------[m
+ .../index-mobile.html_gzip                         | Bin [31m44371[m -> [32m0[m bytes
+ .../a-new-era-for-japan-ski-resorts/index.html     | 927 [31m---------------------[m
+ .../index.html_gzip                                | Bin [31m44132[m -> [32m0[m bytes
+ .../index-mobile.html                              | 749 [31m-----------------[m
+ .../index-mobile.html_gzip                         | Bin [31m41346[m -> [32m0[m bytes
+ .../index.html                                     | 749 [31m-----------------[m
+ .../index.html_gzip                                | Bin [31m41101[m -> [32m0[m bytes
+ .../best-day-trips-from-hakuba/index-mobile.html   | 786 [31m-----------------[m
+ .../index-mobile.html_gzip                         | Bin [31m44571[m -> [32m0[m bytes
+ .../blog/best-day-trips-from-hakuba/index.html     | 786 [31m-----------------[m
+ .../best-day-trips-from-hakuba/index.html_gzip     | Bin [31m44293[m -> [32m0[m bytes
+ .../index-mobile.html                              | 743 [31m-----------------[m
+ .../index-mobile.html_gzip                         | Bin [31m41115[m -> [32m0[m bytes
+ .../index.html                                     | 743 [31m-----------------[m
+ .../index.html_gzip                                | Bin [31m40853[m -> [32m0[m bytes
+ .../blog/fine-dining-niseko/index-mobile.html      | 925 [31m--------------------[m
+ .../blog/fine-dining-niseko/index-mobile.html_gzip | Bin [31m43736[m -> [32m0[m bytes
+ .../japanSki/blog/fine-dining-niseko/index.html    | 925 [31m--------------------[m
+ .../blog/fine-dining-niseko/index.html_gzip        | Bin [31m43462[m -> [32m0[m bytes
+ .../blog/getting-to-niseko/index-mobile.html       | 765 [31m-----------------[m
+ .../blog/getting-to-niseko/index-mobile.html_gzip  | Bin [31m42988[m -> [32m0[m bytes
+ .../japanSki/blog/getting-to-niseko/index.html     | 765 [31m-----------------[m
+ .../blog/getting-to-niseko/index.html_gzip         | Bin [31m42711[m -> [32m0[m bytes
+ .../index-mobile.html                              | 892 [31m--------------------[m
+ .../index-mobile.html_gzip                         | Bin [31m43827[m -> [32m0[m bytes
+ .../hakuba-and-niseko-booking-trends/index.html    | 892 [31m--------------------[m
+ .../index.html_gzip                                | Bin [31m43546[m -> [32m0[m bytes
+ .../index-mobile.html                              | 732 [31m----------------[m
+ .../index-mobile.html_gzip                         | Bin [31m40452[m -> [32m0[m bytes
+ .../index.html                                     | 732 [31m----------------[m
+ .../index.html_gzip                                | Bin [31m40096[m -> [32m0[m bytes
+ 44 files changed, 8 insertions(+), 14536 deletions(-)

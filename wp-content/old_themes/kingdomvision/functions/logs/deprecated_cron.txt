@@ -1,0 +1,1 @@
+<pre>[DEPRECATED] hz_get_data_from_booking_sys_func called — use kv_cron_sync_accommodations instead. -- -- -- 2026-06-19 19:16:11<br></pre>

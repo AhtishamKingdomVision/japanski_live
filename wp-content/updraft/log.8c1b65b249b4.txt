@@ -1,0 +1,37 @@
+0000.011 () Opened log file at time: Mon, 13 Jul 2026 10:48:05 +0000 on http://localhost/japanSki
+0000.012 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 6.9.4 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 43.2M | 46M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.012 () Free space on disk containing Updraft's temporary directory: 326279 MB
+0000.050 () Restore setup, now closing connection and starting restore over AJAX.
+0000.008 () Opened log file at time: Mon, 13 Jul 2026 10:48:06 +0000 on http://localhost/japanSki
+0000.008 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 6.9.4 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 39.1M | 42M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.009 () Free space on disk containing Updraft's temporary directory: 326277.9 MB
+0000.025 () Ensuring WP_Filesystem is setup for a restore
+0000.028 () WP_Filesystem is setup and ready for a restore
+0000.036 () Restore job started. Entities to restore: plugins. Restore options: {"updraft_encryptionphrase":"","updraft_restorer_wpcore_includewpconfig":false,"updraft_incremental_restore_point":-1}
+0000.041 () Will not delete any archives after unpacking them, because there was no cloud storage for this backup
+0000.045 () Entity: plugins
+0000.045 () restore_backup(backup_file=backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-plugins.zip, type=plugins, info=a:3:{s:4:"path";s:42:"C:\laragon\www\japanSki/wp-content/plugins";s:11:"description";s:7:"Plugins";s:20:"singular_description";s:6:"Plugin";}, last_one=1)
+0000.045 () Unpacking backup... (backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-plugins.zip, 61.8 MB)
+0000.048 () Unzipping backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-plugins.zip to C:/laragon/www/japanSki/wp-content/upgrade/6c0e9e99/ using UpdraftPlus_ZipArchive, starting index 0
+0001.302 () Unzip progress: 2162 out of 13616 files (663 B, plugins/google-site-kit/third-party/phpseclib/phpseclib/phpseclib/File/ASN1/Maps/DSAParams.php)
+0007.018 () Unzip progress: 3163 out of 13616 files (4.3 MB, plugins/gravityforms/images/template-library/SignatureConsentForm.svg)
+0013.025 () Unzip progress: 4164 out of 13616 files (19.8 MB, plugins/wp-rocket/inc/Engine/Admin/RocketInsights/Settings/Subscriber.php)
+0018.724 () Unzip progress: 5165 out of 13616 files (35.1 MB, plugins/wordpress-seo-premium/cli/cli-redirect-command-namespace.php)
+0026.527 () Unzip progress: 6166 out of 13616 files (50.8 MB, plugins/updraftplus/images/onboarding/updraftvault.png)
+0031.761 () Unzip progress: 7167 out of 13616 files (62.3 MB, plugins/updraftplus/vendor/guzzle/guzzle/src/Guzzle/Plugin/Async/AsyncPlugin.php)
+0036.900 () Unzip progress: 8168 out of 13616 files (86.9 MB, plugins/wordpress-seo/src/commands/index-command.php)
+0042.505 () Unzip progress: 9169 out of 13616 files (99.4 MB, plugins/wordpress-seo/vendor_prefixed/guzzlehttp/psr7/src/NoSeekStream.php)
+0047.192 () Unzip progress: 10170 out of 13616 files (103.3 MB, plugins/post-smtp/Postman/Postman-Mail/PostmanMailerSendTransport.php)
+0053.643 () Unzip progress: 11171 out of 13616 files (117.4 MB, plugins/post-smtp/Postman/Mobile/includes/phpqrcode/cache/mask_4/mask_149_4.dat)
+0058.333 () Unzip progress: 12172 out of 13616 files (121.6 MB, plugins/advanced-custom-fields-pro/lang/acf-it_IT.l10n.php)
+0064.063 () Unzip progress: 13173 out of 13616 files (150.7 MB, plugins/advanced-custom-fields-pro/assets/images/icons/icon-tree-branch.svg)
+0066.601 () Unzip progress: 13616 out of 13616 files (169.7 MB, plugins/advanced-custom-fields-pro/lang/pro/acf-de_DE_formal.po)
+0066.611 () Moving old data: filesystem method / updraft_dir is potentially possible
+0066.612 () Moving old data: can potentially use wp_filesystem method / -old
+0066.612 () Moving old data out of the way...
+0067.114 () Top-level entities being moved: akismet, hello.php, index.php, updraftplus
+0067.128 () Moving unpacked backup into place...
+0068.571 () Top-level entities being moved: advanced-custom-fields-pro, better-search-replace, cloudflare, duplicate-post, duracelltomi-google-tag-manager, google-site-kit, gravityforms, index.php, menu-icons-media, post-smtp, sg-security, updraftplus, wordpress-seo, wordpress-seo-premium, wp-crontrol, wp-rocket
+0068.617 () Cleaning up rubbish...
+0076.661 () Restore successful!
+0076.662 () Restore successful

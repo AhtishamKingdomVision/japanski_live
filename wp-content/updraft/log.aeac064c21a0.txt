@@ -1,0 +1,592 @@
+0000.012 () Opened log file at time: Mon, 13 Jul 2026 10:51:53 +0000 on http://localhost/japanSki
+0000.013 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 6.9.4 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 43.2M | 46M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.013 () Free space on disk containing Updraft's temporary directory: 325909.8 MB
+0000.045 () Restore setup, now closing connection and starting restore over AJAX.
+0000.007 () Opened log file at time: Mon, 13 Jul 2026 10:51:54 +0000 on http://localhost/japanSki
+0000.007 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 6.9.4 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 39.1M | 72M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.008 () Free space on disk containing Updraft's temporary directory: 325909.6 MB
+0000.033 () Ensuring WP_Filesystem is setup for a restore
+0000.036 () WP_Filesystem is setup and ready for a restore
+0000.041 () Restore job started. Entities to restore: db. Restore options: {"updraft_restorer_replacesiteurl":"1","include_unspecified_tables":false,"tables_to_restore":["wp_options","wp_users","wp_usermeta","wp_actionscheduler_actions","wp_actionscheduler_claims","wp_actionscheduler_groups","wp_actionscheduler_logs","wp_commentmeta","wp_comments","wp_links","wp_postmeta","wp_posts","wp_term_relationships","wp_term_taxonomy","wp_termmeta","wp_terms","wp_wpr_above_the_fold","wp_wpr_lazy_render_content","wp_wpr_performance_monitoring","wp_wpr_preconnect_external_domains","wp_wpr_preload_fonts","wp_wpr_rocket_cache","wp_wpr_rocket_cdn","wp_wpr_rucss_used_css","wp_duplicator_activity_logs","wp_duplicator_backups","wp_duplicator_entities","wp_flywire_accommodations","wp_flywire_customers","wp_flywire_payments","wp_flywire_rooms","wp_flywire_transaction_items","wp_flywire_transactions","wp_gf_draft_submissions","wp_gf_entry","wp_gf_entry_meta","wp_gf_entry_notes","wp_gf_form","wp_gf_form_meta","wp_gf_form_revisions","wp_gf_form_view","wp_gf_rest_api_keys","wp_pmxi_files","wp_pmxi_geocoding","wp_pmxi_hash","wp_pmxi_history","wp_pmxi_images","wp_pmxi_imports","wp_pmxi_posts","wp_pmxi_templates","wp_post_smtp_logmeta","wp_post_smtp_logs","wp_sg_ai_log_events","wp_sgs_log_events","wp_sgs_log_visitors","wp_wp_phpmyadmin_extension__errors_log","wp_wpfm_backup","wp_yoast_expiring_store","wp_yoast_indexable","wp_yoast_indexable_hierarchy","wp_yoast_migrations","wp_yoast_primary_term","wp_yoast_prominent_words","wp_yoast_seo_links","wp_yoast_test_helper_log"],"tables_to_skip":[],"updraft_encryptionphrase":"","updraft_restorer_wpcore_includewpconfig":false,"updraft_incremental_restore_point":-1}
+0000.048 () Will not delete any archives after unpacking them, because there was no cloud storage for this backup
+0000.051 () Entity: db
+0000.052 () restore_backup(backup_file=backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-db.gz, type=db, info=a:0:{}, last_one=1)
+0000.052 () Unpacking backup... (backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-db.gz, 39.2 Mb)
+0000.118 () Database successfully unpacked
+0000.119 () Restoring the database (on a large site this can take a long time - if it times out (which can happen if your web hosting company has configured your hosting to limit resources) then you should use a different method, such as phpMyAdmin)...
+0000.126 () Using direct MySQL access; value of use_mysqli is: 1
+0000.126 () SQL compatibility mode is: NO_AUTO_VALUE_ON_ZERO,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+0000.183 () Max packet size: 512 MB
+0000.183 () Entering maintenance mode
+0000.183 () Enabling Maintenance mode&#8230;
+0000.213 () Backup of: https://japanskiexperience.com
+0000.221 () Content URL: https://japanskiexperience.com/wp-content
+0000.221 () Uploads URL: https://japanskiexperience.com/wp-content/uploads
+0000.221 () Old table prefix: wp_
+0000.221 () Old ABSPATH: /home/customer/www/japanskiexperience.com/public_html/
+0000.221 () UpdraftPlus plugin slug: updraftplus/updraftplus.php
+0000.221 () Site information: multisite=0
+0000.221 () Site information: sql_mode=NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+0000.223 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+0000.223 () New table prefix: a4_
+0000.230 () Processing table (MyISAM): wp_options - will restore as: a4_options
+0001.222 () Database queries processed: 50 in 1.09 seconds
+0002.534 () Database queries processed: 100 in 2.40 seconds
+0002.793 () Atomic restore: dropping original table (wp_options)
+0002.801 () Atomic restore: renaming new table (a4_options) to final table name (wp_options)
+0002.810 () Restoring prior UD configuration (table: wp_options; keys: 102)
+0003.245 () WP Rocket CDN option detected: disabling the option
+0003.289 () Search and replacing table: wp_options: rows: 1583
+0010.034 () Processing table (MyISAM): wp_users - will restore as: a4_users
+0010.059 () Atomic restore: dropping original table (wp_users)
+0010.070 () Atomic restore: renaming new table (a4_users) to final table name (wp_users)
+0010.086 () Search and replacing table: wp_users: rows: 14
+0010.090 () Processing table (MyISAM): wp_usermeta - will restore as: a4_usermeta
+0010.174 () Atomic restore: dropping original table (wp_usermeta)
+0010.191 () Atomic restore: renaming new table (a4_usermeta) to final table name (wp_usermeta)
+0010.206 () Search and replacing table: wp_usermeta: rows: 2626
+0010.254 () Processing table (MyISAM): wp_actionscheduler_actions - will restore as: a4_actionscheduler_actions
+0010.317 () Atomic restore: dropping original table (wp_actionscheduler_actions)
+0010.321 () Atomic restore: renaming new table (a4_actionscheduler_actions) to final table name (wp_actionscheduler_actions)
+0010.335 () Search and replacing table: wp_actionscheduler_actions: rows: 911
+0012.698 () Processing table (MyISAM): wp_actionscheduler_claims - will restore as: a4_actionscheduler_claims
+0012.721 () Atomic restore: dropping original table (wp_actionscheduler_claims)
+0012.724 () Atomic restore: renaming new table (a4_actionscheduler_claims) to final table name (wp_actionscheduler_claims)
+0012.740 () Search and replacing table: wp_actionscheduler_claims: rows: 6
+0012.741 () Processing table (MyISAM): wp_actionscheduler_groups - will restore as: a4_actionscheduler_groups
+0012.764 () Atomic restore: dropping original table (wp_actionscheduler_groups)
+0012.767 () Atomic restore: renaming new table (a4_actionscheduler_groups) to final table name (wp_actionscheduler_groups)
+0012.782 () Search and replacing table: wp_actionscheduler_groups: rows: 7
+0012.783 () Processing table (MyISAM): wp_actionscheduler_logs - will restore as: a4_actionscheduler_logs
+0012.849 () Atomic restore: dropping original table (wp_actionscheduler_logs)
+0012.852 () Atomic restore: renaming new table (a4_actionscheduler_logs) to final table name (wp_actionscheduler_logs)
+0012.867 () Search and replacing table: wp_actionscheduler_logs: rows: 2665
+0012.906 () Processing table (MyISAM): wp_commentmeta - will restore as: a4_commentmeta
+0012.927 () Atomic restore: dropping original table (wp_commentmeta)
+0012.936 () Atomic restore: renaming new table (a4_commentmeta) to final table name (wp_commentmeta)
+0012.952 () Search and replacing table: wp_commentmeta: rows: 2
+0012.953 () Processing table (MyISAM): wp_comments - will restore as: a4_comments
+0013.011 () Atomic restore: dropping original table (wp_comments)
+0013.021 () Atomic restore: renaming new table (a4_comments) to final table name (wp_comments)
+0013.037 () Search and replacing table: wp_comments: rows: 1
+0013.038 () Processing table (MyISAM): wp_links - will restore as: a4_links
+0013.048 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+0013.058 () Atomic restore: dropping original table (wp_links)
+0013.068 () Atomic restore: renaming new table (a4_links) to final table name (wp_links)
+0013.083 () Search and replacing table: wp_links: rows: 0
+0013.083 () Processing table (MyISAM): wp_postmeta - will restore as: a4_postmeta
+0013.358 () Database queries processed: 150 in 13.23 seconds
+0018.748 () Database queries processed: 200 in 18.62 seconds
+0023.915 () Database queries processed: 250 in 23.78 seconds
+0043.549 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+0043.550 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+0043.559 () Atomic restore: dropping original table (wp_postmeta)
+0043.570 () Atomic restore: renaming new table (a4_postmeta) to final table name (wp_postmeta)
+0049.679 () Search and replacing table: wp_postmeta: rows: 39198
+0050.039 () PHP event: code E_NOTICE: unserialize(): Error at offset 127 of 149 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0050.170 () PHP event: code E_NOTICE: unserialize(): Error at offset 154 of 170 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0050.197 () PHP event: code E_NOTICE: unserialize(): Error at offset 91 of 107 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0050.199 () PHP event: code E_NOTICE: unserialize(): Error at offset 99 of 115 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0050.201 () PHP event: code E_NOTICE: unserialize(): Error at offset 110 of 111 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0050.212 () Searching and replacing reached row: 5000
+0052.275 () PHP event: code E_NOTICE: unserialize(): Error at offset 154 of 176 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0052.337 () PHP event: code E_NOTICE: unserialize(): Error at offset 93 of 109 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0052.340 () PHP event: code E_NOTICE: unserialize(): Error at offset 90 of 106 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0052.343 () PHP event: code E_NOTICE: unserialize(): Error at offset 97 of 113 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0052.346 () PHP event: code E_NOTICE: unserialize(): Error at offset 98 of 114 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0052.387 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0053.095 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0053.255 () PHP event: code E_NOTICE: unserialize(): Error at offset 86 of 102 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0053.787 () PHP event: code E_NOTICE: unserialize(): Error at offset 150 of 166 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0054.231 () Searching and replacing reached row: 10000
+0056.573 () PHP event: code E_NOTICE: unserialize(): Error at offset 99 of 115 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0056.576 () PHP event: code E_NOTICE: unserialize(): Error at offset 147 of 163 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0056.635 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0056.855 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0056.857 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0057.010 () PHP event: code E_NOTICE: unserialize(): Error at offset 114 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0057.012 () PHP event: code E_NOTICE: unserialize(): Error at offset 159 of 181 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0057.014 () PHP event: code E_NOTICE: unserialize(): Error at offset 159 of 181 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0057.017 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 138 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0057.019 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 138 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0057.147 () Searching and replacing reached row: 15000
+0059.923 () PHP event: code E_NOTICE: unserialize(): Error at offset 114 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0059.956 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 138 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.189 () PHP event: code E_NOTICE: unserialize(): Error at offset 121 of 143 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.192 () PHP event: code E_NOTICE: unserialize(): Error at offset 121 of 143 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.194 () PHP event: code E_NOTICE: unserialize(): Error at offset 121 of 143 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.197 () PHP event: code E_NOTICE: unserialize(): Error at offset 121 of 143 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.431 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.433 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.436 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.439 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.441 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.443 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.446 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.448 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.451 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.453 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.456 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.458 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.485 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.901 () PHP event: code E_NOTICE: unserialize(): Error at offset 153 of 175 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0060.931 () PHP event: code E_NOTICE: unserialize(): Error at offset 130 of 152 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.006 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.008 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.010 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.013 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.015 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.017 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.019 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.021 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.024 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.026 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.030 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.032 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.035 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.037 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.038 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.040 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.042 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.044 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.046 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.048 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.050 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.052 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.054 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.074 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.131 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.135 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.138 () PHP event: code E_NOTICE: unserialize(): Error at offset 123 of 145 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.142 () PHP event: code E_NOTICE: unserialize(): Error at offset 132 of 154 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.145 () PHP event: code E_NOTICE: unserialize(): Error at offset 135 of 157 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.149 () PHP event: code E_NOTICE: unserialize(): Error at offset 118 of 140 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.154 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 138 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.159 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.162 () PHP event: code E_NOTICE: unserialize(): Error at offset 137 of 159 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.167 () PHP event: code E_NOTICE: unserialize(): Error at offset 129 of 151 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.177 () PHP event: code E_NOTICE: unserialize(): Error at offset 123 of 145 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.182 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.215 () PHP event: code E_NOTICE: unserialize(): Error at offset 139 of 161 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.217 () PHP event: code E_NOTICE: unserialize(): Error at offset 139 of 161 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.218 () PHP event: code E_NOTICE: unserialize(): Error at offset 139 of 161 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.221 () PHP event: code E_NOTICE: unserialize(): Error at offset 123 of 145 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.232 () PHP event: code E_NOTICE: unserialize(): Error at offset 194 of 216 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.266 () PHP event: code E_NOTICE: unserialize(): Error at offset 127 of 149 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.269 () PHP event: code E_NOTICE: unserialize(): Error at offset 129 of 151 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.280 () PHP event: code E_NOTICE: unserialize(): Error at offset 110 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.449 () PHP event: code E_NOTICE: unserialize(): Error at offset 123 of 145 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.471 () PHP event: code E_NOTICE: unserialize(): Error at offset 129 of 151 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.635 () PHP event: code E_NOTICE: unserialize(): Error at offset 112 of 134 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.637 () PHP event: code E_NOTICE: unserialize(): Error at offset 112 of 134 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.640 () PHP event: code E_NOTICE: unserialize(): Error at offset 112 of 134 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0061.796 () PHP event: code E_NOTICE: unserialize(): Error at offset 110 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.020 () PHP event: code E_NOTICE: unserialize(): Error at offset 118 of 140 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.300 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.302 () PHP event: code E_NOTICE: unserialize(): Error at offset 131 of 153 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.487 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.492 () PHP event: code E_NOTICE: unserialize(): Error at offset 114 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.651 () PHP event: code E_NOTICE: unserialize(): Error at offset 129 of 151 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.654 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.655 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.659 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.660 () PHP event: code E_NOTICE: unserialize(): Error at offset 110 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.665 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.670 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.676 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.683 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.757 () PHP event: code E_NOTICE: unserialize(): Error at offset 120 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.759 () PHP event: code E_NOTICE: unserialize(): Error at offset 117 of 133 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.764 () PHP event: code E_NOTICE: unserialize(): Error at offset 120 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.766 () PHP event: code E_NOTICE: unserialize(): Error at offset 117 of 133 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.768 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.781 () PHP event: code E_NOTICE: unserialize(): Error at offset 150 of 166 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.784 () PHP event: code E_NOTICE: unserialize(): Error at offset 147 of 163 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.797 () PHP event: code E_NOTICE: unserialize(): Error at offset 120 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.799 () PHP event: code E_NOTICE: unserialize(): Error at offset 117 of 133 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.804 () PHP event: code E_NOTICE: unserialize(): Error at offset 120 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.806 () PHP event: code E_NOTICE: unserialize(): Error at offset 117 of 133 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.811 () PHP event: code E_NOTICE: unserialize(): Error at offset 147 of 163 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.877 () PHP event: code E_NOTICE: unserialize(): Error at offset 117 of 133 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.885 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0062.924 () Searching and replacing reached row: 20000
+0067.023 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.090 () PHP event: code E_NOTICE: unserialize(): Error at offset 147 of 163 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.093 () PHP event: code E_NOTICE: unserialize(): Error at offset 147 of 163 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.113 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.119 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.131 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.196 () PHP event: code E_NOTICE: unserialize(): Error at offset 117 of 133 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.209 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.213 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.218 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.223 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.240 () PHP event: code E_NOTICE: unserialize(): Error at offset 155 of 177 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.242 () PHP event: code E_NOTICE: unserialize(): Error at offset 155 of 177 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.245 () PHP event: code E_NOTICE: unserialize(): Error at offset 151 of 173 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.247 () PHP event: code E_NOTICE: unserialize(): Error at offset 157 of 179 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.249 () PHP event: code E_NOTICE: unserialize(): Error at offset 170 of 192 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.290 () PHP event: code E_NOTICE: unserialize(): Error at offset 155 of 177 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.293 () PHP event: code E_NOTICE: unserialize(): Error at offset 155 of 177 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.295 () PHP event: code E_NOTICE: unserialize(): Error at offset 151 of 173 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.298 () PHP event: code E_NOTICE: unserialize(): Error at offset 157 of 179 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.301 () PHP event: code E_NOTICE: unserialize(): Error at offset 170 of 192 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.321 () PHP event: code E_NOTICE: unserialize(): Error at offset 133 of 155 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.324 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.329 () PHP event: code E_NOTICE: unserialize(): Error at offset 155 of 177 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.331 () PHP event: code E_NOTICE: unserialize(): Error at offset 155 of 177 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.334 () PHP event: code E_NOTICE: unserialize(): Error at offset 151 of 173 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.336 () PHP event: code E_NOTICE: unserialize(): Error at offset 157 of 179 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.338 () PHP event: code E_NOTICE: unserialize(): Error at offset 170 of 192 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.374 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.379 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.382 () PHP event: code E_NOTICE: unserialize(): Error at offset 2 of 558 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.386 () PHP event: code E_NOTICE: unserialize(): Error at offset 2 of 558 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.436 () PHP event: code E_NOTICE: unserialize(): Error at offset 129 of 151 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.442 () PHP event: code E_NOTICE: unserialize(): Error at offset 125 of 147 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.473 () PHP event: code E_NOTICE: unserialize(): Error at offset 117 of 133 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0067.546 () Searching and replacing reached row: 25000
+0072.565 () PHP event: code E_NOTICE: unserialize(): Error at offset 103 of 119 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0072.575 () PHP event: code E_NOTICE: unserialize(): Error at offset 103 of 119 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0072.580 () PHP event: code E_NOTICE: unserialize(): Error at offset 103 of 119 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0072.598 () PHP event: code E_NOTICE: unserialize(): Error at offset 2 of 558 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0074.501 () PHP event: code E_NOTICE: unserialize(): Error at offset 154 of 170 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0074.504 () PHP event: code E_NOTICE: unserialize(): Error at offset 154 of 170 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0074.507 () PHP event: code E_NOTICE: unserialize(): Error at offset 154 of 170 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0074.512 () PHP event: code E_NOTICE: unserialize(): Error at offset 134 of 150 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0074.515 () PHP event: code E_NOTICE: unserialize(): Error at offset 134 of 150 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0074.526 () PHP event: code E_NOTICE: unserialize(): Error at offset 134 of 150 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0076.090 () Searching and replacing reached row: 30000
+0081.394 () PHP event: code E_NOTICE: unserialize(): Error at offset 132 of 154 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.710 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.712 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.715 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.718 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.720 () PHP event: code E_NOTICE: unserialize(): Error at offset 116 of 132 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.729 () PHP event: code E_NOTICE: unserialize(): Error at offset 154 of 176 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.779 () PHP event: code E_NOTICE: unserialize(): Error at offset 127 of 149 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.787 () PHP event: code E_NOTICE: unserialize(): Error at offset 139 of 161 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0081.931 () PHP event: code E_NOTICE: unserialize(): Error at offset 143 of 165 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0082.137 () PHP event: code E_NOTICE: unserialize(): Error at offset 121 of 143 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0082.264 () PHP event: code E_NOTICE: unserialize(): Error at offset 145 of 167 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0082.309 () PHP event: code E_NOTICE: unserialize(): Error at offset 121 of 143 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0082.356 () PHP event: code E_NOTICE: unserialize(): Error at offset 114 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0082.359 () PHP event: code E_NOTICE: unserialize(): Error at offset 114 of 136 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0082.370 () Searching and replacing reached row: 35000
+0089.573 () PHP event: code E_NOTICE: unserialize(): Error at offset 98 of 120 bytes (line 18, C:\laragon\www\japanSki\wp-content\plugins\updraftplus\vendor\brumann\polyfill-unserialize\src\Unserialize.php)
+0089.931 () Processing table (MyISAM): wp_posts - will restore as: a4_posts
+0091.820 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+0091.822 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+0091.832 () Atomic restore: dropping original table (wp_posts)
+0091.843 () Atomic restore: renaming new table (a4_posts) to final table name (wp_posts)
+0091.862 () Skipping search/replace on GUID column in posts table
+0091.865 () Search and replacing table: wp_posts: rows: 40929
+0092.263 () Searching and replacing reached row: 5000
+0092.905 () Searching and replacing reached row: 10000
+0093.823 () Searching and replacing reached row: 15000
+0094.407 () Searching and replacing reached row: 20000
+0094.909 () Searching and replacing reached row: 25000
+0095.280 () Searching and replacing reached row: 30000
+0096.878 () Searching and replacing reached row: 35000
+0099.320 () Searching and replacing reached row: 40000
+0099.552 () Processing table (MyISAM): wp_term_relationships - will restore as: a4_term_relationships
+0099.898 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+0099.909 () Atomic restore: dropping original table (wp_term_relationships)
+0099.918 () Atomic restore: renaming new table (a4_term_relationships) to final table name (wp_term_relationships)
+0099.928 () Skipping this table: data in this table (wp_term_relationships) should not be search/replaced
+0099.928 () Processing table (MyISAM): wp_term_taxonomy - will restore as: a4_term_taxonomy
+0099.964 () Atomic restore: dropping original table (wp_term_taxonomy)
+0099.973 () Atomic restore: renaming new table (a4_term_taxonomy) to final table name (wp_term_taxonomy)
+0099.989 () Search and replacing table: wp_term_taxonomy: rows: 913
+0100.005 () Processing table (MyISAM): wp_termmeta - will restore as: a4_termmeta
+0100.043 () Atomic restore: dropping original table (wp_termmeta)
+0100.052 () Atomic restore: renaming new table (a4_termmeta) to final table name (wp_termmeta)
+0100.066 () Search and replacing table: wp_termmeta: rows: 631
+0100.078 () Processing table (MyISAM): wp_terms - will restore as: a4_terms
+0100.119 () Atomic restore: dropping original table (wp_terms)
+0100.128 () Atomic restore: renaming new table (a4_terms) to final table name (wp_terms)
+0100.144 () Search and replacing table: wp_terms: rows: 913
+0100.156 () Processing table (InnoDB): wp_wpr_above_the_fold - will restore as: a4_wpr_above_the_fold
+0100.388 () Atomic restore: dropping original table (wp_wpr_above_the_fold)
+0100.392 () Atomic restore: renaming new table (a4_wpr_above_the_fold) to final table name (wp_wpr_above_the_fold)
+0100.517 () Search and replacing table: wp_wpr_above_the_fold: rows: 650
+0102.593 () Processing table (InnoDB): wp_wpr_lazy_render_content - will restore as: a4_wpr_lazy_render_content
+0102.702 () Atomic restore: dropping original table (wp_wpr_lazy_render_content)
+0102.705 () Atomic restore: renaming new table (a4_wpr_lazy_render_content) to final table name (wp_wpr_lazy_render_content)
+0102.722 () Search and replacing table: wp_wpr_lazy_render_content: rows: 650
+0104.577 () Processing table (InnoDB): wp_wpr_performance_monitoring - will restore as: a4_wpr_performance_monitoring
+0104.639 () Atomic restore: dropping original table (wp_wpr_performance_monitoring)
+0104.643 () Atomic restore: renaming new table (a4_wpr_performance_monitoring) to final table name (wp_wpr_performance_monitoring)
+0104.661 () Search and replacing table: wp_wpr_performance_monitoring: rows: 1
+0104.666 () Processing table (InnoDB): wp_wpr_preconnect_external_domains - will restore as: a4_wpr_preconnect_external_domains
+0104.764 () Atomic restore: dropping original table (wp_wpr_preconnect_external_domains)
+0104.767 () Atomic restore: renaming new table (a4_wpr_preconnect_external_domains) to final table name (wp_wpr_preconnect_external_domains)
+0104.784 () Search and replacing table: wp_wpr_preconnect_external_domains: rows: 650
+0106.624 () Processing table (InnoDB): wp_wpr_preload_fonts - will restore as: a4_wpr_preload_fonts
+0106.726 () Atomic restore: dropping original table (wp_wpr_preload_fonts)
+0106.729 () Atomic restore: renaming new table (a4_wpr_preload_fonts) to final table name (wp_wpr_preload_fonts)
+0106.747 () Search and replacing table: wp_wpr_preload_fonts: rows: 650
+0108.601 () Processing table (InnoDB): wp_wpr_rocket_cache - will restore as: a4_wpr_rocket_cache
+0108.743 () Atomic restore: dropping original table (wp_wpr_rocket_cache)
+0108.746 () Atomic restore: renaming new table (a4_wpr_rocket_cache) to final table name (wp_wpr_rocket_cache)
+0108.763 () Search and replacing table: wp_wpr_rocket_cache: rows: 1326
+0112.392 () Processing table (InnoDB): wp_wpr_rocket_cdn - will restore as: a4_wpr_rocket_cdn
+0112.451 () Atomic restore: dropping original table (wp_wpr_rocket_cdn)
+0112.453 () Atomic restore: renaming new table (a4_wpr_rocket_cdn) to final table name (wp_wpr_rocket_cdn)
+0112.470 () Search and replacing table: wp_wpr_rocket_cdn: rows: 0
+0112.470 () Processing table (InnoDB): wp_wpr_rucss_used_css - will restore as: a4_wpr_rucss_used_css
+0112.545 () Atomic restore: dropping original table (wp_wpr_rucss_used_css)
+0112.547 () Atomic restore: renaming new table (a4_wpr_rucss_used_css) to final table name (wp_wpr_rucss_used_css)
+0112.565 () Search and replacing table: wp_wpr_rucss_used_css: rows: 257
+0113.189 () Processing table (InnoDB): wp_duplicator_activity_logs - will restore as: a4_duplicator_activity_logs
+0113.255 () Atomic restore: dropping original table (wp_duplicator_activity_logs)
+0113.259 () Atomic restore: renaming new table (a4_duplicator_activity_logs) to final table name (wp_duplicator_activity_logs)
+0113.277 () Search and replacing table: wp_duplicator_activity_logs: rows: 7
+0113.299 () Processing table (InnoDB): wp_duplicator_backups - will restore as: a4_duplicator_backups
+0113.446 () Atomic restore: dropping original table (wp_duplicator_backups)
+0113.449 () Atomic restore: renaming new table (a4_duplicator_backups) to final table name (wp_duplicator_backups)
+0113.470 () Search and replacing table: wp_duplicator_backups: rows: 1
+0113.510 () Processing table (InnoDB): wp_duplicator_entities - will restore as: a4_duplicator_entities
+0113.560 () Atomic restore: dropping original table (wp_duplicator_entities)
+0113.563 () Atomic restore: renaming new table (a4_duplicator_entities) to final table name (wp_duplicator_entities)
+0113.582 () Search and replacing table: wp_duplicator_entities: rows: 8
+0113.607 () Processing table (InnoDB): wp_flywire_accommodations - will restore as: a4_flywire_accommodations
+0113.660 () Atomic restore: dropping original table (wp_flywire_accommodations)
+0113.664 () Atomic restore: renaming new table (a4_flywire_accommodations) to final table name (wp_flywire_accommodations)
+0113.680 () Search and replacing table: wp_flywire_accommodations: rows: 33
+0113.681 () Processing table (InnoDB): wp_flywire_customers - will restore as: a4_flywire_customers
+0113.742 () Atomic restore: dropping original table (wp_flywire_customers)
+0113.745 () Atomic restore: renaming new table (a4_flywire_customers) to final table name (wp_flywire_customers)
+0113.764 () Search and replacing table: wp_flywire_customers: rows: 166
+0113.769 () Processing table (InnoDB): wp_flywire_payments - will restore as: a4_flywire_payments
+0113.815 () Atomic restore: dropping original table (wp_flywire_payments)
+0113.818 () Atomic restore: renaming new table (a4_flywire_payments) to final table name (wp_flywire_payments)
+0113.836 () Search and replacing table: wp_flywire_payments: rows: 165
+0113.844 () Processing table (InnoDB): wp_flywire_rooms
+0113.905 () Search and replacing table: wp_flywire_rooms: rows: 176
+0113.913 () Processing table (InnoDB): wp_flywire_transaction_items
+0113.998 () Search and replacing table: wp_flywire_transaction_items: rows: 175
+0114.006 () Processing table (InnoDB): wp_flywire_transactions
+0114.101 () Search and replacing table: wp_flywire_transactions: rows: 165
+0114.108 () Processing table (MyISAM): wp_gf_draft_submissions - will restore as: a4_gf_draft_submissions
+0114.123 () Atomic restore: dropping original table (wp_gf_draft_submissions)
+0114.126 () Atomic restore: renaming new table (a4_gf_draft_submissions) to final table name (wp_gf_draft_submissions)
+0114.139 () Search and replacing table: wp_gf_draft_submissions: rows: 0
+0114.139 () Processing table (MyISAM): wp_gf_entry - will restore as: a4_gf_entry
+0114.173 () Atomic restore: dropping original table (wp_gf_entry)
+0114.177 () Atomic restore: renaming new table (a4_gf_entry) to final table name (wp_gf_entry)
+0114.190 () Search and replacing table: wp_gf_entry: rows: 324
+0114.692 () Processing table (MyISAM): wp_gf_entry_meta - will restore as: a4_gf_entry_meta
+0114.850 () Atomic restore: dropping original table (wp_gf_entry_meta)
+0114.852 () Atomic restore: renaming new table (a4_gf_entry_meta) to final table name (wp_gf_entry_meta)
+0114.868 () Search and replacing table: wp_gf_entry_meta: rows: 5081
+0115.226 () Searching and replacing reached row: 5000
+0115.248 () Processing table (MyISAM): wp_gf_entry_notes - will restore as: a4_gf_entry_notes
+0115.275 () Atomic restore: dropping original table (wp_gf_entry_notes)
+0115.279 () Atomic restore: renaming new table (a4_gf_entry_notes) to final table name (wp_gf_entry_notes)
+0115.295 () Search and replacing table: wp_gf_entry_notes: rows: 236
+0115.300 () Processing table (MyISAM): wp_gf_form - will restore as: a4_gf_form
+0115.322 () Atomic restore: dropping original table (wp_gf_form)
+0115.325 () Atomic restore: renaming new table (a4_gf_form) to final table name (wp_gf_form)
+0115.340 () Search and replacing table: wp_gf_form: rows: 5
+0115.342 () Processing table (MyISAM): wp_gf_form_meta - will restore as: a4_gf_form_meta
+0115.377 () Atomic restore: dropping original table (wp_gf_form_meta)
+0115.381 () Atomic restore: renaming new table (a4_gf_form_meta) to final table name (wp_gf_form_meta)
+0115.395 () Search and replacing table: wp_gf_form_meta: rows: 5
+0115.406 () Processing table (MyISAM): wp_gf_form_revisions - will restore as: a4_gf_form_revisions
+0115.429 () Atomic restore: dropping original table (wp_gf_form_revisions)
+0115.432 () Atomic restore: renaming new table (a4_gf_form_revisions) to final table name (wp_gf_form_revisions)
+0115.447 () Search and replacing table: wp_gf_form_revisions: rows: 1
+0115.450 () Processing table (MyISAM): wp_gf_form_view - will restore as: a4_gf_form_view
+0115.475 () Atomic restore: dropping original table (wp_gf_form_view)
+0115.478 () Atomic restore: renaming new table (a4_gf_form_view) to final table name (wp_gf_form_view)
+0115.491 () Search and replacing table: wp_gf_form_view: rows: 444
+0115.498 () Processing table (InnoDB): wp_gf_rest_api_keys - will restore as: a4_gf_rest_api_keys
+0115.545 () Atomic restore: dropping original table (wp_gf_rest_api_keys)
+0115.548 () Atomic restore: renaming new table (a4_gf_rest_api_keys) to final table name (wp_gf_rest_api_keys)
+0115.564 () Search and replacing table: wp_gf_rest_api_keys: rows: 0
+0115.564 () Processing table (InnoDB): wp_pmxi_files - will restore as: a4_pmxi_files
+0115.595 () Atomic restore: dropping original table (wp_pmxi_files)
+0115.598 () Atomic restore: renaming new table (a4_pmxi_files) to final table name (wp_pmxi_files)
+0115.614 () Search and replacing table: wp_pmxi_files: rows: 7
+0115.616 () Processing table (InnoDB): wp_pmxi_geocoding - will restore as: a4_pmxi_geocoding
+0115.654 () Atomic restore: dropping original table (wp_pmxi_geocoding)
+0115.656 () Atomic restore: renaming new table (a4_pmxi_geocoding) to final table name (wp_pmxi_geocoding)
+0115.673 () Search and replacing table: wp_pmxi_geocoding: rows: 0
+0115.674 () Processing table (InnoDB): wp_pmxi_hash - will restore as: a4_pmxi_hash
+0115.783 () Atomic restore: dropping original table (wp_pmxi_hash)
+0115.786 () Atomic restore: renaming new table (a4_pmxi_hash) to final table name (wp_pmxi_hash)
+0115.804 () Search and replacing table: wp_pmxi_hash: rows: 2475
+0115.826 () Processing table (InnoDB): wp_pmxi_history - will restore as: a4_pmxi_history
+0115.855 () Atomic restore: dropping original table (wp_pmxi_history)
+0115.859 () Atomic restore: renaming new table (a4_pmxi_history) to final table name (wp_pmxi_history)
+0115.875 () Search and replacing table: wp_pmxi_history: rows: 6
+0115.876 () Processing table (InnoDB): wp_pmxi_images - will restore as: a4_pmxi_images
+0116.079 () Atomic restore: dropping original table (wp_pmxi_images)
+0116.083 () Atomic restore: renaming new table (a4_pmxi_images) to final table name (wp_pmxi_images)
+0116.099 () Search and replacing table: wp_pmxi_images: rows: 4365
+0121.461 () Processing table (InnoDB): wp_pmxi_imports - will restore as: a4_pmxi_imports
+0121.516 () Atomic restore: dropping original table (wp_pmxi_imports)
+0121.519 () Atomic restore: renaming new table (a4_pmxi_imports) to final table name (wp_pmxi_imports)
+0121.539 () Search and replacing table: wp_pmxi_imports: rows: 7
+0121.545 () Processing table (InnoDB): wp_pmxi_posts - will restore as: a4_pmxi_posts
+0121.601 () Atomic restore: dropping original table (wp_pmxi_posts)
+0121.603 () Database queries processed: 500 in 121.47 seconds
+0121.604 () Atomic restore: renaming new table (a4_pmxi_posts) to final table name (wp_pmxi_posts)
+0121.619 () Search and replacing table: wp_pmxi_posts: rows: 306
+0121.637 () Processing table (InnoDB): wp_pmxi_templates - will restore as: a4_pmxi_templates
+0121.661 () Atomic restore: dropping original table (wp_pmxi_templates)
+0121.664 () Atomic restore: renaming new table (a4_pmxi_templates) to final table name (wp_pmxi_templates)
+0121.679 () Search and replacing table: wp_pmxi_templates: rows: 0
+0121.679 () Processing table (InnoDB): wp_post_smtp_logmeta - will restore as: a4_post_smtp_logmeta
+0121.704 () Atomic restore: dropping original table (wp_post_smtp_logmeta)
+0121.707 () Atomic restore: renaming new table (a4_post_smtp_logmeta) to final table name (wp_post_smtp_logmeta)
+0121.721 () Search and replacing table: wp_post_smtp_logmeta: rows: 0
+0121.721 () Processing table (InnoDB): wp_post_smtp_logs - will restore as: a4_post_smtp_logs
+0121.906 () Atomic restore: dropping original table (wp_post_smtp_logs)
+0121.911 () Atomic restore: renaming new table (a4_post_smtp_logs) to final table name (wp_post_smtp_logs)
+0121.931 () Search and replacing table: wp_post_smtp_logs: rows: 238
+0122.215 () Processing table (InnoDB): wp_sg_ai_log_events - will restore as: a4_sg_ai_log_events
+0122.248 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+0122.258 () Atomic restore: dropping original table (wp_sg_ai_log_events)
+0122.261 () Atomic restore: renaming new table (a4_sg_ai_log_events) to final table name (wp_sg_ai_log_events)
+0122.277 () Search and replacing table: wp_sg_ai_log_events: rows: 0
+0122.277 () Processing table (InnoDB): wp_sgs_log_events - will restore as: a4_sgs_log_events
+0123.297 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+0123.299 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+0123.308 () Atomic restore: dropping original table (wp_sgs_log_events)
+0123.311 () Atomic restore: renaming new table (a4_sgs_log_events) to final table name (wp_sgs_log_events)
+0123.333 () Search and replacing table: wp_sgs_log_events: rows: 37850
+0123.435 () Searching and replacing reached row: 5000
+0123.543 () Searching and replacing reached row: 10000
+0123.642 () Searching and replacing reached row: 15000
+0123.753 () Searching and replacing reached row: 20000
+0123.860 () Searching and replacing reached row: 25000
+0123.968 () Searching and replacing reached row: 30000
+0124.080 () Searching and replacing reached row: 35000
+0124.170 () Processing table (InnoDB): wp_sgs_log_visitors - will restore as: a4_sgs_log_visitors
+0124.579 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+0124.588 () Atomic restore: dropping original table (wp_sgs_log_visitors)
+0124.591 () Atomic restore: renaming new table (a4_sgs_log_visitors) to final table name (wp_sgs_log_visitors)
+0124.608 () Search and replacing table: wp_sgs_log_visitors: rows: 13727
+0124.658 () Searching and replacing reached row: 5000
+0124.710 () Searching and replacing reached row: 10000
+0124.752 () Processing table (InnoDB): wp_wp_phpmyadmin_extension__errors_log - will restore as: a4_wp_phpmyadmin_extension__errors_log
+0124.794 () Atomic restore: dropping original table (wp_wp_phpmyadmin_extension__errors_log)
+0124.797 () Atomic restore: renaming new table (a4_wp_phpmyadmin_extension__errors_log) to final table name (wp_wp_phpmyadmin_extension__errors_log)
+0124.813 () Search and replacing table: wp_wp_phpmyadmin_extension__errors_log: rows: 0
+0124.813 () Processing table (InnoDB): wp_wpfm_backup - will restore as: a4_wpfm_backup
+0124.836 () Atomic restore: dropping original table (wp_wpfm_backup)
+0124.840 () Atomic restore: renaming new table (a4_wpfm_backup) to final table name (wp_wpfm_backup)
+0124.854 () Search and replacing table: wp_wpfm_backup: rows: 0
+0124.855 () Processing table (InnoDB): wp_yoast_expiring_store - will restore as: a4_yoast_expiring_store
+0124.896 () Atomic restore: dropping original table (wp_yoast_expiring_store)
+0124.900 () Atomic restore: renaming new table (a4_yoast_expiring_store) to final table name (wp_yoast_expiring_store)
+0124.917 () Search and replacing table: wp_yoast_expiring_store: rows: 0
+0124.917 () Processing table (InnoDB): wp_yoast_indexable - will restore as: a4_yoast_indexable
+0125.533 () Atomic restore: dropping original table (wp_yoast_indexable)
+0125.538 () Atomic restore: renaming new table (a4_yoast_indexable) to final table name (wp_yoast_indexable)
+0125.571 () Search and replacing table: wp_yoast_indexable: rows: 4301
+0138.890 () Processing table (InnoDB): wp_yoast_indexable_hierarchy - will restore as: a4_yoast_indexable_hierarchy
+0139.078 () Atomic restore: dropping original table (wp_yoast_indexable_hierarchy)
+0139.081 () Atomic restore: renaming new table (a4_yoast_indexable_hierarchy) to final table name (wp_yoast_indexable_hierarchy)
+0139.099 () Search and replacing table: wp_yoast_indexable_hierarchy: rows: 4325
+0139.153 () Processing table (InnoDB): wp_yoast_migrations - will restore as: a4_yoast_migrations
+0139.204 () Atomic restore: dropping original table (wp_yoast_migrations)
+0139.207 () Atomic restore: renaming new table (a4_yoast_migrations) to final table name (wp_yoast_migrations)
+0139.222 () Search and replacing table: wp_yoast_migrations: rows: 28
+0139.224 () Processing table (InnoDB): wp_yoast_primary_term - will restore as: a4_yoast_primary_term
+0139.278 () Atomic restore: dropping original table (wp_yoast_primary_term)
+0139.281 () Atomic restore: renaming new table (a4_yoast_primary_term) to final table name (wp_yoast_primary_term)
+0139.297 () Search and replacing table: wp_yoast_primary_term: rows: 82
+0139.300 () Processing table (InnoDB): wp_yoast_prominent_words - will restore as: a4_yoast_prominent_words
+0139.485 () Atomic restore: dropping original table (wp_yoast_prominent_words)
+0139.488 () Atomic restore: renaming new table (a4_yoast_prominent_words) to final table name (wp_yoast_prominent_words)
+0139.514 () Search and replacing table: wp_yoast_prominent_words: rows: 2943
+0139.541 () Processing table (InnoDB): wp_yoast_seo_links - will restore as: a4_yoast_seo_links
+0139.657 () Atomic restore: dropping original table (wp_yoast_seo_links)
+0139.660 () Atomic restore: renaming new table (a4_yoast_seo_links) to final table name (wp_yoast_seo_links)
+0139.678 () Search and replacing table: wp_yoast_seo_links: rows: 782
+0140.079 () Processing table (InnoDB): wp_yoast_test_helper_log - will restore as: a4_yoast_test_helper_log
+0140.116 () Skipped execution of SQL statement (unwanted or internally handled type=18): /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+0140.118 () Unlocking database and leaving maintenance mode
+0140.118 () Disabling Maintenance mode&#8230;
+0140.119 () Atomic restore: dropping original table (wp_yoast_test_helper_log)
+0140.122 () Atomic restore: renaming new table (a4_yoast_test_helper_log) to final table name (wp_yoast_test_helper_log)
+0140.140 () Search and replacing table: wp_yoast_test_helper_log: rows: 0
+0140.140 () Finished: lines processed: 601 in 140.01 seconds
+0140.146 () Cleaning up rubbish...
+0140.147 () Begin search and replace (updraftplus_restored_db)
+0140.147 () [Database-replace-site-url] Database: search and replace site URL
+0140.150 () Database search and replace: replace https://japanskiexperience.com in backup dump with http://localhost/japanSki
+0140.150 () Database search and replace: replace http://www.japanskiexperience.com in backup dump with http://localhost/japanSki
+0140.150 () Database search and replace: replace http://japanskiexperience.com in backup dump with http://localhost/japanSki
+0140.150 () Database search and replace: replace https://www.japanskiexperience.com in backup dump with http://localhost/japanSki
+0140.150 () Database search and replace: replace /home/customer/www/japanskiexperience.com/public_html in backup dump with C:\laragon\www\japanSki
+0140.154 () Search and replacing table: wp_actionscheduler_actions: already done
+0140.154 () Search and replacing table: wp_actionscheduler_claims: already done
+0140.154 () Search and replacing table: wp_actionscheduler_groups: already done
+0140.154 () Search and replacing table: wp_actionscheduler_logs: already done
+0140.154 () Search and replacing table: wp_commentmeta: already done
+0140.154 () Search and replacing table: wp_comments: already done
+0140.154 () Search and replacing table: wp_duplicator_activity_logs: already done
+0140.154 () Search and replacing table: wp_duplicator_backups: already done
+0140.154 () Search and replacing table: wp_duplicator_entities: already done
+0140.155 () Search and replacing table: wp_flywire_accommodations: already done
+0140.155 () Search and replacing table: wp_flywire_customers: already done
+0140.155 () Search and replacing table: wp_flywire_payments: already done
+0140.155 () Search and replacing table: wp_flywire_rooms: already done
+0140.155 () Search and replacing table: wp_flywire_transaction_items: already done
+0140.155 () Search and replacing table: wp_flywire_transactions: already done
+0140.155 () Search and replacing table: wp_gf_draft_submissions: already done
+0140.155 () Search and replacing table: wp_gf_entry: already done
+0140.155 () Search and replacing table: wp_gf_entry_meta: already done
+0140.155 () Search and replacing table: wp_gf_entry_notes: already done
+0140.156 () Search and replacing table: wp_gf_form: already done
+0140.156 () Search and replacing table: wp_gf_form_meta: already done
+0140.156 () Search and replacing table: wp_gf_form_revisions: already done
+0140.157 () Search and replacing table: wp_gf_form_view: already done
+0140.157 () Search and replacing table: wp_gf_rest_api_keys: already done
+0140.157 () Search and replacing table: wp_links: already done
+0140.157 () Search and replacing table: wp_options: already done
+0140.157 () Search and replacing table: wp_pmxi_files: already done
+0140.158 () Search and replacing table: wp_pmxi_geocoding: already done
+0140.158 () Search and replacing table: wp_pmxi_hash: already done
+0140.158 () Search and replacing table: wp_pmxi_history: already done
+0140.158 () Search and replacing table: wp_pmxi_images: already done
+0140.158 () Search and replacing table: wp_pmxi_imports: already done
+0140.158 () Search and replacing table: wp_pmxi_posts: already done
+0140.158 () Search and replacing table: wp_pmxi_templates: already done
+0140.159 () Search and replacing table: wp_post_smtp_logmeta: already done
+0140.159 () Search and replacing table: wp_post_smtp_logs: already done
+0140.159 () Search and replacing table: wp_postmeta: already done
+0140.159 () Search and replacing table: wp_posts: already done
+0140.159 () Search and replacing table: wp_sg_ai_log_events: already done
+0140.159 () Search and replacing table: wp_sgs_log_events: already done
+0140.160 () Search and replacing table: wp_sgs_log_visitors: already done
+0140.160 () Search and replacing table: wp_term_relationships: already done
+0140.160 () Search and replacing table: wp_term_taxonomy: already done
+0140.160 () Search and replacing table: wp_termmeta: already done
+0140.160 () Search and replacing table: wp_terms: already done
+0140.160 () Search and replacing table: wp_usermeta: already done
+0140.160 () Search and replacing table: wp_users: already done
+0140.160 () Search and replacing table: wp_wp_phpmyadmin_extension__errors_log: already done
+0140.160 () Search and replacing table: wp_wpfm_backup: already done
+0140.160 () Search and replacing table: wp_wpr_above_the_fold: already done
+0140.161 () Search and replacing table: wp_wpr_lazy_render_content: already done
+0140.161 () Search and replacing table: wp_wpr_performance_monitoring: already done
+0140.161 () Search and replacing table: wp_wpr_preconnect_external_domains: already done
+0140.161 () Search and replacing table: wp_wpr_preload_fonts: already done
+0140.161 () Search and replacing table: wp_wpr_rocket_cache: already done
+0140.161 () Search and replacing table: wp_wpr_rocket_cdn: already done
+0140.161 () Search and replacing table: wp_wpr_rucss_used_css: already done
+0140.161 () Search and replacing table: wp_yoast_expiring_store: already done
+0140.161 () Search and replacing table: wp_yoast_indexable: already done
+0140.162 () Search and replacing table: wp_yoast_indexable_hierarchy: already done
+0140.162 () Search and replacing table: wp_yoast_migrations: already done
+0140.162 () Search and replacing table: wp_yoast_primary_term: already done
+0140.162 () Search and replacing table: wp_yoast_prominent_words: already done
+0140.162 () Search and replacing table: wp_yoast_seo_links: already done
+0140.162 () Search and replacing table: wp_yoast_test_helper_log: already done
+0140.217 () Restore successful!
+0140.218 () Restore successful

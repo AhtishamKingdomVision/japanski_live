@@ -1,0 +1,1081 @@
+/**
+ * Flywire Payment Gateway Integration (Frontend)
+ * 
+ * Handles payment initiation, Flywire modal, and payment success/failure callbacks
+ */
+
+const FlywirePaymentManager = (() => {
+    // Configuration
+    const CONFIG = {
+        ajaxUrl: flywireData.ajaxurl,
+        nonce: flywireData.booking_nonce || '',
+        formStorageKey: 'rb_booking_form_gf3',
+        selectors: {
+            payBtn: '.rb-pay-btn',
+            bookNowBtn: '.rb-book-now-btn',
+            bookingDetail: '.booking-confirmation-form',
+            bookingForm: '#gform_wrapper_3 form',
+            modal: '.flywire-modal'
+        }
+    };
+
+    // ============================================================================
+    // INITIALIZATION
+    // ============================================================================
+
+    const init = () => {
+        attachActionButtonListeners();
+        updateActionButtonsVisibility();
+        document.addEventListener('rb:cart-updated', updateActionButtonsVisibility);
+        initBookingFormPersistence();
+        console.log('FlywirePaymentManager initialized');
+        $j = jQuery;
+        $j('.rb-booking-wrapper').on('submit', '#gform_wrapper_3 form', function(e) {
+            e.preventDefault();
+            const cart = getCartFromStorage();
+            const mode = getBookingMode(cart);
+            if (mode === 'bedbank') {
+                $j(CONFIG.selectors.bookNowBtn).trigger('click');
+            } else {
+                $j(CONFIG.selectors.payBtn).trigger('click');
+            }
+            return false;
+        });
+    };
+
+    const clearBookingFormData = () => {
+        localStorage.removeItem(CONFIG.formStorageKey);
+    };
+
+    // ============================================================================
+    // PAYMENT BUTTON EVENT HANDLER
+    // ============================================================================
+
+    const attachActionButtonListeners = () => {
+        const payBtn = document.querySelector(CONFIG.selectors.payBtn);
+        const bookNowBtn = document.querySelector(CONFIG.selectors.bookNowBtn);
+
+        if (!payBtn && !bookNowBtn) {
+            console.warn('Action buttons not found');
+            return;
+        }
+
+        if (payBtn) {
+            payBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                initiatePayment({ useFlywire: true });
+            });
+        }
+
+        if (bookNowBtn) {
+            bookNowBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                initiatePayment({ useFlywire: false });
+            });
+        }
+    };
+
+    const isReservationItem = (item) => {
+        const value = item?.property_permission ?? '';
+        if (value.length && value.toLowerCase() == 'reservation') {
+            return true;
+        }
+        return false;
+    };
+
+    const isRequestItem = (item) => {
+        const value = item?.property_permission ?? '';
+        if (value.length && value.toLowerCase() == 'request') {
+            return true;
+        }
+        return false;
+    };
+
+    const isBedBankItem = (item) => {
+        const value = item?.is_bedbank ?? item?.isBedBank ?? false;
+        if (typeof value === 'string') {
+            return value === '1' || value.toLowerCase() === 'true';
+        }
+        return !!value;
+    };
+
+    const getBookingMode = (cart) => {
+        if (!cart || !cart.items || !cart.items.length) {
+            return 'none';
+        }
+
+        const hasBedBank = cart.items.some(isBedBankItem);
+        return hasBedBank ? 'bedbank' : 'roomboss';
+    };
+
+    const updateActionButtonsVisibility = () => {
+        const cart = getCartFromStorage();
+        const mode = getBookingMode(cart);
+        console.log('Updating action buttons visibility. Booking mode:', mode);
+        const payBtn = document.querySelector(CONFIG.selectors.payBtn);
+        const bookNowBtn = document.querySelector(CONFIG.selectors.bookNowBtn);
+
+        if (payBtn) {
+            payBtn.style.display = mode === 'roomboss' ? '' : 'none';
+        }
+
+        if (bookNowBtn) {
+            bookNowBtn.style.display = mode === 'bedbank' ? '' : 'none';
+        }
+
+        if(mode === 'roomboss') {
+            jQuery('.is_roomboss input').prop('checked', true).change()
+        }
+    };
+
+    // ============================================================================
+    // PAYMENT INITIATION
+    // ============================================================================
+
+    const initiatePayment = async ({ useFlywire } = { useFlywire: true }) => {
+        try {
+            // Get cart data from localStorage
+            const cart = getCartFromStorage();
+            if (!cart || !cart.items || cart.items.length === 0) {
+                showError('No items in cart. Please add items before proceeding to payment.');
+                return;
+            }
+
+            const mode = getBookingMode(cart);
+            const shouldUseFlywire = useFlywire && mode === 'roomboss';
+
+            // Get customer information (from form or storage)
+            const customer = getCustomerInformation();
+            
+            // Validate customer and get validation result
+            const validation = validateCustomer(customer, mode);
+            if (!validation.isValid) {
+                if( validation?.invalidField === 'term') {
+                    showError('Please accept the terms and conditions before proceeding.');
+                } else {
+                    const errorMessage = `Please fill in ${validation.fieldLabel} before proceeding.`;
+                    showError(errorMessage);
+                }
+                focusOnInvalidField(validation.invalidField);
+                return;
+            }
+
+            // Show loading state
+            showLoading(true, shouldUseFlywire);
+
+            // ========== QUOTATION API FLOW (NEW) ==========
+            // Submit quotation to API before proceeding with Flywire payment
+            console.log('Submitting quotation to API...');
+            const quotationResponse = await submitQuotationAPI(cart, customer);
+            
+            if (!quotationResponse.success) {
+                showLoading(false, shouldUseFlywire);
+                // Error messages are already displayed by submitQuotationAPI
+                return;
+            }
+
+            const { booking_reference: quotation_booking_ref, quotation_id } = quotationResponse.data;
+            console.log('Quotation created successfully:', { quotation_booking_ref, quotation_id });
+
+            // Use booking_reference from quotation API (now we have it before Flywire)
+            const booking_reference = quotation_booking_ref;
+
+            // Build transaction_items array from all cart items (multi-property support)
+            const transaction_items = cart.items.map((item, index) => ({
+                wp_accommodation_id: item.hotel_type_id,
+                accommodation_name: item.property_name,
+                accommodation_type: item.accommodation_type || '',
+                accommodation_permission: item?.property_permission || 'Reservation',
+                resort_name: item.resort_name,
+                wp_room_id: item.room_type_id,
+                room_name: item.room_name,
+                room_image_url: item.room_image || '',
+                rate_plan_id: item.rateplan_id || '',
+                rate_plan_name: item.rateplan_name || '',
+                check_in_date: item.dates.check_in,
+                check_out_date: item.dates.check_out,
+                number_of_nights: item.duration,
+                adults: item.guests.adults,
+                children: item.guests.children,
+                infants: item.guests.infants,
+                deposit: item.payment?.depositAmount || 0,
+                balance_due: item.payment?.balanceDueAmount || 0,
+                due_date: item.payment?.balanceDueDate || null
+            }));
+
+            // Calculate total payment amount from all cart items
+            const totalPaymentAmount = calculateTotalPayment(cart.items);
+
+            // Calculate total deposit and balance due from all items
+            const totalDeposit = transaction_items.reduce((sum, item) => sum + (parseFloat(item.deposit) || 0), 0);
+            const totalBalanceDue = transaction_items.reduce((sum, item) => sum + (parseFloat(item.balance_due) || 0), 0);
+
+            // Calculate aggregated guest counts across all items
+            const aggregatedGuests = calculateAggregatedGuests(cart.items);
+
+            // Calculate maximum nights across all items
+            const maxNights = Math.max(...cart.items.map(item => item.duration || 0), 0);
+
+            if (shouldUseFlywire) {
+                // Fetch payment configuration from backend
+                const configResponse = await fetchPaymentConfig(cart, customer, quotation_booking_ref);
+                
+                if (!configResponse.success) {
+                    showError(configResponse.data.message || 'Failed to prepare payment');
+                    showLoading(false, true);
+                    return;
+                }
+
+                const { config, payment_type } = configResponse.data;
+
+                // Save transaction with Pending status and quotation details
+                const transactionData = {
+                    booking_reference: booking_reference,
+                    quotation_id: quotation_id,
+                    customer_id: customer.id || null,
+                    customer_first_name: customer.first_name,
+                    customer_last_name: customer.last_name,
+                    customer_email: customer.email,
+                    customer_phone: customer.phone,
+                    customer_address: customer.address,
+                    customer_city: customer.city,
+                    customer_state: customer.state,
+                    customer_country: customer.country,
+                    customer_zip: customer.zip,
+                    transaction_items: transaction_items,
+                    payment_type: payment_type,
+                    payment_status: 'Pending',
+                    payment_amount: totalPaymentAmount,
+                    currency_code: config.currency,
+                    deposit_amount: totalDeposit,
+                    balance_due_amount: totalBalanceDue,
+                    transaction_mode: config.env === 'demo' ? 'sandbox' : 'live'
+                };
+
+                await saveTransaction(transactionData);
+
+                showLoading(false, true);
+
+                // Set up Flywire callbacks and open modal
+                setupFlywireCallbacks(config, booking_reference);
+
+                // Open Flywire payment modal
+                const modal = window.FlywirePayment.initiate(config);
+                modal.render();
+                return;
+            }
+
+            // BedBank flow: save transaction only, then redirect to success page
+            const bedbankTransactionData = {
+                booking_reference: booking_reference,
+                quotation_id: quotation_id,
+                customer_id: customer.id || null,
+                customer_first_name: customer.first_name,
+                customer_last_name: customer.last_name,
+                customer_email: customer.email,
+                customer_phone: customer.phone,
+                customer_address: customer.address,
+                customer_city: customer.city,
+                customer_state: customer.state,
+                customer_country: customer.country,
+                customer_zip: customer.zip,
+                transaction_items: transaction_items,
+                payment_type: 'Book Now',
+                payment_status: 'Completed',
+                payment_amount: totalPaymentAmount,
+                currency_code: 'JPY',
+                deposit_amount: totalDeposit,
+                balance_due_amount: totalBalanceDue,
+                transaction_mode: 'live'
+            };
+
+            await saveTransaction(bedbankTransactionData);
+
+            showLoading(false, false);
+            clearBookingFormData();
+            handleBedBankSuccess();
+
+                // Webhook will handle quotation sync for completed bookings
+        } catch (error) {
+            console.error('Payment initiation error:', error);
+            showError('An error occurred while initiating payment. Please try again.');
+            showLoading(false, useFlywire);
+        }
+    };
+
+    // ============================================================================
+    // CART AND CUSTOMER DATA RETRIEVAL
+    // ============================================================================
+
+    const getCartFromStorage = () => {
+        try {
+            const cartJson = localStorage.getItem('rb_cart');
+            if (!cartJson) return null;
+
+            const cart = JSON.parse(cartJson);
+            
+            // Handle both { items: [] } and direct array formats
+            if (cart.items) {
+                return cart;
+            }
+            if (Array.isArray(cart)) {
+                return { items: cart };
+            }
+            return null;
+        } catch (e) {
+            console.error('Error parsing cart from storage:', e);
+            return null;
+        }
+    };
+
+    // Map of customer fields to their form IDs for validation and focus
+    const CUSTOMER_FIELD_MAP = {
+        first_name: '#input_3_11',
+        last_name: '#input_3_12',
+        email: '#input_3_3',
+        phone: '#input_3_13',
+        address: '#input_3_10',
+        city: '#input_3_8',
+        state: '#input_3_11',
+        country: '#input_3_5',
+        zip: '#input_3_9',
+        term: '#input_3_15_1',
+    };
+
+    const getCustomerInformation = () => {
+        // Try to get from form fields
+        const customer = {
+            id: null,
+            first_name: document.querySelector(CUSTOMER_FIELD_MAP.first_name)?.value || '',
+            last_name: document.querySelector(CUSTOMER_FIELD_MAP.last_name)?.value || '',
+            email: document.querySelector(CUSTOMER_FIELD_MAP.email)?.value || '',
+            phone: document.querySelector(CUSTOMER_FIELD_MAP.phone)?.value || '',
+            address: document.querySelector(CUSTOMER_FIELD_MAP.address)?.value || '',
+            city: document.querySelector(CUSTOMER_FIELD_MAP.city)?.value || '',
+            state: document.querySelector(CUSTOMER_FIELD_MAP.state)?.value || '',
+            country: document.querySelector(CUSTOMER_FIELD_MAP.country)?.value || '',
+            zip: document.querySelector(CUSTOMER_FIELD_MAP.zip)?.value || '',
+            term: document.querySelector(CUSTOMER_FIELD_MAP.term)?.checked || false
+        };
+
+        // Try to get from localStorage if not in form
+        if (!customer.first_name) {
+            const sessionCustomer = localStorage.getItem('booking_customer');
+            if (sessionCustomer) {
+                const parsed = JSON.parse(sessionCustomer);
+                return { ...customer, ...parsed };
+            }
+        }
+
+        return customer;
+    };
+
+    // ============================================================================
+    // GRAVITY FORM PERSISTENCE
+    // ============================================================================
+
+    const initBookingFormPersistence = () => {
+        restoreBookingFormData();
+
+        jQuery(document)
+            .off('input.rbPersistGF change.rbPersistGF')
+            .on('input.rbPersistGF change.rbPersistGF', '#gform_wrapper_3 form input, #gform_wrapper_3 form select, #gform_wrapper_3 form textarea', function() {
+                persistBookingFormData();
+            });
+
+        jQuery(document)
+            .off('gform_post_render.rbPersistGF')
+            .on('gform_post_render.rbPersistGF', function(event, formId) {
+                if (Number(formId) === 3) {
+                    restoreBookingFormData();
+                }
+            });
+    };
+
+    const persistBookingFormData = () => {
+        const form = document.querySelector(CONFIG.selectors.bookingForm);
+        if (!form) return;
+
+        const data = {};
+        const fields = form.querySelectorAll('input, select, textarea');
+
+        fields.forEach((field) => {
+            const name = field.name;
+            if (!name) return;
+            if (['submit', 'button', 'file', 'hidden'].includes(field.type)) return;
+            if (name === 'input_18.1') return;
+
+            if (field.type === 'checkbox') {
+                if (!Array.isArray(data[name])) data[name] = [];
+                if (field.checked) data[name].push(field.value);
+                return;
+            }
+
+            if (field.type === 'radio') {
+                if (field.checked) data[name] = field.value;
+                return;
+            }
+
+            data[name] = field.value;
+        });
+
+        localStorage.setItem(CONFIG.formStorageKey, JSON.stringify(data));
+    };
+
+    const restoreBookingFormData = () => {
+        const form = document.querySelector(CONFIG.selectors.bookingForm);
+        const raw = localStorage.getItem(CONFIG.formStorageKey);
+        if (!form || !raw) return;
+
+        let data = null;
+        try {
+            data = JSON.parse(raw);
+        } catch (error) {
+            console.warn('Failed to parse stored booking form data', error);
+            return;
+        }
+
+        Object.keys(data || {}).forEach((name) => {
+            const value = data[name];
+            const safeName = name.replace(/"/g, '\\"');
+            const fields = form.querySelectorAll(`[name="${safeName}"]`);
+            if (!fields.length) return;
+
+            fields.forEach((field) => {
+                if (field.type === 'checkbox') {
+                    field.checked = Array.isArray(value) ? value.includes(field.value) : !!value;
+                } else if (field.type === 'radio') {
+                    field.checked = String(field.value) === String(value);
+                } else {
+                    field.value = value ?? '';
+                }
+            });
+        });
+    };
+
+    /**
+     * Validate customer information and return validation result with first invalid field
+     * For BedBank bookings, only first_name, last_name, and email are required.
+     * For RoomBoss bookings, all fields are required.
+     * Returns: { isValid: boolean, invalidField: string|null }
+     */
+    const validateCustomer = (customer, mode) => {
+        const baseRequiredFields = [
+            'first_name',
+            'last_name',
+            'email'
+        ];
+
+        const roombossOnlyFields = [
+            'phone',
+            'address',
+            'city',
+            'country',
+            'zip',
+            'term'
+        ];
+
+        const requiredFields = mode === 'bedbank'
+            ? baseRequiredFields
+            : [...baseRequiredFields, ...roombossOnlyFields];
+
+        for (const field of requiredFields) {
+            if (!customer[field] || ( field != 'term' && customer[field].trim() === '' )) {
+                return {
+                    isValid: false,
+                    invalidField: field,
+                    fieldLabel: field.replace('_', ' ').toUpperCase()
+                };
+            }
+        }
+
+        return {
+            isValid: true,
+            invalidField: null
+        };
+    };
+
+    /**
+     * Focus on invalid form field and highlight it
+     */
+    const focusOnInvalidField = (fieldName) => {
+        const fieldSelector = CUSTOMER_FIELD_MAP[fieldName];
+        if (!fieldSelector) return;
+
+        const field = document.querySelector(fieldSelector);
+        if (!field) return;
+
+        // Remove previous error styling
+        clearFieldErrors();
+
+        // Add error styling
+        field.style.borderColor = '#dc3545';
+        field.style.borderWidth = '2px';
+        // field.style.backgroundColor = '#fff5f5';
+        field.focus();
+
+        // Scroll field into view
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Remove error styling after user starts typing
+        field.addEventListener('input', () => {
+            field.style.borderColor = '';
+            field.style.borderWidth = '';
+            field.style.backgroundColor = '';
+        }, { once: true });
+    };
+
+    // ============================================================================
+    // QUOTATION API INTEGRATION
+    // ============================================================================
+
+    /**
+     * Create quotation API payload from cart and customer data
+     * Maps cart items to quotation properties format
+     */
+    const createQuotationPayload = (cart, customer) => {
+        // Build properties array from cart items
+        const properties = cart.items.map(item => {
+            const payment = item.payment || {};
+            return {
+                propertyId: item.hotel_type_id, // DB property ID
+                rooms: [
+                    {
+                        roomId: item.room_type_id || 0,
+                        ratePlanId: item.rateplan_id || '',
+                        roomPrice: parseFloat(item.price || 0),
+                        discountType: item.discount_type,
+                        discountId: item.discount_id,
+                        isDeposit: payment?.isDeposit !== undefined ? payment?.isDeposit : true,
+                        depositPercentage: parseFloat(payment?.depositPercentage || 0),
+                        depositAmount: parseFloat(payment?.depositAmount || 0),
+                        dueAmount: parseFloat(payment?.balanceDueAmount || 0),
+                        dueDate: payment?.balanceDueDate || '',
+                        totalAmount: parseFloat(payment?.totalAmount || 0)
+                    }
+                ],
+                isBedBank: item.is_bedbank !== undefined ? item.is_bedbank : true,
+                bookingPermission: item?.property_permission || 'RESERVATION',
+                adults: parseInt(item.guests?.adults || 0),
+                children: parseInt(item.guests?.children || 0),
+                checkIn: item.dates?.check_in || '',
+                checkOut: item.dates?.check_out || '',
+                nights: parseInt(item.duration || 0)
+            };
+        });
+
+        // Extract country code (2-letter ISO code) from customer country
+        let countryCode = (customer.country || '').toUpperCase();
+        if (countryCode.length > 2) {
+            countryCode = countryCode.substring(0, 2);
+        }
+
+        // Build customer object
+        const customerData = {
+            firstName: customer.first_name || '',
+            lastName: customer.last_name || '',
+            email: customer.email || '',
+            phone: customer.phone || '',
+            language: 'en', // Default to English
+            address: customer.address || '',
+            city: customer.city || '',
+            postalCode: customer.zip || '',
+            country: countryCode
+        };
+
+        // Build complete payload
+        const payload = {
+            properties: properties,
+            customer: customerData,
+            paymentResponse: {}
+        };
+        console.log('Created quotation payload:', payload);
+
+        return payload;
+    };
+
+    /**
+     * Submit quotation to external API
+     * Handles success and error responses with proper validation
+     */
+    const submitQuotationAPI = async (cart, customer) => {
+        try {
+            const payload = createQuotationPayload(cart, customer);
+            // return { success: false };
+            
+            // Log request
+            console.log('Quotation API Request:', payload);
+            logQuotationEvent('API_REQUEST', payload);
+
+            // Set timeout for API request (30 seconds)
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Quotation API timeout')), 30000)
+            );
+
+            const fetchPromise = fetch('https://trip.japanskiexperience.com/api/quotations/wp-store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const response = await Promise.race([fetchPromise, timeoutPromise]);
+            const data = await response.json();
+
+            console.log('Quotation API Response:', data);
+            logQuotationEvent('API_RESPONSE', data);
+
+            // Handle success response
+            if (data.title === 'success' && data.data) {
+                return {
+                    success: true,
+                    data: {
+                        booking_reference: data.data.booking_reference,
+                        quotation_id: data.data.quotation_id
+                    }
+                };
+            }
+
+            // Handle error responses
+            if (data.errors) {
+                handleQuotationAPIErrors(data.errors, data.invalid_room_prices);
+                return { success: false };
+            }
+
+            // Unknown response format
+            showError('Unexpected response from quotation service. Please try again.');
+            logQuotationEvent('API_UNKNOWN_RESPONSE', data);
+            return { success: false };
+
+        } catch (error) {
+            console.error('Quotation API Error:', error);
+            logQuotationEvent('API_ERROR', { 
+                message: error.message,
+                stack: error.stack 
+            });
+
+            if (error.message === 'Quotation API timeout') {
+                showError('Quotation service is not responding. Please check your connection and try again.');
+            } else if (error instanceof TypeError) {
+                showError('Failed to connect to quotation service. Please check your internet connection.');
+            } else {
+                showError('An error occurred while creating your quotation. Please try again.');
+            }
+            
+            return { success: false };
+        }
+    };
+
+    /**
+     * Handle quotation API error responses
+     * Displays user-friendly error messages for different validation errors
+     */
+    const handleQuotationAPIErrors = (errors, invalidRoomPrices = []) => {
+        const errorMessages = [];
+
+        // Process field-level errors (e.g., email, customer, etc.)
+        if (errors && typeof errors === 'object') {
+            Object.keys(errors).forEach((field) => {
+                if (field === 'properties' || field === 'invalid_room_prices') {
+                    return; // Handled separately below
+                }
+
+                const fieldErrors = errors[field];
+                if (Array.isArray(fieldErrors)) {
+                    fieldErrors.forEach((msg) => {
+                        if (typeof msg === 'string' && msg.trim()) {
+                            errorMessages.push('❌ ' + msg);
+                        }
+                    });
+                } else if (typeof fieldErrors === 'string' && fieldErrors.trim()) {
+                    errorMessages.push('❌ ' + fieldErrors);
+                }
+            });
+        }
+
+        // Process property errors
+        if (errors.properties && Array.isArray(errors.properties)) {
+            errors.properties.forEach(error => {
+                if (error.includes('No valid properties')) {
+                    errorMessages.push('❌ No valid properties found. Please check your selections and try again.');
+                } else if (error.includes('invalid data')) {
+                    errorMessages.push('❌ One or more properties have invalid data. Please review your booking details.');
+                } else {
+                    errorMessages.push('❌ ' + error);
+                }
+            });
+        }
+
+        // Process invalid room prices
+        if (invalidRoomPrices && Array.isArray(invalidRoomPrices)) {
+            invalidRoomPrices.forEach(errorType => {
+                if (errorType === 'zero_or_negative') {
+                    errorMessages.push('❌ One or more room prices are zero or negative. Please adjust your rates.');
+                } else {
+                    errorMessages.push('❌ Invalid room price: ' + errorType);
+                }
+            });
+        }
+
+        // Fallback error message
+        if (errorMessages.length === 0) {
+            errorMessages.push('❌ Unable to create quotation. Please check your booking details and try again.');
+        }
+
+        // Display all errors
+        errorMessages.forEach(msg => {
+            showError(msg);
+        });
+
+        logQuotationEvent('API_VALIDATION_ERROR', { 
+            errors: errors,
+            invalidRoomPrices: invalidRoomPrices,
+            displayedMessages: errorMessages
+        });
+    };
+
+    /**
+     * Log quotation API events for debugging
+     */
+    const logQuotationEvent = (eventType, data) => {
+        const timestamp = new Date().toISOString();
+        const logEntry = {
+            timestamp: timestamp,
+            event: eventType,
+            data: data
+        };
+        console.log(`[Quotation ${eventType}]`, logEntry);
+        // Could also send to backend for server-side logging
+    };
+
+    /**
+     * Clear all field error styling
+     */
+    const clearFieldErrors = () => {
+        Object.values(CUSTOMER_FIELD_MAP).forEach(selector => {
+            const field = document.querySelector(selector);
+            if (field) {
+                field.style.borderColor = '';
+                field.style.borderWidth = '';
+                field.style.backgroundColor = '';
+            }
+        });
+    };
+
+    const isValidCustomer = (customer, mode) => {
+        const baseValid = !!(
+            customer.first_name &&
+            customer.last_name &&
+            customer.email
+        );
+
+        if (mode === 'bedbank') {
+            return baseValid;
+        }
+
+        return baseValid && !!(
+            customer.phone &&
+            customer.address &&
+            customer.city &&
+            customer.country &&
+            customer.zip
+        );
+    };
+
+    const getMaxGuests = (items) => {
+        let maxGuests = 0;
+        items.forEach(item => {
+            const guests = (item.guests?.adults || 0) + 
+                          (item.guests?.children || 0) + 
+                          (item.guests?.infants || 0);
+            maxGuests = Math.max(maxGuests, guests);
+        });
+        return maxGuests;
+    };
+
+    /**
+     * Calculate total payment amount from all cart items
+     * Sums the price/amount for each item in the cart
+     */
+    const calculateTotalPayment = (items) => {
+        let total = 0;
+        items.forEach(item => {
+            // Try multiple possible price/amount fields
+            const price = item.price || 
+                         item.amount || 
+                         item.total_price || 
+                         item.total_amount || 
+                         item.payment?.totalAmount || 
+                         0;
+            total += parseFloat(price) || 0;
+        });
+        return total;
+    };
+
+    /**
+     * Calculate aggregated guest counts across all cart items
+     * Returns object with total adults, children, and infants
+     */
+    const calculateAggregatedGuests = (items) => {
+        let totalAdults = 0;
+        let totalChildren = 0;
+        let totalInfants = 0;
+
+        items.forEach(item => {
+            totalAdults += parseInt(item.guests?.adults || 0);
+            totalChildren += parseInt(item.guests?.children || 0);
+            totalInfants += parseInt(item.guests?.infants || 0);
+        });
+
+        return {
+            adults: totalAdults,
+            children: totalChildren,
+            infants: totalInfants,
+            total: totalAdults + totalChildren + totalInfants
+        };
+    };
+
+    // ============================================================================
+    // BACKEND API CALLS
+    // ============================================================================
+
+    const fetchPaymentConfig = async (cart, customer, booking_reference) => {
+        try {
+            const response = await fetch(CONFIG.ajaxUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'jse_get_flywire_config',
+                    nonce: CONFIG.nonce,
+                    cart: JSON.stringify(cart),
+                    customer: JSON.stringify(customer),
+                    booking_reference: booking_reference || ''
+                })
+            });
+
+            const data = await response.json();
+            return {
+                success: data.success,
+                data: data.data || data
+            };
+        } catch (error) {
+            console.error('Error fetching payment config:', error);
+            return {
+                success: false,
+                data: { message: 'Failed to connect to payment service' }
+            };
+        }
+    };
+
+    const saveTransaction = async (transactionData) => {
+        try {
+            const response = await fetch(CONFIG.ajaxUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'jse_save_flywire_transaction',
+                    nonce: CONFIG.nonce,
+                    transaction: JSON.stringify(transactionData)
+                })
+            });
+
+            const data = await response.json();
+            return data.success;
+        } catch (error) {
+            console.error('Error saving transaction:', error);
+            return false;
+        }
+    };
+
+    // ============================================================================
+    // FLYWIRE CALLBACKS
+    // ============================================================================
+
+    const setupFlywireCallbacks = (config, booking_reference) => {
+        // Override the onComplete callback
+        config.onComplete = async (payload) => {
+            console.log('Payment Complete', payload);
+
+            // Verify payment on backend
+            const verified = await verifyPaymentOnBackend(payload);
+
+            if (verified) {
+                showSuccess('Payment processed successfully!');
+                clearBookingFormData();
+                
+                // Redirect to success page
+                // Webhook will handle quotation sync for authorized payments
+                setTimeout(() => {
+                    window.location.href = `/payment-success/?booking_ref=${booking_reference}`;
+                }, 2000);
+            } else {
+                showError('Payment verification failed. Please contact support.');
+            }
+        };
+
+        // Handle modal close
+        config.onClose = () => {
+            console.log('Flywire modal closed');
+            // Webhook will handle quotation deletion if payment was not completed
+        };
+
+        // Handle explicit Flywire errors
+        config.onError = (error) => {
+            console.error('Flywire error:', error);
+            showError('Payment error: ' + (error?.message || 'Unknown error'));
+            // Webhook will handle quotation deletion on error
+        };
+
+        // Handle validation errors
+        config.onInvalidInput = (errors) => {
+            const messages = errors.map(e => e.msg || e.message);
+            console.error('Validation errors:', messages);
+            showError('Please fill in all required information: ' + messages.join(', '));
+        };
+    };
+
+    const verifyPaymentOnBackend = async (payload) => {
+        try {
+            const response = await fetch(CONFIG.ajaxUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'jse_verify_flywire_payment',
+                    nonce: CONFIG.nonce,
+                    payload: JSON.stringify(payload)
+                })
+            });
+
+            const data = await response.json();
+            return data.success;
+        } catch (error) {
+            console.error('Error verifying payment:', error);
+            return false;
+        }
+    };
+
+    // ============================================================================
+    // UI FEEDBACK
+    // ============================================================================
+
+    const getActionButton = (useFlywire) => {
+        return document.querySelector(useFlywire ? CONFIG.selectors.payBtn : CONFIG.selectors.bookNowBtn);
+    };
+
+    const showLoading = (show, useFlywire = true) => {
+        const btn = getActionButton(useFlywire);
+        if (!btn) return;
+
+        if (show) {
+            btn.disabled = true;
+            btn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Processing...';
+        } else {
+            btn.disabled = false;
+            btn.innerHTML = useFlywire ? 'PROCEED TO PAYMENT' : 'BOOK NOW';
+        }
+    };
+
+    const showError = (message) => {
+        // Create or show error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'flywire-error-message';
+        errorDiv.style.cssText = `
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: block;
+        `;
+        errorDiv.innerHTML = '⚠️ ' + message;
+
+        const container = document.querySelector(CONFIG.selectors.payBtn)?.parentElement
+            || document.querySelector(CONFIG.selectors.bookNowBtn)?.parentElement;
+        if (container) {
+            const existingError = container.querySelector('.flywire-error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+            container.insertBefore(errorDiv, container.firstChild);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        alert(message); // Fallback
+    };
+
+    const handleBedBankSuccess = () => {
+        const bookingForm = document.querySelector(CONFIG.selectors.bookingDetail);
+
+        // Build success message
+        const successDiv = document.createElement('div');
+        successDiv.className = 'flywire-success-message bedbank-success-message';
+        successDiv.innerHTML = `
+            <p style="margin: 0 0 12px 0; font-weight: 600; font-size: 16px;">Hello,</p>
+            <p style="margin: 0 0 12px 0;">Many thanks for submitting your booking request.</p>
+            <p style="margin: 0 0 12px 0;">A member of our team will now check availability and get back to you very soon.</p>
+            <p style="margin: 0 0 4px 0;">Kind regards,</p>
+            <p style="margin: 0 0 12px 0; font-weight: 600; font-size: 16px;">Japan Ski Experience Team</p>
+        `;
+
+        // Insert success message BEFORE the booking confirmation form, then hide the form
+        if (bookingForm && bookingForm.parentElement) {
+            bookingForm.parentElement.insertBefore(successDiv, bookingForm);
+            bookingForm.style.display = 'none';
+        } else {
+            // Fallback: append to booking wrapper
+            const wrapper = document.querySelector('.rb-booking-wrapper');
+            if (wrapper) {
+                wrapper.appendChild(successDiv);
+            }
+        }
+    };
+
+    const showSuccess = (message) => {
+        const successDiv = document.createElement('div');
+        successDiv.className = 'flywire-success-message';
+        successDiv.style.cssText = `
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: block;
+        `;
+        successDiv.innerHTML = '✓ ' + message;
+
+        const container = document.querySelector(CONFIG.selectors.payBtn)?.parentElement
+            || document.querySelector(CONFIG.selectors.bookNowBtn)?.parentElement;
+        if (container) {
+            container.insertBefore(successDiv, container.firstChild);
+        }
+    };
+
+    // ============================================================================
+    // PUBLIC API
+    // ============================================================================
+
+    return {
+        init: init
+    };
+})();
+
+// Initialize on document ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', FlywirePaymentManager.init);
+} else {
+    FlywirePaymentManager.init();
+}

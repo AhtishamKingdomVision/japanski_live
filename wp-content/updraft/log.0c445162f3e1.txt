@@ -1,0 +1,22 @@
+0000.011 () Opened log file at time: Mon, 13 Jul 2026 10:50:42 +0000 on http://localhost/japanSki
+0000.012 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 6.9.4 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 43.2M | 46M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.012 () Free space on disk containing Updraft's temporary directory: 325995.8 MB
+0000.043 () Restore setup, now closing connection and starting restore over AJAX.
+0000.007 () Opened log file at time: Mon, 13 Jul 2026 10:50:43 +0000 on http://localhost/japanSki
+0000.007 () UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 6.9.4 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 39.1M | 50M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.008 () Free space on disk containing Updraft's temporary directory: 325995.9 MB
+0000.030 () Ensuring WP_Filesystem is setup for a restore
+0000.033 () WP_Filesystem is setup and ready for a restore
+0000.038 () Restore job started. Entities to restore: others. Restore options: {"updraft_encryptionphrase":"","updraft_restorer_wpcore_includewpconfig":false,"updraft_incremental_restore_point":-1}
+0000.044 () Will not delete any archives after unpacking them, because there was no cloud storage for this backup
+0000.047 () Entity: others
+0000.047 () restore_backup(backup_file=backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-others.zip, type=others, info=a:2:{s:4:"path";s:34:"C:\laragon\www\japanSki/wp-content";s:11:"description";s:6:"Others";}, last_one=1)
+0000.048 () Unpacking backup... (backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-others.zip, 30.3 MB)
+0000.050 () Unzipping backup_2026-07-13-1034_Japan_Ski_Experience_354173729827-others.zip to C:/laragon/www/japanSki/wp-content/upgrade/53afc13e/ using UpdraftPlus_ZipArchive, starting index 0
+0001.228 () Unzip progress: 1002 out of 3785 files (4.6 MB, old_themes/kingdomvision_live/images/forecast/windicons/windWSW150imperial.png)
+0002.998 () Unzip progress: 2003 out of 3785 files (30.4 MB, old_themes/kingdomvision_live/images/forecast/windicons/windNNE160imperial.png)
+0004.155 () Unzip progress: 3004 out of 3785 files (36 MB, old_themes/kingdomvision/images/forecast/windicons/windN10metric.png)
+0006.870 () Unzip progress: 3785 out of 3785 files (82.3 MB, old_themes/kingdomvision/child-age.php)
+0006.898 () Cleaning up rubbish...
+0006.935 () Restore successful!
+0006.935 () Restore successful

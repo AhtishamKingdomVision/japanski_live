@@ -1,0 +1,7 @@
+*** Yoast SEO premium Changelog ***
+
+
+2026-07-07 - version 28.0
+* fix -  Fixes a bug where keyphrase highlights were not applied when using the Elementor V4 atomic editor.
+* update -  Bumps the minimum required version of Yoast SEO to 28.0.
+

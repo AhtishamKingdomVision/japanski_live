@@ -1,0 +1,112 @@
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"01-Dec-2026","end_date":"08-Dec-2026","duration":7,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":1,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[1],"children":[0],"infants":[0],"propertyIds":[7],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"01-Dec-2026","end_date":"08-Dec-2026","duration":7,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":2,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[2],"children":[0],"infants":[0],"propertyIds":[7],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"01-Dec-2026","end_date":"08-Dec-2026","duration":7,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":3,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[3],"children":[0],"infants":[0],"propertyIds":[7],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 10530|1AOM2D6filRSzAyD7GWpV9Vy8za5sBNK32r6rE9G45ce4a71
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"01-Dec-2026","end_date":"08-Dec-2026","duration":7,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":3,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[3],"children":[0],"infants":[0],"propertyIds":[7],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"01-Dec-2026","end_date":"08-Dec-2026","duration":7,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":2,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[2],"children":[0],"infants":[0],"propertyIds":[1],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"01-Dec-2026","end_date":"08-Dec-2026","duration":7,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":1,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[1],"children":[0],"infants":[0],"propertyIds":[1],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"01-Dec-2026","end_date":"08-Dec-2026","duration":7,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":2,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[2],"children":[0],"infants":[0],"propertyIds":[1],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Content-Type] => application/json
+            [Authorization] => Bearer 12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93
+        )
+
+    [body] => {"accommodationName":"","minRange":null,"maxRange":null,"resortId":1,"locationCode":"","boardBasisId":"","start_date":"03-Dec-2026","end_date":"08-Dec-2026","duration":5,"units":1,"channel":true,"bedBank":true,"testMode":false,"propertType":{"apartment":false,"chalet":false,"hotel":false},"maxPersons":2,"totalAdults":1,"totalChildren":0,"totalInfants":0,"offset":0,"limit":50,"adults":[2],"children":[0],"infants":[0],"propertyIds":[1],"offlineProperties":false}
+    [timeout] => 30
+    [data_format] => body
+)
+<br></pre>

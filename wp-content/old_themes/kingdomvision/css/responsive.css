@@ -1,0 +1,416 @@
+/*TABLET LANDSCAPE MODE*/
+@media only screen and (max-width:1366px) {
+	section.top_banner { height: 768px; }
+}
+
+@media only screen and (max-width:1199px) {
+	h1 { font-size: 34px; }
+	h2 { font-size: 28px; }
+	h3 { font-size: 22px; }
+	h4 { font-size: 16px; }
+	h5 { font-size: 14px; }
+	h6 { font-size: 12px; }
+	section.full-section.top_banner h1,
+	section.full-section.top_banner h2,
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_content h2,
+	section.full-section.icon_title_content h2,
+	section.full-section.client_reviews .cr_cover .cr_left h2,
+	section.full-section.resorts_boxes h2,
+	section.full-section.image_with_content_color_box h2,
+	section.full-section.resort_map .rm__inn h2,
+	section.full-section.video_popup_boxes h2,
+	section.full-section.simple_page_banner_with_title h2,
+	section.full-section.japan_ski_packages .jsp_packages h2,
+	section.full-section.team_carousel .tc__inn h2,
+	section.full-section.accordion h2,
+	section.full-section.packages_listing h2,
+	section.tabs h2,
+	section.full-section.six_boxes_with_title .sbwt__inn > h2,
+	section.full-section.things_to_do_listing h2 { font-size: 40px; line-height: 50px; }
+	section.full-section.resort_map .rm__inn .map_image i.fa-long-arrow-left { left: -7%; }
+	section.full-section.resort_map .rm__inn .map_image i.fa-long-arrow-right { right: -7%; }
+	section.full-section.team_carousel .tc_carousel .slick-list { max-width: 900px; width: 100%; margin: 0 auto; }
+	section.full-section.team_carousel .tc_carousel i.fa-long-arrow-left { left: 0; }
+	section.full-section.team_carousel .tc_carousel i.fa-long-arrow-right { right: 0; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_left h3 { font-size: 30px; line-height: 35px; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_left h3 span { font-size: 20px; }
+	section.full-section.image_with_content_color_box .iwccb .iwccb__con h3 { font-size: 32px; line-height: 35px; }
+	section.full-section.top_banner .enquire_form { width: 90%; }
+	/*section.full-section.top_banner .enquire_form .gform_wrapper form .gform_body ul.gform_fields li.gfield label { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden; }*/
+	section.full-section.top_banner .enquire_form .gform_wrapper form .gform_footer { width: 190px; }
+	section.full-section.overview_with_jumplinks .jumplinks ul li { max-width: 130px; }
+	section.full-section.overview_with_jumplinks .jumplinks ul li a { padding: 10px 10px; font-size: 14px; }
+}
+
+/*TABLET POTRAIT MODE*/
+@media only screen and (max-width:1023px) {
+	section.full-section.top_banner h1,
+	section.full-section.top_banner h2,
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_content h2,
+	section.full-section.icon_title_content h2,
+	section.full-section.client_reviews .cr_cover .cr_left h2,
+	section.full-section.resorts_boxes h2,
+	section.full-section.image_with_content_color_box h2,
+	section.full-section.resort_map .rm__inn h2,
+	section.full-section.video_popup_boxes h2,
+	section.full-section.simple_page_banner_with_title h2,
+	section.full-section.japan_ski_packages .jsp_packages h2,
+	section.full-section.team_carousel .tc__inn h2,
+	section.full-section.accordion h2,
+	section.full-section.packages_listing h2,
+	section.tabs h2,
+	section.full-section.six_boxes_with_title .sbwt__inn > h2,
+	section.full-section.things_to_do_listing h2 { font-size: 30px; line-height: 40px; }
+	section.full-section.client_reviews .reviews-carousel .item { padding: 25px; }
+	section.full-section.five_boxes ul li .img { height: 200px; }
+	section.full-section.five_boxes ul li .content h3 { font-size: 24px; line-height: 30px; }
+	section.full-section.image_with_content_color_box .iwccb .iwccb__con { padding: 25px; }
+	section.full-section.image_with_content_color_box .iwccb .iwccb__con h3 { font-size: 26px; line-height: 35px; }
+	section.full-section.resort_map .rm__inn .map_image i.fa-long-arrow-left,
+	section.full-section.resort_map .rm__inn .map_image i.fa-long-arrow-right { display: none !important; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_left h3 { font-size: 26px; line-height: 30px; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_left h3 span { font-size: 20px; display: block; }
+	section.full-section.team_carousel .tc_carousel .slick-list { max-width: 700px; width: 100%; margin: 0 auto; }
+	section.full-section.team_carousel .tc__inn .tc_list { margin: 0 10px; }
+	section.full-section.team_carousel .tc_carousel i.fa { width: 40px; height: 40px; line-height: 35px; }
+	section.full-section.team_carousel .tc_carousel i.fa-long-arrow-left { left: -2%; }
+	section.full-section.team_carousel .tc_carousel i.fa-long-arrow-right { right: -2%; }
+	section.full-section.team_carousel .tc_boxes .tc_list { margin: 0 2% 20px 0; }
+	section.full-section.six_boxes_with_title .sbwt_cover .sbwt_list img { min-height: 200px; }
+	section.full-section.six_boxes_with_title .sbwt_cover .sbwt_list h3 { padding: 20px 0; line-height: 25px; }
+	section.full-section.top_banner .enquire_form .gform_wrapper form .gform_footer { width: 175px; right: 10px; }
+}
+
+@media only screen and (max-width:991px) {
+	header.header-wrapper.full-section.desktop-header { display: none; }
+	header.full-section.mobile-header { display: block; }
+	footer.full-section.footer-wrapper .footer .footer-top { flex-wrap: wrap; }
+	footer.full-section.footer-wrapper .footer .footer-top .top-content { width: 100%; margin-top: 20px; }
+	footer.full-section.footer-wrapper .footer .footer-top .top-logo { width: 100%; }
+	footer.full-section.footer-wrapper .footer .footer-top img { margin: 0 auto; display: block; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .left { width: 50%; order: 2; display: flex; align-items: center; justify-content: center; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle { width: 100%; order: 1; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; flex-flow: column; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .right { width: 50%; order: 3; display: flex; align-items: center; justify-content: center; flex-flow: column; }
+	section.full-section.four_resort_boxes .frb_inn .frb_list { width: 49%; margin-right: 2%; }
+	section.full-section.four_resort_boxes .frb_inn .frb_list:nth-child(2n) { margin-right: 0; }
+
+	section.full-section.resorts_boxes .resorts .boxes.box_0,
+	section.full-section.resorts_boxes .resorts .boxes.box_1 { width: 100%; margin: 0 0% 30px 0; }
+	section.full-section.resorts_boxes .resorts .boxes { width: 100%; }
+	section.full-section.icon_title_content ul li { width: 49%; margin-bottom: 15px; }
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_content { width: 100%; margin-top: 20px; order: 2; }
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_video { width: 100%; height: max-content; border: 5px solid #bcd6d9; overflow: hidden; }
+	section.full-section.things_to_do_listing .ttdl_list ul { justify-content: space-between; }
+	section.full-section.things_to_do_listing .ttdl_list ul li { width: 49%; margin: 0 0% 15px 0; }
+	section.full-section.six_boxes_with_title .sbwt_cover { justify-content: space-between; }
+	section.full-section.six_boxes_with_title .sbwt_cover .sbwt_list { width: 49%; margin: 0 0% 15px 0; }
+	section.full-section.packages_listing .pl_list { justify-content: space-between; }
+	section.full-section.packages_listing .listing_box { width: 49%; margin: 0 0% 15px 0; }
+	section.full-section.packages_listing .listing_box img { margin: 0 auto; }
+	section.tabs .tab-container .tab-menu ul { justify-content: center; }
+	section.tabs .tab-container .tab-menu ul li { max-width: 479px; margin-bottom: 10px; }
+	section.tabs .tab-container .tab-menu ul li:last-child { margin-bottom: 0; }
+
+	section.full-section.overview_with_jumplinks .jumplinks ul li { max-width: 300px; margin-bottom: 10px; }
+	section.full-section.overview_with_jumplinks .jumplinks ul:after{background:transparent;}
+
+	section.full-section.blogs_section .blog-wrapper .post-box { width: 49%; }
+	section.full-section.blogs_section .blog-wrapper .post-box:nth-child(3n) { margin: 0 2% 30px 0; }
+	section.full-section.blogs_section .blog-wrapper .post-box:nth-child(2n) { margin-right: 0; }
+	.post-wrapper .post-info { display: block; }
+	.post-wrapper .post-info .left { width: 100%; margin-bottom: 10px; }
+	.post-wrapper .post-info .right { width: 100%; }
+
+	.cs_breadcrumbs .container { flex-wrap: wrap; }
+	.cs_breadcrumbs .container .right { width: 100%; display: flex; align-items: center; justify-content: center; margin: 20px 0 0; }
+
+	section.full-section.top_banner .enquire_form { width: 94%; padding: 0px 10px 15px; }
+	section.full-section.top_banner .enquire_form .gform_wrapper form .gform_body ul.gform_fields li.gfield label { font-size: 14px; }
+
+	section.floating a.close_flo { right: 10px; }
+	section.floating.active+footer.footer-wrapper { margin: 0 0 121px; }
+	section.floating .floating_in .floating_content { margin: 0 0 20px; }
+	section.floating .floating_in { justify-content: center; flex-wrap: wrap; }
+
+	section.vote_for_us .vfu_inn a.vote_close { left: 0; top: -10px; border-radius: 0; background: #be2029; color: #fff; }
+
+	.award_badge { width: 100px; }
+}
+
+/*Mobile POTRAIT MODE*/
+@media only screen and (max-width:767px) {
+	html body .desktop-none { display: inline-block; }
+	.mobile-none { display: none !important; }
+	
+	/* top_banner */
+	section.top_banner { height: 250px; }
+	section.full-section.top_banner h1,
+	section.full-section.top_banner h2 { font-size: 28px; line-height: 28px; }
+	section.full-section.top_banner .more_text { max-width: 320px; width: 100%; padding: 20px; }
+
+	/* content_with_video_popup */
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_content { width: 100%; order: 2; }
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_video { width: 100%; order: 1; margin-bottom: 30px; }
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_content h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.content_with_video_popup .cwvp_inner .cwvp_content h3 { font-size: 18px; line-height: 25px; }
+
+	/* icon_title_content */
+	section.full-section.icon_title_content h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.icon_title_content ul li { width: 100%; }
+
+	/* client_reviews */
+	section.full-section.client_reviews { padding: 50px 0; }
+	section.full-section.client_reviews .cr_cover .cr_left { width: 100%; margin-bottom: 30px; }
+	section.full-section.client_reviews .cr_cover .cr_left h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.client_reviews .cr_cover .cr_right { width: 100%; }
+	section.full-section.client_reviews .reviews-carousel .item { padding: 25px; }
+
+	/* image_and_content */
+	section.full-section.image_and_content .iac_cover .iac_image { width: 100%; order: 1; margin-bottom: 20px; }
+	section.full-section.image_and_content .iac_cover .iac_image img { margin: 0 auto; }
+	section.full-section.image_and_content .iac_cover .iac_content { width: 100%; padding: 0; order: 2; text-align: center; }
+	section.full-section.image_and_content .iac_cover .iac_content h3 { font-size: 28px; line-height: 35px; }
+	section.full-section.image_and_content .iac_cover:before { display: none; }
+	section.full-section.image_and_content .iac_cover.right .iac_image { order: 1; }
+	section.full-section.image_and_content .iac_cover.right .iac_content { order: 2; }
+
+	/* five_boxes */
+	section.full-section.five_boxes { padding: 50px 0; }
+	section.full-section.five_boxes ul.two li { width: 100%; margin: 0 0 30px 0; }
+	section.full-section.five_boxes ul.two li:nth-child(2n) { margin: 0 0 30px 0; }
+	section.full-section.five_boxes ul.three li { width: 100%; margin: 0 0 30px 0; }
+	section.full-section.five_boxes ul.three li:nth-child(3n) { margin: 0 0 30px 0; }
+	section.full-section.five_boxes ul li .content { padding: 20px; text-align: center; }
+	section.full-section.five_boxes ul li .content h3 { line-height: 35px; margin-bottom: 20px; }
+
+	/* resorts_boxes */
+	section.full-section.resorts_boxes { padding: 50px 0; }
+	section.full-section.resorts_boxes h2 { font-size: 28px; line-height: 35px; margin-bottom: 30px; }
+	section.full-section.resorts_boxes .resorts .boxes { width: 100% !important; margin: 0 0 30px 0 !important; }
+	section.full-section.resorts_boxes .resorts .boxes:last-child { margin: 0 !important; }
+	section.full-section.resorts_boxes .resorts .boxes .boxes_con { padding: 20px 20px 90px 20px; }
+
+	/* simple_title_content_with_full_bg_color */
+	section.full-section.simple_title_content_with_full_bg_color { padding: 50px 0 !important; }
+	section.full-section.simple_title_content_with_full_bg_color .stcwfbc h2 { font-size: 28px; line-height: 35px; margin-bottom: 26px; }
+
+	/* image_with_content_color_box */
+	section.full-section.image_with_content_color_box { padding: 50px 0; }
+	section.full-section.image_with_content_color_box h2 { font-size: 28px; line-height: 35px; margin-bottom: 20px; }
+	section.full-section.image_with_content_color_box .iwccb .iwccb_img { width: 100%; order: 1; min-height: 250px; }
+	section.full-section.image_with_content_color_box .iwccb .iwccb__con { width: 100%; order: 2; padding: 20px; text-align: center; }
+	section.full-section.image_with_content_color_box .iwccb .iwccb__con h3 { font-size: 28px; line-height: 35px; }
+	section.full-section.image_with_content_color_box .iwccb.right .iwccb_img { order: 1; }
+	section.full-section.image_with_content_color_box .iwccb.right .iwccb__con { order: 2; }
+
+	/* four_resort_boxes */
+	section.full-section.four_resort_boxes { padding: 50px 0; }
+	section.full-section.four_resort_boxes .frb_inn .frb_list { width: 100%; margin-right: 0; }
+	section.full-section.four_resort_boxes .frb_inn .frb_list h3 { padding: 20px 0; line-height: 25px; }
+
+	/* resort_map */
+	section.full-section.resort_map { padding: 50px 0; }
+	section.full-section.resort_map .rm__inn h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.resort_map .rm__inn .rm__con { text-align: center; }
+	section.full-section.resort_map .rm__inn .map_image i.fa { z-index: 1; width: 40px; height: 40px; line-height: 34px; background: #bcd6d9; color: #fff; }
+	section.full-section.resort_map .rm__inn .map_image i.fa-long-arrow-left { left: -15px; }
+	section.full-section.resort_map .rm__inn .map_image i.fa-long-arrow-right { right: -15px; }
+	section.full-section.resort_map .rm__inn .rm__con_mor { text-align: center; margin-top: 35px; }
+
+	/* video_popup_boxes */
+	section.full-section.video_popup_boxes { padding: 50px 0; }
+	section.full-section.video_popup_boxes h2 { font-size: 28px; line-height: 35px; margin-bottom: 30px; }
+	section.full-section.video_popup_boxes .vpb_box .video_list { width: 100%; margin: 0 0 30px 0; }
+	section.full-section.video_popup_boxes .vpb_box .video_list:nth-child(3n) { margin: 0 0 0 0; }
+
+	/* things_to_do_listing */
+	section.full-section.things_to_do_listing { padding: 50px 0; }
+	section.full-section.things_to_do_listing h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.things_to_do_listing .ttdl_con { text-align: center; }
+	section.full-section.things_to_do_listing .ttdl_list ul li { width: 100%; margin: 0 0 30px 0; }
+	section.full-section.things_to_do_listing .ttdl_list ul li img { margin: 0 auto; }
+	section.full-section.things_to_do_listing .ttdl_list ul li:nth-child(3n) { margin: 0; }
+	section.full-section.things_to_do_listing .ttdl_list ul li .ttdl__inn { padding: 20px; }
+
+	/* simple_page_banner_with_title */
+	section.full-section.simple_page_banner_with_title h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.simple_page_banner_with_title .ttdl_con { text-align: center; }
+	section.full-section.simple_page_banner_with_title .ttdl_con p { font-size: 16px; }
+
+	/* japan_ski_packages */
+	section.full-section.japan_ski_packages { padding: 50px 0; }
+	section.full-section.japan_ski_packages .jsp_packages h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_con { text-align: center; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li { padding: 20px; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_left { width: 100%; margin-bottom: 30px; text-align: center; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_right { width: 100%; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_right img { margin: 0 auto; }
+	section.full-section.japan_ski_packages .jsp_packages .jsp_list ul li .jsp_list_left h3 { font-size: 28px; line-height: 35px; }
+
+	/* team_carousel */
+	section.full-section.team_carousel .tc__inn h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.team_carousel .tc__inn .tc_con { text-align: center; }
+	section.full-section.team_carousel .tc_carousel i.fa { color: #fff; width: 35px; height: 35px; line-height: 28px; background: #bcd6d9; }
+	section.full-section.team_carousel .tc_carousel i.fa-long-arrow-left { left: -15px; }
+	section.full-section.team_carousel .tc_carousel i.fa-long-arrow-right { right: -15px; }
+	section.full-section.team_carousel .tc__inn .tc_list { margin: 0; }
+	section.full-section.team_carousel .tc__inn .tc_list .tc_img .left { width: 20%; }
+	section.full-section.team_carousel .tc__inn .tc_list .right { width: 75%; }
+
+	/* team_carousel.updated */
+	section.full-section.team_carousel.updated { padding: 50px 0; }
+	section.full-section.team_carousel .tc_boxes .tc_list { width: 100%; margin: 0 0 30px 0; }
+	section.full-section.team_carousel .tc_boxes .tc_list:last-child { margin: 0; }
+
+	/* six_boxes_with_title */
+	section.full-section.six_boxes_with_title { padding: 50px 0; }
+	section.full-section.six_boxes_with_title .sbwt_cover { justify-content: unset; display: block; }
+	section.full-section.six_boxes_with_title .sbwt__inn > h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.six_boxes_with_title .sbwt_cover .sbwt_list { width: 320px; margin: 0 auto 15px; display: block; }
+	section.full-section.six_boxes_with_title .sbwt_cover .sbwt_list:last-child { margin-left: auto; margin-right: auto; }
+	section.full-section.six_boxes_with_title .sbwt_cover .sbwt_list h3 { padding: 20px 10px; line-height: 25px; }
+
+	/* accordion */
+	section.full-section.accordion h2 { font-size: 28px; line-height: 35px; }
+	section.full-section.accordion .acc__cover .acc_list ul.accordion_list li .question { padding: 10px 70px 10px 30px; line-height: 25px; }
+	section.full-section.accordion .acc__cover .acc_list ul.accordion_list li .question:after { width: 40px; height: 40px; line-height: 42px; }
+	section.full-section.accordion .acc__cover .acc_list ul.accordion_list li .answer .acc_image { width: 100%; margin-bottom: 20px; }
+	section.full-section.accordion .acc__cover .acc_list ul.accordion_list li .answer .acc_con { width: 100%; }
+	section.full-section.accordion .acc__cover .acc_list ul.accordion_list li .answer { padding: 10px 30px 10px 30px; }
+
+	/* packages_listing */
+	section.full-section.packages_listing { padding: 50px 0; }
+	section.full-section.packages_listing h2 { font-size: 28px; line-height: 35px; }
+	.filter-area { max-width: 100%; width: 100%; }
+	.filter-area form.main_form input[type="submit"] { width: 100%; padding: 12px; }
+	.filter-area form.main_form .accomodation_search { width: 100%; margin-right: 0%; margin-bottom: 15px; }
+	section.full-section.packages_listing .listing_box { width: 100%; margin: 0 0 30px 0; }
+	section.full-section.packages_listing .listing_box:last-child { margin: 0; }
+
+	/* tabs */
+	section.tabs h2 { font-size: 28px; line-height: 35px; }
+	section.tabs .tab-container .tab-menu ul:before { display: none; }
+	section.tabs .tab-container .tab-menu ul li { max-width: 100%; margin-bottom: 10px; }
+	section.tabs .tab-container .tab-menu .tab.tab-active { text-align: center; }
+
+	/* footer-wrapper */
+	footer.full-section.footer-wrapper .footer .footer-top .top-logo { width: 100%; margin-bottom: 30px; }
+	footer.full-section.footer-wrapper .footer .footer-top .top-content { width: 100%; text-align: center; }
+	footer.full-section.footer-wrapper .footer .footer-top .top-logo img { margin: 0 auto; }
+	footer.full-section.footer-wrapper .footer .footer-top .top-logo { width: 100%; margin-bottom: 30px; }
+	footer.full-section.footer-wrapper .footer .footer-top .top-content { width: 100%; text-align: center; }
+	footer.full-section.footer-wrapper .footer .footer-top .top-logo img { margin: 0 auto; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .left { width: 100%; margin-bottom: 30px; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .left img { margin: 0 auto; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle { width: 100%; margin-bottom: 30px; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle ul.footer-menu { padding: 0; margin: 0 auto; list-style-type: none; display: block; width: 100%; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle ul.footer-menu li { display: inline-block; margin-left: 20px; padding-left: 20px; border-left: solid 1px #fff; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle ul.footer-menu li a { padding: 0; display: block; margin-right: 0; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle ul.footer-menu li a:after { background: transparent; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle ul.footer-menu li:nth-of-type(1) { margin-left: 0; padding-left: 0; border: 0; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle p { text-align: center; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .right { width: 100%; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .right ul.social-icon { justify-content: center; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .right ul.phone-num li { text-align: center; }
+	footer.full-section.footer-wrapper .copyright .container { display: block; text-align: center; }
+	footer.full-section.footer-wrapper .footer .footer-top .foo-right-logo { width: 100%; }
+	section.full-section.gallery-box ul li { width: 49%; position: relative; }
+	section.full-section.gallery-box ul li:nth-child(3n) { margin: 0 2% 20px 0; }
+	section.full-section.gallery-box ul li:nth-child(2n) { margin-right: 0; }
+	section.full-section.facilities-sec ul li { width: 32%; }
+	section.full-section.facilities-sec ul li:nth-child(5n) { margin-right: 2%; }
+	section.full-section.facilities-sec ul li:nth-child(3n) { margin-right: 0px; }
+	.bottom_line { flex-flow: column; }
+	.bottom_line ul.social-icon { margin: 0 0 10px; }
+	.bottom_line ul.phone-num { margin-left: 0; border-left: 0; padding-left: 0; }
+
+	.cs_reviews .cs__inn .cs_blank { display: none; }
+	.cs_reviews .cs__inn .cs_total { width: 100%; }
+	.cs_reviews .review_users { margin: 0 0 10px; flex-wrap: wrap; padding-bottom: 0px; border: solid 2px #545454; border-radius: 15px; overflow: hidden; }
+	.cs_reviews .review_users .user_name_rv,
+	.cs_reviews .review_users .user_comment { width: 100%; border: 0; border-radius: 0; min-height: 100px; }
+	.cs_reviews .review_users .user_name_rv { margin: 0 0 0px; min-height: 100px; border: 0; border-radius: 0; }
+	.cs_reviews .review_users:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: 0; }
+	.more_text.fancybox-content { padding: 10px; width: 90%; }
+	section.padding-bottom-none.simple_title_content_with_full_bg_color.black_text { padding-bottom: 0 !important; }
+
+	section.vote_for_us .vfu_inn { flex-flow: column; }
+	section.vote_for_us .vfu_inn .vfu_con { max-width: 100%; padding-right: 0; margin-right: 0; border-right: 0; padding-top: 0px; padding-bottom: 10px; text-align: center; padding-left: 0px; }
+	body.voter_onn footer.footer-wrapper .enquire-btn { bottom: 200px; }
+	body.voter_onn footer.footer-wrapper { margin-bottom: 170px; }
+	.reviews-carousel ul.slick-dots { padding: 0; list-style: none; display: flex; justify-content: center; margin: 20px 0 0; }
+	.reviews-carousel ul.slick-dots li { font-size: 0; margin-right: 9px; width: 12px; height: 12px; background: #bdd6d9; border-radius: 10px; }
+	.reviews-carousel ul.slick-dots li button { padding: 0; }
+}
+
+@media only screen and (max-width:539px) {
+	section.cs_breadcrumbs .cst-breadcrumbs ul { flex-wrap: wrap; }
+	section.full-section.overview_with_jumplinks .jumplinks { padding: 50px 0 50px; }
+	section.full-section.overview_with_jumplinks .jumplinks ul li { max-width: 300px; margin: 0 auto 10px; }
+	section.full-section.map-with-content .map, 
+	section.full-section.map-with-content .content {width: 100%;}
+	section.full-section.blogs_section .blog-wrapper .post-box:nth-child(3n) { margin-right: 0; }
+	section.full-section.blogs_section .blog-wrapper .post-box { width: 100%; margin-right: 0; }
+	.weather-cover .weather_titles { width: 25%; }
+	section.full-section.resorts_boxes .resorts .boxes a.btn.light_green { left: 0; transform: unset; right: 0; width: 90%; }
+	section.mobile_only .gform_wrapper form .gform_body ul.gform_fields li.gfield { width: 100%; margin: 0 0% 10px 0; }
+	section.child_age .ch_inn { max-width: 300px; }
+	section.child_age .ch_inn ul li { width: 49%; }
+	section.child_age .ch_inn ul li:nth-child(3n) { margin-right: 2%; }
+	section.child_age .ch_inn ul li:nth-child(2n) { margin-right: 0; }
+	section.child_age .ch_inn ul { height: 300px; overflow-x: auto; }
+	.search-box .sh-image { width: 100%; height: 150px; margin-bottom: 20px; }
+	.search-box .sh-cont { width: 100%; }
+	section.site_popup .site_popup_inn h2 { padding: 15px 10px 15px; font-size: 20px; }
+
+	section.floating { padding: 15px 10px; width: 100%; z-index: 9999; }
+	section.floating a.close_flo { right: 10px; top: -20px; }
+	section.floating.active+footer.footer-wrapper { margin: 0 0 144px; }
+
+	section.featured_properties .fboxes.four-column ul li.inn_fboxes, 
+	section.featured_properties .fboxes.three-column ul li.inn_fboxes { width: 49%; }
+
+	section.featured_properties .fboxes.four-column ul li.inn_fboxes:nth-child(4n), 
+	section.featured_properties .fboxes.three-column ul li.inn_fboxes:nth-child(3n) { margin-right: 2%; }
+
+	section.featured_properties .fboxes.four-column ul li.inn_fboxes:nth-child(2n), 
+	section.featured_properties .fboxes.three-column ul li.inn_fboxes:nth-child(2n) { margin-right: 0; }
+
+	body.page-id-17219 .award_badge { position: static; width: 100%; }
+	.award_badge { width: 80px; top: 140px; right: 20px; }
+	.award_badge img { width: 100px; margin: 0 auto; }
+
+
+	div#ct_ultimate-gdpr-cookie-reject { width: 30px !important; right: 20px; }
+	.bottom_line ul.phone-num li { font-size: 14px; }
+	footer.full-section.footer-wrapper .footer .footer-bottom .middle ul.footer-menu { display: block; width: 100%; }
+
+}
+
+@media only screen and (max-width:479px) {
+	section.full-section.gallery-box ul li { width: 100%; margin-right: 0; }
+	section.full-section.gallery-box ul li:nth-child(2n) { margin-right: 0; }
+	section.full-section.gallery-box ul li:nth-child(3n) { margin: 0 0% 20px 0; }
+	section.full-section.facilities-sec ul li { width: 49%; }
+	section.full-section.facilities-sec ul li:nth-child(3n) { margin-right: 2%; }
+	section.full-section.facilities-sec ul li:nth-child(2n) { margin-right: 0; }
+	.weather-cover .weather_titles { width: 33%; }
+	section.cs_breadcrumbs .cst-breadcrumbs ul li a,
+	section.cs_breadcrumbs .cst-breadcrumbs ul li span { font-size: 14px; }
+
+	section.floating.active+footer.footer-wrapper { margin: 0 0 168px; }
+	section.floating .floating_inn { flex-wrap: wrap; }
+	.floating_content { margin-bottom: 10px; }
+	section.floating .floating_inn a.floating_link { max-width: initial; font-size: 14px; }
+
+	section.featured_properties .fboxes.four-column ul li.inn_fboxes,
+	section.featured_properties .fboxes.three-column ul li.inn_fboxes,
+	section.featured_properties .fboxes.two-column ul li.inn_fboxes { width: 100%; }
+
+	section.featured_properties .fboxes.four-column ul li.inn_fboxes:nth-child(4n),
+	section.featured_properties .fboxes.three-column ul li.inn_fboxes:nth-child(3n),
+	section.featured_properties .fboxes.two-column ul li.inn_fboxes:nth-child(2n) { margin-right: 0%; }
+
+	section.featured_properties .fboxes.four-column ul li.inn_fboxes:nth-child(2n), 
+	section.featured_properties .fboxes.three-column ul li.inn_fboxes:nth-child(2n) { margin-right: 0; }
+}

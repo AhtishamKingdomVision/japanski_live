@@ -1,0 +1,217 @@
+<pre><br></pre>
+<pre>Array
+(
+    [data] => Array
+        (
+            [amount_from] => 40233
+            [amount_to] => 84000
+            [country] => GB
+            [currency_from] => GBP
+            [currency_to] => JPY
+            [expiration_date] => 2026-06-25T17:03:25Z
+            [external_reference] => JSE15678_3
+            [fields] => Array
+                (
+                    [booking_reference] => JSE15678_3
+                    [card_issued_redirect] => true
+                )
+
+            [payment_id] => JSE15694788454
+            [payment_method] => Array
+                (
+                    [type] => card
+                )
+
+            [status] => guaranteed
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [data] => Array
+        (
+            [amount_from] => 40233
+            [amount_to] => 84000
+            [country] => GB
+            [currency_from] => GBP
+            [currency_to] => JPY
+            [expiration_date] => 2026-06-25T17:03:25Z
+            [external_reference] => JSE12345_3
+            [fields] => Array
+                (
+                    [booking_reference] => JSE12345_3
+                    [card_issued_redirect] => true
+                )
+
+            [payment_id] => JSE15694788454
+            [payment_method] => Array
+                (
+                    [type] => card
+                )
+
+            [status] => guaranteed
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [data] => Array
+        (
+            [amount_from] => 40233
+            [amount_to] => 84000
+            [country] => GB
+            [currency_from] => GBP
+            [currency_to] => JPY
+            [expiration_date] => 2026-06-25T17:03:25Z
+            [external_reference] => JSE12345_3
+            [fields] => Array
+                (
+                    [booking_reference] => JSE12345_3
+                    [card_issued_redirect] => true
+                )
+
+            [payment_id] => JSE15694788454
+            [payment_method] => Array
+                (
+                    [type] => card
+                )
+
+            [status] => guaranteed
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [data] => Array
+        (
+            [payment_id] => JSE118774347
+            [amount_from] => 60925
+            [currency_from] => JPY
+            [amount_to] => 60925
+            [currency_to] => JPY
+            [status] => initiated
+            [expiration_date] => 2026-07-16T13:07:02Z
+            [external_reference] => JSE27225_1
+            [country] => JP
+            [payment_method] => Array
+                (
+                    [type] => card
+                )
+
+            [fields] => Array
+                (
+                    [booking_reference] => JSE27225_1
+                    [card_issued_redirect] => true
+                )
+
+            [event_type] => initiated
+            [event_date] => 2026-07-09T13:07:03Z
+            [event_resource] => payments
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [data] => Array
+        (
+            [payment_id] => JSE118774347
+            [amount_from] => 60925
+            [currency_from] => JPY
+            [amount_to] => 60925
+            [currency_to] => JPY
+            [status] => authorized
+            [expiration_date] => 2026-07-16T13:07:02Z
+            [external_reference] => JSE27225_1
+            [country] => JP
+            [payment_method] => Array
+                (
+                    [type] => card
+                    [brand] => mastercard
+                    [card_classification] => debit
+                    [card_expiration] => 03/2030
+                    [last_four_digits] => 0017
+                )
+
+            [fields] => Array
+                (
+                    [booking_reference] => JSE27225_1
+                    [card_issued_redirect] => true
+                )
+
+            [event_type] => authorized
+            [event_date] => 2026-07-09T13:07:33Z
+            [event_resource] => charges
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [data] => Array
+        (
+            [payment_id] => JSE377157303
+            [amount_from] => 60925
+            [currency_from] => JPY
+            [amount_to] => 60925
+            [currency_to] => JPY
+            [status] => initiated
+            [expiration_date] => 2026-07-16T14:37:43Z
+            [external_reference] => JSE27235_1
+            [country] => JP
+            [payment_method] => Array
+                (
+                    [type] => card
+                )
+
+            [fields] => Array
+                (
+                    [booking_reference] => JSE27235_1
+                    [card_issued_redirect] => true
+                )
+
+            [event_type] => initiated
+            [event_date] => 2026-07-09T14:37:43Z
+            [event_resource] => payments
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [data] => Array
+        (
+            [payment_id] => JSE377157303
+            [amount_from] => 60925
+            [currency_from] => JPY
+            [amount_to] => 60925
+            [currency_to] => JPY
+            [status] => authorized
+            [expiration_date] => 2026-07-16T14:37:43Z
+            [external_reference] => JSE27235_1
+            [country] => JP
+            [payment_method] => Array
+                (
+                    [type] => card
+                    [brand] => mastercard
+                    [card_classification] => debit
+                    [card_expiration] => 03/2030
+                    [last_four_digits] => 0017
+                )
+
+            [fields] => Array
+                (
+                    [booking_reference] => JSE27235_1
+                    [card_issued_redirect] => true
+                )
+
+            [event_type] => authorized
+            [event_date] => 2026-07-09T14:37:58Z
+            [event_resource] => charges
+        )
+
+)
+<br></pre>

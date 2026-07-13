@@ -1,0 +1,461 @@
+[2026-07-01 03:55:24] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26485
+    [customer_id] => 98
+    [payment_id] => 98
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 6
+    [quotation_id] => 25420
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 03:55:43] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["18.233.40.63"],"x_forwarded_proto":["https"],"x_forwarded_for":["18.233.40.63"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["417"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-9e9cb16f116fc92606006839733a5ae4-984128c743d5b07c-01"],"baggage":["sentry-trace_id=06922b83ab8e4d4398c8253c3c3f5c1b,sentry-sample_rand=0.939135,sentry-environment=production,sentry-release=b261cbb388399f3d80aaa42462578f7881b723281ff131a7b5694c2799df688d,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a1427a0a68bf1de9-IAD"],"sentry_trace":["06922b83ab8e4d4398c8253c3c3f5c1b-6f60f1c4c6f84c1d"],"content_type":["application\/json"],"x_peertransfer_digest":["cj9GiUz5jWG2jVxYEaKrnoFYpYRf5zXRAiYKf7K480c="],"x_flywire_digest":["cj9GiUz5jWG2jVxYEaKrnoFYpYRf5zXRAiYKf7K480c="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["18.233.40.63"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-01 03:55:43] Webhook Body:  | Data: {"event_type":"initiated","event_date":"2026-07-01T03:55:42Z","event_resource":"payments","data":{"payment_id":"JSE258344241","amount_from":"6500","currency_from":"USD","amount_to":"10092","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T03:55:42Z","external_reference":"JSE26485_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26485_1","please_note":null}}}
+
+[2026-07-01 03:55:43] Found transaction by booking_reference, adding flywire_transaction_id | Data: {"booking_reference":"26485","flywire_reference":"JSE26485_1","flywire_transaction_id":"JSE258344241"}
+
+[2026-07-01 03:55:43] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE258344241","flywire_reference":"JSE26485_1","booking_reference":"26485","event_type":"initiated","transaction":{"id":"98","booking_reference":"26485","customer_id":"98","payment_id":"98","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"6","quotation_id":"25420","flywire_transaction_id":"JSE258344241","flywire_payment_method":null,"flywire_status":null,"flywire_response":null,"transaction_mode":"live","created_at":"2026-07-01 03:55:24","updated_at":"2026-07-01 03:55:43","customer_first_name":"Ali","customer_last_name":"Test","customer_email":"alisterio1010@gmail.com","customer_phone":"(123) 456-7891","customer_address":"1234 Happy Street","customer_city":"Miyazaki","customer_state":"Ali","customer_country":"JP","customer_zip":"2125","payment_type":"Deposit","payment_amount":"40368.00","currency_code":"JPY","deposit_amount":"10092.00","balance_due_amount":"30276.00","payment_status":"Pending","items":[{"id":"107","transaction_id":"98","accommodation_id":"3","room_id":"107","check_in_date":"2026-12-02","check_out_date":"2026-12-08","number_of_nights":"6","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"10092.00","balance_due":"30276.00","due_date":"2026-09-23","item_order":"0","created_at":"2026-07-01 03:55:24","updated_at":"2026-07-01 03:55:24","accommodation_name":"Always Niseko","accommodation_type":"","accommodation_permission":"REQUEST","resort_name":"Kabayama","wp_accommodation_id":"7","room_name":"Zen Room (Ground Floor with Bathtub)","room_image_url":"https:\/\/dh1msuk8kbcis.cloudfront.net\/2c98902a54da2b7a0154e1b7b85321c0_914892.jpg","rate_plan_id":"566816","rate_plan_name":"Standard Rate","wp_room_id":"2"}]}}
+
+[2026-07-01 03:55:43] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE258344241
+    [flywire_payment_method] => card
+    [flywire_status] => initiated
+    [flywire_response] => {"event_type":"initiated","event_date":"2026-07-01T03:55:42Z","event_resource":"payments","data":{"payment_id":"JSE258344241","amount_from":"6500","currency_from":"USD","amount_to":"10092","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T03:55:42Z","external_reference":"JSE26485_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26485_1","please_note":null}}}
+)
+
+
+[2026-07-01 03:55:43] Payment pending/processing webhook processed | Data: {"booking_reference":"26485","flywire_transaction_id":"JSE258344241","event_type":"initiated","status":"initiated","transaction_id":"98"}
+
+[2026-07-01 04:24:50] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26492
+    [customer_id] => 99
+    [payment_id] => 99
+    [total_adults] => 4
+    [total_children] => 14
+    [total_infants] => 0
+    [total_guests] => 18
+    [total_nights] => 6
+    [quotation_id] => 25427
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 06:08:01] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26499
+    [customer_id] => 100
+    [payment_id] => 100
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 6
+    [quotation_id] => 25434
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 06:38:04] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["18.233.40.63"],"x_forwarded_proto":["https"],"x_forwarded_for":["18.233.40.63"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["417"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-c0dcd285471e6ad86e70cfb54135fa37-12d8c83ebfdf7cae-01"],"baggage":["sentry-trace_id=26a9a8ae221442a48c16365a771a7aab,sentry-sample_rand=0.286973,sentry-environment=production,sentry-release=b261cbb388399f3d80aaa42462578f7881b723281ff131a7b5694c2799df688d,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a14367ddbbc8e608-IAD"],"sentry_trace":["26a9a8ae221442a48c16365a771a7aab-5d76a407cdf044d6"],"content_type":["application\/json"],"x_peertransfer_digest":["lNoVIljpcITNuz9xACJEVd4DDtsKqYfqRuSLxwKa+fo="],"x_flywire_digest":["lNoVIljpcITNuz9xACJEVd4DDtsKqYfqRuSLxwKa+fo="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["18.233.40.63"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-01 06:38:04] Webhook Body:  | Data: {"event_type":"initiated","event_date":"2026-07-01T06:38:04Z","event_resource":"payments","data":{"payment_id":"JSE948509029","amount_from":"6500","currency_from":"USD","amount_to":"10092","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T06:38:03Z","external_reference":"JSE26499_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26499_1","please_note":null}}}
+
+[2026-07-01 06:38:04] Found transaction by booking_reference, adding flywire_transaction_id | Data: {"booking_reference":"26499","flywire_reference":"JSE26499_1","flywire_transaction_id":"JSE948509029"}
+
+[2026-07-01 06:38:04] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE948509029","flywire_reference":"JSE26499_1","booking_reference":"26499","event_type":"initiated","transaction":{"id":"100","booking_reference":"26499","customer_id":"100","payment_id":"100","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"6","quotation_id":"25434","flywire_transaction_id":"JSE948509029","flywire_payment_method":null,"flywire_status":null,"flywire_response":null,"transaction_mode":"live","created_at":"2026-07-01 06:08:01","updated_at":"2026-07-01 06:38:04","customer_first_name":"Ali","customer_last_name":"Test","customer_email":"alisterio1010@gmail.com","customer_phone":"(123) 456-7891","customer_address":"1234 Happy Street","customer_city":"Miyazaki","customer_state":"Ali","customer_country":"JP","customer_zip":"2125","payment_type":"Deposit","payment_amount":"40368.00","currency_code":"JPY","deposit_amount":"10092.00","balance_due_amount":"30276.00","payment_status":"Pending","items":[{"id":"109","transaction_id":"100","accommodation_id":"3","room_id":"109","check_in_date":"2026-12-02","check_out_date":"2026-12-08","number_of_nights":"6","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"10092.00","balance_due":"30276.00","due_date":"2026-09-23","item_order":"0","created_at":"2026-07-01 06:08:01","updated_at":"2026-07-01 06:08:01","accommodation_name":"Always Niseko","accommodation_type":"","accommodation_permission":"REQUEST","resort_name":"Kabayama","wp_accommodation_id":"7","room_name":"Zen Room (Ground Floor with Bathtub)","room_image_url":"https:\/\/dh1msuk8kbcis.cloudfront.net\/2c98902a54da2b7a0154e1b7b85321c0_914892.jpg","rate_plan_id":"566816","rate_plan_name":"Standard Rate","wp_room_id":"2"}]}}
+
+[2026-07-01 06:38:05] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE948509029
+    [flywire_payment_method] => card
+    [flywire_status] => initiated
+    [flywire_response] => {"event_type":"initiated","event_date":"2026-07-01T06:38:04Z","event_resource":"payments","data":{"payment_id":"JSE948509029","amount_from":"6500","currency_from":"USD","amount_to":"10092","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T06:38:03Z","external_reference":"JSE26499_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26499_1","please_note":null}}}
+)
+
+
+[2026-07-01 06:38:05] Payment pending/processing webhook processed | Data: {"booking_reference":"26499","flywire_transaction_id":"JSE948509029","event_type":"initiated","status":"initiated","transaction_id":"100"}
+
+[2026-07-01 06:38:18] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26500
+    [customer_id] => 101
+    [payment_id] => 101
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 6
+    [quotation_id] => 25435
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 06:39:07] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["23.22.233.58"],"x_forwarded_proto":["https"],"x_forwarded_for":["23.22.233.58"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["417"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-6dd887c649c308e1496a5bf5d7c0f92d-1a997ae93e87cdce-01"],"baggage":["sentry-trace_id=5d7125d5666b438597327f6522fa6ab1,sentry-sample_rand=0.091683,sentry-environment=production,sentry-release=b261cbb388399f3d80aaa42462578f7881b723281ff131a7b5694c2799df688d,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a1436966ce04c56b-IAD"],"sentry_trace":["5d7125d5666b438597327f6522fa6ab1-8cb7406592774479"],"content_type":["application\/json"],"x_peertransfer_digest":["FSLVcibogR65lrDW9xHlwyJCmojp\/azqnesBgcrdu6M="],"x_flywire_digest":["FSLVcibogR65lrDW9xHlwyJCmojp\/azqnesBgcrdu6M="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["23.22.233.58"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-01 06:39:07] Webhook Body:  | Data: {"event_type":"initiated","event_date":"2026-07-01T06:39:07Z","event_resource":"payments","data":{"payment_id":"JSE888720035","amount_from":"9500","currency_from":"AUD","amount_to":"10092","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T06:39:06Z","external_reference":"JSE26500_1","country":"AU","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26500_1","please_note":null}}}
+
+[2026-07-01 06:39:07] Found transaction by booking_reference, adding flywire_transaction_id | Data: {"booking_reference":"26500","flywire_reference":"JSE26500_1","flywire_transaction_id":"JSE888720035"}
+
+[2026-07-01 06:39:07] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE888720035","flywire_reference":"JSE26500_1","booking_reference":"26500","event_type":"initiated","transaction":{"id":"101","booking_reference":"26500","customer_id":"101","payment_id":"101","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"6","quotation_id":"25435","flywire_transaction_id":"JSE888720035","flywire_payment_method":null,"flywire_status":null,"flywire_response":null,"transaction_mode":"live","created_at":"2026-07-01 06:38:18","updated_at":"2026-07-01 06:39:07","customer_first_name":"Ali","customer_last_name":"Test","customer_email":"alisterio1010@gmail.com","customer_phone":"(123) 456-7891","customer_address":"1234 Happy Street","customer_city":"Miyazaki","customer_state":"Ali","customer_country":"JP","customer_zip":"2125","payment_type":"Deposit","payment_amount":"40368.00","currency_code":"JPY","deposit_amount":"10092.00","balance_due_amount":"30276.00","payment_status":"Pending","items":[{"id":"110","transaction_id":"101","accommodation_id":"3","room_id":"110","check_in_date":"2026-12-02","check_out_date":"2026-12-08","number_of_nights":"6","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"10092.00","balance_due":"30276.00","due_date":"2026-09-23","item_order":"0","created_at":"2026-07-01 06:38:18","updated_at":"2026-07-01 06:38:18","accommodation_name":"Always Niseko","accommodation_type":"","accommodation_permission":"REQUEST","resort_name":"Kabayama","wp_accommodation_id":"7","room_name":"Zen Room (Ground Floor with Bathtub)","room_image_url":"https:\/\/dh1msuk8kbcis.cloudfront.net\/2c98902a54da2b7a0154e1b7b85321c0_914892.jpg","rate_plan_id":"566816","rate_plan_name":"Standard Rate","wp_room_id":"2"}]}}
+
+[2026-07-01 06:39:07] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE888720035
+    [flywire_payment_method] => card
+    [flywire_status] => initiated
+    [flywire_response] => {"event_type":"initiated","event_date":"2026-07-01T06:39:07Z","event_resource":"payments","data":{"payment_id":"JSE888720035","amount_from":"9500","currency_from":"AUD","amount_to":"10092","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T06:39:06Z","external_reference":"JSE26500_1","country":"AU","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26500_1","please_note":null}}}
+)
+
+
+[2026-07-01 06:39:07] Payment pending/processing webhook processed | Data: {"booking_reference":"26500","flywire_transaction_id":"JSE888720035","event_type":"initiated","status":"initiated","transaction_id":"101"}
+
+[2026-07-01 08:01:33] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26505
+    [customer_id] => 102
+    [payment_id] => 102
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25440
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 16:56:38] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26518
+    [customer_id] => 103
+    [payment_id] => 103
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25453
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 16:59:01] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26519
+    [customer_id] => 104
+    [payment_id] => 104
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25454
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 16:59:33] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26520
+    [customer_id] => 105
+    [payment_id] => 105
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25455
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 17:00:11] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26521
+    [customer_id] => 106
+    [payment_id] => 106
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25456
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 17:00:46] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26522
+    [customer_id] => 107
+    [payment_id] => 107
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25457
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 17:01:05] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["23.22.233.58"],"x_forwarded_proto":["https"],"x_forwarded_for":["23.22.233.58"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["418"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-80d13f3b5591f9e170915eec3959c886-70fd6fca7774a0ab-01"],"baggage":["sentry-trace_id=28d81307f8ab48018e5b8a818d097225,sentry-sample_rand=0.098510,sentry-environment=production,sentry-release=6eec674ed9ca1ea1c8268087b911ae24b76faa591e063fee3e002cb7c7975561,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a146f879cd8b395b-IAD"],"sentry_trace":["28d81307f8ab48018e5b8a818d097225-3d2f15e1770947f7"],"content_type":["application\/json"],"x_peertransfer_digest":["wvRxX7lU6dMuR6d4YtBCnzcEs\/8uu6rZDQ6LQh1Ea4s="],"x_flywire_digest":["wvRxX7lU6dMuR6d4YtBCnzcEs\/8uu6rZDQ6LQh1Ea4s="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["23.22.233.58"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-01 17:01:05] Webhook Body:  | Data: {"event_type":"initiated","event_date":"2026-07-01T17:01:04Z","event_resource":"payments","data":{"payment_id":"JSE702402931","amount_from":"39300","currency_from":"USD","amount_to":"60925","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T17:01:04Z","external_reference":"JSE26522_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26522_1","please_note":null}}}
+
+[2026-07-01 17:01:05] Found transaction by booking_reference, adding flywire_transaction_id | Data: {"booking_reference":"26522","flywire_reference":"JSE26522_1","flywire_transaction_id":"JSE702402931"}
+
+[2026-07-01 17:01:05] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE702402931","flywire_reference":"JSE26522_1","booking_reference":"26522","event_type":"initiated","transaction":{"id":"107","booking_reference":"26522","customer_id":"107","payment_id":"107","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"7","quotation_id":"25457","flywire_transaction_id":"JSE702402931","flywire_payment_method":null,"flywire_status":null,"flywire_response":null,"transaction_mode":"live","created_at":"2026-07-01 17:00:46","updated_at":"2026-07-01 17:01:05","customer_first_name":"test","customer_last_name":"payment","customer_email":"hammad@gmail.com","customer_phone":"(098) 765-4332","customer_address":"18 Bridge St","customer_city":"York","customer_state":"test","customer_country":"JP","customer_zip":"YO1 6DA","payment_type":"Deposit","payment_amount":"243700.00","currency_code":"JPY","deposit_amount":"60925.00","balance_due_amount":"182775.00","payment_status":"Pending","items":[{"id":"116","transaction_id":"107","accommodation_id":"1","room_id":"116","check_in_date":"2026-12-01","check_out_date":"2026-12-08","number_of_nights":"7","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"60925.00","balance_due":"182775.00","due_date":"2026-10-02","item_order":"0","created_at":"2026-07-01 17:00:46","updated_at":"2026-07-01 17:00:46","accommodation_name":"AYA Niseko","accommodation_type":"","accommodation_permission":"RESERVATION","resort_name":"Hirafu Village","wp_accommodation_id":"1","room_name":"Studio Village View","room_image_url":"https:\/\/dh1msuk8kbcis.cloudfront.net\/2c98902a50a6076e0150b72b40126f67_563204.jpeg","rate_plan_id":"561140","rate_plan_name":"10% Off Early Bird Rate","wp_room_id":"2"}]}}
+
+[2026-07-01 17:01:05] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE702402931
+    [flywire_payment_method] => card
+    [flywire_status] => initiated
+    [flywire_response] => {"event_type":"initiated","event_date":"2026-07-01T17:01:04Z","event_resource":"payments","data":{"payment_id":"JSE702402931","amount_from":"39300","currency_from":"USD","amount_to":"60925","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T17:01:04Z","external_reference":"JSE26522_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26522_1","please_note":null}}}
+)
+
+
+[2026-07-01 17:01:05] Payment pending/processing webhook processed | Data: {"booking_reference":"26522","flywire_transaction_id":"JSE702402931","event_type":"initiated","status":"initiated","transaction_id":"107"}
+
+[2026-07-01 17:10:49] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26523
+    [customer_id] => 108
+    [payment_id] => 108
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25458
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => sandbox
+)
+
+
+[2026-07-01 17:12:19] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["23.22.233.58"],"x_forwarded_proto":["https"],"x_forwarded_for":["23.22.233.58"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["429"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-8ae047477ebccab26cefe37922f0ae08-2745b6787aec5bad-01"],"baggage":["sentry-trace_id=adb7412d2612403793c77c98378ba3be,sentry-sample_rand=0.028412,sentry-environment=demo-production,sentry-release=6eec674ed9ca1ea1c8268087b911ae24b76faa591e063fee3e002cb7c7975561,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a14708ee8a8354b2-IAD"],"sentry_trace":["adb7412d2612403793c77c98378ba3be-c1fca8956b7c4fb1"],"content_type":["application\/json"],"x_peertransfer_digest":["ho9Ua6j7cSaqjPPHlv6tNPfgvqeB14oNNlzN+T36G30="],"x_flywire_digest":["ho9Ua6j7cSaqjPPHlv6tNPfgvqeB14oNNlzN+T36G30="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["23.22.233.58"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-01 17:12:19] Webhook Body:  | Data: {"event_type":"initiated","event_date":"2026-07-01T17:12:18Z","event_resource":"payments","data":{"payment_id":"JSE874891699","amount_from":"60925","currency_from":"JPY","amount_to":"60925","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T17:12:18Z","external_reference":"JSE26523_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26523_1","card_issued_redirect":"true"}}}
+
+[2026-07-01 17:12:19] Found transaction by booking_reference, adding flywire_transaction_id | Data: {"booking_reference":"26523","flywire_reference":"JSE26523_1","flywire_transaction_id":"JSE874891699"}
+
+[2026-07-01 17:12:19] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE874891699","flywire_reference":"JSE26523_1","booking_reference":"26523","event_type":"initiated","transaction":{"id":"108","booking_reference":"26523","customer_id":"108","payment_id":"108","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"7","quotation_id":"25458","flywire_transaction_id":"JSE874891699","flywire_payment_method":null,"flywire_status":null,"flywire_response":null,"transaction_mode":"sandbox","created_at":"2026-07-01 17:10:49","updated_at":"2026-07-01 17:12:19","customer_first_name":"test","customer_last_name":"payment","customer_email":"hammad@gmail.com","customer_phone":"(098) 765-4332","customer_address":"18 Bridge St","customer_city":"York","customer_state":"test","customer_country":"JP","customer_zip":"YO1 6DA","payment_type":"Deposit","payment_amount":"243700.00","currency_code":"JPY","deposit_amount":"60925.00","balance_due_amount":"182775.00","payment_status":"Pending","items":[{"id":"117","transaction_id":"108","accommodation_id":"1","room_id":"117","check_in_date":"2026-12-01","check_out_date":"2026-12-08","number_of_nights":"7","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"60925.00","balance_due":"182775.00","due_date":"2026-10-02","item_order":"0","created_at":"2026-07-01 17:10:49","updated_at":"2026-07-01 17:10:49","accommodation_name":"AYA Niseko","accommodation_type":"","accommodation_permission":"RESERVATION","resort_name":"Hirafu Village","wp_accommodation_id":"1","room_name":"Studio Village View","room_image_url":"https:\/\/dh1msuk8kbcis.cloudfront.net\/2c98902a50a6076e0150b72b40126f67_563204.jpeg","rate_plan_id":"561140","rate_plan_name":"10% Off Early Bird Rate","wp_room_id":"2"}]}}
+
+[2026-07-01 17:12:19] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE874891699
+    [flywire_payment_method] => card
+    [flywire_status] => initiated
+    [flywire_response] => {"event_type":"initiated","event_date":"2026-07-01T17:12:18Z","event_resource":"payments","data":{"payment_id":"JSE874891699","amount_from":"60925","currency_from":"JPY","amount_to":"60925","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T17:12:18Z","external_reference":"JSE26523_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26523_1","card_issued_redirect":"true"}}}
+)
+
+
+[2026-07-01 17:12:19] Payment pending/processing webhook processed | Data: {"booking_reference":"26523","flywire_transaction_id":"JSE874891699","event_type":"initiated","status":"initiated","transaction_id":"108"}
+
+[2026-07-01 17:13:15] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["23.22.233.58"],"x_forwarded_proto":["https"],"x_forwarded_for":["23.22.233.58"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["535"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-6ce9e3ed6c62a9656e3e5cced79c2ca4-8435be57530c7b45-01"],"baggage":["sentry-trace_id=adb7412d2612403793c77c98378ba3be,sentry-sample_rand=0.028412,sentry-environment=demo-production,sentry-release=6eec674ed9ca1ea1c8268087b911ae24b76faa591e063fee3e002cb7c7975561,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a1470a492b2f2d1c-IAD"],"sentry_trace":["adb7412d2612403793c77c98378ba3be-9230ea3650694ae7"],"content_type":["application\/json"],"x_peertransfer_digest":["AM6QDfFRXQTohL86rZxh5O+zYRWKoLr0pK+94JAGZVA="],"x_flywire_digest":["AM6QDfFRXQTohL86rZxh5O+zYRWKoLr0pK+94JAGZVA="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["23.22.233.58"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-01 17:13:15] Webhook Body:  | Data: {"event_type":"authorized","event_date":"2026-07-01T17:13:14Z","event_resource":"charges","data":{"payment_id":"JSE874891699","amount_from":"60925","currency_from":"JPY","amount_to":"60925","currency_to":"JPY","status":"authorized","expiration_date":"2026-07-08T17:12:18Z","external_reference":"JSE26523_1","country":"JP","payment_method":{"type":"card","brand":"mastercard","card_classification":"debit","card_expiration":"03\/2030","last_four_digits":"0017"},"fields":{"booking_reference":"JSE26523_1","card_issued_redirect":"true"}}}
+
+[2026-07-01 17:13:15] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE874891699","flywire_reference":"JSE26523_1","booking_reference":"26523","event_type":"authorized","transaction":{"id":"108","booking_reference":"26523","customer_id":"108","payment_id":"108","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"7","quotation_id":"25458","flywire_transaction_id":"JSE874891699","flywire_payment_method":"card","flywire_status":"initiated","flywire_response":{"event_type":"initiated","event_date":"2026-07-01T17:12:18Z","event_resource":"payments","data":{"payment_id":"JSE874891699","amount_from":"60925","currency_from":"JPY","amount_to":"60925","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T17:12:18Z","external_reference":"JSE26523_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26523_1","card_issued_redirect":"true"}}},"transaction_mode":"sandbox","created_at":"2026-07-01 17:10:49","updated_at":"2026-07-01 17:12:19","customer_first_name":"test","customer_last_name":"payment","customer_email":"hammad@gmail.com","customer_phone":"(098) 765-4332","customer_address":"18 Bridge St","customer_city":"York","customer_state":"test","customer_country":"JP","customer_zip":"YO1 6DA","payment_type":"Deposit","payment_amount":"243700.00","currency_code":"JPY","deposit_amount":"60925.00","balance_due_amount":"182775.00","payment_status":"pending","items":[{"id":"117","transaction_id":"108","accommodation_id":"1","room_id":"117","check_in_date":"2026-12-01","check_out_date":"2026-12-08","number_of_nights":"7","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"60925.00","balance_due":"182775.00","due_date":"2026-10-02","item_order":"0","created_at":"2026-07-01 17:10:49","updated_at":"2026-07-01 17:10:49","accommodation_name":"AYA Niseko","accommodation_type":"","accommodation_permission":"RESERVATION","resort_name":"Hirafu Village","wp_accommodation_id":"1","room_name":"Studio Village View","room_image_url":"https:\/\/dh1msuk8kbcis.cloudfront.net\/2c98902a50a6076e0150b72b40126f67_563204.jpeg","rate_plan_id":"561140","rate_plan_name":"10% Off Early Bird Rate","wp_room_id":"2"}]}}
+
+[2026-07-01 17:13:15] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE874891699
+    [flywire_payment_method] => card
+    [flywire_status] => authorized
+    [flywire_response] => {"event_type":"authorized","event_date":"2026-07-01T17:13:14Z","event_resource":"charges","data":{"payment_id":"JSE874891699","amount_from":"60925","currency_from":"JPY","amount_to":"60925","currency_to":"JPY","status":"authorized","expiration_date":"2026-07-08T17:12:18Z","external_reference":"JSE26523_1","country":"JP","payment_method":{"type":"card","brand":"mastercard","card_classification":"debit","card_expiration":"03\/2030","last_four_digits":"0017"},"fields":{"booking_reference":"JSE26523_1","card_issued_redirect":"true"}}}
+)
+
+
+[2026-07-01 17:13:15] Payment completion webhook processed | Data: {"booking_reference":"26523","flywire_transaction_id":"JSE874891699","transaction_id":"108"}
+
+[2026-07-01 17:13:15] Trip Payment URL:  | Data: https://stay.japanskiexperience.com/api/quotations/wp-payment/25458
+
+[2026-07-01 17:13:15] Trip Payment payload:  | Data: {"headers":{"Content-Type":"application\/json","Accept":"application\/json"},"body":"{\"quotation_id\":25458,\"booking_reference\":\"26523\",\"paymentResponse\":{\"event_type\":\"authorized\",\"event_date\":\"2026-07-01T17:13:14Z\",\"event_resource\":\"charges\",\"data\":{\"payment_id\":\"JSE874891699\",\"amount_from\":\"60925\",\"currency_from\":\"JPY\",\"amount_to\":\"60925\",\"currency_to\":\"JPY\",\"status\":\"authorized\",\"expiration_date\":\"2026-07-08T17:12:18Z\",\"external_reference\":\"JSE26523_1\",\"country\":\"JP\",\"payment_method\":{\"type\":\"card\",\"brand\":\"mastercard\",\"card_classification\":\"debit\",\"card_expiration\":\"03\\\/2030\",\"last_four_digits\":\"0017\"},\"fields\":{\"booking_reference\":\"JSE26523_1\",\"card_issued_redirect\":\"true\"}}}}","timeout":15,"sslverify":true}
+
+[2026-07-01 17:13:25] Successfully synced authorized payment to quotation | Data: {"quotation_id":"25458","booking_reference":"26523","status_code":200}
+
+[2026-07-01 17:20:55] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26524
+    [customer_id] => 109
+    [payment_id] => 109
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25459
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 17:25:58] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26525
+    [customer_id] => 110
+    [payment_id] => 110
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25460
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 17:31:47] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26526
+    [customer_id] => 111
+    [payment_id] => 111
+    [total_adults] => 4
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 4
+    [total_nights] => 7
+    [quotation_id] => 25461
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => sandbox
+)
+
+
+[2026-07-01 17:44:47] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26527
+    [customer_id] => 112
+    [payment_id] => 112
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25462
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 17:57:02] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26528
+    [customer_id] => 113
+    [payment_id] => 113
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25463
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 18:15:37] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26529
+    [customer_id] => 114
+    [payment_id] => 114
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25464
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 19:13:40] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26530
+    [customer_id] => 115
+    [payment_id] => 115
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25465
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-01 19:14:27] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["34.195.15.32"],"x_forwarded_proto":["https"],"x_forwarded_for":["34.195.15.32"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["418"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-d837dfddd6bc010c8530ca734d9219d0-a5d6b819ae53d21a-01"],"baggage":["sentry-trace_id=14e8bbc6755b439f8f67ea9178935185,sentry-sample_rand=0.630262,sentry-environment=production,sentry-release=6eec674ed9ca1ea1c8268087b911ae24b76faa591e063fee3e002cb7c7975561,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a147bbd4cbdee8c5-IAD"],"sentry_trace":["14e8bbc6755b439f8f67ea9178935185-f4f9d2629ec5408f"],"content_type":["application\/json"],"x_peertransfer_digest":["5xnA\/ENT8uzP3CiU\/GfT3jUZVB3DDC7aTYyt7KRJtso="],"x_flywire_digest":["5xnA\/ENT8uzP3CiU\/GfT3jUZVB3DDC7aTYyt7KRJtso="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["34.195.15.32"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-01 19:14:27] Webhook Body:  | Data: {"event_type":"initiated","event_date":"2026-07-01T19:14:26Z","event_resource":"payments","data":{"payment_id":"JSE646578385","amount_from":"39200","currency_from":"USD","amount_to":"60925","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T19:14:26Z","external_reference":"JSE26530_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26530_1","please_note":null}}}
+
+[2026-07-01 19:14:27] Found transaction by booking_reference, adding flywire_transaction_id | Data: {"booking_reference":"26530","flywire_reference":"JSE26530_1","flywire_transaction_id":"JSE646578385"}
+
+[2026-07-01 19:14:27] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE646578385","flywire_reference":"JSE26530_1","booking_reference":"26530","event_type":"initiated","transaction":{"id":"115","booking_reference":"26530","customer_id":"115","payment_id":"115","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"7","quotation_id":"25465","flywire_transaction_id":"JSE646578385","flywire_payment_method":null,"flywire_status":null,"flywire_response":null,"transaction_mode":"live","created_at":"2026-07-01 19:13:40","updated_at":"2026-07-01 19:14:27","customer_first_name":"Ghazali","customer_last_name":"Hassan","customer_email":"ghazali@kingdom-vision.com","customer_phone":"(445) 552-5714","customer_address":"Street 5, Chowching Bakery","customer_city":"Niesko","customer_state":"Ghazali","customer_country":"JP","customer_zip":"75340","payment_type":"Deposit","payment_amount":"243700.00","currency_code":"JPY","deposit_amount":"60925.00","balance_due_amount":"182775.00","payment_status":"Pending","items":[{"id":"125","transaction_id":"115","accommodation_id":"1","room_id":"125","check_in_date":"2026-12-01","check_out_date":"2026-12-08","number_of_nights":"7","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"60925.00","balance_due":"182775.00","due_date":"2026-10-02","item_order":"0","created_at":"2026-07-01 19:13:40","updated_at":"2026-07-01 19:13:40","accommodation_name":"AYA Niseko","accommodation_type":"","accommodation_permission":"RESERVATION","resort_name":"Hirafu Village","wp_accommodation_id":"1","room_name":"Studio Village View","room_image_url":"https:\/\/dh1msuk8kbcis.cloudfront.net\/2c98902a50a6076e0150b72b40126f67_563204.jpeg","rate_plan_id":"561140","rate_plan_name":"10% Off Early Bird Rate","wp_room_id":"2"}]}}
+
+[2026-07-01 19:14:27] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE646578385
+    [flywire_payment_method] => card
+    [flywire_status] => initiated
+    [flywire_response] => {"event_type":"initiated","event_date":"2026-07-01T19:14:26Z","event_resource":"payments","data":{"payment_id":"JSE646578385","amount_from":"39200","currency_from":"USD","amount_to":"60925","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-08T19:14:26Z","external_reference":"JSE26530_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26530_1","please_note":null}}}
+)
+
+
+[2026-07-01 19:14:27] Payment pending/processing webhook processed | Data: {"booking_reference":"26530","flywire_transaction_id":"JSE646578385","event_type":"initiated","status":"initiated","transaction_id":"115"}
+

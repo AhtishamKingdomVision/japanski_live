@@ -1,0 +1,18 @@
+[2026-07-06 15:16:52] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26973
+    [customer_id] => 129
+    [payment_id] => 129
+    [total_adults] => 2
+    [total_children] => 2
+    [total_infants] => 0
+    [total_guests] => 4
+    [total_nights] => 5
+    [quotation_id] => 25908
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+

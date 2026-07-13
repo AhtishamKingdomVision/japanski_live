@@ -1,0 +1,634 @@
+/**
+ * KV Cart Timer
+ *
+ * Manages the cart expiration timer for the booking flow.
+ * - Persists `expires_at` (epoch ms) inside the rb_cart session storage
+ * - Renders a countdown in the cart widget on both Cart and Booking pages
+ * - On expiration, behavior depends on the property type:
+ *     - RoomBoss: hides Proceed/Pay/Book, shows "Refresh Availability",
+ *       keeps the cart items so the user can re-verify availability.
+ *     - BedBank: clears the cart, hides the Proceed buttons, shows a
+ *       reservation-expired message. Refresh Availability is NEVER shown
+ *       for BedBank.
+ * - Timer state survives page refreshes (driven by wall-clock time)
+ */
+(function () {
+    'use strict';
+
+    const STORAGE_KEY = 'rb_cart';
+    const TIMER_META_KEY = 'rb_cart_timer';
+    const DEFAULTS = {
+        roomboss_seconds: 10 * 60,
+        bedbank_seconds:  6  * 60 * 60,
+    };
+
+    // Merge window.kvCartTimer (PHP defaults) if provided.
+    if (typeof window.kvCartTimer === 'object' && window.kvCartTimer) {
+        if (typeof window.kvCartTimer.roomboss_seconds === 'number') {
+            DEFAULTS.roomboss_seconds = window.kvCartTimer.roomboss_seconds;
+        }
+        if (typeof window.kvCartTimer.bedbank_seconds === 'number') {
+            DEFAULTS.bedbank_seconds = window.kvCartTimer.bedbank_seconds;
+        }
+    }
+
+    const TIMER_SELECTOR = '.rb-cart-timer';
+    const PROCEED_SELECTORS = ['.rb-proceed-btn', '.rb-pay-btn', '.rb-book-now-btn'];
+    const REFRESH_BTN_CLASS = 'rb-cart-refresh-btn';
+    const EXPIRED_MSG_CLASS = 'rb-cart-expired-msg';
+
+    // -------------------------------------------------------------------------
+    // Storage helpers
+    // -------------------------------------------------------------------------
+    function readCart() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return { items: [] };
+            const parsed = JSON.parse(raw);
+            if (parsed && Array.isArray(parsed.items)) return parsed;
+            if (Array.isArray(parsed)) return { items: parsed };
+            return { items: [] };
+        } catch (e) {
+            return { items: [] };
+        }
+    }
+
+    function writeCart(cart) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+        } catch (e) { /* ignore */ }
+    }
+
+    function readTimerMeta() {
+        try {
+            const raw = localStorage.getItem(TIMER_META_KEY);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            return (parsed && typeof parsed === 'object') ? parsed : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function writeTimerMeta(meta) {
+        try {
+            localStorage.setItem(TIMER_META_KEY, JSON.stringify(meta));
+        } catch (e) { /* ignore */ }
+    }
+
+    function clearTimerMeta() {
+        try { localStorage.removeItem(TIMER_META_KEY); } catch (e) { /* ignore */ }
+    }
+
+    // -------------------------------------------------------------------------
+    // Cart property type detection
+    // -------------------------------------------------------------------------
+    function isBedbankItem(item) {
+        if (!item) return false;
+        const v = item.is_bedbank ?? item.isBedBank;
+        if (typeof v === 'string') {
+            return v === '1' || v.toLowerCase() === 'true';
+        }
+        return !!v;
+    }
+
+    function isRoombossItem(item) {
+        if (!item) return false;
+        return !isBedbankItem(item);
+    }
+
+    function getPrimaryItem(cart) {
+        if (!cart || !Array.isArray(cart.items) || !cart.items.length) return null;
+        return cart.items[0];
+    }
+
+    // -------------------------------------------------------------------------
+    // Duration resolution
+    // -------------------------------------------------------------------------
+    function getDurationSeconds(propertyType /* 'roomboss' | 'bedbank' */) {
+        if (propertyType === 'bedbank') return DEFAULTS.bedbank_seconds;
+        return DEFAULTS.roomboss_seconds;
+    }
+
+    /**
+     * Ask the backend for the dynamic timer duration when we have a property ID.
+     * Falls back to the JS defaults if the request fails.
+     */
+    function fetchDurationForProperty(propertyId, fallbackSeconds) {
+        return new Promise((resolve) => {
+            if (!propertyId || typeof kv_object === 'undefined' || !kv_object.ajaxurl) {
+                resolve(fallbackSeconds);
+                return;
+            }
+
+            try {
+                const body = new URLSearchParams({
+                    action: 'kv_get_cart_timer_config',
+                    property_id: String(propertyId),
+                });
+
+                fetch(kv_object.ajaxurl + '?v=' + new Date().getTime(), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body,
+                })
+                .then((r) => r.json())
+                .then((res) => {
+                    if (res && res.success && res.data && typeof res.data.duration === 'number') {
+                        resolve(res.data.duration);
+                    } else {
+                        resolve(fallbackSeconds);
+                    }
+                })
+                .catch(() => resolve(fallbackSeconds));
+            } catch (e) {
+                resolve(fallbackSeconds);
+            }
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // Timer init / persist
+    // -------------------------------------------------------------------------
+    /**
+     * Initialize (or reset) the timer for the current cart.
+     * Stores expires_at = Date.now() + duration on localStorage.
+     */
+    async function startTimer(cart) {
+        const item = getPrimaryItem(cart);
+        if (!item) {
+            clearTimerMeta();
+            return;
+        }
+
+        const propertyId = item.hotel_type_id || item.property_id || item.hotelId || '';
+        const isBedbank = isBedbankItem(item);
+        const propertyType = isBedbank ? 'bedbank' : 'roomboss';
+        const fallbackSeconds = getDurationSeconds(propertyType);
+
+        const durationSeconds = await fetchDurationForProperty(propertyId, fallbackSeconds);
+
+        const meta = {
+            property_id:    propertyId,
+            property_type:  propertyType,
+            duration:       durationSeconds,
+            duration_ms:    durationSeconds * 1000,
+            expires_at:     Date.now() + (durationSeconds * 1000),
+            is_bedbank:     isBedbank,
+            is_roomboss:    !isBedbank,
+        };
+
+        writeTimerMeta(meta);
+    }
+
+    function isExpired(meta) {
+        if (!meta || !meta.expires_at) return true;
+        return Date.now() >= meta.expires_at;
+    }
+
+    function remainingMs(meta) {
+        if (!meta || !meta.expires_at) return 0;
+        return Math.max(0, meta.expires_at - Date.now());
+    }
+
+    // -------------------------------------------------------------------------
+    // UI helpers
+    // -------------------------------------------------------------------------
+    function formatRemaining(ms) {
+        if (ms <= 0) return '00:00';
+        const totalSeconds = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        const pad = (n) => String(n).padStart(2, '0');
+        if (hours > 0) {
+            return `${hours}:${pad(minutes)}:${pad(seconds)}`;
+        }
+        return `${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    function ensureTimerNode(cart) {
+        let $node = document.querySelector(TIMER_SELECTOR);
+        if ($node) {
+            // If the node lost its parent (e.g. summary-box was re-rendered), re-parent it.
+            if (!$node.parentElement) {
+                insertTimerNode($node);
+            }
+            return $node;
+        }
+
+        // Create a fresh timer banner.
+        const wrapper = document.createElement('div');
+        wrapper.className = 'rb-cart-timer';
+        wrapper.setAttribute('role', 'status');
+        wrapper.setAttribute('aria-live', 'polite');
+        wrapper.innerHTML = `
+            <div class="rb-cart-timer__icon" aria-hidden="true">
+                <i class="fa-regular fa-clock"></i>
+            </div>
+            <div class="rb-cart-timer__text">
+                <span class="rb-cart-timer__label">Time remaining</span>
+                <span class="rb-cart-timer__countdown" data-role="countdown">--:--</span>
+            </div>
+            <div class="rb-cart-timer__refresh" data-role="refresh-wrap" style="display:none;">
+                <button type="button" class="rb-cart-refresh-btn" data-role="refresh">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    Refresh Availability
+                </button>
+            </div>
+        `;
+
+        insertTimerNode(wrapper);
+        return wrapper;
+    }
+
+    function insertTimerNode(node) {
+        // Prefer to insert into the cart footer or body.
+        // 1) Cart sidebar footer (rooms list page)
+        const cartFooter = document.querySelector('#rbCartFooter, .rb-cart-footer');
+        if (cartFooter && cartFooter.parentElement) {
+            cartFooter.parentElement.insertBefore(node, cartFooter);
+            return;
+        }
+
+        // 2) Booking page summary box - insert at the very top
+        const summaryBox = document.querySelector('.rb-summary-box, #rb-booking-details-widget');
+        if (summaryBox) {
+            summaryBox.insertBefore(node, summaryBox.firstChild);
+            return;
+        }
+
+        // 3) Cart body fallback
+        const $body = document.querySelector('#rbCartBody, .rb-cart-body, .rb-bsummary-card');
+        if ($body && $body.parentElement) {
+            $body.parentElement.insertBefore(node, $body.nextSibling);
+            return;
+        }
+
+        // 4) Last resort
+        const bookingDetails = document.querySelector('.rb-cart');
+        if (bookingDetails) {
+            bookingDetails.prepend(node);
+        } else {
+            document.body.appendChild(node);
+        }
+    }
+
+    function getProceedButtons() {
+        const all = [];
+        PROCEED_SELECTORS.forEach((sel) => {
+            document.querySelectorAll(sel).forEach((el) => all.push(el));
+        });
+        // De-duplicate.
+        const seen = new Set();
+        return all.filter((el) => {
+            if (!el || seen.has(el)) return false;
+            seen.add(el);
+            return true;
+        });
+    }
+
+    function setProceedVisible(visible) {
+        getProceedButtons().forEach((btn) => {
+            if (visible) {
+                btn.removeAttribute('data-rb-timer-hidden');
+                btn.style.removeProperty('display');
+                btn.disabled = false;
+            } else {
+                btn.setAttribute('data-rb-timer-hidden', '1');
+                btn.style.display = 'none';
+                btn.disabled = true;
+            }
+        });
+    }
+
+    function showRefresh(show) {
+        const node = document.querySelector(TIMER_SELECTOR);
+        if (!node) return;
+        const wrap = node.querySelector('[data-role="refresh-wrap"]');
+        if (wrap) {
+            wrap.style.display = show ? '' : 'none';
+        }
+    }
+
+    function showExpiredMessage(message) {
+        if (!message) message = 'Your reservation period has expired.';
+        // Remove any existing.
+        document.querySelectorAll('.' + EXPIRED_MSG_CLASS).forEach((el) => el.remove());
+
+        const node = document.createElement('div');
+        node.className = EXPIRED_MSG_CLASS;
+        node.setAttribute('role', 'alert');
+        node.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i><span>${message}</span>`;
+
+        // Insert at the top of the booking wrapper or cart.
+        const target = document.querySelector('.rb-booking-wrapper, .rb-cart, #rb-booking-details-widget, body');
+        if (target) {
+            target.prepend(node);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Expiration flows
+    // -------------------------------------------------------------------------
+    /**
+     * RoomBoss expiration: keep the cart items, hide Proceed/Pay/Book, and
+     * show "Refresh Availability" so the user can re-verify availability
+     * before continuing.
+     */
+    function handleRoombossExpiration(cart) {
+        setProceedVisible(false);
+        showRefresh(true);
+        const node = document.querySelector(TIMER_SELECTOR);
+        if (node) node.classList.add('is-expired');
+
+        document.dispatchEvent(new CustomEvent('rb:cart-timer-expired', {
+            detail: { cart, type: 'roomboss' }
+        }));
+    }
+
+    /**
+     * BedBank expiration: clear the cart, hide all Proceed/Pay/Book buttons,
+     * and show a reservation-expired message. Refresh Availability is NEVER
+     * shown for BedBank - the user must re-select their rooms from scratch.
+     */
+    function handleBedbankExpiration(cart) {
+        // 1) Clear the cart unconditionally.
+        writeCart({ items: [] });
+        clearTimerMeta();
+
+        // 2) Hide every action button.
+        setProceedVisible(false);
+
+        // 3) Ensure Refresh Availability is NOT shown for BedBank.
+        showRefresh(false);
+
+        // 4) Show the reservation-expired message.
+        showExpiredMessage('Your reservation period has expired. Please re-select your rooms to continue.');
+
+        // 5) Notify any listening UI to re-render.
+        document.dispatchEvent(new CustomEvent('rb:cart-timer-expired', {
+            detail: { cart: { items: [] }, type: 'bedbank' }
+        }));
+        document.dispatchEvent(new CustomEvent('rb:cart-updated', {
+            detail: { cart: { items: [] }, expired: true }
+        }));
+    }
+
+    // -------------------------------------------------------------------------
+    // Refresh flow (RoomBoss)
+    // -------------------------------------------------------------------------
+    function collectRefreshItems(cart) {
+        return (cart.items || []).map((it) => ({
+            property_id:  it.hotel_type_id || it.property_id,
+            room_id:      it.room_type_id || 0,
+            rate_plan_id: it.rateplan_id || it.ratePlanId || '',
+            check_in:     it.dates?.check_in || it.check_in || it.dates?.checkin || '',
+            check_out:    it.dates?.check_out || it.check_out || it.dates?.checkout || '',
+            adults:       it.guests?.adults || 1,
+            children:     it.guests?.children || 0,
+            infants:      it.guests?.infants || 0,
+        }));
+    }
+
+    function refreshAvailability(button) {
+        const cart = readCart();
+        if (!cart.items || !cart.items.length) return;
+
+        if (button) {
+            button.disabled = true;
+            const originalHtml = button.innerHTML;
+            button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Refreshing…';
+
+            const restoreButton = () => {
+                button.disabled = false;
+                button.innerHTML = originalHtml;
+            };
+
+            runRefresh(cart, restoreButton);
+        } else {
+            runRefresh(cart, null);
+        }
+    }
+
+    function runRefresh(cart, restoreButton) {
+        const items = collectRefreshItems(cart);
+        if (typeof kv_object === 'undefined' || !kv_object.ajaxurl) {
+            if (restoreButton) restoreButton();
+            return;
+        }
+
+        const body = new URLSearchParams({
+            action: 'kv_refresh_cart_availability',
+            items:   JSON.stringify(items),
+        });
+
+        fetch(kv_object.ajaxurl + '?v=' + new Date().getTime(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body,
+        })
+        .then((r) => r.json())
+        .then((res) => {
+            if (!res || !res.success || !res.data) {
+                throw new Error('invalid_response');
+            }
+            const data = res.data;
+            const unavailable = Array.isArray(data.unavailable) ? data.unavailable : [];
+
+            if (unavailable.length === 0) {
+                // All still available - reset the timer and re-enable Proceed.
+                startTimer(cart).then(() => {
+                    setProceedVisible(true);
+                    showRefresh(false);
+                    updateTimerUI();
+                    if (restoreButton) restoreButton();
+                });
+                return;
+            }
+
+            // Remove unavailable items by index.
+            const removedIndexes = unavailable.map((u) => Number(u.index)).filter((n) => !isNaN(n));
+            removedIndexes.sort((a, b) => b - a);
+            const remaining = (cart.items || []).filter((_, idx) => !removedIndexes.includes(idx));
+
+            const newCart = { items: remaining };
+            writeCart(newCart);
+
+            if (!remaining.length) {
+                clearTimerMeta();
+                showExpiredMessage('Unfortunately, the rooms in your cart are no longer available. Please re-select your rooms.');
+                document.dispatchEvent(new CustomEvent('rb:cart-timer-expired', {
+                    detail: { cart: newCart, type: 'roomboss' }
+                }));
+                document.dispatchEvent(new CustomEvent('rb:cart-updated', {
+                    detail: { cart: newCart, refreshed: true }
+                }));
+            } else {
+                // Reset the timer using the remaining cart.
+                startTimer(newCart).then(() => {
+                    setProceedVisible(true);
+                    showRefresh(false);
+                    updateTimerUI();
+                    document.dispatchEvent(new CustomEvent('rb:cart-updated', {
+                        detail: { cart: newCart, refreshed: true }
+                    }));
+                });
+            }
+
+            if (restoreButton) restoreButton();
+        })
+        .catch(() => {
+            if (restoreButton) restoreButton();
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // UI update loop
+    // -------------------------------------------------------------------------
+    let tickInterval = null;
+
+    function updateTimerUI() {
+        const cart = readCart();
+        const item = getPrimaryItem(cart);
+        if (!item) {
+            hideTimerNode();
+            return;
+        }
+
+        const meta = readTimerMeta();
+        if (!meta) {
+            // No meta yet -> start one.
+            startTimer(cart);
+            hideTimerNode();
+            return;
+        }
+
+        const node = ensureTimerNode(cart);
+        const countdownEl = node.querySelector('[data-role="countdown"]');
+        if (countdownEl) {
+            countdownEl.textContent = formatRemaining(remainingMs(meta));
+        }
+
+        console.log('Cart timer update: remaining ms =', remainingMs(meta), 'expired =', isExpired(meta));
+        if (isExpired(meta)) {
+            if (meta.is_bedbank) {
+                handleBedbankExpiration(cart);
+            } else {
+                console.log('Cart timer expired (RoomBoss). Proceed buttons hidden, Refresh Availability shown.');
+                handleRoombossExpiration(cart);
+            }
+            stopTick();
+        } else {
+            // Active countdown.
+            node.classList.remove('is-expired');
+            // If we were previously expired but now valid (e.g. after refresh),
+            // restore the Proceed button.
+            setProceedVisible(true);
+            showRefresh(false);
+        }
+    }
+
+    function hideTimerNode() {
+        const node = document.querySelector(TIMER_SELECTOR);
+        if (node) node.style.display = 'none';
+    }
+
+    function startTick() {
+        if (tickInterval) return;
+        updateTimerUI();
+        tickInterval = setInterval(updateTimerUI, 1000);
+    }
+
+    function stopTick() {
+        if (tickInterval) {
+            clearInterval(tickInterval);
+            tickInterval = null;
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Event wiring
+    // -------------------------------------------------------------------------
+    function bindGlobalEvents() {
+        // Refresh button click (delegated).
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('[data-role="refresh"]');
+            if (!target) return;
+            e.preventDefault();
+            refreshAvailability(target);
+        });
+
+        // When the cart is updated (item added/removed), re-evaluate the timer.
+        document.addEventListener('rb:cart-updated', (e) => {
+            const cart = (e && e.detail && e.detail.cart) ? e.detail.cart : readCart();
+            if (!cart.items || !cart.items.length) {
+                clearTimerMeta();
+                hideTimerNode();
+                setProceedVisible(false);
+                return;
+            }
+            // Restart the timer (preserves duration for the same property_type).
+            startTimer(cart).then(() => {
+                updateTimerUI();
+                startTick();
+            });
+        });
+
+        // When items are programmatically removed via storage.
+        window.addEventListener('storage', (e) => {
+            if (e.key === STORAGE_KEY || e.key === TIMER_META_KEY) {
+                updateTimerUI();
+            }
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // Init
+    // -------------------------------------------------------------------------
+    function init() {
+        bindGlobalEvents();
+
+        const cart = readCart();
+        if (!cart.items || !cart.items.length) {
+            clearTimerMeta();
+            hideTimerNode();
+            return;
+        }
+
+        const meta = readTimerMeta();
+        if (!meta) {
+            startTimer(cart).then(() => {
+                updateTimerUI();
+                startTick();
+            });
+        } else if (isExpired(meta)) {
+            if (meta.is_bedbank) {
+                handleBedbankExpiration(cart);
+            } else {
+                updateTimerUI();
+                startTick();
+            }
+        } else {
+            updateTimerUI();
+            startTick();
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    // Expose for testing and other modules.
+    window.KVCartTimer = {
+        init,
+        startTimer,
+        refreshAvailability,
+        isExpired,
+        remainingMs,
+        formatRemaining,
+        DEFAULTS,
+    };
+})();

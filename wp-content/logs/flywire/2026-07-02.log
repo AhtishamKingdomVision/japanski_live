@@ -1,0 +1,109 @@
+[2026-07-02 08:33:06] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26617
+    [customer_id] => 116
+    [payment_id] => 116
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 6
+    [quotation_id] => 25552
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-02 08:33:16] Webhook Header:  | Data: {"authorization":[""],"x_real_ip":["34.195.15.32"],"x_forwarded_proto":["https"],"x_forwarded_for":["34.195.15.32"],"host":["japanskiexperience.com"],"x_accept_encoding":["gzip, br"],"content_length":["418"],"accept":["*\/*"],"user_agent":["Ruby"],"traceparent":["00-4280569d173a085bfe63f217b998ac6f-925371a606db43b3-01"],"baggage":["sentry-trace_id=b38795d9bbd848579164c921430887ad,sentry-sample_rand=0.189686,sentry-environment=production,sentry-release=6eec674ed9ca1ea1c8268087b911ae24b76faa591e063fee3e002cb7c7975561,sentry-public_key=2f3e531dab57400c939b58a3c11f7374"],"cf_ray":["a14c4df96f5b8970-IAD"],"sentry_trace":["b38795d9bbd848579164c921430887ad-a5a2bd98dcc14e9f"],"content_type":["application\/json"],"x_peertransfer_digest":["oI5NHP+bxy5mfvH8IRH5hgtXA75G3nAD0x4NQXPUOCY="],"x_flywire_digest":["oI5NHP+bxy5mfvH8IRH5hgtXA75G3nAD0x4NQXPUOCY="],"cdn_loop":["cloudflare; loops=1"],"cf_connecting_ip":["34.195.15.32"],"cf_ipcountry":["US"],"cf_visitor":["{\"scheme\":\"https\"}"]}
+
+[2026-07-02 08:33:16] Webhook Body:  | Data: {"event_type":"initiated","event_date":"2026-07-02T08:33:15Z","event_resource":"payments","data":{"payment_id":"JSE481424708","amount_from":"47700","currency_from":"USD","amount_to":"73500","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-09T08:33:15Z","external_reference":"JSE26617_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26617_1","please_note":null}}}
+
+[2026-07-02 08:33:16] Found transaction by booking_reference, adding flywire_transaction_id | Data: {"booking_reference":"26617","flywire_reference":"JSE26617_1","flywire_transaction_id":"JSE481424708"}
+
+[2026-07-02 08:33:16] Webhook received and transaction found | Data: {"flywire_transaction_id":"JSE481424708","flywire_reference":"JSE26617_1","booking_reference":"26617","event_type":"initiated","transaction":{"id":"116","booking_reference":"26617","customer_id":"116","payment_id":"116","total_adults":"2","total_children":"0","total_infants":"0","total_guests":"2","total_nights":"6","quotation_id":"25552","flywire_transaction_id":"JSE481424708","flywire_payment_method":null,"flywire_status":null,"flywire_response":null,"transaction_mode":"live","created_at":"2026-07-02 08:33:06","updated_at":"2026-07-02 08:33:16","customer_first_name":"Ali","customer_last_name":"Test","customer_email":"alisterio1010@gmail.com","customer_phone":"(123) 456-7891","customer_address":"1234 Happy Street","customer_city":"Miyazaki","customer_state":"Ali","customer_country":"JP","customer_zip":"2125","payment_type":"Deposit","payment_amount":"294000.00","currency_code":"JPY","deposit_amount":"73500.00","balance_due_amount":"220500.00","payment_status":"Pending","items":[{"id":"126","transaction_id":"116","accommodation_id":"21","room_id":"126","check_in_date":"2026-12-02","check_out_date":"2026-12-08","number_of_nights":"6","adults":"2","children":"0","infants":"0","guests_count":"2","deposit":"73500.00","balance_due":"220500.00","due_date":"2026-09-23","item_order":"0","created_at":"2026-07-02 08:33:06","updated_at":"2026-07-02 08:33:06","accommodation_name":"Powdersuites","accommodation_type":"","accommodation_permission":"RESERVATION","resort_name":"Hakuba 47","wp_accommodation_id":"485","room_name":"2 Bedroom Chalet","room_image_url":"https:\/\/stay.japanskiexperience.com\/storage\/photos\/1\/Powdersuites\/Powdersuite-Living-area.webp","rate_plan_id":"263293","rate_plan_name":"Standard Rate","wp_room_id":"2"}]}}
+
+[2026-07-02 08:33:16] update transaction:  | Data: Array
+(
+    [flywire_transaction_id] => JSE481424708
+    [flywire_payment_method] => card
+    [flywire_status] => initiated
+    [flywire_response] => {"event_type":"initiated","event_date":"2026-07-02T08:33:15Z","event_resource":"payments","data":{"payment_id":"JSE481424708","amount_from":"47700","currency_from":"USD","amount_to":"73500","currency_to":"JPY","status":"initiated","expiration_date":"2026-07-09T08:33:15Z","external_reference":"JSE26617_1","country":"JP","payment_method":{"type":"card"},"fields":{"booking_reference":"JSE26617_1","please_note":null}}}
+)
+
+
+[2026-07-02 08:33:16] Payment pending/processing webhook processed | Data: {"booking_reference":"26617","flywire_transaction_id":"JSE481424708","event_type":"initiated","status":"initiated","transaction_id":"116"}
+
+[2026-07-02 08:54:04] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26618
+    [customer_id] => 117
+    [payment_id] => 117
+    [total_adults] => 8
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 8
+    [total_nights] => 6
+    [quotation_id] => 25553
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-02 08:57:57] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26619
+    [customer_id] => 118
+    [payment_id] => 118
+    [total_adults] => 8
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 8
+    [total_nights] => 6
+    [quotation_id] => 25554
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-02 10:01:00] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26620
+    [customer_id] => 119
+    [payment_id] => 119
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 6
+    [quotation_id] => 25555
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-02 14:50:43] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26629
+    [customer_id] => 120
+    [payment_id] => 120
+    [total_adults] => 2
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 2
+    [total_nights] => 7
+    [quotation_id] => 25564
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+

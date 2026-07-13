@@ -1,0 +1,54 @@
+[2026-07-04 00:22:12] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26745
+    [customer_id] => 125
+    [payment_id] => 125
+    [total_adults] => 3
+    [total_children] => 2
+    [total_infants] => 0
+    [total_guests] => 5
+    [total_nights] => 7
+    [quotation_id] => 25680
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-04 00:25:46] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26746
+    [customer_id] => 126
+    [payment_id] => 126
+    [total_adults] => 3
+    [total_children] => 2
+    [total_infants] => 0
+    [total_guests] => 5
+    [total_nights] => 7
+    [quotation_id] => 25681
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+
+[2026-07-04 13:07:27] insert transaction:  | Data: Array
+(
+    [booking_reference] => 26780
+    [customer_id] => 127
+    [payment_id] => 127
+    [total_adults] => 6
+    [total_children] => 0
+    [total_infants] => 0
+    [total_guests] => 6
+    [total_nights] => 5
+    [quotation_id] => 25715
+    [flywire_transaction_id] => 
+    [flywire_payment_method] => 
+    [flywire_status] => 
+    [transaction_mode] => live
+)
+
+

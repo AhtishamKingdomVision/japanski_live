@@ -5274,55 +5274,87 @@ function hz_display_accommodation_sync_notice() {
 
         function hz_start_accommodation_sync(transientKey) {
 
-            jQuery.ajax({
+            var nonce = '<?php echo wp_create_nonce('hz_sync_acc_nonce'); ?>';
 
-                url: ajaxurl,
+            var offset = 0;
 
-                type: 'POST',
+            var total = <?php echo intval($count); ?>;
 
-                data: {
 
-                    action: 'hz_sync_selected_accommodations',
 
-                    transient_key: transientKey,
+            function sendBatch() {
 
-                    nonce: '<?php echo wp_create_nonce('hz_sync_acc_nonce'); ?>'
+                jQuery.ajax({
 
-                },
+                    url: ajaxurl,
 
-                success: function(response) {
+                    type: 'POST',
 
-                    if (response.success) {
+                    timeout: 30000,
 
-                        document.getElementById('hz-sync-progress').textContent = response.data.message;
+                    data: {
 
-                        document.getElementById('hz-sync-notice').className = 'notice notice-success';
+                        action: 'hz_sync_selected_accommodations',
 
-                        setTimeout(function() {
+                        transient_key: transientKey,
 
-                            location.href = location.href.split('?')[0] + '?post_type=accommodation';
+                        nonce: nonce,
 
-                        }, 2000);
+                        offset: offset
 
-                    } else {
+                    },
 
-                        document.getElementById('hz-sync-progress').textContent = 'Error: ' + response.data.message;
+                    success: function(response) {
 
-                        document.getElementById('hz-sync-notice').className = 'notice notice-error';
+                        if (response.success) {
+
+                            document.getElementById('hz-sync-progress').textContent = response.data.message;
+
+
+
+                            if (response.data.has_more) {
+
+                                offset = response.data.offset;
+
+                                setTimeout(sendBatch, 500);
+
+                            } else {
+
+                                document.getElementById('hz-sync-notice').className = 'notice notice-success';
+
+                                setTimeout(function() {
+
+                                    location.href = location.href.split('?')[0] + '?post_type=accommodation';
+
+                                }, 2000);
+
+                            }
+
+                        } else {
+
+                            document.getElementById('hz-sync-progress').textContent = 'Error: ' + response.data.message;
+
+                            document.getElementById('hz-sync-notice').className = 'notice notice-error';
+
+                        }
+
+                    },
+
+                    error: function() {
+
+                        document.getElementById('hz-sync-progress').textContent = 'Network error — retrying in 3s...';
+
+                        setTimeout(sendBatch, 3000);
 
                     }
 
-                },
+                });
 
-                error: function() {
+            }
 
-                    document.getElementById('hz-sync-progress').textContent = 'AJAX Error: Failed to sync accommodations';
 
-                    document.getElementById('hz-sync-notice').className = 'notice notice-error';
 
-                }
-
-            });
+            sendBatch();
 
         }
 
@@ -5350,6 +5382,10 @@ add_action('admin_notices', 'hz_display_accommodation_sync_notice');
 
 function hz_ajax_sync_selected_accommodations() {
 
+    @set_time_limit(0);
+
+    try {
+
     if (!current_user_can('edit_posts')) {
 
         wp_send_json_error(['message' => 'Unauthorized'], 403);
@@ -5376,15 +5412,15 @@ function hz_ajax_sync_selected_accommodations() {
 
 
 
+    $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
+
+    $batch_size = 5;
+
+
+
     // Retrieve post IDs from transient
 
     $post_ids = get_transient($transient_key);
-
-    // $post_ids = [336571, 14761];
-
-    // $post_ids = [40217];
-
-    // pre($post_ids, 1);
 
     
 
@@ -5396,9 +5432,21 @@ function hz_ajax_sync_selected_accommodations() {
 
 
 
-    // Delete the transient to prevent duplicate processing
+    $total = count($post_ids);
 
-    delete_transient($transient_key);
+    $batch = array_slice($post_ids, $offset, $batch_size);
+
+    $has_more = ($offset + $batch_size) < $total;
+
+
+
+    // Only delete transient on last batch
+
+    if (!$has_more) {
+
+        delete_transient($transient_key);
+
+    }
 
 
 
@@ -5410,9 +5458,7 @@ function hz_ajax_sync_selected_accommodations() {
 
 
 
-    // Sync each selected accommodation
-
-    foreach ($post_ids as $post_id) {
+    foreach ($batch as $post_id) {
 
         $post_id = intval($post_id);
 
@@ -5444,27 +5490,17 @@ function hz_ajax_sync_selected_accommodations() {
 
 
 
-    // Prepare response message
+    $next_offset = $offset + count($batch);
 
-    $message = sprintf(
+    $message = "Synced {$next_offset}/{$total} accommodation(s)";
 
-        __('Successfully synced %d accommodation(s)', 'kv_theme'),
+    if ($has_more) {
 
-        $synced_count
+        $message .= " — continuing...";
 
-    );
+    } else {
 
-
-
-    if ($failed_count > 0) {
-
-        $message .= sprintf(
-
-            __(' with %d failure(s)', 'kv_theme'),
-
-            $failed_count
-
-        );
+        $message .= " — Complete!";
 
     }
 
@@ -5480,13 +5516,38 @@ function hz_ajax_sync_selected_accommodations() {
 
         'errors' => $errors,
 
+        'offset' => $next_offset,
+
+        'total' => $total,
+
+        'has_more' => $has_more,
+
     ]);
+
+
+
+    } catch (\Throwable $e) {
+
+        error_log('[hz_sync] Fatal error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+
+        wp_send_json_error(['message' => 'Fatal error: ' . $e->getMessage()]);
+
+    }
 
 }
 
 add_action('wp_ajax_hz_sync_selected_accommodations', 'hz_ajax_sync_selected_accommodations');
 
 add_action('wp_ajax_nopriv_hz_sync_selected_accommodations', 'hz_ajax_sync_selected_accommodations');
+
+function hz_background_sq_mapping($property_data) {
+    try {
+        sq_mapping_properties([$property_data]);
+    } catch (\Throwable $e) {
+        error_log('[hz_sync] background sq_mapping failed: ' . $e->getMessage());
+    }
+}
+add_action('hz_background_sq_mapping', 'hz_background_sq_mapping', 10, 1);
 
 /**
 
@@ -5504,121 +5565,123 @@ add_action('wp_ajax_nopriv_hz_sync_selected_accommodations', 'hz_ajax_sync_selec
 
  */
 
-function hz_sync_single_accommodation($post_id) {
+    function hz_sync_single_accommodation($post_id) {
 
-    try {
+        try {
 
-        $post_id = intval($post_id);
+            $post_id = intval($post_id);
 
 
 
-        // Validate post exists and is an accommodation
+            // Validate post exists and is an accommodation
 
-        $post = get_post($post_id);
+            $post = get_post($post_id);
 
-        if (!$post || $post->post_type !== 'accommodation') {
+            if (!$post || $post->post_type !== 'accommodation') {
+
+                return [
+
+                    'success' => false,
+
+                    'message' => 'Invalid accommodation post',
+
+                ];
+
+            }
+
+
+
+            // Get hotel ID from post meta (supports both RoomBoss and BedBank)
+
+            // $hotel_id = get_post_meta($post_id, 'acc_hotel_id', true);
+
+            // if (empty($hotel_id)) {
+
+                $hotel_id = get_post_meta($post_id, 'property_id', true);
+
+            // }
+
+            if (empty($hotel_id)) {
+
+                return [
+
+                    'success' => false,
+
+                    'message' => 'No hotel ID found in post metadata',
+
+                ];
+
+            }
+
+            // Fetch property data from Booking System API
+
+            $property_data = hz_fetch_property_from_api($hotel_id);
+
+            // pre($hotel_id, 0);
+
+            if (!$property_data || is_wp_error($property_data)) {
+
+                $error_msg = is_wp_error($property_data) ? $property_data->get_error_message() : 'Unknown API error';
+
+                return [
+
+                    'success' => false,
+
+                    'message' => 'Failed to fetch from API: ' . $error_msg,
+
+                ];
+
+            }
+
+            // Sync the accommodation using existing REST endpoint logic
+
+            $sync_result = hz_process_accommodation_sync($post_id, $property_data);
+
+            // pre([$property_data], 1);
+
+            // Queue sq_mapping_properties for background processing via WP-Cron
+            // (image downloads are too heavy for the 60s proxy timeout)
+            wp_schedule_single_event(time() + 5, 'hz_background_sq_mapping', [$property_data]);
+            // hz_sync_selected_accommodations();
+            // pre($sync_result, 1);
+
+            if (!$sync_result['success']) {
+
+                return [
+
+                    'success' => false,
+
+                    'message' => $sync_result['message'] ?? 'Unknown sync error',
+
+                ];
+
+            }
+
+            return [
+
+                'success' => true,
+
+                'message' => 'Accommodation synced successfully',
+
+                'post_id' => $post_id,
+
+            ];
+
+
+
+        } catch (Exception $e) {
 
             return [
 
                 'success' => false,
 
-                'message' => 'Invalid accommodation post',
+                'message' => 'Exception: ' . $e->getMessage(),
 
             ];
 
         }
-
-
-
-        // Get hotel ID from post meta (supports both RoomBoss and BedBank)
-
-        // $hotel_id = get_post_meta($post_id, 'acc_hotel_id', true);
-
-        // if (empty($hotel_id)) {
-
-            $hotel_id = get_post_meta($post_id, 'property_id', true);
-
-        // }
-
-        if (empty($hotel_id)) {
-
-            return [
-
-                'success' => false,
-
-                'message' => 'No hotel ID found in post metadata',
-
-            ];
-
-        }
-
-        // Fetch property data from Booking System API
-
-        $property_data = hz_fetch_property_from_api($hotel_id);
-
-        // pre($hotel_id, 0);
-
-        if (!$property_data || is_wp_error($property_data)) {
-
-            $error_msg = is_wp_error($property_data) ? $property_data->get_error_message() : 'Unknown API error';
-
-            return [
-
-                'success' => false,
-
-                'message' => 'Failed to fetch from API: ' . $error_msg,
-
-            ];
-
-        }
-
-        // Sync the accommodation using existing REST endpoint logic
-
-        $sync_result = hz_process_accommodation_sync($post_id, $property_data);
-
-        // pre([$property_data], 1);
-
-        sq_mapping_properties([$property_data]);        
-        // hz_sync_selected_accommodations();
-        // pre($sync_result, 1);
-
-        if (!$sync_result['success']) {
-
-            return [
-
-                'success' => false,
-
-                'message' => $sync_result['message'] ?? 'Unknown sync error',
-
-            ];
-
-        }
-
-        return [
-
-            'success' => true,
-
-            'message' => 'Accommodation synced successfully',
-
-            'post_id' => $post_id,
-
-        ];
-
-
-
-    } catch (Exception $e) {
-
-        return [
-
-            'success' => false,
-
-            'message' => 'Exception: ' . $e->getMessage(),
-
-        ];
 
     }
-
-}
 
 
 
@@ -5663,6 +5726,8 @@ function hz_fetch_property_from_api($hotel_id) {
         $args = booking_sys_api_args();
 
         $args = array_merge($args, [
+
+            'timeout' => 10,
 
             'body' => json_encode([
 

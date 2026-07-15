@@ -535,37 +535,49 @@ jQuery(function ($) {
         $('.mob_quote_form').appendTo('.content-wrapper');
     }
 
-    
-    $(document).on('click', '.Enquiry-modal-close', function (e) {
-        e.preventDefault();
+    // $(document).on('click', '.Enquiry-modal-close', function (e) {
+    //     e.preventDefault();
+    //     $('.Enquiry-modal').removeClass('active');
+    //     $('body').removeClass('enquire-open');
+    // });
+
+    // $(document).on('click', '.enq_cta, .enquire_btn', function (e) {
+    //     e.preventDefault();
+    //     $('.Enquiry-modal').addClass('active');
+    //     $('body').addClass('enquire-open');
+
+    //     console.log( 'edecee' );
+        
+    //     var $propertyField = $('.Enquiry-modal-content .mob_quote_inner').find('.quote_form').find('#input_1_39');
+    //     console.log( $propertyField );
+    //     console.log( 'this' );
+    //     console.log( $(this) );
+    //     console.log( '$(this).hasClass' );
+    //     console.log( $(this).hasClass('enquire_btn') );
+        
+    //     if ($(this).hasClass('enquire_btn')) {
+            
+    //         console.log( 'here' );
+    //         var propertyName = $(this).parents('.accom-content').find('h3').text().trim();
+    //         console.log( propertyName );
+    //         $propertyField.val(propertyName).prop('readonly', true);
+    //     } else {
+    //         $propertyField.val('').prop('readonly', false);
+    //     }
+    // });
+
+
+    // Ahtisham code start
+    function closeEnquiryModal() {
         $('.Enquiry-modal').removeClass('active');
         $('body').removeClass('enquire-open');
-    });
+    }
 
-    $(document).on('click', '.enq_cta, .enquire_btn', function (e) {
+    $(document).on('click', '.Enquiry-modal-close, .Enquiry-modal-overlay', function (e) {
         e.preventDefault();
-        $('.Enquiry-modal').addClass('active');
-        $('body').addClass('enquire-open');
-
-        console.log( 'edecee' );
-        
-        var $propertyField = $('.Enquiry-modal-content .mob_quote_inner').find('.quote_form').find('#input_1_39');
-        console.log( $propertyField );
-        console.log( 'this' );
-        console.log( $(this) );
-        console.log( '$(this).hasClass' );
-        console.log( $(this).hasClass('enquire_btn') );
-        
-        if ($(this).hasClass('enquire_btn')) {
-            
-            console.log( 'here' );
-            var propertyName = $(this).parents('.accom-content').find('h3').text().trim();
-            console.log( propertyName );
-            $propertyField.val(propertyName).prop('readonly', true);
-        } else {
-            $propertyField.val('').prop('readonly', false);
-        }
+        closeEnquiryModal();
     });
+    // Ahtisham end start
 
     // OPEN NAV
     $('.menu_toggle, .search_toggle').on('click', function (e) {
@@ -641,6 +653,108 @@ jQuery(function ($) {
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
     }
+
+    // Ahtisham code start
+
+    function convertYMDToDMY(dateStr) {
+        if (!dateStr) return '';
+        if (dateStr.indexOf('/') !== -1) return dateStr;
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        return parts[2] + '/' + parts[1] + '/' + parts[0];
+    }
+
+    function parseRoomDataFromBox($box) {
+        let roomData = {};
+        try {
+            const rawRoomData = $box.find('.rb-room-data').val();
+            if (!rawRoomData) return roomData;
+            const sanitizedData = rawRoomData.replace(/"roomDescription":"(.*?)"(?=,"itemUniqueId")/g, function (match, group) {
+                const escapedGroup = group.replace(/(?<!\\)"/g, '\\"');
+                return '"roomDescription":"' + escapedGroup + '"';
+            });
+            roomData = JSON.parse(sanitizedData);
+        } catch (e) {
+            console.warn('Could not parse .rb-room-data', e);
+        }
+        return roomData;
+    }
+
+    function populateEnquiryModal(data) {
+        data = data || {};
+        const $modal = $('.Enquiry-modal-content');
+        if (!$modal.length) return;
+
+        const hasProductData = !!(data.propertyName || data.resortName || data.checkIn || data.checkOut || data.roomName);
+        const $propertyField = $modal.find('#input_1_39, .property_name textarea');
+
+        if (data.propertyName) {
+            $propertyField.val(data.propertyName).prop('readonly', true).addClass('disabled');
+        } else {
+            $propertyField.val('').prop('readonly', false).removeClass('disabled');
+        }
+
+        const $resortField = $modal.find('#input_1_4, .resort_name select');
+        if (data.resortName) {
+            $resortField.val(data.resortName).addClass('disabled');
+        } else {
+            $resortField.removeClass('disabled');
+        }
+
+        const $roomField = $modal.find('#input_1_44, .room_name input');
+        if (data.roomName) {
+            $roomField.val(data.roomName);
+        } else if (hasProductData) {
+            $roomField.val('');
+        }
+
+        if (data.checkIn) {
+            const checkInDmy = convertYMDToDMY(data.checkIn);
+            $modal.find('#input_1_5').val(checkInDmy).trigger('change');
+            syncCheckin(checkInDmy);
+        }
+
+        if (data.checkOut) {
+            const checkOutDmy = convertYMDToDMY(data.checkOut);
+            $modal.find('#input_1_6').val(checkOutDmy).prop('disabled', false).trigger('change');
+            syncCheckout(checkOutDmy);
+        }
+
+        if (hasProductData) {
+            $modal.find('.enquiry_type input').attr('value', 'Product').trigger('change');
+        }
+    }
+
+    $(document).on('click', '.enq_cta, .enquire_btn', function (e) {
+        e.preventDefault();
+
+        const $btn = $(this);
+        $('.Enquiry-modal').addClass('active');
+        $('body').addClass('enquire-open');
+
+        const $ratePlanBox = $btn.closest('.rb-rateplan-box');
+        if ($ratePlanBox.length) {
+            const roomData = parseRoomDataFromBox($ratePlanBox);
+            populateEnquiryModal({
+                propertyName: roomData.propertyName || '',
+                resortName: roomData.resortName || '',
+                checkIn: roomData.checkIn || '',
+                checkOut: roomData.checkOut || '',
+                roomName: roomData.roomName || ''
+            });
+            return;
+        }
+
+        if ($btn.hasClass('enquire_btn')) {
+            const propertyName = $btn.parents('.accom-content').find('h3').text().trim();
+            populateEnquiryModal({ propertyName: propertyName });
+            return;
+        }
+
+        populateEnquiryModal({});
+    }); 
+
+    // Ahtisham code end
 
     // Helper function to get minimum checkout date based on check-in + gap
     function getMinimumCheckoutDate(checkinDateStr, minDaysGap) {

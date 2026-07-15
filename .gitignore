@@ -1,0 +1,10 @@
+# WP Rocket cache
+wp-content/cache/
+wp-content/wp-rocket-config/
+wp-content/uploads/wp-rocket/
+
+# Generated cache files
+*.html_gzip
+
+# WordPress uploads
+wp-content/uploads/

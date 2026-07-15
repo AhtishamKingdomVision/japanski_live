@@ -716,11 +716,11 @@
                 $proceedBtn.show();
             }
 
-            $('.rb-select-btn').removeClass('is-selected').text('Select').prop('disabled', false);
+            $('.rb-select-btn').removeClass('is-selected').text('Book Now').prop('disabled', false);
             cart.items.forEach(it => {
                 // Mark the selected rate plan
                 $(`.rb-rateplan-box[data-room-type-id="${it.room_type_id}"][data-item-unique-id="${it.item_unique_id}"]`)
-                    .find('.rb-select-btn').addClass('is-selected').text('Selected');
+                    .find('.rb-select-btn').addClass('is-selected').text('Booked Now');
 
                 // Disable all other rate plans for the same room
                 $(`.rb-rateplan-box[data-room-id="${it.room_id}"]`).each(function() {
@@ -1103,7 +1103,7 @@
                     );
                     if (!stillInCart) {
                         $(`.rb-rateplan-box[data-room-type-id="${removedItem.room_type_id}"][data-item-unique-id="${removedItem.item_unique_id}"]`)
-                            .find('.rb-select-btn').removeClass('is-selected').text('Select');
+                            .find('.rb-select-btn').removeClass('is-selected').text('Book Now');
                     }
                 });
         }

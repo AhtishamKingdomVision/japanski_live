@@ -820,7 +820,7 @@ section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box { border-radius: 16px; background: rgba(255, 255, 255, 0.10); padding: 20px; margin: 20px 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; position: relative; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box:last-child { margin-bottom: 0; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box button.rb-select-btn { width: 100%; margin-top: 24px; }
-/* Ahtisham start code */
+/* ahtisham work start */
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions { display: flex; gap: 12px; width: 100%; margin-top: 24px; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions button { flex: 1; width: auto; margin-top: 0; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions .rb-enquiry-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.40); color: #fff; }
@@ -829,10 +829,9 @@ section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-ratep
 section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-rateplan-actions button { flex: 1; width: auto; margin-top: 0; }
 section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-rateplan-actions .rb-enquiry-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.40); color: #fff; }
 section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-rateplan-actions .rb-enquiry-btn:hover { background: rgba(255, 255, 255, 0.10); }
-/* Ahtisham end code */
+/* ahtisham work start */
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-title { font-weight: 700; margin-bottom: 10px; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-desc { font-size: 16px; }
-
 section.room-listing .room-modal { position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: rgba(0, 17, 31, 0.80); z-index: 999; display: flex; align-items: center; justify-content: center; }
 section.room-listing .room-modal .room-modal-content { background: #fff; max-width: 800px; margin: 0 auto; padding: 50px; width: 100%; border-radius: 20px; position: relative; height: 600px; overflow-y: scroll; }
 section.room-listing .room-modal .room-modal-content .room-modal-gallery { display: flex; }
@@ -1929,7 +1928,7 @@ input.sb-input.js-sb-checkin.dateDropper.picker-trigger::placeholder, input.sb-i
 
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.gfield_visibility_hidden { height: 0; margin: 0; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .guest_input span { width: 100%; padding: 0px 20px 0px; border-radius: 8px; border: solid 1px #bfcfdf; background: url(images/arrow.svg) no-repeat center right 15px; color: var(--body-color); height: 50px; line-height: 50px; appearance: none; -webkit-appearance: none; -moz-appearance: none; font-size: var(--menu-size); display: block; cursor: pointer; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover { position: absolute; top: 77px; right: 0; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover { position: absolute; top: 50px; right: 0; background: #fff; border-radius: 10px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover.open{display: block;}
 
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover .g-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
@@ -2040,3 +2039,10 @@ CART WIDGET - FOOTER TOTALS
 }
 .Enquiry-modal-close { position: absolute; top: 12px; right: 15px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f2f2f2; color: #333; font-size: 18px; font-weight: bold; border-radius: 50%; cursor: pointer; text-decoration: none; transition: all 0.2s ease; }
 .Enquiry-modal-close:hover { background: #e63946; color: #ffffff; }
+
+
+section.enquiry_form { padding: 100px 0; }
+section.enquiry_form .mob_quote_form1 { max-width: 800px; margin: 0 auto; }
+section.enquiry_form .mob_quote_form1 .gform_wrapper { border-radius: 20px; }
+
+body.single-accommodation #cta_with_bg_image0  { display: none; }

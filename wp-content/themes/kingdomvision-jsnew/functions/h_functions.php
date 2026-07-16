@@ -60,9 +60,11 @@ function hz_js_to_enque()
 
     // Accommodation Filters Assets (Global)
 
+    $kv_filters_ver = '20260716-lm4.' . (string) filemtime( get_template_directory() . '/js/accommodation-filters.js' );
+
     wp_enqueue_style('accommodation-filters', get_template_directory_uri() . '/css/accommodation-filters.css', array(), filemtime(get_template_directory() . '/css/accommodation-filters.css'));
 
-    wp_enqueue_script('accommodation-filters', get_template_directory_uri() . '/js/accommodation-filters.js', array('jquery', 'kv-script'), filemtime(get_template_directory() . '/js/accommodation-filters.js'), true);
+    wp_enqueue_script('accommodation-filters', get_template_directory_uri() . '/js/accommodation-filters.js', array('jquery', 'kv-script'), $kv_filters_ver, true);
 
     
 
@@ -5380,6 +5382,144 @@ add_action('admin_notices', 'hz_display_accommodation_sync_notice');
 
  */
 
+// function hz_ajax_sync_selected_accommodations() {
+
+//     set_time_limit(0); // Ahtisham
+
+//     if (!current_user_can('edit_posts')) {
+
+//         wp_send_json_error(['message' => 'Unauthorized'], 403);
+
+//     }
+
+
+
+//     $transient_key = isset($_POST['transient_key']) ? sanitize_text_field($_POST['transient_key']) : '';
+
+    
+
+//     if (empty($transient_key)) {
+
+//         wp_send_json_error(['message' => 'Missing transient key']);
+
+//     }
+
+
+
+//     // Verify nonce
+
+//     check_ajax_referer('hz_sync_acc_nonce', 'nonce');
+
+
+
+//     // Retrieve post IDs from transient
+
+//     $post_ids = get_transient($transient_key);
+
+//     // $post_ids = [336571, 14761];
+
+//     // $post_ids = [40217];
+
+//     // pre($post_ids, 1);
+
+    
+
+//     if (empty($post_ids) || !is_array($post_ids)) {
+
+//         wp_send_json_error(['message' => 'No accommodations found to sync']);
+
+//     }
+
+
+
+//     // Delete the transient to prevent duplicate processing
+
+//     delete_transient($transient_key);
+
+
+
+//     $synced_count = 0;
+
+//     $failed_count = 0;
+
+//     $errors = [];
+
+
+
+//     // Sync each selected accommodation
+
+//     foreach ($post_ids as $post_id) {
+
+//         $post_id = intval($post_id);
+
+//         if ($post_id < 1) {
+
+//             continue;
+
+//         }
+
+
+
+//         $result = hz_sync_single_accommodation($post_id);
+
+
+
+//         if ($result['success']) {
+
+//             $synced_count++;
+
+//         } else {
+
+//             $failed_count++;
+
+//             $errors[] = "Post #{$post_id}: " . $result['message'];
+
+//         }
+
+//     }
+
+
+
+//     // Prepare response message
+
+//     $message = sprintf(
+
+//         __('Successfully synced %d accommodation(s)', 'kv_theme'),
+
+//         $synced_count
+
+//     );
+
+
+
+//     if ($failed_count > 0) {
+
+//         $message .= sprintf(
+
+//             __(' with %d failure(s)', 'kv_theme'),
+
+//             $failed_count
+
+//         );
+
+//     }
+
+
+
+//     wp_send_json_success([
+
+//         'message' => $message,
+
+//         'synced' => $synced_count,
+
+//         'failed' => $failed_count,
+
+//         'errors' => $errors,
+
+//     ]);
+
+// }
+
 function hz_ajax_sync_selected_accommodations() {
 
     @set_time_limit(0);
@@ -5540,6 +5680,8 @@ add_action('wp_ajax_hz_sync_selected_accommodations', 'hz_ajax_sync_selected_acc
 
 add_action('wp_ajax_nopriv_hz_sync_selected_accommodations', 'hz_ajax_sync_selected_accommodations');
 
+
+// Ahtisham start code
 function hz_background_sq_mapping($property_data) {
     try {
         sq_mapping_properties([$property_data]);
@@ -5548,6 +5690,8 @@ function hz_background_sq_mapping($property_data) {
     }
 }
 add_action('hz_background_sq_mapping', 'hz_background_sq_mapping', 10, 1);
+// Ahtisham end code
+
 
 /**
 
@@ -5565,123 +5709,125 @@ add_action('hz_background_sq_mapping', 'hz_background_sq_mapping', 10, 1);
 
  */
 
-    function hz_sync_single_accommodation($post_id) {
+function hz_sync_single_accommodation($post_id) {
 
-        try {
+    try {
 
-            $post_id = intval($post_id);
-
-
-
-            // Validate post exists and is an accommodation
-
-            $post = get_post($post_id);
-
-            if (!$post || $post->post_type !== 'accommodation') {
-
-                return [
-
-                    'success' => false,
-
-                    'message' => 'Invalid accommodation post',
-
-                ];
-
-            }
+        $post_id = intval($post_id);
 
 
 
-            // Get hotel ID from post meta (supports both RoomBoss and BedBank)
+        // Validate post exists and is an accommodation
 
-            // $hotel_id = get_post_meta($post_id, 'acc_hotel_id', true);
+        $post = get_post($post_id);
 
-            // if (empty($hotel_id)) {
-
-                $hotel_id = get_post_meta($post_id, 'property_id', true);
-
-            // }
-
-            if (empty($hotel_id)) {
-
-                return [
-
-                    'success' => false,
-
-                    'message' => 'No hotel ID found in post metadata',
-
-                ];
-
-            }
-
-            // Fetch property data from Booking System API
-
-            $property_data = hz_fetch_property_from_api($hotel_id);
-
-            // pre($hotel_id, 0);
-
-            if (!$property_data || is_wp_error($property_data)) {
-
-                $error_msg = is_wp_error($property_data) ? $property_data->get_error_message() : 'Unknown API error';
-
-                return [
-
-                    'success' => false,
-
-                    'message' => 'Failed to fetch from API: ' . $error_msg,
-
-                ];
-
-            }
-
-            // Sync the accommodation using existing REST endpoint logic
-
-            $sync_result = hz_process_accommodation_sync($post_id, $property_data);
-
-            // pre([$property_data], 1);
-
-            // Queue sq_mapping_properties for background processing via WP-Cron
-            // (image downloads are too heavy for the 60s proxy timeout)
-            wp_schedule_single_event(time() + 5, 'hz_background_sq_mapping', [$property_data]);
-            // hz_sync_selected_accommodations();
-            // pre($sync_result, 1);
-
-            if (!$sync_result['success']) {
-
-                return [
-
-                    'success' => false,
-
-                    'message' => $sync_result['message'] ?? 'Unknown sync error',
-
-                ];
-
-            }
-
-            return [
-
-                'success' => true,
-
-                'message' => 'Accommodation synced successfully',
-
-                'post_id' => $post_id,
-
-            ];
-
-
-
-        } catch (Exception $e) {
+        if (!$post || $post->post_type !== 'accommodation') {
 
             return [
 
                 'success' => false,
 
-                'message' => 'Exception: ' . $e->getMessage(),
+                'message' => 'Invalid accommodation post',
 
             ];
 
         }
 
+
+
+        // Get hotel ID from post meta (supports both RoomBoss and BedBank)
+
+        // $hotel_id = get_post_meta($post_id, 'acc_hotel_id', true);
+
+        // if (empty($hotel_id)) {
+
+        $hotel_id = get_post_meta($post_id, 'property_id', true);
+
+        // }
+
+        if (empty($hotel_id)) {
+
+            return [
+
+                'success' => false,
+
+                'message' => 'No hotel ID found in post metadata',
+
+            ];
+
+        }
+
+        // Fetch property data from Booking System API
+
+        $property_data = hz_fetch_property_from_api($hotel_id);
+
+        // pre($hotel_id, 0);
+
+        if (!$property_data || is_wp_error($property_data)) {
+
+            $error_msg = is_wp_error($property_data) ? $property_data->get_error_message() : 'Unknown API error';
+
+            return [
+
+                'success' => false,
+
+                'message' => 'Failed to fetch from API: ' . $error_msg,
+
+            ];
+
+        }
+
+        // Sync the accommodation using existing REST endpoint logic
+
+        $sync_result = hz_process_accommodation_sync($post_id, $property_data);
+
+        // pre([$property_data], 1);
+
+        // sq_mapping_properties([$property_data]); // Hamza       
+        // hz_sync_selected_accommodations();
+        // pre($sync_result, 1);
+
+        // Queue sq_mapping_properties for background processing via WP-Cron
+        // (image downloads are too heavy for the 60s proxy timeout)
+        wp_schedule_single_event(time() + 5, 'hz_background_sq_mapping', [$property_data]); // Ahtisham
+
+        if (!$sync_result['success']) {
+
+            return [
+
+                'success' => false,
+
+                'message' => $sync_result['message'] ?? 'Unknown sync error',
+
+            ];
+
+        }
+
+        return [
+
+            'success' => true,
+
+            'message' => 'Accommodation synced successfully',
+
+            'post_id' => $post_id,
+
+        ];
+
+
+
+    } catch (Exception $e) {
+
+        return [
+
+            'success' => false,
+
+            'message' => 'Exception: ' . $e->getMessage(),
+
+        ];
+
     }
+
+}
 
 
 
@@ -5727,7 +5873,7 @@ function hz_fetch_property_from_api($hotel_id) {
 
         $args = array_merge($args, [
 
-            'timeout' => 10,
+            'timeout' => 10, // Ahtisham
 
             'body' => json_encode([
 

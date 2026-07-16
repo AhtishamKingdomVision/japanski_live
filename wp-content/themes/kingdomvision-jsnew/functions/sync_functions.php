@@ -420,7 +420,10 @@ function kv_sync_log_entry( array $entry ) {
 
     $log = array_merge( $defaults, $entry );
 
-
+    // Skip "processing" rows — they duplicate every Success/Failed entry in the admin table
+    if ( strtolower( (string) ( $log['status'] ?? '' ) ) === 'processing' ) {
+        return;
+    }
 
     // Store in a transient-based ring buffer (last 500 entries)
 
@@ -1023,6 +1026,9 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
             return false;
 
         }
+
+        // Bulk sync pages can be heavy — allow a longer API wait than the default
+        $args['timeout'] = max( intval( $args['timeout'] ?? 120 ), 180 );
 
 
 

@@ -435,11 +435,70 @@ function niseko_search_local()
 
         }
 
+        $exclude_post_ids = kv_niseko_parse_exclude_ids( $_POST['exclude_post_ids'] ?? [] );
+        $per_page = isset( $args['posts_per_page'] ) ? max( 1, (int) $args['posts_per_page'] ) : 6;
+        $pagination_page = isset( $_POST['page'] ) ? max( 1, intval( $_POST['page'] ) ) : 1;
 
+        // Stable remaining-slice pagination (avoids WP offset/paged duplicates).
+        $id_args = niseko_build_search_query_args(
+            $_POST,
+            [
+                'fields'         => 'ids',
+                'posts_per_page' => -1,
+                'paged'          => 1,
+            ]
+        );
+        unset( $id_args['offset'] );
 
-        // ✅ STEP 2: Execute paginated accommodation query
+        if ( isset( $args['meta_query'] ) && is_array( $args['meta_query'] ) ) {
+            $id_args['meta_query'] = $args['meta_query'];
+        }
 
-        $query = new WP_Query($args);
+        $all_post_ids = get_posts( $id_args );
+        if ( ! is_array( $all_post_ids ) ) {
+            $all_post_ids = [];
+        }
+        $all_post_ids = array_values( array_unique( array_map( 'intval', $all_post_ids ) ) );
+
+        if ( ! empty( $exclude_post_ids ) ) {
+            $exclude_lookup = array_flip( $exclude_post_ids );
+            $all_post_ids   = array_values(
+                array_filter(
+                    $all_post_ids,
+                    static function ( $post_id ) use ( $exclude_lookup ) {
+                        return ! isset( $exclude_lookup[ (int) $post_id ] );
+                    }
+                )
+            );
+            $slice_ids       = array_slice( $all_post_ids, 0, $per_page );
+            $pagination_page = 1;
+        } else {
+            $offset    = ( $pagination_page - 1 ) * $per_page;
+            $slice_ids = array_slice( $all_post_ids, $offset, $per_page );
+        }
+
+        $found_posts = count( $all_post_ids ) + count( $exclude_post_ids );
+        $has_more    = ! empty( $exclude_post_ids )
+            ? count( $all_post_ids ) > $per_page
+            : ( ( ( $pagination_page - 1 ) * $per_page ) + count( $slice_ids ) ) < count( $all_post_ids );
+
+        if ( empty( $slice_ids ) ) {
+            $query = new WP_Query( [ 'post__in' => [ 0 ] ] );
+        } else {
+            $query = new WP_Query(
+                [
+                    'post_type'      => 'accommodation',
+                    'post_status'    => 'publish',
+                    'posts_per_page' => count( $slice_ids ),
+                    'post__in'       => $slice_ids,
+                    'orderby'        => 'post__in',
+                ]
+            );
+        }
+
+        // Preserve price metadata usage below via found counts.
+        $args['paged'] = $pagination_page;
+        $args['posts_per_page'] = $per_page;
 
 
 
@@ -531,7 +590,7 @@ function niseko_search_local()
 
 
 
-                if ($count === 3 && (isset($args['paged']) ? (int)$args['paged'] : 1) === 1) {
+                if ($count === 3 && empty( $exclude_post_ids ) && $pagination_page === 1) {
 
                     echo kv_get_expert_recommendation_cta();
 
@@ -539,7 +598,7 @@ function niseko_search_local()
 
 
 
-                if ($count === 9 && (isset($args['paged']) ? (int)$args['paged'] : 1) === 1) {
+                if ($count === 9 && empty( $exclude_post_ids ) && $pagination_page === 1) {
 
                     echo kv_get_stronger_recommendation_cta();
 
@@ -637,21 +696,17 @@ function niseko_search_local()
 
         // ✅ STEP 6: Return paginated results with metadata
 
-        $max_pages = isset($query->max_num_pages) ? $query->max_num_pages : 1;
-
-        $current_page = isset($args['paged']) ? (int) $args['paged'] : 1;
-
         $enquiry_html = get_acc_enquiry_form();
 
         return wp_send_json_success([
 
             'html'      => $html_output,
 
-            'count'     => (int) $query->found_posts,
+            'count'     => (int) $found_posts,
 
             'room_count' => $room_count,
 
-            'has_more'  => ($current_page < $max_pages),
+            'has_more'  => (bool) $has_more,
             
             'form_html'  => $enquiry_html,
 
@@ -877,11 +932,7 @@ function hz_search_in_booking_system() {
 
         $availableHotelIds = array_keys($roombossData);
 
-
-
         $booking_offset = isset($_POST['booking_offset']) ? max(0, intval($_POST['booking_offset'])) : 0;
-
-        $wp_page        = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
 
 
 
@@ -889,15 +940,10 @@ function hz_search_in_booking_system() {
 
 
 
-        // Only inject price-excluded properties on the very first request (offset 0, WP page 1).
-
-        // Re-injecting on subsequent WP pages (page > 1) causes them to reappear after load-more
-
-        // because the RoomBoss API may return a slightly different set each call, shifting the
-
-        // combined ID list and breaking WP pagination consistency.
-
-        if ($booking_offset === 0 && $wp_page === 1) {
+        // Always keep the same property universe for booking_offset 0 across WP pages.
+        // Injecting price-excluded hotels only on page=1 made pages 2+ use a different ID list,
+        // which caused Load More to re-serve already shown properties.
+        if ( $booking_offset === 0 ) {
 
             $exclude_price_args = niseko_build_search_query_args($_POST, [
 
@@ -1397,7 +1443,66 @@ function kv_roomboss_frontend_pagination_fields(array $pagination = []): array {
 
 }
 
+/**
+ * Parse exclude ID arrays from load-more AJAX requests.
+ */
+function kv_niseko_parse_exclude_ids( $raw ) {
+    if ( empty( $raw ) ) {
+        return [];
+    }
 
+    if ( is_string( $raw ) ) {
+        $raw = preg_split( '/\s*,\s*/', $raw, -1, PREG_SPLIT_NO_EMPTY );
+    }
+
+    if ( ! is_array( $raw ) ) {
+        $raw = [ $raw ];
+    }
+
+    return array_values(
+        array_unique(
+            array_filter(
+                array_map( 'intval', $raw ),
+                static function ( $id ) {
+                    return $id > 0;
+                }
+            )
+        )
+    );
+}
+
+/**
+ * Parse exclude property ID strings from load-more AJAX requests.
+ */
+function kv_niseko_parse_exclude_property_ids( $raw ) {
+    if ( empty( $raw ) ) {
+        return [];
+    }
+
+    if ( is_string( $raw ) ) {
+        $raw = preg_split( '/\s*,\s*/', $raw, -1, PREG_SPLIT_NO_EMPTY );
+    }
+
+    if ( ! is_array( $raw ) ) {
+        $raw = [ $raw ];
+    }
+
+    return array_values(
+        array_unique(
+            array_filter(
+                array_map(
+                    static function ( $id ) {
+                        return trim( (string) $id );
+                    },
+                    $raw
+                ),
+                static function ( $id ) {
+                    return $id !== '';
+                }
+            )
+        )
+    );
+}
 
 /**
 
@@ -3003,79 +3108,152 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
 
 
 
-        $args = niseko_build_search_query_args($_POST);
+        $per_page = isset( $_POST['per_page'] ) ? max( 1, intval( $_POST['per_page'] ) ) : 6;
+        $exclude_post_ids = kv_niseko_parse_exclude_ids( $_POST['exclude_post_ids'] ?? [] );
+        $exclude_property_ids = kv_niseko_parse_exclude_property_ids( $_POST['exclude_property_ids'] ?? [] );
+        $is_load_more = ! empty( $_POST['load_more'] ) || ! empty( $exclude_post_ids );
 
-        $args['meta_query'][] = [
+        // Drop already-shown property IDs from this booking batch (handles API overlap across offsets).
+        if ( ! empty( $exclude_property_ids ) ) {
+            $exclude_prop_lookup = array_flip( $exclude_property_ids );
+            $availableHotelIds  = array_values(
+                array_filter(
+                    $availableHotelIds,
+                    static function ( $pid ) use ( $exclude_prop_lookup ) {
+                        return ! isset( $exclude_prop_lookup[ (string) $pid ] );
+                    }
+                )
+            );
+        }
 
+        if ( empty( $availableHotelIds ) ) {
+            wp_send_json_success(
+                array_merge(
+                    [
+                        'html'       => '',
+                        'count'      => count( $exclude_post_ids ),
+                        'room_count' => 0,
+                        'has_more'   => false,
+                    ],
+                    $paginationFields
+                )
+            );
+        }
+
+        // Full matching ID list for this booking batch (stable order), then slice remaining.
+        $id_args = niseko_build_search_query_args(
+            $_POST,
+            [
+                'fields'         => 'ids',
+                'posts_per_page' => -1,
+                'paged'          => 1,
+            ]
+        );
+        unset( $id_args['offset'] );
+
+        $id_args['meta_query'][] = [
             'key'     => 'property_id',
-
             'value'   => $availableHotelIds,
-
             'compare' => 'IN',
-
         ];
 
-
-
-        if (!is_array($args) || empty($args)) {
-
-            wp_send_json_success(array_merge([
-
-                'html' => '',
-
-                'count'      => 0,
-
-                'room_count' => 0,
-
-                'has_more'   => false,
-
-            ], $paginationFields));
-
+        if ( ! is_array( $id_args ) || empty( $id_args ) ) {
+            wp_send_json_success(
+                array_merge(
+                    [
+                        'html'       => '',
+                        'count'      => 0,
+                        'room_count' => 0,
+                        'has_more'   => false,
+                    ],
+                    $paginationFields
+                )
+            );
         }
 
+        $all_post_ids = get_posts( $id_args );
+        if ( ! is_array( $all_post_ids ) ) {
+            $all_post_ids = [];
+        }
+        $all_post_ids = array_values( array_unique( array_map( 'intval', $all_post_ids ) ) );
 
-
-        $query = new WP_Query($args);
-
-
-
-        $property_ids = array_map(function($post) {
-
-            return get_post_meta($post->ID, 'property_id', true);
-
-        }, $query->posts);
-
-
-
-        $room_count = get_room_count_from_roomboss_hotels($property_ids);
-
-        $room_count = intval($room_count);
-
-
-
-        if (!is_object($query) || !isset($query->posts) || !is_array($query->posts)) {
-
-            wp_send_json_success(array_merge([
-
-                'html' => '',
-
-                'count'      => 0,
-
-                'room_count' => $room_count,
-
-                'has_more'   => false,
-
-            ], $paginationFields));
-
+        if ( ! empty( $exclude_post_ids ) ) {
+            $exclude_lookup = array_flip( $exclude_post_ids );
+            $all_post_ids   = array_values(
+                array_filter(
+                    $all_post_ids,
+                    static function ( $post_id ) use ( $exclude_lookup ) {
+                        return ! isset( $exclude_lookup[ (int) $post_id ] );
+                    }
+                )
+            );
         }
 
+        $total_matching = count( $all_post_ids ) + count( $exclude_post_ids );
+        $pagination_page = isset( $_POST['page'] ) ? max( 1, intval( $_POST['page'] ) ) : 1;
 
+        if ( ! empty( $exclude_post_ids ) ) {
+            // Load-more with known shown IDs: always next remaining cards.
+            $slice_ids       = array_slice( $all_post_ids, 0, $per_page );
+            $has_more_wp     = count( $all_post_ids ) > $per_page;
+            $pagination_page = 1;
+        } else {
+            // Normal / fallback page-based slice (Load More now also increments page).
+            $offset      = ( $pagination_page - 1 ) * $per_page;
+            $slice_ids   = array_slice( $all_post_ids, $offset, $per_page );
+            $has_more_wp = count( $all_post_ids ) > ( $offset + count( $slice_ids ) );
+        }
 
-        $current_path = isset($_POST['current_url']) ? $_POST['current_url'] : '';
+        if ( empty( $slice_ids ) ) {
+            wp_send_json_success(
+                array_merge(
+                    [
+                        'html'       => '',
+                        'count'      => $total_matching,
+                        'room_count' => 0,
+                        'has_more'   => false,
+                    ],
+                    $paginationFields
+                )
+            );
+        }
 
-        $pagination_page = isset($args['paged']) ? intval($args['paged']) : 1;
+        $query = new WP_Query(
+            [
+                'post_type'      => 'accommodation',
+                'post_status'    => 'publish',
+                'posts_per_page' => count( $slice_ids ),
+                'post__in'       => $slice_ids,
+                'orderby'        => 'post__in',
+            ]
+        );
 
-        $max_pages = isset($query->max_num_pages) ? intval($query->max_num_pages) : 1;
+        $property_ids = array_map(
+            static function ( $post ) {
+                return get_post_meta( $post->ID, 'property_id', true );
+            },
+            $query->posts
+        );
+
+        $room_count = get_room_count_from_roomboss_hotels( $property_ids );
+        $room_count = intval( $room_count );
+
+        if ( ! is_object( $query ) || ! isset( $query->posts ) || ! is_array( $query->posts ) ) {
+            wp_send_json_success(
+                array_merge(
+                    [
+                        'html'       => '',
+                        'count'      => 0,
+                        'room_count' => $room_count,
+                        'has_more'   => false,
+                    ],
+                    $paginationFields
+                )
+            );
+        }
+
+        $current_path = isset( $_POST['current_url'] ) ? $_POST['current_url'] : '';
+        $total_count  = $total_matching;
 
 
 
@@ -3163,7 +3341,7 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
 
 
 
-                if ($count === 3 && $pagination_page === 1) {
+                if ($count === 3 && $pagination_page === 1 && ! $is_load_more ) {
 
                     echo kv_get_expert_recommendation_cta();
 
@@ -3171,7 +3349,7 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
 
 
 
-                if ($count === 9 && $pagination_page === 1) {
+                if ($count === 9 && $pagination_page === 1 && ! $is_load_more ) {
 
                     echo kv_get_stronger_recommendation_cta();
 
@@ -3193,11 +3371,11 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
 
                 'html'       => ob_get_clean(),
 
-                'count'      => intval($query->found_posts),
+                'count'      => $total_count,
 
                 'room_count' => $room_count,
 
-                'has_more'   => ($pagination_page < $max_pages),
+                'has_more'   => $has_more_wp,
 
                 'form_html'  => $enquiry_html,
 
@@ -3213,7 +3391,7 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
 
                 'html'       => '',
 
-                'count'      => intval($query->found_posts),
+                'count'      => $total_count,
 
                 'room_count' => $room_count,
 

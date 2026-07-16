@@ -105,7 +105,16 @@ try {
 }
 
 if (!empty($post_title)) : ?>
-<div class="result-card accom-card <?php echo $overlay ? 'has-overlay' : ''; ?>" data-hotel-id="<?php echo esc_attr($hotel_tid); ?>">
+<?php
+    $property_id_attr = get_field('property_id', $post_id);
+    if (empty($property_id_attr)) {
+        $property_id_attr = get_post_meta($post_id, 'property_id', true);
+    }
+?>
+<div class="result-card accom-card <?php echo $overlay ? 'has-overlay' : ''; ?>"
+    data-post-id="<?php echo esc_attr((int) $post_id); ?>"
+    data-property-id="<?php echo esc_attr((string) $property_id_attr); ?>"
+    data-hotel-id="<?php echo esc_attr($hotel_tid); ?>">
     <?php 
     if ( $top_label && !empty( $top_label ) ) : ?>
         <div class="top_label"><?php echo esc_html($top_label); ?></div>

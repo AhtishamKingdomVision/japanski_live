@@ -14,7 +14,8 @@ const AccommodationFilters = (function() {
 
     'use strict';
 
-
+    // Bump this whenever Load More logic changes (also used for cache bust).
+    const FILTERS_JS_VERSION = '20260716-lm4';
 
     // ============================================================================
 
@@ -191,6 +192,10 @@ const AccommodationFilters = (function() {
         maxBookingOffset: null,
 
         pendingBookingOffsetRequest: null,
+
+        loadedPostIds: Object.create(null),
+
+        loadedPropertyIds: Object.create(null),
 
 
 
@@ -393,7 +398,7 @@ const AccommodationFilters = (function() {
 
                 $btn.prop('disabled', false).removeClass('loading').text(CONFIG.defaults.loadMoreText);
 
-                $btn.data('page', currentPage);
+                $btn.attr('data-page', currentPage).data('page', currentPage);
 
             }
 
@@ -961,6 +966,12 @@ const AccommodationFilters = (function() {
 
             }
 
+            // Any page > 1 is always an append/load-more. Never replace the grid.
+            page = parseInt(page, 10) || 1;
+            if (page > 1) {
+                append = true;
+            }
+
 
 
             const isHotelSearch = localStorage.getItem(CONFIG.storage.hotelSearch) === 'true';
@@ -973,7 +984,8 @@ const AccommodationFilters = (function() {
 
             } else if (bookingOffset === null || bookingOffset === undefined) {
 
-                bookingOffset = (!append || page === 1) ? 0 : (State.currentBookingOffset || 0);
+                // Keep current booking page on Load More. Resetting to 0 caused repeats.
+                bookingOffset = append ? (State.currentBookingOffset || 0) : 0;
 
             }
 
@@ -1056,6 +1068,20 @@ const AccommodationFilters = (function() {
                 booking_limit: 50,
 
             };
+
+            if (append || page > 1) {
+                // CSV is more reliable than PHP array parsing for long exclude lists.
+                const postIds = Search.getLoadedPostIds();
+                const propertyIds = Search.getLoadedPropertyIds();
+                ajaxData.exclude_post_ids     = postIds.length ? postIds.join(',') : '0';
+                ajaxData.exclude_property_ids = propertyIds.length ? propertyIds.join(',') : '0';
+                ajaxData.load_more            = 1;
+                ajaxData.shown_count          = postIds.length;
+                ajaxData.filters_js_version   = FILTERS_JS_VERSION;
+            }
+
+            // Always tag requests so Network tab proves which JS built them.
+            ajaxData.filters_js_version = FILTERS_JS_VERSION;
 
 
 
@@ -1231,6 +1257,325 @@ const AccommodationFilters = (function() {
 
 
 
+        cardIdentity: function($card) {
+
+            const postId = String($card.attr('data-post-id') || '').trim();
+
+            if (postId) {
+
+                return 'post:' + postId;
+
+            }
+
+            const propertyId = String($card.attr('data-property-id') || '').trim();
+
+            if (propertyId) {
+
+                return 'property:' + propertyId;
+
+            }
+
+            const hotelId = String($card.attr('data-hotel-id') || '').trim();
+
+            if (hotelId && hotelId !== '0') {
+
+                return 'hotel:' + hotelId;
+
+            }
+
+            const href = String($card.find('a[href]').first().attr('href') || '').trim();
+
+            return href ? 'href:' + href : '';
+
+        },
+
+
+
+        rememberCard: function($card) {
+
+            const postId = parseInt($card.attr('data-post-id'), 10);
+
+            const propertyId = String($card.attr('data-property-id') || '').trim();
+
+            const href = String($card.find('a[href]').first().attr('href') || '').trim();
+
+            const title = String($card.find('h3').first().text() || '').trim().toLowerCase();
+
+            const key = Search.cardIdentity($card);
+
+            if (key) {
+
+                State.loadedPostIds[key] = true;
+
+            }
+
+            if (postId > 0) {
+
+                State.loadedPostIds['post:' + postId] = true;
+
+            }
+
+            if (propertyId) {
+
+                State.loadedPropertyIds[propertyId] = true;
+
+            }
+
+            if (href) {
+
+                State.loadedPostIds['href:' + href] = true;
+
+            }
+
+            if (title) {
+
+                State.loadedPostIds['title:' + title] = true;
+
+            }
+
+        },
+
+
+
+        getLoadedPostIds: function() {
+
+            const seen = Object.create(null);
+
+            const ids = [];
+
+            Object.keys(State.loadedPostIds || {}).forEach(function(key) {
+
+                if (key.indexOf('post:') === 0) {
+
+                    const postId = parseInt(key.slice(5), 10);
+
+                    if (postId > 0 && !seen[postId]) {
+
+                        seen[postId] = true;
+
+                        ids.push(postId);
+
+                    }
+
+                }
+
+            });
+
+            if (State.cache.$results && State.cache.$results.length) {
+
+                State.cache.$results.find('.result-card.accom-card').each(function() {
+
+                    const postId = parseInt(jQuery(this).attr('data-post-id'), 10);
+
+                    if (postId > 0 && !seen[postId]) {
+
+                        seen[postId] = true;
+
+                        ids.push(postId);
+
+                    }
+
+                });
+
+            }
+
+            return ids;
+
+        },
+
+
+
+        getLoadedPropertyIds: function() {
+
+            const seen = Object.create(null);
+
+            const ids = [];
+
+            Object.keys(State.loadedPropertyIds || {}).forEach(function(propertyId) {
+
+                if (propertyId && !seen[propertyId]) {
+
+                    seen[propertyId] = true;
+
+                    ids.push(propertyId);
+
+                }
+
+            });
+
+            if (State.cache.$results && State.cache.$results.length) {
+
+                State.cache.$results.find('.result-card.accom-card').each(function() {
+
+                    const propertyId = String(jQuery(this).attr('data-property-id') || '').trim();
+
+                    if (propertyId && !seen[propertyId]) {
+
+                        seen[propertyId] = true;
+
+                        ids.push(propertyId);
+
+                    }
+
+                });
+
+            }
+
+            return ids;
+
+        },
+
+
+
+        ingestResultHtml: function(html, append) {
+
+            const $incoming = jQuery('<div>').html(html || '');
+
+            $incoming.find('.expert-recommendation-cta, .strong-recommendation-cta').remove();
+
+
+
+            if (!append) {
+
+                State.loadedPostIds = Object.create(null);
+
+                State.loadedPropertyIds = Object.create(null);
+
+            }
+
+
+
+            let added = 0;
+
+            $incoming.find('.result-card').each(function() {
+
+                const $card = jQuery(this);
+
+                const postId = parseInt($card.attr('data-post-id'), 10);
+
+                const propertyId = String($card.attr('data-property-id') || '').trim();
+
+                const href = String($card.find('a[href]').first().attr('href') || '').trim();
+
+                const title = String($card.find('h3').first().text() || '').trim().toLowerCase();
+
+                const isDup = (
+
+                    (postId > 0 && State.loadedPostIds['post:' + postId]) ||
+
+                    (propertyId && State.loadedPropertyIds[propertyId]) ||
+
+                    (href && State.loadedPostIds['href:' + href]) ||
+
+                    (title && State.loadedPostIds['title:' + title])
+
+                );
+
+                if (isDup) {
+
+                    $card.remove();
+
+                    return;
+
+                }
+
+                Search.rememberCard($card);
+
+                added += 1;
+
+            });
+
+
+
+            return { html: $incoming.html(), added: added };
+
+        },
+
+
+
+        /**
+         * Final safety net: remove any duplicate cards already in the results DOM.
+         */
+        dedupeVisibleResults: function() {
+
+            if (!State.cache.$results || !State.cache.$results.length) {
+
+                return 0;
+
+            }
+
+            const seen = Object.create(null);
+
+            let removed = 0;
+
+            State.cache.$results.find('.result-card').each(function() {
+
+                const $card = jQuery(this);
+
+                const postId = parseInt($card.attr('data-post-id'), 10);
+
+                const propertyId = String($card.attr('data-property-id') || '').trim();
+
+                const href = String($card.find('a[href]').first().attr('href') || '').trim();
+
+                const title = String($card.find('h3').first().text() || '').trim().toLowerCase();
+
+                const keys = [];
+
+                if (postId > 0) keys.push('post:' + postId);
+
+                if (propertyId) keys.push('property:' + propertyId);
+
+                if (href) keys.push('href:' + href);
+
+                if (title) keys.push('title:' + title);
+
+                if (!keys.length) {
+
+                    return;
+
+                }
+
+                if (keys.some(function(key) { return !!seen[key]; })) {
+
+                    $card.remove();
+
+                    removed += 1;
+
+                    return;
+
+                }
+
+                keys.forEach(function(key) {
+
+                    seen[key] = true;
+
+                });
+
+                Search.rememberCard($card);
+
+            });
+
+            return removed;
+
+        },
+
+
+
+        stopPagination: function(data) {
+
+            data.has_more = false;
+
+            data.booking_has_more = false;
+
+            data.booking_next_offset = null;
+
+            State.pendingBookingOffsetRequest = null;
+
+        },
+
+
+
         handleSuccess: function(data, append, page, context = null) {
 
             this.syncBookingPagination(data);
@@ -1259,6 +1604,8 @@ const AccommodationFilters = (function() {
                     UI.removeFormHtmlAfterLoadMore();
                 }
 
+                this.stopPagination(data);
+
                 this.updateLoadMoreButton(data, page);
 
                 return;
@@ -1267,19 +1614,50 @@ const AccommodationFilters = (function() {
 
 
 
+            const ingested = this.ingestResultHtml(data.html, append);
+
+
+
             if (append) {
 
-                const $incoming = jQuery('<div>').html(data.html);
+                if (ingested.added === 0) {
 
-                $incoming.find('.expert-recommendation-cta, .strong-recommendation-cta').remove();
+                    if (this.queueNextBookingOffset(data, append, context)) {
 
-                State.cache.$results.append($incoming.html());
+                        return;
+
+                    }
+
+                    this.stopPagination(data);
+
+                    this.updateLoadMoreButton(data, page);
+
+                    return;
+
+                }
+
+                State.cache.$results.append(ingested.html);
 
             } else {
 
-                State.cache.$results.html(data.html);
+                if (ingested.added === 0) {
+
+                    UI.showNoResults();
+
+                    this.stopPagination(data);
+
+                    this.updateLoadMoreButton(data, page);
+
+                    return;
+
+                }
+
+                State.cache.$results.html(ingested.html);
 
             }
+
+            // Absolute guarantee: never leave duplicate cards in the DOM.
+            this.dedupeVisibleResults();
 
             if (shouldShowForm) {
                 UI.attachFormHtmlAfterLoadMore(data.form_html);
@@ -1356,11 +1734,19 @@ const AccommodationFilters = (function() {
 
         updateLoadMoreButton: function(data, page) {
 
+            if (!State.cache.$loadMore || !State.cache.$loadMore.length) {
+
+                if (data.has_more || data.booking_has_more) {
+
+                    UI.ensureLoadMoreWrap();
+
+                }
+
+            }
+
             const $btn = State.cache.$loadMore;
 
             const nextOffset = parseInt(data.booking_next_offset, 10);
-
-
 
             if (!$btn || !$btn.length) return;
 
@@ -1374,27 +1760,31 @@ const AccommodationFilters = (function() {
 
                 $btn.show();
 
+                jQuery(CONFIG.selectors.loadMoreWrap).show();
+
                 return;
 
             }
 
 
 
-            if (data.booking_has_more && !isNaN(nextOffset)) {
+            if (data.booking_has_more && !isNaN(nextOffset) && nextOffset > State.currentBookingOffset) {
 
-                UI.setLoadMoreState(false, 0);
+                UI.setLoadMoreState(false, page);
 
                 $btn.attr('data-booking-next-offset', nextOffset);
 
                 $btn.show();
 
+                jQuery(CONFIG.selectors.loadMoreWrap).show();
+
                 return;
 
             }
 
 
 
-            $btn.hide().data('page', 1);
+            $btn.hide().attr('data-page', 1).data('page', 1);
 
             $btn.removeAttr('data-booking-next-offset');
 
@@ -2464,6 +2854,7 @@ const AccommodationFilters = (function() {
 
                 State.cache.$loadMore.removeAttr('data-booking-next-offset');
 
+                // New booking API page starts WP pagination at page 1 again.
                 Search.run(1, true, null, nextBookingOffset);
 
                 return;
@@ -2472,8 +2863,8 @@ const AccommodationFilters = (function() {
 
 
 
-            const nextPage = (parseInt(State.cache.$loadMore.data('page'), 10) || 1) + 1;
-
+            // Same booking batch: advance WP page, keep current booking_offset.
+            const nextPage = Math.max( 2, ( parseInt( State.currentPage, 10 ) || 1 ) + 1 );
             Search.run(nextPage, true);
 
         },
@@ -3240,6 +3631,8 @@ const AccommodationFilters = (function() {
 
             this.restrictBookingGuests();
 
+            console.info('[JapanSki Filters]', FILTERS_JS_VERSION);
+
 
 
             localStorage.setItem(CONFIG.storage.hotelSearch, 'false');
@@ -3247,6 +3640,11 @@ const AccommodationFilters = (function() {
 
 
             const hasRequiredElements = State.init();
+
+            // Seed loaded IDs from any SSR cards already in the results container.
+            if (State.cache.$results && State.cache.$results.length) {
+                Search.dedupeVisibleResults();
+            }
 
             const isAccommodationPage = pathname.indexOf('/accommodation/') !== -1;
 

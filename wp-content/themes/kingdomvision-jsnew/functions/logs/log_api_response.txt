@@ -390,3 +390,291 @@
     [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4320
 )
  -- -- -- 2026-07-13 10:30:02<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for test LEAD has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4321
+)
+ -- -- -- 2026-07-13 11:41:43<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Rodrigo Pizarro has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4322
+)
+ -- -- -- 2026-07-13 12:24:37<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Jonah Kadish has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4323
+)
+ -- -- -- 2026-07-13 12:48:09<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Parker Douglas has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4324
+)
+ -- -- -- 2026-07-13 13:13:27<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for STEPHEN NAPRET has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4326
+)
+ -- -- -- 2026-07-13 23:13:44<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for STEPHEN NAPRET has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4327
+)
+ -- -- -- 2026-07-13 23:19:37<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Mitchell Grant has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4328
+)
+ -- -- -- 2026-07-14 00:23:08<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Kerrie Witty has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4330
+)
+ -- -- -- 2026-07-14 02:38:08<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Timothy Nice has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4331
+)
+ -- -- -- 2026-07-14 06:28:05<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for stu TEST PLEASE IGNORE has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4332
+)
+ -- -- -- 2026-07-14 06:58:32<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Riley Alexander has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4333
+)
+ -- -- -- 2026-07-14 06:59:24<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Lindsay Spilgies has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4334
+)
+ -- -- -- 2026-07-14 07:53:46<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Samantha Pimlott has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4335
+)
+ -- -- -- 2026-07-14 08:12:18<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for 奕瑞 范 has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4336
+)
+ -- -- -- 2026-07-14 08:15:13<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Harry Cummins has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4337
+)
+ -- -- -- 2026-07-14 09:40:01<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for test test has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4338
+)
+ -- -- -- 2026-07-14 11:18:06<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for test test has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4339
+)
+ -- -- -- 2026-07-14 11:20:54<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Nicholas Williams has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4340
+)
+ -- -- -- 2026-07-14 11:54:55<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Jade Schuecker-Rush has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4341
+)
+ -- -- -- 2026-07-14 12:19:58<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Jade Schuecker-Rush has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4342
+)
+ -- -- -- 2026-07-14 12:20:06<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Jade Schuecker-Rush has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4343
+)
+ -- -- -- 2026-07-14 12:20:22<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for test test has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4344
+)
+ -- -- -- 2026-07-14 12:26:35<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Lindsay Colbert has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4345
+)
+ -- -- -- 2026-07-14 12:36:40<br></pre>
+<pre> -- -- -- 2026-07-14 17:00:30<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Riley Lamb has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4347
+)
+ -- -- -- 2026-07-14 19:37:17<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Jack Zevenbergen has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4348
+)
+ -- -- -- 2026-07-14 21:59:11<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Amelia Newitt has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4349
+)
+ -- -- -- 2026-07-15 00:44:42<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Mel Ashton has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4350
+)
+ -- -- -- 2026-07-15 01:21:24<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Jackson Wendt has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4351
+)
+ -- -- -- 2026-07-15 03:42:40<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Walter Kampfe has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4352
+)
+ -- -- -- 2026-07-15 04:16:01<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Test Tester has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4353
+)
+ -- -- -- 2026-07-15 04:45:01<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Melissa Rodrigues has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4354
+)
+ -- -- -- 2026-07-15 06:25:09<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Lindsay Spilgies has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4355
+)
+ -- -- -- 2026-07-15 07:21:29<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Michael Hamilton has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4356
+)
+ -- -- -- 2026-07-15 08:01:58<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Scott Terry has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4357
+)
+ -- -- -- 2026-07-15 08:44:53<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Pierre Addison has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4358
+)
+ -- -- -- 2026-07-15 09:46:30<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Megan Lovell has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4359
+)
+ -- -- -- 2026-07-15 10:14:51<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Ryan Stewart has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4360
+)
+ -- -- -- 2026-07-15 10:36:21<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for spencer n has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4361
+)
+ -- -- -- 2026-07-15 10:58:31<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Wanita McLean has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4362
+)
+ -- -- -- 2026-07-15 10:59:52<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Georgia Gillibrand has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4363
+)
+ -- -- -- 2026-07-15 12:01:34<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Stephanie Barnes has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4364
+)
+ -- -- -- 2026-07-15 12:21:38<br></pre>

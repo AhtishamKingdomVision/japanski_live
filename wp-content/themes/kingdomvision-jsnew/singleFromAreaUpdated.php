@@ -97,6 +97,13 @@ echo '</section>'; #acc-single-banner
 
 <script>
 	jQuery(document).ready(function($) {
+
+    if ($(".cta_with_bg_image").length > 0) {
+        $(".cta_with_bg_image").each(function (i) {
+            $(this).removeAttr('id').attr('id', 'cta_with_bg_image' + i);
+        });
+    }
+
 		$('.accGallerySlider.activeSliderX').slick({
 		  dots: false,
 		  arrows: true,

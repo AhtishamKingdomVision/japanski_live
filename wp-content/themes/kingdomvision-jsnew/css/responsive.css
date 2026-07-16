@@ -323,7 +323,6 @@ section.room-listing .booking-wrap .rb-booking-layout .rb-cart { width: 100%; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-cart .rb-cart-wrap { position: relative; top: auto; background: #00111f; border: 1px solid #ffffff; }
 section.room-listing .booking-wrap .rb-booking-layout { flex-wrap: wrap; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top { justify-content: center; }
-/* section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions { flex-direction: column; gap: 10px; } */
 
 section.room-listing .room-list .row .room-card .room-img { min-height: 300px; background-size: cover; }
 div.datedropper .picker ul.pick .pick-arw.pick-arw-l, 

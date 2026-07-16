@@ -2,6 +2,32 @@ jQuery(document).ready(function ($) {
 
 
 
+    // inject close button styles once
+
+    if (!$('#eq-pop-close-style').length) {
+
+        $('<style id="eq-pop-close-style">' +
+
+            '.eq-guests-popover { position: relative; }' +
+
+            '.eq-pop-close {' +
+
+                'position: absolute; top: 8px; right: 10px;' +
+
+                'background: none; border: none; cursor: pointer;' +
+
+                'font-size: 18px; line-height: 1; color: #555; padding: 0;' +
+
+            '}' +
+
+            '.eq-pop-close:hover { color: #000; }' +
+
+        '</style>').appendTo('head');
+
+    }
+
+
+
     const FORM_ID = 1;
 
 
@@ -192,6 +218,44 @@ jQuery(document).ready(function ($) {
 
     // ---------------------------
 
+    // INJECT CLOSE BUTTON
+
+    // ---------------------------
+
+    function injectCloseButton() {
+
+        $('.eq-guests-popover').each(function () {
+
+            if (!$(this).find('.eq-pop-close').length) {
+
+                $(this).prepend('<button type="button" class="eq-pop-close" aria-label="Close">&times;</button>');
+
+            }
+
+        });
+
+    }
+
+
+
+    // ---------------------------
+
+    // CLOSE BUTTON CLICK
+
+    // ---------------------------
+
+    $(document).on('click', '.eq-pop-close', function (e) {
+
+        e.stopPropagation();
+
+        $(this).closest('.eq-guests-popover').removeClass('open');
+
+    });
+
+
+
+    // ---------------------------
+
     // GF INIT
 
     // ---------------------------
@@ -204,15 +268,21 @@ jQuery(document).ready(function ($) {
 
 
 
-        const $pop = $('#eq-guests-popover');
+        const $pop = $('.eq-guests-popover');
 
         if (!$pop.length) return;
 
-
+        injectCloseButton();
 
         updateSummaryLabel($pop);
 
     });
+
+
+
+    // run on DOM ready too (for non-ajax GF renders)
+
+    injectCloseButton();
 
 
 

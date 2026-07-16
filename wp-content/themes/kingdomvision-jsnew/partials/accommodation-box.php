@@ -110,10 +110,12 @@ if (!empty($post_title)) : ?>
     if (empty($property_id_attr)) {
         $property_id_attr = get_post_meta($post_id, 'property_id', true);
     }
+    $resort_name_attr = str_replace(' Accommodation', '', (string) hz_get_parent_category($post_id));
 ?>
 <div class="result-card accom-card <?php echo $overlay ? 'has-overlay' : ''; ?>"
     data-post-id="<?php echo esc_attr((int) $post_id); ?>"
     data-property-id="<?php echo esc_attr((string) $property_id_attr); ?>"
+    data-resort-name="<?php echo esc_attr($resort_name_attr); ?>"
     data-hotel-id="<?php echo esc_attr($hotel_tid); ?>">
     <?php 
     if ( $top_label && !empty( $top_label ) ) : ?>

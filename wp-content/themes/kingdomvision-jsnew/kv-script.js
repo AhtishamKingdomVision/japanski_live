@@ -1348,6 +1348,104 @@ jQuery(function ($) {
         return roomData;
     }
 
+    function normalizeResortName(value) {
+        if (!value) return '';
+
+        return String(value)
+            .replace(/-accommodation$/i, '')
+            .replace(/\s+Accommodation$/i, '')
+            .replace(/-/g, ' ')
+            .trim()
+            .replace(/\b\w/g, function (char) {
+                return char.toUpperCase();
+            });
+    }
+
+    function getResortOptions($resortField) {
+        return $resortField.find('option').map(function () {
+            return {
+                rawValue: String(this.value || '').trim(),
+                value: normalizeResortName(this.value),
+                text: normalizeResortName(jQuery(this).text())
+            };
+        }).get().filter(function (option) {
+            const text = option.text.toLowerCase();
+            return option.value
+                && option.value.toLowerCase() !== 'all'
+                && text !== 'resort'
+                && text.indexOf('resort *') === -1;
+        });
+    }
+
+    function matchResortOption(options, resortName) {
+        const normalized = normalizeResortName(resortName).toLowerCase();
+        if (!normalized) return null;
+
+        return options.find(function (option) {
+            return option.value.toLowerCase() === normalized
+                || option.text.toLowerCase() === normalized;
+        }) || null;
+    }
+
+    // Only treat URLs like /hakuba/accommodation/ as a locked resort page.
+    // Plain /accommodation/ must NOT lock the Resort field.
+    function getUrlResortName($resortField) {
+        const options = getResortOptions($resortField);
+        const path = window.location.pathname.toLowerCase();
+        const pathParts = path.split('/').filter(Boolean);
+
+        // /accommodation/ or /.../accommodation/ with no resort segment before it
+        const accommodationIndex = pathParts.findIndex(function (part) {
+            return part === 'accommodation' || part.endsWith('-accommodation');
+        });
+
+        if (accommodationIndex === -1) {
+            return '';
+        }
+
+        // Exact "/accommodation/" root listing — never lock from URL
+        if (pathParts[accommodationIndex] === 'accommodation') {
+            const previous = accommodationIndex > 0 ? pathParts[accommodationIndex - 1] : '';
+            if (!previous) {
+                return '';
+            }
+
+            // /hakuba/accommodation/...
+            const match = matchResortOption(options, previous);
+            return match ? (match.rawValue || match.value || match.text) : '';
+        }
+
+        // /hakuba-accommodation/...
+        if (pathParts[accommodationIndex].endsWith('-accommodation')) {
+            const slugResort = pathParts[accommodationIndex].replace(/-accommodation$/, '');
+            const match = matchResortOption(options, slugResort);
+            return match ? (match.rawValue || match.value || match.text) : '';
+        }
+
+        return '';
+    }
+
+    function setEnquiryResortField($resortField, resortName, isLocked) {
+        const options = getResortOptions($resortField);
+        const match = matchResortOption(options, resortName);
+
+        if (match) {
+            $resortField.val(match.rawValue || match.value);
+        } else if (normalizeResortName(resortName)) {
+            $resortField.val(normalizeResortName(resortName));
+        } else {
+            $resortField.val('');
+        }
+
+        // Lock when resort is known (URL page or selected property). Keep value submittable.
+        $resortField
+            .toggleClass('disabled', !!isLocked)
+            .prop('disabled', false)
+            .attr('aria-disabled', isLocked ? 'true' : 'false')
+            .attr('tabindex', isLocked ? '-1' : '0')
+            .trigger('change');
+    }
+
     function populateEnquiryModal(data) {
         data = data || {};
         const $scope = getModalEnquiryScope();
@@ -1363,11 +1461,11 @@ jQuery(function ($) {
         }
 
         const $resortField = $scope.find('#input_1_4, .resort_name select').first();
-        if (data.resortName) {
-            $resortField.val(data.resortName).addClass('disabled');
-        } else {
-            $resortField.removeClass('disabled');
-        }
+        const urlResortName = getUrlResortName($resortField);
+        // Prefer URL resort when on a resort page; otherwise use the selected property resort.
+        const resortName = urlResortName || data.resortName || '';
+        // Lock whenever resort is known (from URL or selected property).
+        setEnquiryResortField($resortField, resortName, !!resortName);
 
         const $roomField = $scope.find('#input_1_44, .room_name input').first();
         if (data.roomName) {
@@ -1419,11 +1517,22 @@ jQuery(function ($) {
                 $card.find('.accom-content h3').first().text() ||
                 ''
             ).trim();
-            populateEnquiryModal({ propertyName: propertyName });
+            populateEnquiryModal({
+                propertyName: propertyName,
+                resortName: $card.data('resortName') || $btn.attr('resort-name') || ''
+            });
             return;
         }
 
-        populateEnquiryModal({});
+        populateEnquiryModal({
+            propertyName: $btn.attr('hotel-name') || '',
+            resortName: $btn.attr('resort-name') || '',
+            roomName: $btn.attr('room-title') || ''
+        });
+    });
+
+    $(document).on('mousedown keydown', '.resort_name select.disabled', function (e) {
+        e.preventDefault();
     });
     // ahtisham work end
 

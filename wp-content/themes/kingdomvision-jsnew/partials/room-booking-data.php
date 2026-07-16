@@ -1713,7 +1713,7 @@ if (!empty($wp_property_id)) {
                                 ?>
                                 <input type="hidden" class="rb-room-data" value="<?php echo esc_attr(wp_json_encode($roomJson)); ?>">
                                 <div class="rb-rateplan-actions">
-                                    <?php if ($is_bedbank) : ?>
+                                    <?php if (!$is_bedbank) : ?>
                                         <button type="button" class="enquire_btn rb-enquiry-btn">Enquiry Now</button>
                                     <?php endif; ?>
                                     <button type="button" class="rb-select-btn">Book Now</button>

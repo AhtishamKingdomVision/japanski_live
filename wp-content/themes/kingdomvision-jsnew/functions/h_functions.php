@@ -7941,6 +7941,8 @@ function get_acc_enquiry_form(){
             <h3>Skip the searching</h3>
             <p class="acc_enquiry_desc">Tell us a little more and our local experts will recommend the best available options.</p>
         </div>
-        ' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '
+        <div class="acc_enquiry_form_slot">
+            ' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '
+        </div>
     </div>';
 }

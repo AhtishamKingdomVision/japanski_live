@@ -372,14 +372,28 @@ const AccommodationFilters = (function() {
                 this.removeFormHtmlAfterLoadMore();
                 return;
             }
-            const $wrap = jQuery(CONFIG.selectors.loadMoreWrap);
-            if (!$wrap.length) return;
-            $wrap.next('.load-more-enquiry-form').remove();
-            const $form = jQuery('<div class="load-more-enquiry-form"></div>').html(formHtml);
-            $wrap.after($form);
+
+            let $anchor = jQuery(CONFIG.selectors.loadMoreWrap);
+            if (!$anchor.length) {
+                this.ensureLoadMoreWrap();
+                $anchor = jQuery(CONFIG.selectors.loadMoreWrap);
+            }
+            if (!$anchor.length) {
+                $anchor = jQuery(CONFIG.selectors.searchResults);
+            }
+            if (!$anchor.length) return;
+
+            jQuery('.load-more-enquiry-form').remove();
+
+            const $block = jQuery('<div class="load-more-enquiry-form"></div>').html(formHtml);
+            $anchor.after($block);
+
+            try {
+                jQuery(document).trigger('gform_post_render', [1, 0]);
+            } catch (e) { /* no-op */ }
         },
         removeFormHtmlAfterLoadMore: function() {
-            jQuery(CONFIG.selectors.loadMoreWrap).next('.load-more-enquiry-form').remove();
+            jQuery('.load-more-enquiry-form').remove();
         },
 
         setLoadMoreState: function(isLoading, currentPage = 1) {

@@ -306,7 +306,7 @@ jQuery(function ($) {
 
                 let child = $(value).data('child');
 
-                $('#gform_1 .' + child + ' input').val(val);
+                $('.Enquiry-modal .' + child + ' input, .acc_enquiry_form .' + child + ' input').val(val);
 
             });
 
@@ -374,7 +374,7 @@ jQuery(function ($) {
 
             let child = $(value).data('child');
 
-            $('#gform_1 .' + child + ' input').val(val);
+            $('.Enquiry-modal .' + child + ' input, .acc_enquiry_form .' + child + ' input').val(val);
 
             $('#gform_4 .' + child + ' input').val(val);
 
@@ -1165,10 +1165,168 @@ jQuery(function ($) {
     // });
 
     // ahtisham work start
+    // Two enquiry form instances can exist (listing + modal). Gravity Forms always
+    // updates the first #gform_1, so we temporarily park the inactive form on submit
+    // so validation messages only appear on the form the customer actually used.
+
+    var parkedEnquiryMount = null;
+    var parkedEnquiryTarget = null;
+
+    function getModalEnquiryScope() {
+        return $('.Enquiry-modal-content').first();
+    }
+
+    function getListingEnquiryScope() {
+        return $('.acc_enquiry_form').first();
+    }
+
+    function clearEnquiryValidationIn($scope) {
+        if (!$scope || !$scope.length) return;
+        const $wrapper = $scope.find('.gform_wrapper').first();
+        const $ctx = $wrapper.length ? $wrapper : $scope;
+        $ctx.removeClass('gform_validation_error');
+        $ctx.find('.gform_validation_errors, .validation_error, .validation_message').remove();
+        $ctx.find('.gfield_error').removeClass('gfield_error');
+        $ctx.find('.gfield_validation_message').remove();
+        $ctx.find('[aria-invalid="true"]').attr('aria-invalid', 'false');
+        $ctx.find('.gform_submission_error').remove();
+    }
+
+    function unparkEnquiryForm() {
+        const $parked = $('.kv-enquiry-parked');
+        if (!$parked.length && (!parkedEnquiryMount || !parkedEnquiryMount.length)) {
+            parkedEnquiryMount = null;
+            parkedEnquiryTarget = null;
+            return;
+        }
+
+        $parked.each(function () {
+            const $root = $(this);
+            $root.find('[data-kv-parked-id]').each(function () {
+                this.id = $(this).attr('data-kv-parked-id');
+                $(this).removeAttr('data-kv-parked-id');
+            });
+            $root.removeClass('kv-enquiry-parked');
+        });
+
+        parkedEnquiryMount = null;
+        parkedEnquiryTarget = null;
+    }
+
+    function parkEnquiryFormExcept(active) {
+        unparkEnquiryForm();
+
+        let $inactive = $();
+        if (active === 'modal') {
+            $inactive = getListingEnquiryScope().find('.mob_quote_form1').first();
+            parkedEnquiryTarget = 'listing';
+        } else if (active === 'listing') {
+            $inactive = $('.Enquiry-modal-form-slot .mob_quote_form1, .Enquiry-modal .mob_quote_form1').first();
+            parkedEnquiryTarget = 'modal';
+        }
+
+        if (!$inactive.length) {
+            parkedEnquiryTarget = null;
+            return;
+        }
+
+        // Keep the unused form visible, but rename its IDs so GF validation
+        // only updates the form that was actually submitted.
+        $inactive.addClass('kv-enquiry-parked');
+        $inactive.find('[id]').each(function () {
+            if ($(this).attr('data-kv-parked-id')) return;
+            $(this).attr('data-kv-parked-id', this.id);
+            this.id = 'parked_' + this.id;
+        });
+        parkedEnquiryMount = $inactive;
+    }
+
+    function enquiryFind(selector) {
+        if ($('body').hasClass('enquire-open')) {
+            const $inModal = getModalEnquiryScope().find(selector);
+            if ($inModal.length) return $inModal;
+        }
+        const $inListing = getListingEnquiryScope().find(selector);
+        if ($inListing.length) return $inListing;
+        return $(selector);
+    }
+
     function closeEnquiryModal() {
+        clearEnquiryValidationIn(getModalEnquiryScope());
+        unparkEnquiryForm();
         $('.Enquiry-modal').removeClass('active');
         $('body').removeClass('enquire-open');
+        window.kvEnquiryModalScrollY = null;
     }
+
+    function openEnquiryModal() {
+        unparkEnquiryForm();
+        clearEnquiryValidationIn(getModalEnquiryScope());
+        $('.Enquiry-modal').addClass('active');
+        $('body').addClass('enquire-open');
+        window.kvEnquiryModalScrollY = window.scrollY || window.pageYOffset || 0;
+    }
+
+    function lockEnquiryModalPageScroll() {
+        window.kvEnquiryModalScrollY = window.scrollY || window.pageYOffset || 0;
+    }
+
+    function restoreEnquiryModalPageScroll() {
+        if (window.kvEnquiryModalScrollY == null) return;
+        const y = window.kvEnquiryModalScrollY;
+        $('html, body').stop(true);
+        window.scrollTo(0, y);
+    }
+
+    function scrollEnquiryModalToValidation() {
+        const $content = $('.Enquiry-modal-content');
+        if (!$content.length || !$('.Enquiry-modal').hasClass('active')) return;
+
+        // Keep the page where it was — do not jump down to the listing enquiry form.
+        restoreEnquiryModalPageScroll();
+
+        const $target = $content.find(
+            '.gform_validation_errors, .validation_error, .gfield_error, .validation_message, .gfield_validation_message'
+        ).first();
+
+        if ($target.length) {
+            const contentOffset = $content.offset().top;
+            const targetOffset = $target.offset().top;
+            const nextTop = $content.scrollTop() + (targetOffset - contentOffset) - 24;
+            $content.stop(true).animate({ scrollTop: Math.max(0, nextTop) }, 250);
+        } else {
+            $content.stop(true).animate({ scrollTop: 0 }, 200);
+        }
+
+        // GF may animate page scroll slightly later — reinstate locked position.
+        window.setTimeout(restoreEnquiryModalPageScroll, 50);
+        window.setTimeout(restoreEnquiryModalPageScroll, 300);
+    }
+
+    // Before GF ajax submit: leave only the active form in the DOM.
+    $(document).on('submit', 'form#gform_1', function () {
+        const $form = $(this);
+        if ($form.closest('.Enquiry-modal').length) {
+            lockEnquiryModalPageScroll();
+            parkEnquiryFormExcept('modal');
+        } else if ($form.closest('.acc_enquiry_form, .load-more-enquiry-form').length) {
+            parkEnquiryFormExcept('listing');
+        }
+    });
+
+    $(document).on(
+        'click',
+        'form#gform_1 input[type="submit"], form#gform_1 #gform_submit_button_1, form#gform_1 .gform_button',
+        function () {
+            const $form = $(this).closest('form');
+            if ($form.closest('.Enquiry-modal').length) {
+                lockEnquiryModalPageScroll();
+                parkEnquiryFormExcept('modal');
+            } else if ($form.closest('.acc_enquiry_form, .load-more-enquiry-form').length) {
+                parkEnquiryFormExcept('listing');
+            }
+        }
+    );
 
     $(document).on('click', '.Enquiry-modal-close, .Enquiry-modal-overlay', function (e) {
         e.preventDefault();
@@ -1201,11 +1359,11 @@ jQuery(function ($) {
 
     function populateEnquiryModal(data) {
         data = data || {};
-        const $modal = $('.Enquiry-modal-content');
-        if (!$modal.length) return;
+        const $scope = getModalEnquiryScope();
+        if (!$scope.length) return;
 
         const hasProductData = !!(data.propertyName || data.resortName || data.checkIn || data.checkOut || data.roomName);
-        const $propertyField = $modal.find('#input_1_39, .property_name textarea');
+        const $propertyField = $scope.find('#input_1_39, .property_name textarea').first();
 
         if (data.propertyName) {
             $propertyField.val(data.propertyName).prop('readonly', true).addClass('disabled');
@@ -1213,14 +1371,14 @@ jQuery(function ($) {
             $propertyField.val('').prop('readonly', false).removeClass('disabled');
         }
 
-        const $resortField = $modal.find('#input_1_4, .resort_name select');
+        const $resortField = $scope.find('#input_1_4, .resort_name select').first();
         if (data.resortName) {
             $resortField.val(data.resortName).addClass('disabled');
         } else {
             $resortField.removeClass('disabled');
         }
 
-        const $roomField = $modal.find('#input_1_44, .room_name input');
+        const $roomField = $scope.find('#input_1_44, .room_name input').first();
         if (data.roomName) {
             $roomField.val(data.roomName);
         } else if (hasProductData) {
@@ -1229,18 +1387,18 @@ jQuery(function ($) {
 
         if (data.checkIn) {
             const checkInDmy = convertYMDToDMY(data.checkIn);
-            $modal.find('#input_1_5').val(checkInDmy).trigger('change');
+            $scope.find('#input_1_5').val(checkInDmy).trigger('change');
             syncCheckin(checkInDmy);
         }
 
         if (data.checkOut) {
             const checkOutDmy = convertYMDToDMY(data.checkOut);
-            $modal.find('#input_1_6').val(checkOutDmy).prop('disabled', false).trigger('change');
+            $scope.find('#input_1_6').val(checkOutDmy).prop('disabled', false).trigger('change');
             syncCheckout(checkOutDmy);
         }
 
         if (hasProductData) {
-            $modal.find('.enquiry_type input').attr('value', 'Product').trigger('change');
+            $scope.find('.enquiry_type input').attr('value', 'Product').trigger('change');
         }
     }
 
@@ -1248,8 +1406,7 @@ jQuery(function ($) {
         e.preventDefault();
 
         const $btn = $(this);
-        $('.Enquiry-modal').addClass('active');
-        $('body').addClass('enquire-open');
+        openEnquiryModal();
 
         const $ratePlanBox = $btn.closest('.rb-rateplan-box');
         if ($ratePlanBox.length) {
@@ -1265,14 +1422,18 @@ jQuery(function ($) {
         }
 
         if ($btn.hasClass('enquire_btn')) {
-            const propertyName = $btn.parents('.accom-content').find('h3').text().trim();
+            const $card = $btn.closest('.accom-card, .result-card');
+            const propertyName = (
+                $btn.parents('.accom-content').find('h3').first().text() ||
+                $card.find('.accom-content h3').first().text() ||
+                ''
+            ).trim();
             populateEnquiryModal({ propertyName: propertyName });
             return;
         }
 
         populateEnquiryModal({});
     });
-
     // ahtisham work end
 
 
@@ -2071,11 +2232,11 @@ jQuery(function ($) {
 
             // so we read from them instead of localStorage (which belongs to the search bar).
 
-            var reAdults = parseInt($('#input_1_7').val(), 10);
+            var reAdults = parseInt(enquiryFind('#input_1_7').val(), 10);
 
-            var reChildren = parseInt($('#input_1_10').val(), 10);
+            var reChildren = parseInt(enquiryFind('#input_1_10').val(), 10);
 
-            var reInfants = parseInt($('#input_1_42').val(), 10);
+            var reInfants = parseInt(enquiryFind('#input_1_42').val(), 10);
 
 
 
@@ -2084,6 +2245,18 @@ jQuery(function ($) {
             if (reChildren >= 0) { $('.eq-children').val(reChildren); }
 
             if (reInfants >= 0) { $('.eq-infants').val(reInfants); }
+
+            // Keep popup open after validation, and restore the parked (unused) form
+            // so it does not inherit validation messages from the form that was submitted.
+            if (typeof unparkEnquiryForm === 'function') {
+                unparkEnquiryForm();
+            }
+            if ($('body').hasClass('enquire-open')) {
+                $('.Enquiry-modal').addClass('active');
+                if (typeof scrollEnquiryModalToValidation === 'function') {
+                    scrollEnquiryModalToValidation();
+                }
+            }
 
         }
 
@@ -2739,15 +2912,13 @@ jQuery(function ($) {
 
         $('.eq-adults').attr('value', adults);
 
-        $('#input_1_7').val(adults);
-
-        $('#input_1_7').trigger('change');
+        enquiryFind('#input_1_7').val(adults).trigger('change');
 
 
 
         $('.eq-children').attr('value', children);
 
-        $('#input_1_10').val(children);
+        enquiryFind('#input_1_10').val(children);
 
         // no trigger('change') here — avoids opening the child age popup on page load
 
@@ -2755,9 +2926,7 @@ jQuery(function ($) {
 
         $('.eq-infants').attr('value', infants);
 
-        $('#input_1_42').val(infants);
-
-        $('#input_1_42').trigger('change');
+        enquiryFind('#input_1_42').val(infants).trigger('change');
 
     }
 

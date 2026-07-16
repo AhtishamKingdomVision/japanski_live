@@ -334,7 +334,15 @@ section.child_age .ch_inn ul li:nth-child(3n) { margin-right: 2%; }
 section.child_age .ch_inn ul li:nth-child(2n) { margin-right: 0; }
 section.child_age .ch_inn ul { overflow-x: auto; padding: 15px; }
 section.child_age .ch_inn ul li select option { background: #091825; }
-.gform_wrapper.quote_form_wrapper .validation_message { color: #fff; font-size: 13px; position: absolute; bottom: -17px; }
+.gform_wrapper.quote_form_wrapper .validation_message,
+.gform_wrapper.quote_form_wrapper .gfield_validation_message,
+.gform_wrapper.quote_form_wrapper .gfield_description.validation_message {
+    color: #ffb4b4;
+    font-size: 13px;
+    position: static;
+    display: block !important;
+    margin-top: 6px;
+}
 
 
 

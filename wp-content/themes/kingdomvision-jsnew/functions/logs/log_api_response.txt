@@ -678,3 +678,10 @@
     [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4364
 )
  -- -- -- 2026-07-15 12:21:38<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Muhammad asasfad has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4376
+)
+ -- -- -- 2026-07-16 13:06:35<br></pre>

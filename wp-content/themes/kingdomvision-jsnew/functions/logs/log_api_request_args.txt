@@ -9170,3 +9170,48 @@ Sam Pimlott
     [redirection] => 5
 )
 <br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Muhammad asasfad
+            [first_name] => Muhammad
+            [last_name] => asasfad
+            [email] => ahtisham.kv@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 13-03-2027
+            [check_out] => 17-03-2027
+            [no_of_adults] => 
+            [no_of_childs] => 
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => asdfasfasf
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>

@@ -170,9 +170,7 @@ if( is_page( [ 'accommodation', 'hotels', 'deals', 'onsen', 'chalets', 'ski-in-s
 
         <div class="Enquiry-modal-content">
             <a class="Enquiry-modal-close" id="close-Enquiry-info">x</a>
-
-            ' . get_enquiry_form_html() . '
-
+            <div class="Enquiry-modal-form-slot">' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '</div>
         </div>
     </div>';
 }

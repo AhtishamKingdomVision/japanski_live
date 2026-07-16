@@ -287,56 +287,47 @@ jQuery(function ($) {
 
 
     // Child Age Work
+    var kvChildAgeTargetScope = null;
 
-    $(document).on('change', '#input_1_10, #input_4_10 ', function (e) {
+    function kvGetEnquiryGuestScope($el) {
+        const $scope = $el.closest('.gform_wrapper, .mob_quote_form1, .Enquiry-modal-content, .acc_enquiry_form');
+        return $scope.length ? $scope : $();
+    }
+
+    function kvWriteChildAgesToScope($scope) {
+        if (!$scope || !$scope.length) return;
+        $.each($('section.child_age .ch_inn ul li:visible select'), function (index, value) {
+            let val = $(value).val();
+            let child = $(value).data('child');
+            $scope.find('.' + child + ' input').val(val);
+        });
+    }
+
+    $(document).on('change', '.rec_children select, #input_1_10, #input_4_10', function (e) {
 
         let noOfChilds = $(this).val();
+        kvChildAgeTargetScope = kvGetEnquiryGuestScope($(this));
 
         if (noOfChilds == '')
-
             return;
-
-
 
         if (noOfChilds == '0') {
-
-            $.each($('section.child_age .ch_inn ul li:visible select'), function (index, value) {
-
-                let val = $(value).val();
-
-                let child = $(value).data('child');
-
-                $('.Enquiry-modal .' + child + ' input, .acc_enquiry_form .' + child + ' input').val(val);
-
-            });
-
+            kvWriteChildAgesToScope(kvChildAgeTargetScope);
             return;
-
         }
 
-
-
         $('section.child_age').addClass('active');
-
         $('section.child_age input').val('');
-
         $('section.child_age .ch_inn ul li').show();
 
         // DOM ELEMENTS
-
         $.each($('section.child_age .ch_inn ul li'), function (index, value) {
-
             if ((index + 1) > noOfChilds) {
-
                 $(value).hide();
-
             }
-
         });
 
     });
-
-
 
     $(document).on('click', 'section.child_age .age_confirm , section.child_age .child_close', function (e) {
 
@@ -356,8 +347,6 @@ jQuery(function ($) {
 
         });
 
-
-
         if (!condition) {
 
             $('section.child_age .age-error-box').show()
@@ -366,7 +355,9 @@ jQuery(function ($) {
 
         }
 
-
+        const $scope = kvChildAgeTargetScope && kvChildAgeTargetScope.length
+            ? kvChildAgeTargetScope
+            : ($('body').hasClass('enquire-open') ? $('.Enquiry-modal-content') : $('.acc_enquiry_form'));
 
         $.each($('section.child_age .ch_inn ul li:visible select'), function (index, value) {
 
@@ -374,7 +365,7 @@ jQuery(function ($) {
 
             let child = $(value).data('child');
 
-            $('.Enquiry-modal .' + child + ' input, .acc_enquiry_form .' + child + ' input').val(val);
+            $scope.find('.' + child + ' input').val(val);
 
             $('#gform_4 .' + child + ' input').val(val);
 
@@ -2226,25 +2217,26 @@ jQuery(function ($) {
 
 
 
-            // Sync visual eq-popover inputs from GF fields.
+            // Sync visual eq-popover inputs from THIS form's GF fields only.
+            // Use class selectors only — duplicate #input_1_* IDs are unsafe with .find().
+            $('.mob_quote_form1, .gform_wrapper.quote_form_wrapper').each(function () {
+                const $wrap = $(this);
+                if (!$wrap.find('.rec_adults, .eq-adults').length) {
+                    return;
+                }
 
-            // GF preserves submitted values in the hidden selects on validation re-render,
+                var reAdults = parseInt($wrap.find('.rec_adults select').first().val(), 10);
+                var reChildren = parseInt($wrap.find('.rec_children select').first().val(), 10);
+                var reInfants = parseInt($wrap.find('.rec_infants select').first().val(), 10);
 
-            // so we read from them instead of localStorage (which belongs to the search bar).
+                if (reAdults > 0) { $wrap.find('.eq-adults').val(reAdults); }
+                if (!isNaN(reChildren) && reChildren >= 0) { $wrap.find('.eq-children').val(reChildren); }
+                if (!isNaN(reInfants) && reInfants >= 0) { $wrap.find('.eq-infants').val(reInfants); }
+            });
 
-            var reAdults = parseInt(enquiryFind('#input_1_7').val(), 10);
-
-            var reChildren = parseInt(enquiryFind('#input_1_10').val(), 10);
-
-            var reInfants = parseInt(enquiryFind('#input_1_42').val(), 10);
-
-
-
-            if (reAdults > 0) { $('.eq-adults').val(reAdults); }
-
-            if (reChildren >= 0) { $('.eq-children').val(reChildren); }
-
-            if (reInfants >= 0) { $('.eq-infants').val(reInfants); }
+            if (typeof window.kvRefreshEnquiryGuestLabels === 'function') {
+                window.kvRefreshEnquiryGuestLabels();
+            }
 
             // Keep popup open after validation, and restore the parked (unused) form
             // so it does not inherit validation messages from the form that was submitted.
@@ -2900,34 +2892,30 @@ jQuery(function ($) {
 
 
 
+    // Initialise each enquiry guest popover from its own fields / HTML defaults.
+    // Do NOT seed from search-card localStorage — guest counts stay independent.
     if ($('.eq-guests-popover').length > 0) {
+        $('.eq-guests-popover').each(function () {
+            const $pop = $(this);
+            const $scope = $pop.closest('.gform_wrapper, .mob_quote_form1, .Enquiry-modal-content, .acc_enquiry_form');
+            const $ctx = $scope.length ? $scope : $pop.parent();
 
-        let adults = localStorage.getItem('sb_adults') !== null ? parseInt(localStorage.getItem('sb_adults')) : 2,
+            let adults = parseInt($ctx.find('.rec_adults select').first().val(), 10);
+            let children = parseInt($ctx.find('.rec_children select').first().val(), 10);
+            let infants = parseInt($ctx.find('.rec_infants select').first().val(), 10);
 
-            children = localStorage.getItem('sb_children') !== null ? parseInt(localStorage.getItem('sb_children')) : 0,
+            if (isNaN(adults) || adults < 1) adults = parseInt($pop.find('.eq-adults').val(), 10) || 2;
+            if (isNaN(children) || children < 0) children = parseInt($pop.find('.eq-children').val(), 10) || 0;
+            if (isNaN(infants) || infants < 0) infants = parseInt($pop.find('.eq-infants').val(), 10) || 0;
 
-            infants = localStorage.getItem('sb_infants') !== null ? parseInt(localStorage.getItem('sb_infants')) : 0;
+            $pop.find('.eq-adults').val(adults);
+            $pop.find('.eq-children').val(children);
+            $pop.find('.eq-infants').val(infants);
 
-
-
-        $('.eq-adults').attr('value', adults);
-
-        enquiryFind('#input_1_7').val(adults).trigger('change');
-
-
-
-        $('.eq-children').attr('value', children);
-
-        enquiryFind('#input_1_10').val(children);
-
-        // no trigger('change') here — avoids opening the child age popup on page load
-
-
-
-        $('.eq-infants').attr('value', infants);
-
-        enquiryFind('#input_1_42').val(infants).trigger('change');
-
+            $ctx.find('.rec_adults select').first().val(adults);
+            $ctx.find('.rec_children select').first().val(children);
+            $ctx.find('.rec_infants select').first().val(infants);
+        });
     }
 
 
@@ -3042,8 +3030,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let label = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
 
-
-
             if (g.infants > 0) {
 
                 label += `<br>${g.infants} Infant${g.infants !== 1 ? 's' : ''}`;
@@ -3052,101 +3038,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-            // For HTML display fields
-
-            jQuery('.js-sb-guests-display, .js-guests-display').each(function () {
-
-                jQuery(this).html(label).removeClass('empty');
-
-            });
-
-
-
-            // For input field: original form + popup form
-
-            const inputLabel = label.replace('<br>', ', ');
-
-            jQuery('.sv-guests').val(inputLabel);
-
-
-
-            if (el.display) {
-
-                el.display.classList.toggle('empty', totalGuests <= 0 && g.infants <= 0);
-
+            // Shared guests: search cards + enquiry popup + below enquiry form.
+            if (typeof window.kvApplySharedGuests === 'function') {
+                window.kvApplySharedGuests(g);
+            } else if (typeof window.syncGuestUI === 'function') {
+                window.syncGuestUI(g);
+            } else {
+                document.querySelectorAll('.search-card.js-search-card').forEach(function (sc) {
+                    const $sc = jQuery(sc);
+                    $sc.find('.js-sb-guests-display, .js-guests-display').html(label).removeClass('empty');
+                    $sc.find('.js-v-adults').text(g.adults);
+                    $sc.find('.js-v-children').text(g.children);
+                    $sc.find('.js-v-infants').text(g.infants);
+                    $sc.find('.js-m-adults').val(g.adults);
+                    $sc.find('.js-m-children').val(g.children);
+                    $sc.find('.js-m-infants').val(g.infants);
+                    $sc.find('.js-btn-adults-minus').prop('disabled', g.adults <= 1);
+                    $sc.find('.js-btn-children-minus').prop('disabled', g.children <= 0);
+                    $sc.find('.js-btn-infants-minus').prop('disabled', g.infants <= 0);
+                });
             }
 
-
-
-            jQuery('.js-v-adults').text(g.adults);
-
-            jQuery('.js-v-children').text(g.children);
-
-            jQuery('.js-v-infants').text(g.infants);
-
-
-
-            jQuery('.js-m-adults').val(g.adults);
-
-            jQuery('.js-m-children').val(g.children);
-
-            jQuery('.js-m-infants').val(g.infants);
-
-
-
+            // Keep this card's direct refs in sync too
+            if (el.display) {
+                jQuery(el.display).html(label).removeClass('empty');
+                el.display.classList.toggle('empty', totalGuests <= 0 && g.infants <= 0);
+            }
+            if (el.adultsVal) el.adultsVal.textContent = g.adults;
+            if (el.childrenVal) el.childrenVal.textContent = g.children;
+            if (el.infantsVal) el.infantsVal.textContent = g.infants;
             if (el.btnAM) el.btnAM.disabled = g.adults <= 1;
-
-
-
-            jQuery('.js-btn-adults-minus').prop('disabled', g.adults <= 1);
-
-            jQuery('.js-btn-children-minus').prop('disabled', g.children <= 0);
-
-            jQuery('.js-btn-infants-minus').prop('disabled', g.infants <= 0);
-
-
-
+            if (el.btnCM) el.btnCM.disabled = g.children <= 0;
             if (el.btnIM) el.btnIM.disabled = g.infants <= 0;
-
-
-
-            if (el.mAdults) el.mAdults.value = g.adults;
-
-            if (el.mChildren) el.mChildren.value = g.children;
-
-            if (el.mInfants) el.mInfants.value = g.infants;
-
-
 
         }
 
 
 
+        // Open/close is handled by onclick="toggleGuests(...)" on the field.
+        // Do NOT toggle .open here — that double-toggles and cancels the popover.
         el.field.addEventListener('click', function (e) {
-
-
-
             e.stopPropagation();
-
-
-
-            guestPopOpen = !guestPopOpen;
-
-
-
-            el.pop.classList.toggle('open', guestPopOpen);
-
-
-
+            guestPopOpen = el.pop.classList.contains('open');
         });
 
 
 
         document.addEventListener('click', function (e) {
-
-
-
-            if (!guestPopOpen) return;
 
 
 
@@ -3196,6 +3134,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     const row = this.closest('.g-row');
 
+                    // Keep per-card state aligned with shared search guest storage
+                    // (hero + sticky header are separate DOM cards).
+                    const storedAdults = parseInt(localStorage.getItem('sb_adults'), 10);
+                    const storedChildren = parseInt(localStorage.getItem('sb_children'), 10);
+                    const storedInfants = parseInt(localStorage.getItem('sb_infants'), 10);
+                    if (Number.isFinite(storedAdults) && storedAdults > 0) g.adults = storedAdults;
+                    if (Number.isFinite(storedChildren) && storedChildren >= 0) g.children = storedChildren;
+                    if (Number.isFinite(storedInfants) && storedInfants >= 0) g.infants = storedInfants;
+
 
 
                     const applyLocalAdjust = function (type, delta) {
@@ -3223,46 +3170,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                     const runAdjust = function (type, delta) {
-
-                        if (typeof window.adj === 'function') {
-
-
-
-                            // Always trust JS state, never DOM
-
-                            const current = {
-
-                                adults: g.adults,
-
-                                children: g.children,
-
-                                infants: g.infants
-
-                            };
-
-
-
-                            current[type] = Math.max(
-
-                                type === 'adults' ? 1 : 0,
-
-                                (current[type] || 0) + delta
-
-                            );
-
-
-
-                            g = current;
-
-
-
-                            renderGuests();
-
-                            return;
-
-                        }
-
-
 
                         applyLocalAdjust(type, delta);
 

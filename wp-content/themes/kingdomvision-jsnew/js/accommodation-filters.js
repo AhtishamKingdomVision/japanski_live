@@ -391,6 +391,15 @@ const AccommodationFilters = (function() {
             try {
                 jQuery(document).trigger('gform_post_render', [1, 0]);
             } catch (e) { /* no-op */ }
+
+            if (typeof window.kvRefreshEnquiryGuestLabels === 'function') {
+                window.kvRefreshEnquiryGuestLabels();
+            }
+            window.setTimeout(function () {
+                if (typeof window.kvRefreshEnquiryGuestLabels === 'function') {
+                    window.kvRefreshEnquiryGuestLabels();
+                }
+            }, 100);
         },
         removeFormHtmlAfterLoadMore: function() {
             jQuery('.load-more-enquiry-form').remove();
@@ -853,6 +862,10 @@ const AccommodationFilters = (function() {
                         .removeClass('empty');
 
                 });
+
+                if (typeof window.kvApplySharedGuests === 'function') {
+                    window.kvApplySharedGuests({ adults, children, infants }, { skipSearch: true });
+                }
 
             },
 
@@ -3808,9 +3821,12 @@ const AccommodationFilters = (function() {
 
                 jQuery('.datedropper').removeClass(' picker-focused');
 
-                $card.find('.guests-popover').toggleClass('show');
-
-                $card.find('.sb-guests-desktop').toggleClass('active');
+                // CSS uses .open (not .show)
+                const $pop = $card.find('.guests-popover');
+                const willOpen = !$pop.hasClass('open');
+                jQuery('.search-card .guests-popover').removeClass('open show');
+                $pop.toggleClass('open', willOpen);
+                $card.find('.sb-guests-desktop').toggleClass('active', willOpen);
 
             };
 
@@ -3827,6 +3843,7 @@ const AccommodationFilters = (function() {
 
 
                 const $card = jQuery(el).closest('.search-card');
+                if (!$card.length) return;
 
                 const typeClass = type.trim();
 
@@ -3854,8 +3871,7 @@ const AccommodationFilters = (function() {
 
                 }
 
-                // Pass the card context so we get the counts for the correct form
-
+                // Counts for THIS search card only
                 const counts = {
 
                     adults: parseInt($card.find('.js-v-adults').first().text(), 10) || 2,
@@ -3868,17 +3884,11 @@ const AccommodationFilters = (function() {
 
 
 
-                $counter.text(val);
-
-                
-
                 counts[typeClass] = val;
 
-
-
+                // Sync ALL search cards (hero + sticky header), not enquiry forms
                 SearchState.applyGuests(counts);
-
-                SearchState.save();
+                SearchState.save($card, counts);
 
             };
 
@@ -3984,9 +3994,9 @@ const AccommodationFilters = (function() {
 
             jQuery(document).on('click', function(e) {
 
-                if (!jQuery(e.target).closest('.sb-guests-desktop, .guests-popover').length) {
+                if (!jQuery(e.target).closest('.sb-guests, .sb-guests-desktop, .guests-popover').length) {
 
-                    jQuery('.guests-popover').removeClass('open');
+                    jQuery('.guests-popover').removeClass('open show');
 
                     jQuery('.sb-guests-desktop').removeClass('active');
 

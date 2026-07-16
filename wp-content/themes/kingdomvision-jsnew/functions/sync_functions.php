@@ -1608,9 +1608,11 @@ function sq_mapping_properties($properties) {
 
         $hotelid = get_post_id_by_typeId($property_id, 'accommodation');
 
-        $property_type =  $property['property_type'];
+        $property_type =  strtolower(trim((string) ($property['property_type'] ?? '')));
 
-        $is_roomboss = $property_type == strtolower( 'roomboss' ) ? 1 : 0;
+        $has_roomboss_hotel = trim((string) ($property['room_boss_hotel_id'] ?? '')) !== '';
+
+        $is_roomboss = ($property_type === strtolower('roomboss') || $property_type === 'hybrid' || $has_roomboss_hotel) ? 1 : 0;
 
         // $is_enabled = $property['is_enabled'] == 1;
 
@@ -2711,13 +2713,17 @@ function sq_mapping_properties($properties) {
 
 
 
-                // Add RoomBoss-specific metadata if applicable
+                // Add RoomBoss-specific metadata only for RoomBoss-backed
+                // rooms. Hybrid properties can also contain BedBank rooms,
+                // and those must not be shown in the RoomBoss website flow.
 
-                if ($is_roomboss) {
+                $room_tid = trim((string) ($roomType['room_boss_room_id'] ?? ''));
+
+                $room_is_roomboss = $is_roomboss && $room_tid !== '';
+
+                if ($room_is_roomboss) {
 
                     $room_desc = isset($roomType['description']) ? trim($roomType['description']) : '';
-
-                    $room_tid = trim($roomType['room_boss_room_id'] ?? '');
 
 
 

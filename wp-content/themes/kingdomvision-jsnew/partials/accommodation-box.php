@@ -23,7 +23,14 @@ try {
     }
 
     // ✅ STEP 2: Retrieve and validate ACF fields
-    $is_roomboss = (bool) get_field('is_roomboss', $post_id);
+    $property_id_attr = get_field('property_id', $post_id);
+    if (empty($property_id_attr)) {
+        $property_id_attr = get_post_meta($post_id, 'property_id', true);
+    }
+
+    $is_roomboss = function_exists('kv_property_uses_roomboss_rooms')
+        ? kv_property_uses_roomboss_rooms($post_id, $property_id_attr)
+        : (bool) get_field('is_roomboss', $post_id);
     $image = has_post_thumbnail($post_id) ? get_post_thumbnail_id($post_id) : get_template_directory_uri().'/images/placeholder-featured.jpg';
     $short_desc = get_field('bs_short_description', $post_id) ? trim( sanitize_text_field( get_field('bs_short_description', $post_id) ) ) : '';
     $db_price = (float) get_field('min_room_price', $post_id) ? get_field('min_room_price', $post_id) : '';
@@ -84,7 +91,7 @@ try {
     // ✅ STEP 7: Get room count safely
     $room_count = 0;
     if (!empty($hotel_tid) && function_exists('get_hotel_rooms')) {
-        $hotel_data = get_hotel_rooms($hotel_tid);
+        $hotel_data = get_hotel_rooms($hotel_tid, [], $is_roomboss ? 'roomboss' : '');
         if (is_array($hotel_data) && isset($hotel_data['rooms'])) {
             $room_count = count($hotel_data['rooms']);
         }
@@ -106,10 +113,6 @@ try {
 
 if (!empty($post_title)) : ?>
 <?php
-    $property_id_attr = get_field('property_id', $post_id);
-    if (empty($property_id_attr)) {
-        $property_id_attr = get_post_meta($post_id, 'property_id', true);
-    }
     $resort_name_attr = str_replace(' Accommodation', '', (string) hz_get_parent_category($post_id));
 ?>
 <div class="result-card accom-card <?php echo $overlay ? 'has-overlay' : ''; ?>"

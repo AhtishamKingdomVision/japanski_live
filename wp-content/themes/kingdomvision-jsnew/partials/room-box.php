@@ -65,7 +65,9 @@ try {
     $resort_name = '';
 
     if (!empty($acc_id)) {
-        $is_roomboss = (bool) get_field('is_roomboss', $acc_id);
+        $is_roomboss = function_exists('kv_property_uses_roomboss_rooms')
+            ? kv_property_uses_roomboss_rooms($acc_id, $property_id)
+            : (bool) get_field('is_roomboss', $acc_id);
         $bookingPermission = get_field('acc_booking_permission', $acc_id);
 
         // Get area information

@@ -106,6 +106,7 @@ function theme_files()
         array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'themeUrl' => get_stylesheet_directory_uri(),
+            'homeUrl' => trailingslashit(home_url('/')),
             'check_start_date' => $weekStartDate,
             'current_date_in_time' => $current_date_in_time,
             'weekStartDate_in_time' => $weekStartDate_in_time,

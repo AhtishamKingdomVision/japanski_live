@@ -33,6 +33,13 @@
     // property during a session.
     const urlCache = Object.create(null);
 
+    function bookingPageUrl() {
+        const home = (typeof kv_object !== 'undefined' && kv_object.homeUrl)
+            ? String(kv_object.homeUrl)
+            : '/';
+        return home.replace(/\/?$/, '/') + 'booking/';
+    }
+
     /**
      * Read the cart from localStorage.
      */
@@ -523,7 +530,7 @@
         //         window.location.href = '/';
         //     }
         // });
-        window.location.href = '/booking/';
+        window.location.href = bookingPageUrl();
     }
 
     function onProceedClick(e) {
@@ -549,7 +556,7 @@
         //         window.location.href = '/';
         //     }
         // });
-        window.location.href = '/booking/';
+        window.location.href = bookingPageUrl();
     }
 
     function escapeHtml(s) {

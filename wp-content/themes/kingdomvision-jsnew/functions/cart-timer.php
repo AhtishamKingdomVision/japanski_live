@@ -107,7 +107,10 @@ if (!function_exists('kv_get_cart_timer_config')) {
 
         $is_roomboss = false;
         if (!empty($accommodation_post_id)) {
-            $is_roomboss = (bool) get_field('is_roomboss', $accommodation_post_id);
+            $property_id = get_post_meta($accommodation_post_id, 'property_id', true);
+            $is_roomboss = function_exists('kv_property_uses_roomboss_rooms')
+                ? kv_property_uses_roomboss_rooms($accommodation_post_id, $property_id)
+                : (bool) get_field('is_roomboss', $accommodation_post_id);
         }
 
         $duration = 0;

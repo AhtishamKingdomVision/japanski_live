@@ -1086,7 +1086,7 @@ function wp_get_rate_plan_by_id($plan_id, $wp_post_id) {
 
 
 
-function get_rooms_by_property_id($property_id)
+function get_rooms_by_property_id($property_id, $room_source = '')
 
 {
 
@@ -1113,6 +1113,20 @@ function get_rooms_by_property_id($property_id)
         ),
 
     );
+
+    if ($room_source === 'roomboss') {
+
+        $args['meta_query'][] = array(
+
+            'key' => 'roomboss_room_id',
+
+            'value' => '',
+
+            'compare' => '!=',
+
+        );
+
+    }
 
     $room = get_posts($args);
 
@@ -2274,7 +2288,11 @@ function get_rooms_func($atts) {
 
 
 
-    $rooms = get_rooms_by_property_id($property_id);
+    $room_source = function_exists('kv_property_uses_roomboss_rooms') && kv_property_uses_roomboss_rooms(0, $property_id)
+        ? 'roomboss'
+        : '';
+
+    $rooms = get_rooms_by_property_id($property_id, $room_source);
 
 
 
@@ -6023,9 +6041,13 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
         }
 
-        // Determine property source (RoomBoss vs BedBank)
+        // Determine property source (RoomBoss/Hybrid vs BedBank)
 
-        $is_bedbank = empty($property_location['room_boss_hotel_id']);
+        $property_type = strtolower(trim((string) ($property_location['property_type'] ?? '')));
+
+        $has_roomboss_hotel = trim((string) ($property_location['room_boss_hotel_id'] ?? '')) !== '';
+
+        $is_bedbank = !$has_roomboss_hotel && $property_type !== 'roomboss' && $property_type !== 'hybrid';
 
         // Resolve hotel ID
 
@@ -6585,7 +6607,9 @@ function render_rooms_section($atts) {
 
     // ✅ STEP 2: Get room data via helper function
 
-    $data = get_hotel_rooms($property_id);
+    $is_roomboss = function_exists('kv_property_uses_roomboss_rooms') && kv_property_uses_roomboss_rooms($post_id, $property_id);
+
+    $data = get_hotel_rooms($property_id, [], $is_roomboss ? 'roomboss' : '');
 
     // ✅ STEP 3: Validate array structure before accessing keys
 
@@ -6610,8 +6634,6 @@ function render_rooms_section($atts) {
 
 
     // ✅ STEP 4: Fetch and validate roomboss field once
-
-    $is_roomboss = !empty(get_field('is_roomboss', $post_id)) ? true : false;
 
     ?>
 

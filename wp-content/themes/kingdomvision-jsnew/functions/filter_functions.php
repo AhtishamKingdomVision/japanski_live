@@ -2438,7 +2438,84 @@ function hz_get_local_property_ids_and_args(array $input): array {
 
  */
 
-function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [])
+if (!function_exists('kv_property_uses_roomboss_rooms')) {
+    /**
+     * Treat RoomBoss and hybrid properties as RoomBoss on the website.
+     *
+     * Hybrid properties can have a BedBank property type but still carry
+     * RoomBoss hotel/room IDs. Those should use the RoomBoss room flow.
+     */
+    function kv_property_uses_roomboss_rooms($post_id = 0, $property_id = 0): bool {
+        $post_id = absint($post_id);
+        $property_id = absint($property_id);
+
+        if ($post_id > 0) {
+            if ((bool) get_field('is_roomboss', $post_id)) {
+                return true;
+            }
+
+            if (trim((string) get_post_meta($post_id, 'acc_hotel_id', true)) !== '') {
+                return true;
+            }
+        }
+
+        if ($property_id > 0) {
+            $accommodation_ids = get_posts([
+                'post_type'      => 'accommodation',
+                'posts_per_page' => 1,
+                'fields'         => 'ids',
+                'post_status'    => 'any',
+                'meta_query'     => [
+                    [
+                        'key'     => 'property_id',
+                        'value'   => $property_id,
+                        'compare' => '=',
+                    ],
+                ],
+            ]);
+
+            if (!empty($accommodation_ids)) {
+                $accommodation_id = absint($accommodation_ids[0]);
+
+                if ((bool) get_field('is_roomboss', $accommodation_id)) {
+                    return true;
+                }
+
+                if (trim((string) get_post_meta($accommodation_id, 'acc_hotel_id', true)) !== '') {
+                    return true;
+                }
+            }
+
+            $room_ids = get_posts([
+                'post_type'      => 'japan_rooms',
+                'posts_per_page' => 1,
+                'fields'         => 'ids',
+                'post_status'    => ['publish', 'draft', 'pending'],
+                'meta_query'     => [
+                    'relation' => 'AND',
+                    [
+                        'key'     => 'property_id',
+                        'value'   => $property_id,
+                        'compare' => '=',
+                    ],
+                    [
+                        'key'     => 'roomboss_room_id',
+                        'value'   => '',
+                        'compare' => '!=',
+                    ],
+                ],
+            ]);
+
+            if (!empty($room_ids)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $room_source = '')
 
 {
 
@@ -2504,6 +2581,14 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [])
 
             }
 
+        }
+
+        if ($room_source === 'roomboss') {
+            $meta_query[] = [
+                'key'     => 'roomboss_room_id',
+                'value'   => '',
+                'compare' => '!=',
+            ];
         }
 
 
@@ -3851,9 +3936,11 @@ function kv_bs_available_room_data(
 
 
 
-        // ✅ STEP 4: Extract room data from API response
+        // ✅ STEP 4: Extract room data from all units in the API response.
 
-        if (empty($hotel[0]['Units'][0]['Rooms']) || !is_array($hotel[0]['Units'][0]['Rooms'])) {
+        $property = $hotel[0] ?? [];
+
+        if (empty($property['Units']) || !is_array($property['Units'])) {
 
             return [];
 
@@ -3861,13 +3948,51 @@ function kv_bs_available_room_data(
 
 
 
-        $rooms = $hotel[0]['Units'][0]['Rooms'];
+        $treat_as_roomboss = kv_property_uses_roomboss_rooms(0, $propertyId);
+
+        $rooms = [];
+
+        foreach ($property['Units'] as $unit) {
+
+            if (empty($unit['Rooms']) || !is_array($unit['Rooms'])) {
+
+                continue;
+
+            }
+
+            foreach ($unit['Rooms'] as $room) {
+
+                if (empty($room) || !is_array($room)) {
+
+                    continue;
+
+                }
+
+                $room_is_roomboss = isset($room['RoomBossData']) && intval($room['RoomBossData']) === 1;
+
+                if ($treat_as_roomboss && !$room_is_roomboss) {
+
+                    continue;
+
+                }
+
+                $rooms[] = $room;
+
+            }
+
+        }
+
+        if (empty($rooms)) {
+
+            return [];
+
+        }
 
 
 
         // ✅ STEP 5: Determine property type (RoomBoss vs BedBank)
 
-        $is_roomboss = !empty($hotel['PropertyRoomBossHotelId']) ? 1 : 0;
+        $is_roomboss = ($treat_as_roomboss || !empty($property['PropertyRoomBossHotelId'])) ? 1 : 0;
 
 
 

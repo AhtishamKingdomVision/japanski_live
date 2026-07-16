@@ -206,7 +206,10 @@ jQuery(function ($) {
 
     var isMobile = window.matchMedia("(pointer: coarse)").matches; // Reliable mobile check
 
-    var isRestricted = cart_restricted_paths.includes(pathname);
+    var isRestricted = cart_restricted_paths.some(function (path) {
+        if (!path) return false;
+        return pathname === path || pathname.indexOf(path) !== -1;
+    });
 
     var cart = kv_booking_cart_get();
 

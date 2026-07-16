@@ -2250,7 +2250,10 @@
 
             // redirect or open next step
 
-            window.location.href = '/booking/';
+            var bookingHome = (typeof kv_object !== 'undefined' && kv_object.homeUrl)
+                ? String(kv_object.homeUrl)
+                : '/';
+            window.location.href = bookingHome.replace(/\/?$/, '/') + 'booking/';
 
         });
 

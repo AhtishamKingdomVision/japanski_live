@@ -6051,11 +6051,21 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
         }
 
-        // Determine post status
-
+        // Determine post status:
+        // - API disabled → demote to draft
+        // - Existing draft/pending/private → keep as-is (do not auto-publish)
+        // - Otherwise publish when API enabled
         $is_enabled = (bool) ($property_location['is_enabled'] ?? false);
+        $current_status = get_post_status($post_id) ?: 'draft';
+        $preserve_statuses = ['draft', 'pending', 'private'];
 
-        $status = $is_enabled ? 'publish' : 'draft';
+        if (!$is_enabled) {
+            $status = 'draft';
+        } elseif (in_array($current_status, $preserve_statuses, true)) {
+            $status = $current_status;
+        } else {
+            $status = 'publish';
+        }
 
         // Prepare post data for update
 

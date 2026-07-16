@@ -1776,9 +1776,9 @@ function sq_mapping_properties($properties) {
 
         // sometimes does for newly added entries that haven't been reviewed
 
-        // yet). For existing posts we preserve the previous behavior of
+        // yet). For existing posts: API inactive → draft; otherwise keep
 
-        // mirroring the API's status flag.
+        // draft/pending/private as-is (do not auto-publish).
 
         $post_order = wp_count_posts( 'accommodation' );
 
@@ -1812,7 +1812,10 @@ function sq_mapping_properties($properties) {
 
 
 
-        // Default to 'publish' for new posts so they don't end up hidden.
+        // New posts default to publish. Existing draft/pending/private stay
+        // unpublished even if the API reports status=1 (bulk sync must not
+        // auto-publish intentionally drafted properties). API status=0 still
+        // demotes to draft.
 
         if ( $is_new_post ) {
 
@@ -1820,7 +1823,23 @@ function sq_mapping_properties($properties) {
 
         } else {
 
-            $status = $_status ? 'publish' : 'draft';
+            $current_status = get_post_status( $hotelid ) ?: 'draft';
+
+            $preserve_statuses = [ 'draft', 'pending', 'private' ];
+
+            if ( ! $_status ) {
+
+                $status = 'draft';
+
+            } elseif ( in_array( $current_status, $preserve_statuses, true ) ) {
+
+                $status = $current_status;
+
+            } else {
+
+                $status = 'publish';
+
+            }
 
         }
 

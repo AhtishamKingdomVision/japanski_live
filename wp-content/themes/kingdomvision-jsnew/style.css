@@ -201,7 +201,7 @@ p.gform_required_legend, h2.gform_submission_error.hide_summary { inset-inline-s
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield--width-full { width: 100%; }
 .gform_wrapper .gform_body .gform_fields .gfield input,
 .gform_wrapper .gform_body .gform_fields .gfield select,
-.gform_wrapper .gform_body .gform_fields .gfield textarea { width: 100%; padding: 0px 20px 0px; border-radius: 8px; border: solid 1px #bfcfdf; background: transparent; color: var(--body-color); height: 50px; line-height: 50px; appearance: none; -webkit-appearance: none; -moz-appearance: none; font-size: var(--menu-size); }
+.gform_wrapper .gform_body .gform_fields .gfield textarea { width: 100%; padding: 0px 5px 0px 12px; border-radius: 8px; border: solid 1px #bfcfdf; background: transparent; color: var(--body-color); height: 50px; line-height: 50px; appearance: none; -webkit-appearance: none; -moz-appearance: none; font-size: var(--menu-size); }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield textarea { height: 52px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield select { background: url(images/arrow.svg) no-repeat center right 15px; cursor: pointer; color:#bfcfdf;}
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield select.disabled { pointer-events: none;}
@@ -215,34 +215,14 @@ p.gform_required_legend, h2.gform_submission_error.hide_summary { inset-inline-s
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield select option { color: #000; }
 .gform_wrapper .gform-footer.gform_footer input { background: var(--button-color); width: 100%; border-radius: 999px; height: 50px; line-height: 50px; padding: 0; font-size: 16px; }
 .gform_wrapper.quote_form_wrapper .gform-footer.gform_footer input:hover { background: var(--button-hover-color); }
-.gform_wrapper.quote_form_wrapper .gfield_validation_message,
-.gform_wrapper.quote_form_wrapper .gfield_description.validation_message,
-.gform_wrapper.quote_form_wrapper .validation_message {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: static;
-    margin-top: 6px;
-    font-size: 13px;
-    line-height: 1.3;
-    color: #ffb4b4;
-}
-.gform_wrapper.quote_form_wrapper .gfield.gfield_error,
-.gform_wrapper.quote_form_wrapper .gfield { margin-bottom: 18px; }
-.Enquiry-modal-form-slot,
-.Enquiry-modal-form-slot .mob_quote_inner,
-.Enquiry-modal-form-slot .gform_wrapper,
-.acc_enquiry_form_slot,
-.acc_enquiry_form_slot .mob_quote_inner,
-.acc_enquiry_form_slot .gform_wrapper { overflow: visible; }
+.gform_wrapper.quote_form_wrapper .validation_message { color: var(--button-color); }
 .ff_content_image { background: #00274e; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; padding: 15px 31px; display: flex; justify-content: center; align-items: center; font-size: 14px; }
 .ff_content_image .ff_content { padding: 12px; }
 .ff_content_image .ff_image img { width: 97.413px; height: 44px; aspect-ratio: 97.41 / 44.00; }
 
-.acc_enquiry_form { max-width: 750px; margin: 50px auto auto; }
-.acc_enquiry_form .acc_enquiry_head { text-align: center; margin-bottom: 40px; }
-.acc_enquiry_form .mob_quote_inner .gform_wrapper.quote_form_wrapper { border-radius: 20px; }
-.Enquiry-modal-form-slot .mob_quote_inner .gform_wrapper.quote_form_wrapper { border-radius: 20px; }
+.acc_enquiry_form { max-width: 750px; margin: 100px auto auto; }
+.acc_enquiry_form .acc_enquiry_head { text-align: center; padding: 25px 100px 1px 100px; background: #004080; border-radius: 10px 10px 0 0; }
+.acc_enquiry_form .mob_quote_inner .gform_wrapper.quote_form_wrapper { border-radius: 0 0 20px 20px; }
 
 /*Titles With Icons*/
 section.titles_with_icons ul.title-icon-list { list-style: none; padding: 0; margin: 0; display: flex; justify-content: space-between; align-items: center; color: #bfcfdf; }
@@ -618,8 +598,8 @@ section.form_area .container  .right-side { width: 35%; }
 section.form_area { position: relative; display: flex; align-items: center; justify-content: center; padding-top: 120px; padding-bottom: 50px; z-index: 0;}
 section.form_area .section-overlay { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 section.form_area .container { display: flex; justify-content: space-between; align-items: flex-start; gap: 50px; flex: 1 0 0; z-index: 2; }
-section.form_area .container .fa_left { width: 45%; }
-section.form_area .container .fa_right { width: 45%; }
+section.form_area .container .fa_left { width: 37%; }
+section.form_area .container .fa_right { width: 55%; }
 section.form_area .container .fa_left h1 { margin: 0 0 30px; }
 section.form_area .container .fa_left .ratingarea { margin: 0 0 30px; }
 section.form_area .container .fa_left ul.bullet-points { padding: 0; margin: 20px 0 0; list-style: none; }
@@ -688,7 +668,7 @@ div#accom-search-results .accom-card .acc_btns span.btn:last-child { margin: 0; 
 div#accom-search-results .accom-card .acc_btns span.view_book.btn { background: rgba(255, 255, 255, 0.10); }
 div#accom-search-results .accom-card .acc_btns span.view_book.btn:hover { background: #db3242; }
 
-section.package_listing .load-more-wrap { text-align: center; margin-top: 50px;}
+section.package_listing .load-more-wrap { text-align: center; /*margin-top: 50px;*/ }
 section.package_listing .load-more-wrap button#load-more { background: var(--button-hover-color); font-size: 20px; }
 section.package_listing .load-more-wrap button#load-more:hover { background: var(--button-color); font-size: 20px; }
 
@@ -859,18 +839,9 @@ section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box { border-radius: 16px; background: rgba(255, 255, 255, 0.10); padding: 20px; margin: 20px 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; position: relative; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box:last-child { margin-bottom: 0; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box button.rb-select-btn { width: 100%; margin-top: 24px; }
-/* ahtisham work start */
-section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions { display: flex; gap: 12px; width: 100%; margin-top: 24px; }
-section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions button { flex: 1; width: auto; margin-top: 0; }
-section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions .rb-enquiry-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.40); color: #fff; }
-section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-actions .rb-enquiry-btn:hover { background: rgba(255, 255, 255, 0.10); }
-section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-rateplan-actions { display: flex; gap: 12px; width: 100%; margin-top: 24px; }
-section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-rateplan-actions button { flex: 1; width: auto; margin-top: 0; }
-section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-rateplan-actions .rb-enquiry-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.40); color: #fff; }
-section.booking_page .rb-booking-layout .rb-room-card .rb-rateplan-box .rb-rateplan-actions .rb-enquiry-btn:hover { background: rgba(255, 255, 255, 0.10); }
-/* ahtisham work start */
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-title { font-weight: 700; margin-bottom: 10px; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-rateplans .rb-rateplan-box .rb-rateplan-desc { font-size: 16px; }
+
 section.room-listing .room-modal { position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: rgba(0, 17, 31, 0.80); z-index: 999; display: flex; align-items: center; justify-content: center; }
 section.room-listing .room-modal .room-modal-content { background: #fff; max-width: 800px; margin: 0 auto; padding: 50px; width: 100%; border-radius: 20px; position: relative; height: 600px; overflow-y: scroll; }
 section.room-listing .room-modal .room-modal-content .room-modal-gallery { display: flex; }
@@ -905,7 +876,7 @@ section.room-listing .room-modal .room-modal-content button.room-modal-close { p
 
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter { width: 100%; padding: 20px 0px; margin: 20px 0; border-top: solid 1px rgba(255, 255, 255, 0.20); border-bottom: solid 1px rgba(255, 255, 255, 0.20); }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form { width: 100%; display: flex; justify-content: space-between; gap: 14px; }
-section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field { width: 33.33%; }
+section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field { width: 49%; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form label { display: none; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field input { width: 100%; padding: 0px 20px 0px; border-radius: 8px; border: solid 1px #bfcfdf; color: rgba(255, 255, 255, 0.80); height: 50px; line-height: 50px; background: #00111f; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field label { display: block; }
@@ -1354,7 +1325,9 @@ section.simple-middle-content .buttons .btn2:hover { background: rgb(25, 53, 85)
 /*CHECK OUT PAGE*/
 .rb-booking-wrapper { display: flex; gap: 5%; flex-wrap: wrap; }
 .rb-booking-wrapper .rb-left-column { width: 65%; }
+.rb-booking-wrapper .rb-left-column.full-width { width: 100%; }
 .rb-booking-wrapper .rb-right-column { width: 30%; }
+.rb-booking-wrapper .rb-right-column.rb_cart_remove { display: none; }
 .rb-booking-wrapper .rb-left-column .booking_dates { border-bottom: 1px solid rgba(255, 255, 255, 0.20); padding: 20px 5px; justify-content: space-between; border-top: 1px solid rgba(255, 255, 255, 0.20); }
 .rb-booking-wrapper .rb-left-column .booking_dates h4 { color: #dd363e; }
 .rb-booking-wrapper .rb-left-column .booking_dates p { color: #bfcfdf; font-size: 15px; text-align: center; }
@@ -1887,7 +1860,7 @@ section.author-archive { padding: 250px 0 80px; }
 .expert-recommendation-cta { background: #081826; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 0 0 64px 0; width: 100%; padding: 30px; }
 .expert-recommendation-cta p.expert-cta-content { margin: 0; }
 
-.strong-recommendation-cta.stronger-message { background: #00274E; width: 100%; border-radius: 15px; padding: 30px; margin: 0 auto 64px; text-align: center; max-width: 800px; }
+.strong-recommendation-cta.stronger-message { background: #00274E; width: 100%; border-radius: 15px; padding: 30px; margin: 30px auto 20px; text-align: center; max-width: 800px; }
 .strong-recommendation-cta.stronger-message h3 { margin-bottom: 30px; }
 
 .sticky-cta-container { position: fixed; bottom: 10px; z-index: 9999; display: none; left: 30px; }
@@ -1967,7 +1940,7 @@ input.sb-input.js-sb-checkin.dateDropper.picker-trigger::placeholder, input.sb-i
 
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.gfield_visibility_hidden { height: 0; margin: 0; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .guest_input span { width: 100%; padding: 0px 20px 0px; border-radius: 8px; border: solid 1px #bfcfdf; background: url(images/arrow.svg) no-repeat center right 15px; color: var(--body-color); height: 50px; line-height: 50px; appearance: none; -webkit-appearance: none; -moz-appearance: none; font-size: var(--menu-size); display: block; cursor: pointer; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover { position: absolute; top: 50px; right: 0; background: #fff; border-radius: 10px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover { position: absolute; top: 77px; right: 0; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover.open{display: block;}
 
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield .eq-guests-popover .g-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
@@ -2068,22 +2041,77 @@ CART WIDGET - FOOTER TOTALS
 .rb-booking-wrapper.rb_cart_remove .rb-left-column { width: 100%; }
 .rb-booking-wrapper.rb_cart_remove .rb-right-column.rb_cart_remove { display: none; }
 
+
 .Enquiry-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; align-items: center; justify-content: center; }
 .Enquiry-modal.active { display: flex; }
 .Enquiry-modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px); }
-/* .Enquiry-modal-content {position: relative; background: #004080; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; overflow-x: hidden; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); z-index: 1; animation: EnquiryModalFadeIn 0.3s ease; border-radius: 20px;} */
-.Enquiry-modal-content {position: relative; background: #004080; border-radius: 12px; max-width: 600px; width: 100%; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); z-index: 1; animation: EnquiryModalFadeIn 0.3s ease; border-radius: 20px;}
+.Enquiry-modal-content {position: relative; background: #004080; border-radius: 12px; max-width: 650px; width: 100%; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); z-index: 1; animation: EnquiryModalFadeIn 0.3s ease; border-radius: 20px;}
 @keyframes EnquiryModalFadeIn {
     from { opacity: 0; transform: translateY(-20px) scale(0.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .Enquiry-modal-close { position: absolute; top: 12px; right: 15px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f2f2f2; color: #333; font-size: 18px; font-weight: bold; border-radius: 50%; cursor: pointer; text-decoration: none; transition: all 0.2s ease; }
 .Enquiry-modal-close:hover { background: #e63946; color: #ffffff; }
-.Enquiry-modal-title { margin: 0; padding: 24px 48px 0; text-align: center; color: #ffffff; font-size: 24px; font-weight: 600; }
+.mob_quote_form { text-align: center; }
+.mob_quote_inner { display: flex; flex-direction: column; gap: 15px; }
+.mob_quote_inner h2, .mob_quote_inner h3 { font-size: 22px; color: #1a1a1a; margin-bottom: 5px; }
+.mob_quote_inner input, .mob_quote_inner select, .mob_quote_inner textarea { width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s ease; }
+.mob_quote_inner input:focus, .mob_quote_inner select:focus, .mob_quote_inner textarea:focus { border-color: #0073aa; }
+.mob_quote_inner button { background: #0073aa; color: #fff; border: none; padding: 13px 20px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s ease; }
+.mob_quote_inner button:hover { background: #005f8d; }
+.mob_quote_inner .gform_wrapper { border-radius: 20px; }
+.mob_quote_inner .quote_form_wrapper h2.gform_title { color: #ffffff; font-weight: 600; }
 
 
-section.enquiry_form { padding: 100px 0; }
-section.enquiry_form .mob_quote_form1 { max-width: 800px; margin: 0 auto; }
-section.enquiry_form .mob_quote_form1 .gform_wrapper { border-radius: 20px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf { width: 20%; background: #091e3a; position: relative; padding: 0 10px 0 15px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf select { border: none; background: none; border-radius: 0; padding: 0 10px 10px 5px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf .guest_input span { border-radius: 0; border: none; background: none; padding: 0 0 0 20px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf input { border: none; background: none; border-radius: 0; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { border-radius: 10px 0 0 10px; padding-left: 25px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5) { border-radius: 0 10px 10px 0; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:after { background: #1f3656; width: 1px; height: 30px; position: absolute; right: 0; top: 50%; transform: translateY(-50%); content: ""; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:before{ position: absolute; left: 10px; font: 14px FontAwesome; top: 50%; transform: translateY(-50%); color: #bfcfdf; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child:before { content: "\f3c5"; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(2):before { content: "\f073"; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3):before { content: "\f073"; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4):before { content: "\f007"; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a { padding: 13px 0; color: #bfcfdf; font-size: 15px; display: flex; gap: 15px; align-items: center; }
 
-body.single-accommodation #cta_with_bg_image0  { display: none; }
+
+/* NEW */
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf input,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf select,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf textarea,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf span,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a {
+    font-size: 14px !important;
+}
+
+/* Hide infants guest inputs site-wide (kept at 0 in booking payload) */
+/*.eq-guests-popover .g-row:has(.eq-infants),
+.guests-popover .g-row:has(.js-v-infants),
+.room-filter-guests-popover .g-row:has(.js-v-infants),
+.rec_infants,
+.gfield.rec_infants,
+.rb-guest-field:has(.rb-infants),
+.rb-error-infants {
+    display: none !important;
+}
+section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field { width: 50%; }*/
+
+.rb-rateplan-actions {
+    display: flex;
+    width: 100%;
+    column-gap: 20px;
+}
+
+.rb-rateplan-actions button.rb-select-btn {
+    width: 100% !important;
+    margin-top: 20px !important;
+}
+
+.rb-rateplan-actions button.enquire_btn.rb-enquiry-btn {
+    width: 100%;
+    margin-top: 20px;
+}
+

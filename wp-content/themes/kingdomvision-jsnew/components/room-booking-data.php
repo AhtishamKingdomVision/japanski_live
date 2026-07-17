@@ -29,10 +29,6 @@ if (empty($grouped_rooms)) {
             <label for="children">Children:</label>
             <input type="number" id="children" name="children" value="0" min="0" max="10">
         </div>
-        <div class="rb-control-group">
-            <label for="infants">Infants:</label>
-            <input type="number" id="infants" name="infants" value="0" min="0" max="5">
-        </div>
         <button type="button" class="rb-update-btn" onclick="RoomsSection.validateForm()">Update</button>
         <button type="button" class="rb-back-btn back-to-rooms" onclick="RoomBookingManager.goBack()">
             <i class="fa-solid fa-arrow-left"></i> Back to Search

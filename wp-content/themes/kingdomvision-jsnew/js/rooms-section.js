@@ -218,7 +218,7 @@
 
                 children: rb_storage.get('sb_children') || 0,
 
-                infants: rb_storage.get('sb_infants') || 0
+                infants: 0
 
             });
 
@@ -1238,8 +1238,6 @@
 
                 if (it.guests?.children) guestRows += `<div class="rb-guest-row"><span>Children</span><strong>${it.guests.children}</strong></div>`;
 
-                if (it.guests?.infants)  guestRows += `<div class="rb-guest-row"><span>Infants</span><strong>${it.guests.infants}</strong></div>`;
-
 
 
                 let paymentHtml = '';
@@ -1518,11 +1516,9 @@
 
             const lsChildren = parseInt(rb_storage.get('sb_children')) || 0;
 
-            const lsInfants = parseInt(rb_storage.get('sb_infants')) || 0;
-
             const adultLimit = lsAdults + lsChildren;
 
-            const childInfantLimit = Math.max(0, adultLimit - 1);
+            const childLimit = Math.max(0, adultLimit - 1);
 
 
 
@@ -1540,55 +1536,19 @@
 
 
 
-        // Restrict and set Children & Infants
+            // Restrict and set Children
 
-            $('.rb-children, .rb-infants').each(function() {
+            $('.rb-children').each(function() {
 
                 const $select = $(this);
 
-
-
-                let limit = childInfantLimit;
-
-                let selectedValue = 0;
+                let selectedValue = lsChildren;
 
 
 
-                if ($select.hasClass('rb-children')) {
+                if (selectedValue > childLimit) {
 
-                    selectedValue = lsChildren;
-
-                }
-
-
-
-                if ($select.hasClass('rb-infants')) {
-
-                    selectedValue = lsInfants;
-
-                }
-
-
-
-                // $select.find('option').each(function() {
-
-                //     const val = $(this).val();
-
-
-
-                //     if (val !== "" && parseInt(val, 10) > limit) {
-
-                //         $(this).remove();
-
-                //     }
-
-                // });
-
-
-
-                if (selectedValue > limit) {
-
-                    selectedValue = limit;
+                    selectedValue = childLimit;
 
                 }
 
@@ -1642,7 +1602,7 @@
 
                     const children = getNumericValue($guestForm.find('.rb-children').val());
 
-                    const infants = getNumericValue($guestForm.find('.rb-infants').val());
+                    const infants = 0;
 
 
 
@@ -1709,14 +1669,6 @@
                     if (children > 0) {
 
                         parts.push(`${children} Child${children > 1 ? 'ren' : ''}`);
-
-                    }
-
-
-
-                    if (infants > 0) {
-
-                        parts.push(`${infants} Infant${infants > 1 ? 's' : ''}`);
 
                     }
 
@@ -1998,21 +1950,15 @@
 
                 const childrenField = $form.find('.rb-children');
 
-                const infantsField = $form.find('.rb-infants');
-
 
 
                 const adults = parseInt(adultsField.val()) || 0;
 
                 const children = parseInt(childrenField.val()) || 0;
 
-                const infants = parseInt(infantsField.val()) || 0;
-
 
 
                 const maxGuests = parseInt($room.find('.rb-icon.guest').text()) || 0;
-
-                const maxInfants = parseInt($room.find('.rb-icon.infant').text()) || 0;
 
 
 
@@ -2024,19 +1970,11 @@
 
                 let $guestErr = $room.find('.rb-error-guests');
 
-                let $infantErr = $room.find('.rb-error-infants');
-
 
 
                 if (!$guestErr.length) {
 
                     $guestErr = jQuery('<div class="rb-error rb-error-guests"></div>').insertAfter($form);
-
-                }
-
-                if (!$infantErr.length) {
-
-                    $infantErr = jQuery('<div class="rb-error rb-error-infants"></div>').insertAfter($form);
 
                 }
 
@@ -2049,8 +1987,6 @@
                 --------------------------- */
 
                 $guestErr.hide().text('');
-
-                $infantErr.hide().text('');
 
                 $form.find('.rb-guest-input').css('border', '');
 
@@ -2086,7 +2022,7 @@
 
                 /* ---------------------------
 
-                   2️⃣ NON-INFANT GUEST VALIDATION
+                   2️⃣ GUEST VALIDATION
 
                 --------------------------- */
 
@@ -2112,37 +2048,7 @@
 
                 /* ---------------------------
 
-                   3️⃣ INFANT VALIDATION (RUNS REGARDLESS)
-
-                --------------------------- */
-
-                if (infantsField.length && infants > 0) {
-
-                    if ((guestTotal + infants) > (maxGuests + maxInfants)) {
-
-                        infantsField.css('border', '2px solid red');
-
-                        $infantErr
-
-                            .text(
-
-                                `Total pax + infants cannot exceed ${maxGuests + maxInfants}.`
-
-                            )
-
-                            .show();
-
-                        hasError = true;
-
-                    }
-
-                }
-
-
-
-                /* ---------------------------
-
-                   4️⃣ FINAL STATE
+                   3️⃣ FINAL STATE
 
                 --------------------------- */
 
@@ -2155,8 +2061,6 @@
                 } else {
 
                     $guestErr.hide();
-
-                    $infantErr.hide();
 
                     $form.find('.rb-guest-input').css('border', '');
 

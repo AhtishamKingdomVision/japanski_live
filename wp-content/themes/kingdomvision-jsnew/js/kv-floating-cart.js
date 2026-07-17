@@ -332,8 +332,7 @@
 
             const adults   = Number(it?.guests?.adults || 0);
             const children = Number(it?.guests?.children || 0);
-            const infants  = Number(it?.guests?.infants || 0);
-            const totalPax = adults + children + infants;
+            const totalPax = adults + children;
 
             const ciRaw = it?.dates?.check_in || '';
             const coRaw = it?.dates?.check_out || '';
@@ -391,7 +390,6 @@
                         </div>
                         ${adults ? `<div class="kv-floating-cart__row"><span>Adults</span><strong>${adults}</strong></div>` : ''}
                         ${children ? `<div class="kv-floating-cart__row"><span>Children</span><strong>${children}</strong></div>` : ''}
-                        ${infants ? `<div class="kv-floating-cart__row"><span>Infants</span><strong>${infants}</strong></div>` : ''}
                         <div class="kv-floating-cart__dates">
                             <div class="kv-floating-cart__date">
                                 <span>Check in</span>

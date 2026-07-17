@@ -747,48 +747,6 @@ if (!empty($wp_property_id)) {
 
 
 
-
-
-                                <!-- Infants -->
-
-
-                                <div class="rb-guest-field">
-
-
-                                    <label>Infants</label>
-
-
-                                    <!-- <select class="rb-guest-input rb-infants" name="infants">
-
-
-                                        <option value="">Infants</option>
-
-
-                                        <?php //for ($i = 0; $i <= $maxGuests; $i++): 
-                                        ?>
-
-
-                                            <option value="<?php //echo esc_attr($i); 
-                                                            ?>"><?php //echo esc_html($i); 
-                                                                ?></option>
-
-
-                                        <?php //endfor; 
-                                        ?>
-
-
-                                    </select> -->
-
-
-                                    <input type="text" class="rb-guest-input rb-infants" name="infants" readonly>
-
-
-                                </div>
-
-
-
-
-
                             </form>
 
 

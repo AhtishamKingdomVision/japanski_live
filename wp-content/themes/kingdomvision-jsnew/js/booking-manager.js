@@ -321,13 +321,11 @@ const BookingManager = (function() {
 
                     const adults   = Number(it.guests?.adults   || 0);
                     const children = Number(it.guests?.children || 0);
-                    const infants  = Number(it.guests?.infants  || 0);
-                    const pax      = adults + children + infants;
+                    const pax      = adults + children;
 
                     let guestParts = [];
                     if (adults)   guestParts.push(`${adults} Adult${adults   !== 1 ? 's' : ''}`);
                     if (children) guestParts.push(`${children} Child${children !== 1 ? 'ren' : ''}`);
-                    if (infants)  guestParts.push(`${infants} Infant${infants  !== 1 ? 's' : ''}`);
                     const guestSummary = guestParts.length ? guestParts.join(', ') : '–';
 
                     extraHtml = `
@@ -377,8 +375,7 @@ const BookingManager = (function() {
             const _groups = Object.values(_guestsByDateRange);
             const totalAdults   = _groups.length ? Math.max(..._groups.map(g => g.adults))   : 0;
             const totalChildren = _groups.length ? Math.max(..._groups.map(g => g.children)) : 0;
-            const totalInfants  = _groups.length ? Math.max(..._groups.map(g => g.infants))  : 0;
-            const totalPax      = _groups.length ? Math.max(..._groups.map(g => g.adults + g.children + g.infants)) : 0;
+            const totalPax      = _groups.length ? Math.max(..._groups.map(g => g.adults + g.children)) : 0;
 
             html += `<div class="rb-widget-section rb-widget-divider rb-widget-guests-grid">
                 <div class="rb-widget-guest-cell">
@@ -388,10 +385,6 @@ const BookingManager = (function() {
                 <div class="rb-widget-guest-cell">
                     <div class="rb-widget-guest-label">No. Children</div>
                     <div class="rb-widget-guest-value">${totalChildren}</div>
-                </div>
-                <div class="rb-widget-guest-cell">
-                    <div class="rb-widget-guest-label">No. Infants</div>
-                    <div class="rb-widget-guest-value">${totalInfants}</div>
                 </div>
                 <div class="rb-widget-guest-cell">
                     <div class="rb-widget-guest-label">Total Guests</div>
@@ -756,8 +749,7 @@ const BookingManager = (function() {
                 // Get maximum guest count from all rooms
                 const adults = Number(item.guests?.adults || 0);
                 const children = Number(item.guests?.children || 0);
-                const infants = Number(item.guests?.infants || 0);
-                const roomGuests = adults + children + infants;
+                const roomGuests = adults + children;
                 totalGuests = Math.max(totalGuests, roomGuests);
 
                 // Collect check-in dates

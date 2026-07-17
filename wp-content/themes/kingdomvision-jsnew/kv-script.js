@@ -2369,11 +2369,12 @@ jQuery(function ($) {
 
                 var reAdults = parseInt($wrap.find('.rec_adults select').first().val(), 10);
                 var reChildren = parseInt($wrap.find('.rec_children select').first().val(), 10);
-                var reInfants = parseInt($wrap.find('.rec_infants select').first().val(), 10);
 
                 if (reAdults > 0) { $wrap.find('.eq-adults').val(reAdults); }
                 if (!isNaN(reChildren) && reChildren >= 0) { $wrap.find('.eq-children').val(reChildren); }
-                if (!isNaN(reInfants) && reInfants >= 0) { $wrap.find('.eq-infants').val(reInfants); }
+                $wrap.find('.eq-infants').val(0);
+                $wrap.find('.eq-infants').closest('.g-row').hide();
+                $wrap.find('.rec_infants').closest('.gfield, .gfield_html, li, .guest_search').hide();
             });
 
             if (typeof window.kvRefreshEnquiryGuestLabels === 'function') {
@@ -3044,19 +3045,22 @@ jQuery(function ($) {
 
             let adults = parseInt($ctx.find('.rec_adults select').first().val(), 10);
             let children = parseInt($ctx.find('.rec_children select').first().val(), 10);
-            let infants = parseInt($ctx.find('.rec_infants select').first().val(), 10);
+            const infants = 0;
 
             if (isNaN(adults) || adults < 1) adults = parseInt($pop.find('.eq-adults').val(), 10) || 2;
             if (isNaN(children) || children < 0) children = parseInt($pop.find('.eq-children').val(), 10) || 0;
-            if (isNaN(infants) || infants < 0) infants = parseInt($pop.find('.eq-infants').val(), 10) || 0;
 
             $pop.find('.eq-adults').val(adults);
             $pop.find('.eq-children').val(children);
-            $pop.find('.eq-infants').val(infants);
+            $pop.find('.eq-infants').val(0);
 
             $ctx.find('.rec_adults select').first().val(adults);
             $ctx.find('.rec_children select').first().val(children);
-            $ctx.find('.rec_infants select').first().val(infants);
+            $ctx.find('.rec_infants select').first().val(0);
+
+            // Hide infants UI if still present in Gravity Forms HTML
+            $pop.find('.eq-infants').closest('.g-row').hide();
+            $ctx.find('.rec_infants').closest('.gfield, .gfield_html, li, .guest_search').hide();
         });
     }
 
@@ -3106,7 +3110,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-            infants: Number.isFinite(initialInfants) && initialInfants >= 0 ? initialInfants : 0
+            infants: 0
 
 
 
@@ -3164,19 +3168,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             localStorage.setItem('sb_children', String(g.children));
 
-            localStorage.setItem('sb_infants', String(g.infants));
+            g.infants = 0;
+
+            localStorage.setItem('sb_infants', '0');
 
 
 
             const totalGuests = g.adults + g.children;
 
             let label = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
-
-            if (g.infants > 0) {
-
-                label += `<br>${g.infants} Infant${g.infants !== 1 ? 's' : ''}`;
-
-            }
 
 
 
@@ -3283,7 +3283,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const storedInfants = parseInt(localStorage.getItem('sb_infants'), 10);
                     if (Number.isFinite(storedAdults) && storedAdults > 0) g.adults = storedAdults;
                     if (Number.isFinite(storedChildren) && storedChildren >= 0) g.children = storedChildren;
-                    if (Number.isFinite(storedInfants) && storedInfants >= 0) g.infants = storedInfants;
+                    g.infants = 0;
 
 
 
@@ -3296,10 +3296,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         } else if (type === 'children') {
 
                             g.children = Math.max(0, (g.children || 0) + delta);
-
-                        } else if (type === 'infants') {
-
-                            g.infants = Math.max(0, (g.infants || 0) + delta);
 
                         }
 
@@ -3327,10 +3323,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         runAdjust('children', -1);
 
-                    } else if (this.classList.contains('js-btn-infants-minus')) {
-
-                        runAdjust('infants', -1);
-
                     } else if (row && row.querySelector('.js-v-adults')) {
 
                         runAdjust('adults', 1);
@@ -3340,10 +3332,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         runAdjust('children', 1);
 
                         if (g.children > 0) { triggerChildAgePopup(g.children); }
-
-                    } else if (row && row.querySelector('.js-v-infants')) {
-
-                        runAdjust('infants', 1);
 
                     }
 
@@ -3425,7 +3413,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-            g.infants = Math.max(0, parseInt(el.mInfants?.value || 0));
+            g.infants = 0;
 
 
 
@@ -3442,10 +3430,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         if (el.mChildren) el.mChildren.addEventListener('change', syncMobile);
-
-
-
-        if (el.mInfants) el.mInfants.addEventListener('change', syncMobile);
 
 
 

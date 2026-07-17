@@ -3179,40 +3179,6 @@ function get_rooms_rates_func()
 
                                                     </div>
 
-
-
-                                                    <div class="num_infants guest_search">
-
-                                                        <label>Infants </label>
-
-                                                        <select class="num_infants guest_fields<?php echo $max_infants == 0 ? ' guests_form_select' : ' net_total_guests' ?>" data-total="<?php echo $max_infants == 0 ? $max_guests : $net_guests; ?>" name="num_infants" id="num_infants" data-placeholder="infants">
-
-                                                            <option>Infants</option>
-
-                                                            <?php
-
-
-
-                                                            // $total_infants = $max_infants;
-
-                                                            // if( $max_infants < 1 ){
-
-                                                            $total_infants = intval($max_guests) - 1;
-
-                                                            // }
-
-
-
-                                                            for ($i = 0; $i <= $total_infants; $i++) { ?>
-
-                                                                <option class="infant_option" <?php echo $i == $infants ? 'selected' : '' ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
-
-                                                            <?php } ?>
-
-                                                        </select>
-
-                                                    </div>
-
                                                 </form>
 
                                             </div>
@@ -3222,8 +3188,6 @@ function get_rooms_rates_func()
                                             <div class="error-wrap">
 
                                                 <p class="err_guests" style="display:none;color:red;margin:5px 0;"></p>
-
-                                                <p class="err_infants" style="display:none;color:red;margin:5px 0;"></p>
 
                                             </div>
 
@@ -6494,7 +6458,7 @@ function singleResortFilter_func($atts){
 
                             <div class="g-row">
 
-                            <div><span class="g-label">Children</span><span class="g-sub">Ages 3–15</span></div>
+                            <div><span class="g-label">Children</span><span class="g-sub">Ages 0–15</span></div>
 
                             <div class="g-counter">
 
@@ -6505,22 +6469,6 @@ function singleResortFilter_func($atts){
                                 <button type="button" class="g-btn js-btn-children-plus">+</button>
 
                             </div>
-
-                            </div>
-
-                            <div class="g-row">
-
-                                <div><span class="g-label">Infants</span><span class="g-sub">Ages 0–2</span></div>
-
-                                <div class="g-counter">
-
-                                    <button type="button" class="g-btn js-btn-infants-minus" disabled>−</button>
-
-                                        <span class="g-val js-v-infants">0</span>
-
-                                    <button type="button" class="g-btn js-btn-infants-plus">+</button>
-
-                                </div>
 
                             </div>
 

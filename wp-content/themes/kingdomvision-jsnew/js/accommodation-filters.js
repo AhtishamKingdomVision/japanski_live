@@ -669,7 +669,7 @@ const AccommodationFilters = (function() {
 
                 const children = parseInt(guestState.children, 10) || 0;
 
-                const infants = parseInt(guestState.infants, 10) || 0;
+                const infants = 0;
 
 
 
@@ -799,7 +799,7 @@ const AccommodationFilters = (function() {
 
                 const children = isNaN(childrenRaw) ? 0 : Math.max(0, childrenRaw);
 
-                const infants = isNaN(infantsRaw) ? 0 : Math.max(0, infantsRaw);
+                const infants = 0;
 
 
 
@@ -808,14 +808,6 @@ const AccommodationFilters = (function() {
 
 
                 let label = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
-
-
-
-                if (infants > 0) {
-
-                    label += `<br>${infants} Infant${infants !== 1 ? 's' : ''}`;
-
-                }
 
 
 
@@ -903,7 +895,7 @@ const AccommodationFilters = (function() {
 
         const children = state.children ?? 0;
 
-        const infants = state.infants ?? 0;
+        const infants = 0;
 
 
 
@@ -912,12 +904,6 @@ const AccommodationFilters = (function() {
 
 
         let label = `${total} Guest${total !== 1 ? 's' : ''}`;
-
-        if (infants > 0) {
-
-            label += `<br>${infants} Infant${infants !== 1 ? 's' : ''}`;
-
-        }
 
 
 
@@ -2743,21 +2729,13 @@ const AccommodationFilters = (function() {
 
             const children = parseInt(jQuery('.js-v-children').first().text()) || 0;
 
-            const infants = parseInt(jQuery('.js-v-infants').first().text()) || 0;
+            const infants = 0;
 
             
 
             const totalGuests = adults + children;
 
             let label = `${totalGuests} Guest${totalGuests !== 1 ? 's' : ''}`;
-
-            
-
-            if (infants > 0) {
-
-                label += `<br>${infants} Infant${infants !== 1 ? 's' : ''}`;
-
-            }
 
 
 

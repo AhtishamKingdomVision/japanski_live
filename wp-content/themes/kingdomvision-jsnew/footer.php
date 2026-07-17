@@ -268,24 +268,12 @@ if ( is_singular( 'accommodation' ) ) {
                         <div class="g-row">
                             <div>
                                 <span class="g-label">Children</span>
-                                <span class="g-sub">Ages 3–15</span>
+                                <span class="g-sub">Ages 0–15</span>
                             </div>
                             <div class="g-counter">
                                 <button type="button" class="g-btn js-btn-children-minus" disabled>−</button>
                                 <span class="g-val js-v-children">0</span>
                                 <button type="button" class="g-btn js-btn-children-plus">+</button>
-                            </div>
-                        </div>
-
-                        <div class="g-row">
-                            <div>
-                                <span class="g-label">Infants</span>
-                                <span class="g-sub">Ages 0–2</span>
-                            </div>
-                            <div class="g-counter">
-                                <button type="button" class="g-btn js-btn-infants-minus" disabled>−</button>
-                                <span class="g-val js-v-infants">0</span>
-                                <button type="button" class="g-btn js-btn-infants-plus">+</button>
                             </div>
                         </div>
 

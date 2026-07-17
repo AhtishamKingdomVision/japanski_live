@@ -38,40 +38,26 @@ jQuery(document).ready(function ($) {
 
         let adults = parseInt(state.adults, 10);
         let children = parseInt(state.children, 10);
-        let infants = parseInt(state.infants, 10);
 
         if (isNaN(adults)) adults = parseInt(localStorage.getItem('sb_adults'), 10);
         if (isNaN(children)) children = parseInt(localStorage.getItem('sb_children'), 10);
-        if (isNaN(infants)) infants = parseInt(localStorage.getItem('sb_infants'), 10);
 
         return {
             adults: isNaN(adults) || adults < 1 ? 2 : Math.min(30, adults),
             children: isNaN(children) || children < 0 ? 0 : Math.min(15, children),
-            infants: isNaN(infants) || infants < 0 ? 0 : Math.min(15, infants)
+            infants: 0
         };
     }
 
     function enquiryLabel(guests) {
         const total = guests.adults + guests.children;
-        let label = total > 0
+        return total > 0
             ? `${total} Guest${total !== 1 ? 's' : ''}`
             : 'Guests';
-
-        if (guests.infants > 0) {
-            label += `, ${guests.infants} Infant${guests.infants !== 1 ? 's' : ''}`;
-        }
-
-        return label;
     }
 
     function searchLabel(guests) {
-        let label = `${guests.adults + guests.children} Guest${guests.adults + guests.children !== 1 ? 's' : ''}`;
-
-        if (guests.infants > 0) {
-            label += `<br>${guests.infants} Infant${guests.infants !== 1 ? 's' : ''}`;
-        }
-
-        return label;
+        return `${guests.adults + guests.children} Guest${guests.adults + guests.children !== 1 ? 's' : ''}`;
     }
 
     function writeEnquiryGuests(guests, $triggerScope, changedType) {
@@ -87,12 +73,14 @@ jQuery(document).ready(function ($) {
 
             $pop.find('.eq-adults').val(guests.adults);
             $pop.find('.eq-children').val(guests.children);
-            $pop.find('.eq-infants').val(guests.infants);
+            $pop.find('.eq-infants').val(0);
+            $pop.find('.eq-infants').closest('.g-row').hide();
 
             if ($scope.length) {
                 $scope.find(guestMapping.adults.input).first().val(String(guests.adults)).trigger('change');
                 $childrenInput.val(String(guests.children));
-                $scope.find(guestMapping.infants.input).first().val(String(guests.infants));
+                $scope.find(guestMapping.infants.input).first().val('0');
+                $scope.find('.rec_infants').closest('.gfield, .gfield_html, li, .guest_search').hide();
 
                 // Age popup only when children count increases.
                 if (shouldTrigger && changedType === 'children' && childrenIncreased && guests.children > 0) {
@@ -136,7 +124,7 @@ jQuery(document).ready(function ($) {
 
         localStorage.setItem('sb_adults', String(guests.adults));
         localStorage.setItem('sb_children', String(guests.children));
-        localStorage.setItem('sb_infants', String(guests.infants));
+        localStorage.setItem('sb_infants', '0');
 
         writeEnquiryGuests(guests, $triggerScope, options.changedType || '');
 
@@ -186,7 +174,9 @@ jQuery(document).ready(function ($) {
         let type =
             $input.hasClass('eq-adults') ? 'adults' :
             $input.hasClass('eq-children') ? 'children' :
-            'infants';
+            null;
+
+        if (!type) return;
 
         setValue(type, $input, $input.val());
     });
@@ -200,7 +190,9 @@ jQuery(document).ready(function ($) {
         let type =
             $input.hasClass('eq-adults') ? 'adults' :
             $input.hasClass('eq-children') ? 'children' :
-            'infants';
+            null;
+
+        if (!type) return;
 
         const config = guestMapping[type];
         let current = parseInt($input.val(), 10);

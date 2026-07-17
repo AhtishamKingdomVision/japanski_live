@@ -1434,7 +1434,11 @@
 
 
 
-            $('.rb-select-btn').removeClass('is-selected').text('Book Now').prop('disabled', false);
+            $('.rb-select-btn').each(function() {
+                const $btn = $(this);
+                const defaultLabel = $btn.data('default-label') || 'Book Now';
+                $btn.removeClass('is-selected').text(defaultLabel).prop('disabled', false);
+            });
 
             cart.items.forEach(it => {
 
@@ -1442,7 +1446,7 @@
 
                 $(`.rb-rateplan-box[data-room-type-id="${it.room_type_id}"][data-item-unique-id="${it.item_unique_id}"]`)
 
-                    .find('.rb-select-btn').addClass('is-selected').text('Booked Now');
+                    .find('.rb-select-btn').addClass('is-selected').text('Booked');
 
 
 
@@ -2208,7 +2212,10 @@
 
                         $(`.rb-rateplan-box[data-room-type-id="${removedItem.room_type_id}"][data-item-unique-id="${removedItem.item_unique_id}"]`)
 
-                            .find('.rb-select-btn').removeClass('is-selected').text('Book Now');
+                            .find('.rb-select-btn').each(function() {
+                                const $btn = $(this);
+                                $btn.removeClass('is-selected').text($btn.data('default-label') || 'Book Now');
+                            });
 
                     }
 

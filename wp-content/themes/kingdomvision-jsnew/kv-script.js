@@ -3327,8 +3327,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         runAdjust('children', -1);
 
-                        if (g.children > 0) { triggerChildAgePopup(g.children); }
-
                     } else if (this.classList.contains('js-btn-infants-minus')) {
 
                         runAdjust('infants', -1);

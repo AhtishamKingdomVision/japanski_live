@@ -74,11 +74,16 @@ jQuery(document).ready(function ($) {
         return label;
     }
 
-    function writeEnquiryGuests(guests, $triggerScope) {
+    function writeEnquiryGuests(guests, $triggerScope, changedType) {
         $('.eq-guests-popover').each(function () {
             const $pop = $(this);
             const $scope = getFormScope($pop);
             const shouldTrigger = $triggerScope && $scope.length && $scope[0] === $triggerScope[0];
+            const $childrenInput = $scope.length ? $scope.find(guestMapping.children.input).first() : $();
+            const previousChildren = $childrenInput.length
+                ? (parseInt($childrenInput.val(), 10) || 0)
+                : (parseInt($pop.find('.eq-children').val(), 10) || 0);
+            const childrenIncreased = guests.children > previousChildren;
 
             $pop.find('.eq-adults').val(guests.adults);
             $pop.find('.eq-children').val(guests.children);
@@ -86,12 +91,12 @@ jQuery(document).ready(function ($) {
 
             if ($scope.length) {
                 $scope.find(guestMapping.adults.input).first().val(String(guests.adults)).trigger('change');
-                $scope.find(guestMapping.children.input).first().val(String(guests.children));
+                $childrenInput.val(String(guests.children));
                 $scope.find(guestMapping.infants.input).first().val(String(guests.infants));
 
-                if (shouldTrigger) {
-                    $scope.find(guestMapping.children.input).first().trigger('change');
-                    $scope.find(guestMapping.infants.input).first().trigger('change');
+                // Age popup only when children count increases.
+                if (shouldTrigger && changedType === 'children' && childrenIncreased && guests.children > 0) {
+                    $childrenInput.trigger('change');
                 } else if (typeof window.kvWriteStoredChildAgesToScope === 'function') {
                     window.kvWriteStoredChildAgesToScope($scope, guests.children);
                 }
@@ -133,7 +138,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('sb_children', String(guests.children));
         localStorage.setItem('sb_infants', String(guests.infants));
 
-        writeEnquiryGuests(guests, $triggerScope);
+        writeEnquiryGuests(guests, $triggerScope, options.changedType || '');
 
         if (!options.skipSearch) {
             writeSearchGuests(guests);
@@ -166,7 +171,10 @@ jQuery(document).ready(function ($) {
 
         currentGuests[type] = val;
 
-        window.kvApplySharedGuests(currentGuests, { $triggerScope: $scope });
+        window.kvApplySharedGuests(currentGuests, {
+            $triggerScope: $scope,
+            changedType: type
+        });
     }
 
     // ---------------------------

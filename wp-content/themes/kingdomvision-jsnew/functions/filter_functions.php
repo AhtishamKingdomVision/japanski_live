@@ -3802,6 +3802,40 @@ add_action('wp_ajax_nopriv_niseko_search_roomboss_single', 'niseko_search_roombo
 
 
 /**
+ * Flatten Units[].Rooms and optionally keep only RoomBoss inventory.
+ *
+ * RoomBoss / hybrid WP property → RoomBossData=1 only.
+ * BedBank-converted property → all rooms (RB + BedBank).
+ */
+if (!function_exists('kv_bs_filter_rooms_by_property_type')) {
+    function kv_bs_filter_rooms_by_property_type(array $units, bool $roomboss_only = false): array {
+        $rooms = [];
+
+        foreach ($units as $unit) {
+            if (empty($unit['Rooms']) || !is_array($unit['Rooms'])) {
+                continue;
+            }
+
+            foreach ($unit['Rooms'] as $room) {
+                if (empty($room) || !is_array($room)) {
+                    continue;
+                }
+
+                $room_is_roomboss = isset($room['RoomBossData']) && intval($room['RoomBossData']) === 1;
+
+                if ($roomboss_only && !$room_is_roomboss) {
+                    continue;
+                }
+
+                $rooms[] = $room;
+            }
+        }
+
+        return $rooms;
+    }
+}
+
+/**
 
  * Retrieve and display available rooms for a single hotel property
 
@@ -4118,32 +4152,7 @@ function kv_bs_available_room_data(
 
         $treat_as_roomboss = kv_property_uses_roomboss_rooms(0, $propertyId);
 
-        $rooms = [];
-
-        foreach ($property['Units'] as $unit) {
-
-            if (empty($unit['Rooms']) || !is_array($unit['Rooms'])) {
-
-                continue;
-
-            }
-
-            foreach ($unit['Rooms'] as $room) {
-
-                if (empty($room) || !is_array($room)) {
-
-                    continue;
-
-                }
-
-                // Include both RoomBoss and BedBank units from the API.
-                // (Previously skipped non-RoomBoss rooms when property looked RoomBoss-ish,
-                // which hid BedBank inventory after conversion / on hybrid properties.)
-                $rooms[] = $room;
-
-            }
-
-        }
+        $rooms = kv_bs_filter_rooms_by_property_type($property['Units'], $treat_as_roomboss);
 
         if (empty($rooms)) {
 
@@ -4654,27 +4663,34 @@ function kv_ajax_load_roomboss_booking()
 
 
 
-        // ✅ STEP 10: Validate room data structure
+        // ✅ STEP 10: Collect rooms from ALL units, then apply RoomBoss/BedBank filter.
+        // (Previously only Units[0] was used, which could be a leftover BedBank unit.)
+        $property_payload = $availability[0] ?? [];
+        $units = is_array($property_payload['Units'] ?? null) ? $property_payload['Units'] : [];
 
-        if (empty($availability[0]['Units'][0]['Rooms'])) {
-
+        if (empty($units)) {
             return wp_send_json_success([
-
                 'html' => '<p>No rooms available for the selected dates. Please try different dates.</p>',
-
                 'available_bedroom_types' => [],
-
             ]);
+        }
 
+        $treat_as_roomboss = function_exists('kv_property_uses_roomboss_rooms')
+            ? kv_property_uses_roomboss_rooms(0, $property_id)
+            : false;
+
+        $bs_rooms = function_exists('kv_bs_filter_rooms_by_property_type')
+            ? kv_bs_filter_rooms_by_property_type($units, $treat_as_roomboss)
+            : [];
+
+        if (empty($bs_rooms)) {
+            return wp_send_json_success([
+                'html' => '<p>No rooms available for the selected dates. Please try different dates.</p>',
+                'available_bedroom_types' => [],
+            ]);
         }
 
         // pre($availability);
-
-
-
-        // $bs_rooms = $availability[0]['Units'][0]['Rooms'];
-
-        $bs_rooms = $availability[0]['Units'][0]['Rooms'];
 
 
 

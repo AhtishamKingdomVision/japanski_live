@@ -6040,13 +6040,14 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
         }
 
-        // Determine property source (RoomBoss/Hybrid vs BedBank)
-
+        // Determine property source (RoomBoss/Hybrid vs BedBank).
+        // property_type is the source of truth — leftover room_boss_hotel_id
+        // after BedBank conversion must not keep the property on RoomBoss flow.
         $property_type = strtolower(trim((string) ($property_location['property_type'] ?? '')));
 
-        $has_roomboss_hotel = trim((string) ($property_location['room_boss_hotel_id'] ?? '')) !== '';
+        $is_roomboss_type = ($property_type === 'roomboss' || $property_type === 'hybrid');
 
-        $is_bedbank = !$has_roomboss_hotel && $property_type !== 'roomboss' && $property_type !== 'hybrid';
+        $is_bedbank = !$is_roomboss_type;
 
         // Resolve hotel ID
 
@@ -6129,6 +6130,9 @@ function hz_process_accommodation_sync($post_id, $property_data) {
         if ($is_bedbank) {
 
             update_post_meta($post_id, 'property_id', $hotel_id);
+
+            // Clear stale RoomBoss hotel id so CTAs / filters treat this as BedBank.
+            delete_post_meta($post_id, 'acc_hotel_id');
 
         } else {
 

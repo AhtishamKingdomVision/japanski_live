@@ -4070,8 +4070,9 @@ function kv_bs_available_room_data(
 
 
         // ✅ STEP 5: Determine property type (RoomBoss vs BedBank)
-
-        $is_roomboss = ($treat_as_roomboss || !empty($property['PropertyRoomBossHotelId'])) ? 1 : 0;
+        // WP accommodation meta wins — stale API PropertyRoomBossHotelId after
+        // BedBank conversion must not keep CTAs on "Book Now".
+        $is_roomboss = $treat_as_roomboss ? 1 : 0;
 
 
 

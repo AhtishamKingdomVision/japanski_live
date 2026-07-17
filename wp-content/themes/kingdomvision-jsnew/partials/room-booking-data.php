@@ -154,7 +154,16 @@ $startDisplay = date_format_readable($startDisplay, 'Y-m-d', 'd/m/Y');
 $endDisplay = date_format_readable($endDisplay, 'Y-m-d', 'd/m/Y');
 
 
-$is_roomboss = !empty($propertyId) ? get_resort_id_by_property_id($propertyId) : false;
+$is_roomboss = false;
+if (!empty($wp_property_id)) {
+    if (function_exists('kv_property_uses_roomboss_rooms')) {
+        $is_roomboss = kv_property_uses_roomboss_rooms($wp_property_id, $propertyId);
+    } else {
+        $raw = get_post_meta($wp_property_id, 'is_roomboss', true);
+        $is_roomboss = ($raw === true || $raw === 1 || $raw === '1');
+    }
+}
+$property_is_bedbank = !$is_roomboss;
 
 
 $accommodationSetting = @$property['AccommodationSetting'] ?? [];
@@ -826,7 +835,9 @@ if (!empty($wp_property_id)) {
                         foreach ($allRooms as $rateplanSeq => $room) :
 
 
-                            $isBedbank = empty(@$room['ratePlanId']);
+                            // Property-level BedBank conversion wins over leftover ratePlanId
+                            // from when the property was still on RoomBoss.
+                            $isBedbank = !empty($property_is_bedbank) || empty(@$room['ratePlanId']);
 
 
                             // var_dump($isBedbank);

@@ -60,18 +60,23 @@ try {
     $image_url = esc_url_raw($image_url);
 
     // ✅ STEP 5: Get accommodation details (property type and location)
-    // Mixed properties: Book Now only for rooms that actually have a RoomBoss room id.
-    // Manually added / BedBank rooms get Request Booking even on RoomBoss properties.
+    // BedBank property → always "Request Booking".
+    // RoomBoss/hybrid → "Book Now" only for rooms with a real RoomBoss room id.
     $is_roomboss = false;
     $area_list = [];
     $resort_name = '';
+    $bookingPermission = '';
 
     $room_rb_id = trim((string) get_post_meta($room_id, 'roomboss_room_id', true));
     $room_is_roomboss = ($room_rb_id !== '' && $room_rb_id !== '0');
 
     if (!empty($acc_id)) {
-        $is_roomboss_raw = get_post_meta($acc_id, 'is_roomboss', true);
-        $property_is_roomboss = ($is_roomboss_raw === true || $is_roomboss_raw === 1 || $is_roomboss_raw === '1');
+        if (function_exists('kv_property_uses_roomboss_rooms')) {
+            $property_is_roomboss = kv_property_uses_roomboss_rooms($acc_id, $property_id);
+        } else {
+            $is_roomboss_raw = get_post_meta($acc_id, 'is_roomboss', true);
+            $property_is_roomboss = ($is_roomboss_raw === true || $is_roomboss_raw === 1 || $is_roomboss_raw === '1');
+        }
         $is_roomboss = $property_is_roomboss && $room_is_roomboss;
         $bookingPermission = get_field('acc_booking_permission', $acc_id);
 

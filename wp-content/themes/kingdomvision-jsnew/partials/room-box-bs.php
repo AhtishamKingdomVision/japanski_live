@@ -77,12 +77,14 @@ try {
     }
 
     // ✅ STEP 5: Determine unit type (RoomBoss or BedBank)
-    // CTA follows WP property type so BedBank conversion shows "Request Booking"
-    // even when the live API still returns a stale RoomBoss hotel id.
+    // CTA follows explicit is_roomboss meta only so BedBank conversion shows
+    // "Request Booking" even when leftover hotel/room ids still exist.
     $acc_id = get_post_id_by_typeId($property_id, 'accommodation');
     $bookingPermission = get_field('acc_booking_permission', $acc_id) ?: '';
-    if (function_exists('kv_property_uses_roomboss_rooms')) {
-        $is_roomboss = kv_property_uses_roomboss_rooms($acc_id, $property_id);
+    if (function_exists('kv_property_shows_roomboss_booking_cta')) {
+        $is_roomboss = kv_property_shows_roomboss_booking_cta($acc_id, $property_id);
+    } elseif (function_exists('kv_explicit_is_roomboss_meta')) {
+        $is_roomboss = kv_explicit_is_roomboss_meta($acc_id) === true;
     } else {
         $is_roomboss_raw = !empty($acc_id) ? get_post_meta($acc_id, 'is_roomboss', true) : '';
         $is_roomboss = ($is_roomboss_raw === true || $is_roomboss_raw === 1 || $is_roomboss_raw === '1');

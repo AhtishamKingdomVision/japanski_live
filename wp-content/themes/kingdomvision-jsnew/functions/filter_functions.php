@@ -2494,11 +2494,101 @@ function hz_get_local_property_ids_and_args(array $input): array {
 
  */
 
+if (!function_exists('kv_explicit_is_roomboss_meta')) {
+    /**
+     * Read accommodation is_roomboss meta/ACF as true / false / null (unset).
+     * ACF True/False often stores off as "" — only treat "" as false when the
+     * meta key exists. Missing meta stays null so hotel-id fallbacks can run.
+     */
+    function kv_explicit_is_roomboss_meta($post_id): ?bool {
+        $post_id = absint($post_id);
+        if ($post_id < 1) {
+            return null;
+        }
+
+        $is_truthy = static function ($value): bool {
+            return $value === true || $value === 1 || $value === '1';
+        };
+
+        $is_falsy = static function ($value): bool {
+            if ($value === false || $value === 0 || $value === '0') {
+                return true;
+            }
+            if (!is_string($value)) {
+                return false;
+            }
+            $normalized = strtolower(trim($value));
+            return $normalized === '' || in_array($normalized, ['false', 'off', 'no'], true);
+        };
+
+        if (metadata_exists('post', $post_id, 'is_roomboss')) {
+            $raw = get_post_meta($post_id, 'is_roomboss', true);
+            if ($is_truthy($raw)) {
+                return true;
+            }
+            if ($is_falsy($raw)) {
+                return false;
+            }
+        }
+
+        if (function_exists('get_field')) {
+            $field = get_field('is_roomboss', $post_id);
+            if ($is_truthy($field)) {
+                return true;
+            }
+            // get_field() returns null when the field has no value — keep unset.
+            if ($field !== null && $is_falsy($field)) {
+                return false;
+            }
+        }
+
+        return null;
+    }
+}
+
+if (!function_exists('kv_property_shows_roomboss_booking_cta')) {
+    /**
+     * "Book Now" only when is_roomboss is explicitly enabled.
+     * After BedBank conversion (0 / empty / false) → "Request Booking".
+     * Ignores leftover acc_hotel_id / roomboss_room_id so CTAs follow conversion.
+     */
+    function kv_property_shows_roomboss_booking_cta($post_id = 0, $property_id = 0): bool {
+        $post_id = absint($post_id);
+        $property_id = absint($property_id);
+
+        if ($post_id > 0) {
+            return kv_explicit_is_roomboss_meta($post_id) === true;
+        }
+
+        if ($property_id > 0) {
+            $accommodation_ids = get_posts([
+                'post_type'      => 'accommodation',
+                'posts_per_page' => 1,
+                'fields'         => 'ids',
+                'post_status'    => 'any',
+                'meta_query'     => [
+                    [
+                        'key'     => 'property_id',
+                        'value'   => $property_id,
+                        'compare' => '=',
+                    ],
+                ],
+            ]);
+
+            if (!empty($accommodation_ids)) {
+                return kv_explicit_is_roomboss_meta(absint($accommodation_ids[0])) === true;
+            }
+        }
+
+        return false;
+    }
+}
+
 if (!function_exists('kv_property_uses_roomboss_rooms')) {
     /**
      * Treat RoomBoss and hybrid properties as RoomBoss on the website.
      *
-     * Explicit is_roomboss=0 (BedBank conversion) always wins — stale
+     * Explicit is_roomboss=0 / empty (BedBank conversion) always wins — stale
      * acc_hotel_id / leftover room IDs must not force the RoomBoss flow.
      * Hybrid/RoomBoss (is_roomboss=1) still use the RoomBoss room flow.
      */
@@ -2506,32 +2596,13 @@ if (!function_exists('kv_property_uses_roomboss_rooms')) {
         $post_id = absint($post_id);
         $property_id = absint($property_id);
 
-        // Returns true/false when is_roomboss is explicitly set, null when unset.
-        $explicit_is_roomboss = static function ($id): ?bool {
-            $raw = get_post_meta($id, 'is_roomboss', true);
-            if ($raw === true || $raw === 1 || $raw === '1') {
-                return true;
-            }
-            if ($raw === false || $raw === 0 || $raw === '0') {
-                return false;
-            }
-            $field = function_exists('get_field') ? get_field('is_roomboss', $id) : null;
-            if ($field === true || $field === 1 || $field === '1') {
-                return true;
-            }
-            if ($field === false || $field === 0 || $field === '0') {
-                return false;
-            }
-            return null;
-        };
-
         $has_roomboss_hotel_id = static function ($id): bool {
             $hotel_id = trim((string) get_post_meta($id, 'acc_hotel_id', true));
             return $hotel_id !== '' && $hotel_id !== '0';
         };
 
         if ($post_id > 0) {
-            $explicit = $explicit_is_roomboss($post_id);
+            $explicit = kv_explicit_is_roomboss_meta($post_id);
             if ($explicit === false) {
                 return false;
             }
@@ -2555,18 +2626,23 @@ if (!function_exists('kv_property_uses_roomboss_rooms')) {
                 ],
             ]);
 
-            if (!empty($accommodation_ids)) {
+            $found_accommodation = !empty($accommodation_ids);
+
+            if ($found_accommodation) {
                 $accommodation_id = absint($accommodation_ids[0]);
-                $explicit = $explicit_is_roomboss($accommodation_id);
+                $explicit = kv_explicit_is_roomboss_meta($accommodation_id);
                 if ($explicit === false) {
                     return false;
                 }
                 if ($explicit === true || $has_roomboss_hotel_id($accommodation_id)) {
                     return true;
                 }
+                // Accommodation exists but flag unset and no hotel id → not RoomBoss.
+                // Do not use leftover room IDs (they survive BedBank conversion).
+                return false;
             }
 
-            // Fallback only when is_roomboss meta is unset: real non-zero RoomBoss room IDs.
+            // Fallback only when no accommodation post exists for this property_id.
             $room_ids = get_posts([
                 'post_type'      => 'japan_rooms',
                 'posts_per_page' => 1,
@@ -3826,37 +3902,45 @@ function niseko_search_roomboss_single()
             }
         }
 
-        // Always include WP rooms that are not RoomBoss-backed (manual / BedBank),
-        // even when the live API returns only RoomBoss inventory (or nothing).
-        $wp_rooms_data = function_exists('get_hotel_rooms') ? get_hotel_rooms($property_id, [], '') : [];
-        $wp_rooms = is_array($wp_rooms_data['rooms'] ?? null) ? $wp_rooms_data['rooms'] : [];
+        // BedBank-converted properties: also show manual / BedBank WP rooms.
+        // Pure RoomBoss (and hybrid) properties: only live RoomBoss inventory.
+        $property_uses_roomboss = function_exists('kv_property_uses_roomboss_rooms')
+            ? kv_property_uses_roomboss_rooms(0, $property_id)
+            : $is_roomboss;
+        $wp_rooms_data = [];
+        $wp_rooms = [];
 
-        foreach ($wp_rooms as $wp_room) {
-            if (!is_object($wp_room) || empty($wp_room->ID)) {
-                continue;
+        if (!$property_uses_roomboss) {
+            $wp_rooms_data = function_exists('get_hotel_rooms') ? get_hotel_rooms($property_id, [], '') : [];
+            $wp_rooms = is_array($wp_rooms_data['rooms'] ?? null) ? $wp_rooms_data['rooms'] : [];
+
+            foreach ($wp_rooms as $wp_room) {
+                if (!is_object($wp_room) || empty($wp_room->ID)) {
+                    continue;
+                }
+
+                $rb_room_id = trim((string) get_post_meta($wp_room->ID, 'roomboss_room_id', true));
+                $is_manual_or_bedbank = ($rb_room_id === '' || $rb_room_id === '0');
+                $actual_room_id = intval(get_post_meta($wp_room->ID, 'actual_room_id', true));
+
+                // Skip RoomBoss-synced rooms already covered by (or intentionally omitted from) API results.
+                if (!$is_manual_or_bedbank) {
+                    continue;
+                }
+
+                // Avoid duplicate cards if the same actual_room_id somehow came from the API.
+                if ($actual_room_id > 0 && isset($api_actual_room_ids[$actual_room_id])) {
+                    continue;
+                }
+
+                $room_count++;
+
+                get_template_part('partials/room-box', null, [
+                    'room' => $wp_room,
+                    'rb' => false,
+                    'property_id' => $property_id,
+                ]);
             }
-
-            $rb_room_id = trim((string) get_post_meta($wp_room->ID, 'roomboss_room_id', true));
-            $is_manual_or_bedbank = ($rb_room_id === '' || $rb_room_id === '0');
-            $actual_room_id = intval(get_post_meta($wp_room->ID, 'actual_room_id', true));
-
-            // Skip RoomBoss-synced rooms already covered by (or intentionally omitted from) API results.
-            if (!$is_manual_or_bedbank) {
-                continue;
-            }
-
-            // Avoid duplicate cards if the same actual_room_id somehow came from the API.
-            if ($actual_room_id > 0 && isset($api_actual_room_ids[$actual_room_id])) {
-                continue;
-            }
-
-            $room_count++;
-
-            get_template_part('partials/room-box', null, [
-                'room' => $wp_room,
-                'rb' => false,
-                'property_id' => $property_id,
-            ]);
         }
 
         $html = ob_get_clean();

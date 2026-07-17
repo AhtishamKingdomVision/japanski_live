@@ -61,7 +61,8 @@ try {
 
     // ✅ STEP 5: Get accommodation details (property type and location)
     // BedBank property → always "Request Booking".
-    // RoomBoss/hybrid → "Book Now" only for rooms with a real RoomBoss room id.
+    // RoomBoss/hybrid → "Book Now" only when is_roomboss is explicitly on
+    // and the room still has a real RoomBoss room id.
     $is_roomboss = false;
     $area_list = [];
     $resort_name = '';
@@ -71,8 +72,10 @@ try {
     $room_is_roomboss = ($room_rb_id !== '' && $room_rb_id !== '0');
 
     if (!empty($acc_id)) {
-        if (function_exists('kv_property_uses_roomboss_rooms')) {
-            $property_is_roomboss = kv_property_uses_roomboss_rooms($acc_id, $property_id);
+        if (function_exists('kv_property_shows_roomboss_booking_cta')) {
+            $property_is_roomboss = kv_property_shows_roomboss_booking_cta($acc_id, $property_id);
+        } elseif (function_exists('kv_explicit_is_roomboss_meta')) {
+            $property_is_roomboss = kv_explicit_is_roomboss_meta($acc_id) === true;
         } else {
             $is_roomboss_raw = get_post_meta($acc_id, 'is_roomboss', true);
             $property_is_roomboss = ($is_roomboss_raw === true || $is_roomboss_raw === 1 || $is_roomboss_raw === '1');

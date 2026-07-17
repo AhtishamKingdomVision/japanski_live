@@ -156,8 +156,11 @@ $endDisplay = date_format_readable($endDisplay, 'Y-m-d', 'd/m/Y');
 
 $is_roomboss = false;
 if (!empty($wp_property_id)) {
-    if (function_exists('kv_property_uses_roomboss_rooms')) {
-        $is_roomboss = kv_property_uses_roomboss_rooms($wp_property_id, $propertyId);
+    // CTA / rate-plan labels follow explicit is_roomboss only (BedBank conversion).
+    if (function_exists('kv_property_shows_roomboss_booking_cta')) {
+        $is_roomboss = kv_property_shows_roomboss_booking_cta($wp_property_id, $propertyId);
+    } elseif (function_exists('kv_explicit_is_roomboss_meta')) {
+        $is_roomboss = kv_explicit_is_roomboss_meta($wp_property_id) === true;
     } else {
         $raw = get_post_meta($wp_property_id, 'is_roomboss', true);
         $is_roomboss = ($raw === true || $raw === 1 || $raw === '1');

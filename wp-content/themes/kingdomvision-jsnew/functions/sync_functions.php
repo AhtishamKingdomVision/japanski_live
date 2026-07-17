@@ -1704,13 +1704,13 @@ function sq_mapping_properties($properties) {
 
             }
 
-            $meta_input['is_roomboss'] = 1;
+            $meta_input['is_roomboss'] = '1';
 
         } else {
 
             // BedBank property — clear RoomBoss hotel id so filters treat it as BedBank.
 
-            $meta_input['is_roomboss'] = 0;
+            $meta_input['is_roomboss'] = '0';
 
             $meta_input['acc_hotel_id'] = '';
 
@@ -2328,6 +2328,11 @@ function sq_mapping_properties($properties) {
 
         }
 
+        // Keep ACF true/false field in sync after BedBank ↔ RoomBoss conversion.
+        if (function_exists('update_field') && isset($meta_input['is_roomboss'])) {
+            update_field('is_roomboss', $meta_input['is_roomboss'] === '1' || $meta_input['is_roomboss'] === 1 ? 1 : 0, $upd_hotel_id);
+        }
+
         // Fully clear stale RoomBoss hotel id after BedBank conversion.
         if (!$is_roomboss) {
             delete_post_meta($upd_hotel_id, 'acc_hotel_id');
@@ -2740,15 +2745,15 @@ function sq_mapping_properties($properties) {
 
                     $room_meta_input['room_type_id'] = $room_tid;
 
-                    $room_meta_input['is_roomboss'] = 1;
+                    $room_meta_input['is_roomboss'] = '1';
 
                 } else {
 
                     // BedBank / manual room — clear leftover RoomBoss room links.
 
-                    $room_meta_input['is_roomboss'] = 0;
+                    $room_meta_input['is_roomboss'] = '0';
 
-                    $room_meta_input['roomboss_room_id'] = 0;
+                    $room_meta_input['roomboss_room_id'] = '0';
 
                     $room_meta_input['room_hotel_id'] = '';
 

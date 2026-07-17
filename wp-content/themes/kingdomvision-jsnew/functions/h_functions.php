@@ -2289,7 +2289,9 @@ function get_rooms_func($atts) {
 
 
 
-    $room_source = '';
+    $room_source = function_exists('kv_property_uses_roomboss_rooms') && kv_property_uses_roomboss_rooms(0, $property_id)
+        ? 'roomboss'
+        : '';
 
     $rooms = get_rooms_by_property_id($property_id, $room_source);
 
@@ -6104,9 +6106,12 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
         }
 
-        // Update source flag
-
-        update_post_meta($post_id, 'is_roomboss', $is_bedbank ? 0 : 1);
+        // Update source flag (string '0'/'1' so ACF / meta reads stay reliable)
+        $is_roomboss_flag = $is_bedbank ? '0' : '1';
+        update_post_meta($post_id, 'is_roomboss', $is_roomboss_flag);
+        if (function_exists('update_field')) {
+            update_field('is_roomboss', $is_bedbank ? 0 : 1, $post_id);
+        }
 
         return [
 
@@ -6556,12 +6561,12 @@ function render_rooms_section($atts) {
 
 
 
-    // ✅ STEP 2: Get ALL rooms (RoomBoss + manually added / BedBank).
-    // Do not filter to room_source=roomboss — that hid manual rooms on mixed properties.
+    // ✅ STEP 2: RoomBoss/hybrid → only RoomBoss rooms.
+    // BedBank-converted properties → all rooms (RoomBoss leftovers + manual/BedBank).
 
     $is_roomboss = function_exists('kv_property_uses_roomboss_rooms') && kv_property_uses_roomboss_rooms($post_id, $property_id);
 
-    $data = get_hotel_rooms($property_id, [], '');
+    $data = get_hotel_rooms($property_id, [], $is_roomboss ? 'roomboss' : '');
 
     // ✅ STEP 3: Validate array structure before accessing keys
 

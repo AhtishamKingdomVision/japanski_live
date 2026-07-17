@@ -77,10 +77,11 @@ try {
     }
 
     // ✅ STEP 5: Determine unit type (RoomBoss or BedBank)
-    $is_roomboss = (isset($room['RoomBossData']) && intval($room['RoomBossData']) === 1);    
-    $bookingPermission = get_field('acc_booking_permission', $acc_id);
+    // CTA follows accommodation is_roomboss meta so BedBank stays "Request Booking".
     $acc_id = get_post_id_by_typeId($property_id, 'accommodation');
     $bookingPermission = get_field('acc_booking_permission', $acc_id) ?: '';
+    $is_roomboss_raw = !empty($acc_id) ? get_post_meta($acc_id, 'is_roomboss', true) : '';
+    $is_roomboss = ($is_roomboss_raw === true || $is_roomboss_raw === 1 || $is_roomboss_raw === '1');
     
     $unit_type = $is_roomboss ? 'roomboss' : 'bedbank';
 
@@ -151,7 +152,7 @@ try {
             <div class="room-btns">
                 <?php 
                 if ( get_post_meta( $acc_id, 'is_price_excluded', true ) === '1' ): ?>
-                    <button bookingPermission="<?php echo $bookingPermission ?>" class="btn enq-btn bedbank_btn" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>"Enquire Now</button>
+                    <button bookingPermission="<?php echo esc_attr($bookingPermission); ?>" class="btn enq-btn bedbank_btn" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>">Enquire Now</button>
                 <?php else : 
                     if ($is_roomboss) :
                         if (!empty($bookingPermission)) :

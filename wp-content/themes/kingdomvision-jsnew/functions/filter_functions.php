@@ -912,31 +912,17 @@ function hz_search_in_booking_system() {
 
 
 
-        if (empty($roombossData)) {
-
-            return wp_send_json_success(array_merge([
-
-                'html' => '',
-
-                'count' => 0,
-
-                'room_count' => 0,
-
-                'has_more' => false,
-
-            ], $paginationFields));
-
-        }
-
-
-
-        $availableHotelIds = array_keys($roombossData);
+        $availableHotelIds = !empty($roombossData) && is_array($roombossData)
+            ? array_keys($roombossData)
+            : [];
 
         $booking_offset = isset($_POST['booking_offset']) ? max(0, intval($_POST['booking_offset'])) : 0;
 
 
 
         $exclude_price_property_ids = [];
+
+        $bedbank_property_ids = [];
 
 
 
@@ -981,11 +967,81 @@ function hz_search_in_booking_system() {
 
 
 
+            // BedBank properties are enquiry-based and often have no live Unit count.
+            // Include them in date search results even when the booking API omits them.
+            $bedbank_args = niseko_build_search_query_args($_POST, [
+
+                'fields'         => 'ids',
+
+                'posts_per_page' => -1,
+
+                'paged'          => 1,
+
+            ]);
+
+
+
+            $bedbank_args['meta_query'][] = [
+
+                'relation' => 'OR',
+
+                [
+
+                    'key'     => 'is_roomboss',
+
+                    'value'   => '1',
+
+                    'compare' => '!=',
+
+                ],
+
+                [
+
+                    'key'     => 'is_roomboss',
+
+                    'compare' => 'NOT EXISTS',
+
+                ],
+
+            ];
+
+
+
+            $bedbank_query = get_posts($bedbank_args);
+
+
+
+            $bedbank_property_ids = array_filter(array_map(function ($bedbank_post) {
+
+                return get_post_meta($bedbank_post, 'property_id', true);
+
+            }, $bedbank_query));
+
+
+
         }
 
 
 
-        $merged_property_id = array_values(array_unique( array_merge( $exclude_price_property_ids, $availableHotelIds ) ));
+        $merged_property_id = array_values(array_unique( array_merge( $exclude_price_property_ids, $bedbank_property_ids, $availableHotelIds ) ));
+
+
+
+        if (empty($merged_property_id)) {
+
+            return wp_send_json_success(array_merge([
+
+                'html' => '',
+
+                'count' => 0,
+
+                'room_count' => 0,
+
+                'has_more' => false,
+
+            ], $paginationFields));
+
+        }
 
 
 
@@ -2442,19 +2498,44 @@ if (!function_exists('kv_property_uses_roomboss_rooms')) {
     /**
      * Treat RoomBoss and hybrid properties as RoomBoss on the website.
      *
-     * Hybrid properties can have a BedBank property type but still carry
-     * RoomBoss hotel/room IDs. Those should use the RoomBoss room flow.
+     * Explicit is_roomboss=0 (BedBank conversion) always wins — stale
+     * acc_hotel_id / leftover room IDs must not force the RoomBoss flow.
+     * Hybrid/RoomBoss (is_roomboss=1) still use the RoomBoss room flow.
      */
     function kv_property_uses_roomboss_rooms($post_id = 0, $property_id = 0): bool {
         $post_id = absint($post_id);
         $property_id = absint($property_id);
 
-        if ($post_id > 0) {
-            if ((bool) get_field('is_roomboss', $post_id)) {
+        // Returns true/false when is_roomboss is explicitly set, null when unset.
+        $explicit_is_roomboss = static function ($id): ?bool {
+            $raw = get_post_meta($id, 'is_roomboss', true);
+            if ($raw === true || $raw === 1 || $raw === '1') {
                 return true;
             }
+            if ($raw === false || $raw === 0 || $raw === '0') {
+                return false;
+            }
+            $field = function_exists('get_field') ? get_field('is_roomboss', $id) : null;
+            if ($field === true || $field === 1 || $field === '1') {
+                return true;
+            }
+            if ($field === false || $field === 0 || $field === '0') {
+                return false;
+            }
+            return null;
+        };
 
-            if (trim((string) get_post_meta($post_id, 'acc_hotel_id', true)) !== '') {
+        $has_roomboss_hotel_id = static function ($id): bool {
+            $hotel_id = trim((string) get_post_meta($id, 'acc_hotel_id', true));
+            return $hotel_id !== '' && $hotel_id !== '0';
+        };
+
+        if ($post_id > 0) {
+            $explicit = $explicit_is_roomboss($post_id);
+            if ($explicit === false) {
+                return false;
+            }
+            if ($explicit === true || $has_roomboss_hotel_id($post_id)) {
                 return true;
             }
         }
@@ -2476,16 +2557,16 @@ if (!function_exists('kv_property_uses_roomboss_rooms')) {
 
             if (!empty($accommodation_ids)) {
                 $accommodation_id = absint($accommodation_ids[0]);
-
-                if ((bool) get_field('is_roomboss', $accommodation_id)) {
-                    return true;
+                $explicit = $explicit_is_roomboss($accommodation_id);
+                if ($explicit === false) {
+                    return false;
                 }
-
-                if (trim((string) get_post_meta($accommodation_id, 'acc_hotel_id', true)) !== '') {
+                if ($explicit === true || $has_roomboss_hotel_id($accommodation_id)) {
                     return true;
                 }
             }
 
+            // Fallback only when is_roomboss meta is unset: real non-zero RoomBoss room IDs.
             $room_ids = get_posts([
                 'post_type'      => 'japan_rooms',
                 'posts_per_page' => 1,
@@ -2500,8 +2581,8 @@ if (!function_exists('kv_property_uses_roomboss_rooms')) {
                     ],
                     [
                         'key'     => 'roomboss_room_id',
-                        'value'   => '',
-                        'compare' => '!=',
+                        'value'   => ['', '0'],
+                        'compare' => 'NOT IN',
                     ],
                 ],
             ]);
@@ -2586,8 +2667,8 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $r
         if ($room_source === 'roomboss') {
             $meta_query[] = [
                 'key'     => 'roomboss_room_id',
-                'value'   => '',
-                'compare' => '!=',
+                'value'   => ['', '0'],
+                'compare' => 'NOT IN',
             ];
         }
 
@@ -3706,79 +3787,79 @@ function niseko_search_roomboss_single()
 
         $roomData = kv_bs_available_room_data($property_id, $checkin, $checkout, 1);
 
+        $is_roomboss = is_array($roomData) && intval($roomData['is_roomboss'] ?? 0) === 1;
 
-
-        // Handle empty response
-
-        if (empty($roomData) || !is_array($roomData)) {
-
-            return wp_send_json_success([
-
-                'html' => '<p>No rooms available for the selected dates. Choose new dates or request a quote to find availability.</p>',
-
-                'count' => 0,
-
-                'available_bedroom_types' => [],
-
-                'has_more' => false,
-
-            ]);
-
+        // Collect ActualRoomIds already returned by the live API so we can
+        // still append manually-added / BedBank WP rooms that are not in the response.
+        $api_actual_room_ids = [];
+        if (is_array($roomData)) {
+            foreach ($roomData as $key => $room) {
+                if (!is_array($room) || $key === 'is_roomboss') {
+                    continue;
+                }
+                $actual_id = intval($room['ActualRoomId'] ?? 0);
+                if ($actual_id > 0) {
+                    $api_actual_room_ids[$actual_id] = true;
+                }
+            }
         }
-
-
-
-        // ✅ STEP 3: Validate and extract room booking flag
-
-        $is_roomboss = intval($roomData['is_roomboss'] ?? 0) === 1;
-
-
 
         // ✅ STEP 4: Build HTML output from room data
 
         ob_start();
 
-
-
-        // Filter out non-array items from room data
-
         $room_count = 0;
 
-        foreach ($roomData as $key => $room) {
+        if (is_array($roomData)) {
+            foreach ($roomData as $key => $room) {
+                if (!is_array($room) || $key === 'is_roomboss') {
+                    continue;
+                }
 
-            // Skip non-array items (like the 'is_roomboss' flag)
+                $room_count++;
 
-            if (!is_array($room) || $key === 'is_roomboss') {
+                get_template_part('partials/room-box-bs', null, [
+                    'room' => $room,
+                    'rb' => $is_roomboss,
+                    'property_id' => $property_id,
+                ]);
+            }
+        }
 
+        // Always include WP rooms that are not RoomBoss-backed (manual / BedBank),
+        // even when the live API returns only RoomBoss inventory (or nothing).
+        $wp_rooms_data = function_exists('get_hotel_rooms') ? get_hotel_rooms($property_id, [], '') : [];
+        $wp_rooms = is_array($wp_rooms_data['rooms'] ?? null) ? $wp_rooms_data['rooms'] : [];
+
+        foreach ($wp_rooms as $wp_room) {
+            if (!is_object($wp_room) || empty($wp_room->ID)) {
                 continue;
-
             }
 
+            $rb_room_id = trim((string) get_post_meta($wp_room->ID, 'roomboss_room_id', true));
+            $is_manual_or_bedbank = ($rb_room_id === '' || $rb_room_id === '0');
+            $actual_room_id = intval(get_post_meta($wp_room->ID, 'actual_room_id', true));
 
+            // Skip RoomBoss-synced rooms already covered by (or intentionally omitted from) API results.
+            if (!$is_manual_or_bedbank) {
+                continue;
+            }
+
+            // Avoid duplicate cards if the same actual_room_id somehow came from the API.
+            if ($actual_room_id > 0 && isset($api_actual_room_ids[$actual_room_id])) {
+                continue;
+            }
 
             $room_count++;
 
-
-
-            // Render room card template
-
-            get_template_part('partials/room-box-bs', null, [
-
-                'room' => $room,
-
-                'rb' => $is_roomboss,
-
+            get_template_part('partials/room-box', null, [
+                'room' => $wp_room,
+                'rb' => false,
                 'property_id' => $property_id,
-
             ]);
-
         }
 
-
-
         $html = ob_get_clean();
-
-
 
         // Handle case where no valid rooms were processed
 
@@ -3802,7 +3883,10 @@ function niseko_search_roomboss_single()
 
         // ✅ STEP 5: Extract available bedroom types
 
-        $available_bedroom_types = get_available_bedrooms($roomData);
+        $available_bedroom_types = is_array($roomData) ? get_available_bedrooms($roomData) : [];
+        if (empty($available_bedroom_types) && !empty($wp_rooms_data['bedroom_types'])) {
+            $available_bedroom_types = $wp_rooms_data['bedroom_types'];
+        }
 
 
 
@@ -3968,14 +4052,9 @@ function kv_bs_available_room_data(
 
                 }
 
-                $room_is_roomboss = isset($room['RoomBossData']) && intval($room['RoomBossData']) === 1;
-
-                if ($treat_as_roomboss && !$room_is_roomboss) {
-
-                    continue;
-
-                }
-
+                // Include both RoomBoss and BedBank units from the API.
+                // (Previously skipped non-RoomBoss rooms when property looked RoomBoss-ish,
+                // which hid BedBank inventory after conversion / on hybrid properties.)
                 $rooms[] = $room;
 
             }

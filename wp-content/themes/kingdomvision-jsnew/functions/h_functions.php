@@ -1238,7 +1238,8 @@ function get_post_id_by_typeId($typeID, $type = '')
 
         } elseif ($type === 'room') {
 
-            $meta_key = " pm.meta_key IN ('room_type_id', 'room_id') "; // room_type_id, room_id
+            // BedBank rooms are keyed by actual_room_id; RoomBoss by room_type_id/room_id.
+            $meta_key = " pm.meta_key IN ('room_type_id', 'room_id', 'actual_room_id') ";
 
             $post_type = 'japan_rooms';
 
@@ -2288,9 +2289,7 @@ function get_rooms_func($atts) {
 
 
 
-    $room_source = function_exists('kv_property_uses_roomboss_rooms') && kv_property_uses_roomboss_rooms(0, $property_id)
-        ? 'roomboss'
-        : '';
+    $room_source = '';
 
     $rooms = get_rooms_by_property_id($property_id, $room_source);
 
@@ -6605,11 +6604,12 @@ function render_rooms_section($atts) {
 
 
 
-    // ✅ STEP 2: Get room data via helper function
+    // ✅ STEP 2: Get ALL rooms (RoomBoss + manually added / BedBank).
+    // Do not filter to room_source=roomboss — that hid manual rooms on mixed properties.
 
     $is_roomboss = function_exists('kv_property_uses_roomboss_rooms') && kv_property_uses_roomboss_rooms($post_id, $property_id);
 
-    $data = get_hotel_rooms($property_id, [], $is_roomboss ? 'roomboss' : '');
+    $data = get_hotel_rooms($property_id, [], '');
 
     // ✅ STEP 3: Validate array structure before accessing keys
 
@@ -6626,6 +6626,8 @@ function render_rooms_section($atts) {
         $rooms = [];
 
     }
+
+    $total_room_count = count($rooms);
 
     // pre('rooms: ' . $rooms);
 
@@ -6687,15 +6689,15 @@ function render_rooms_section($atts) {
 
                         <span class="units_avl">
 
-                            <?php echo count( $rooms ) ?>    
+                            <?php echo $total_room_count ?>    
 
                         </span>
 
-                        unit type<?php echo count( $rooms ) > 1 ? 's' : ''; ?> available out of 
+                        unit type<?php echo $total_room_count > 1 ? 's' : ''; ?> available out of 
 
                         <span class="total_units">
 
-                            <?php echo count( $rooms ) ?> 
+                            <?php echo $total_room_count ?> 
 
                         </span>
 
@@ -6707,7 +6709,7 @@ function render_rooms_section($atts) {
 
                     <div class="available_units">
 
-                        <!-- This property has <span class="total_units"><?php //echo count( $rooms ) ?></span> unit type<?php //echo count( $rooms ) > 1 ? 's' : ''; ?> - enquire for availability. -->
+                        <!-- This property has <span class="total_units"><?php //echo $total_room_count ?></span> unit type<?php //echo $total_room_count > 1 ? 's' : ''; ?> - enquire for availability. -->
 
                         The results below are not based on live availability. Please submit a booking request and, if your selected dates can be confirmed, our team will place the property on hold and send you a booking link.
 

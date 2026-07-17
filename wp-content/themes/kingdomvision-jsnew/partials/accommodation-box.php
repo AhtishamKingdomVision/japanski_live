@@ -88,10 +88,10 @@ try {
         $image_url = get_template_directory_uri() . '/images/placeholder-accomo.jpg';
     }
 
-    // ✅ STEP 7: Get room count safely
+    // ✅ STEP 7: Get room count safely (all rooms — RoomBoss + manual/BedBank)
     $room_count = 0;
-    if (!empty($hotel_tid) && function_exists('get_hotel_rooms')) {
-        $hotel_data = get_hotel_rooms($hotel_tid, [], $is_roomboss ? 'roomboss' : '');
+    if (!empty($property_id_attr) && function_exists('get_hotel_rooms')) {
+        $hotel_data = get_hotel_rooms($property_id_attr, [], '');
         if (is_array($hotel_data) && isset($hotel_data['rooms'])) {
             $room_count = count($hotel_data['rooms']);
         }

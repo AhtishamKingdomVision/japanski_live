@@ -151,11 +151,11 @@ echo '</section>'; #about-accomodation
 $is_roomboss = get_field('is_roomboss');
 
 $is_price_exc = get_field('is_price_excluded');
-// if( !$is_roomboss || $is_price_exc ){
-//     echo '<section class="full-section enquiry_form">';
-//         echo '<div class="container">';
-//             echo get_enquiry_form_html();
-//         echo '</div>'; //container
-//     echo '</section>'; // room-boss
-// }
+if( !$is_roomboss || $is_price_exc ){
+    echo '<section class="full-section enquiry_form">';
+        echo '<div class="container">';
+            echo get_enquiry_form_html();
+        echo '</div>'; //container
+    echo '</section>'; // room-boss
+}
 ?>

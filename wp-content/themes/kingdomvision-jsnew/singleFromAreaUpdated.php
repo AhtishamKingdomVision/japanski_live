@@ -4,6 +4,12 @@ global $post;
 $acc_details = get_field('accomodation_details');
 $acc_form = $acc_details['accommodation_form'] ?? false;
 $address = $acc_details['address'] ?? '';
+$latitude = $acc_details['acc_latitude'] ?? get_field('accomodation_details_acc_latitude');
+$longitude = $acc_details['acc_longitude'] ?? get_field('accomodation_details_acc_longitude');
+$map_query = ($latitude !== '' && $latitude !== null && $longitude !== '' && $longitude !== null)
+	? $latitude . ',' . $longitude
+	: $address;
+$map_embed_url = 'https://www.google.com/maps?q=' . rawurlencode($map_query) . '&z=15&output=embed';
 // $acco_image_gallery = get_field('acco_image_gallery');
 $acco_image_gallery = kv_get_meta_images_gallery($post->ID, 'acco_pending_images');
 $acc_ext_gallary = get_field('acc_gallary', $post->ID);
@@ -50,9 +56,9 @@ echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-sec
 			echo '</div>'; #title-wrapper
 			
 			if($address){
-				echo '<div class="acc-address">';
-					echo '<p>'.$address.'</p>';
-				echo '</div>'; #acc-address
+				echo '<button type="button" class="acc-address acc-address-map-trigger" aria-haspopup="dialog" aria-controls="accommodation-map-modal">';
+					echo '<span>'. esc_html($address) .'</span>';
+				echo '</button>'; #acc-address
 			}
 
 			echo '<div class="acc-gallery t2">';
@@ -93,10 +99,54 @@ echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-sec
 	echo '</div>'; #container
 echo '</section>'; #acc-single-banner
 
+if ($address && $map_query) {
+	echo '<div id="accommodation-map-modal" class="accommodation-map-modal" role="dialog" aria-modal="true" aria-label="' . esc_attr(get_the_title() . ' location map') . '" aria-hidden="true">';
+		echo '<div class="accommodation-map-dialog">';
+			echo '<button type="button" class="accommodation-map-close" aria-label="Close map">&times;</button>';
+			echo '<iframe class="accommodation-map-frame" title="' . esc_attr(get_the_title() . ' location') . '" data-src="' . esc_url($map_embed_url) . '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>';
+		echo '</div>';
+	echo '</div>';
+}
+
 ?>
 
 <script>
 	jQuery(document).ready(function($) {
+	var $mapModal = $('#accommodation-map-modal');
+	var $mapTrigger = $('.acc-address-map-trigger');
+
+	function openAccommodationMap() {
+		if (!$mapModal.length) return;
+
+		var $frame = $mapModal.find('.accommodation-map-frame');
+		if (!$frame.attr('src')) {
+			$frame.attr('src', $frame.data('src'));
+		}
+
+		$mapModal.addClass('is-visible').attr('aria-hidden', 'false');
+		$('body').addClass('accommodation-map-open');
+		$mapModal.find('.accommodation-map-close').trigger('focus');
+	}
+
+	function closeAccommodationMap() {
+		if (!$mapModal.hasClass('is-visible')) return;
+
+		$mapModal.removeClass('is-visible').attr('aria-hidden', 'true');
+		$('body').removeClass('accommodation-map-open');
+		$mapTrigger.trigger('focus');
+	}
+
+	$mapTrigger.on('click', openAccommodationMap);
+	$mapModal.on('click', function(event) {
+		if (event.target === this || $(event.target).hasClass('accommodation-map-close')) {
+			closeAccommodationMap();
+		}
+	});
+	$(document).on('keydown', function(event) {
+		if (event.key === 'Escape') {
+			closeAccommodationMap();
+		}
+	});
 
     if ($(".cta_with_bg_image").length > 0) {
         $(".cta_with_bg_image").each(function (i) {

@@ -433,13 +433,6 @@ if (!empty($wp_property_id)) {
 
 
                     continue;
-                } else if ($isHybridProperty && empty($room['ratePlanId'])) {
-
-
-                    // Skip bedbank rooms for hybrid properties
-
-
-                    continue;
                 }
 
 

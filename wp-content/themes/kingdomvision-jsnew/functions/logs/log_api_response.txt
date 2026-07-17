@@ -685,3 +685,10 @@
     [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4376
 )
  -- -- -- 2026-07-16 13:06:35<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for test test has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4391
+)
+ -- -- -- 2026-07-17 13:41:15<br></pre>

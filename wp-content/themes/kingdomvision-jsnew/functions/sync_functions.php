@@ -1610,9 +1610,9 @@ function sq_mapping_properties($properties) {
 
         $property_type =  strtolower(trim((string) ($property['property_type'] ?? '')));
 
-        $has_roomboss_hotel = trim((string) ($property['room_boss_hotel_id'] ?? '')) !== '';
-
-        $is_roomboss = ($property_type === strtolower('roomboss') || $property_type === 'hybrid' || $has_roomboss_hotel) ? 1 : 0;
+        // Use property_type as source of truth. Do not force RoomBoss just because
+        // a leftover room_boss_hotel_id is still present after BedBank conversion.
+        $is_roomboss = ($property_type === 'roomboss' || $property_type === 'hybrid') ? 1 : 0;
 
         // $is_enabled = $property['is_enabled'] == 1;
 
@@ -1708,9 +1708,11 @@ function sq_mapping_properties($properties) {
 
         } else {
 
-            // BedBank property
+            // BedBank property — clear RoomBoss hotel id so filters treat it as BedBank.
 
             $meta_input['is_roomboss'] = 0;
+
+            $meta_input['acc_hotel_id'] = '';
 
         }
 
@@ -2326,6 +2328,11 @@ function sq_mapping_properties($properties) {
 
         }
 
+        // Fully clear stale RoomBoss hotel id after BedBank conversion.
+        if (!$is_roomboss) {
+            delete_post_meta($upd_hotel_id, 'acc_hotel_id');
+        }
+
         $unit_ids = [];
 
         if( !empty( $extra_properties ) ){
@@ -2737,9 +2744,15 @@ function sq_mapping_properties($properties) {
 
                 } else {
 
-                    // BedBank room
+                    // BedBank / manual room — clear leftover RoomBoss room links.
 
                     $room_meta_input['is_roomboss'] = 0;
+
+                    $room_meta_input['roomboss_room_id'] = 0;
+
+                    $room_meta_input['room_hotel_id'] = '';
+
+                    $room_meta_input['room_type_id'] = '';
 
                 }
 
@@ -2934,6 +2947,11 @@ function sq_mapping_properties($properties) {
 
                     update_post_meta($upd_room_id, $meta_key, $meta_value);
 
+                }
+
+                if (!$room_is_roomboss) {
+                    delete_post_meta($upd_room_id, 'room_hotel_id');
+                    delete_post_meta($upd_room_id, 'room_type_id');
                 }
 
             }

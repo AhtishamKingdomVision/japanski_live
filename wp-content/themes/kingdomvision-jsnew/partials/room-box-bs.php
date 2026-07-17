@@ -39,7 +39,13 @@ try {
     }
 
     // ✅ STEP 3: Extract and sanitize room details
-    $name = sanitize_text_field($room['RoomName'] ?? '');
+    // Prefer ClientRoomName (and synced WP title) over internal RoomName.
+    $name = function_exists('kv_bs_room_display_name')
+        ? sanitize_text_field(kv_bs_room_display_name($room))
+        : sanitize_text_field($room['RoomName'] ?? '');
+    if ($name === '' && !empty($room_post_id)) {
+        $name = sanitize_text_field(get_the_title($room_post_id));
+    }
     $guests = intval($room['MaximumAdults'] ?? 0);
     $bedrooms = intval($room['numberBedrooms'] ?? 0);
     $bathrooms = intval($room['numberBathrooms'] ?? 0);

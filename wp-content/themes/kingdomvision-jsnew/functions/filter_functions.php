@@ -3836,6 +3836,32 @@ if (!function_exists('kv_bs_filter_rooms_by_property_type')) {
 }
 
 /**
+ * Frontend display name for a booking-system room.
+ * Prefer ClientRoomName, then synced WP title (client_unit_name), then RoomName.
+ */
+if (!function_exists('kv_bs_room_display_name')) {
+    function kv_bs_room_display_name(array $room): string {
+        $client_name = trim((string) ($room['ClientRoomName'] ?? ''));
+        if ($client_name !== '') {
+            return $client_name;
+        }
+
+        $actual_room_id = intval($room['ActualRoomId'] ?? 0);
+        if ($actual_room_id > 0 && function_exists('get_post_id_by_typeId')) {
+            $room_post_id = get_post_id_by_typeId($actual_room_id, 'room');
+            if ($room_post_id > 0) {
+                $wp_title = trim((string) get_the_title($room_post_id));
+                if ($wp_title !== '') {
+                    return $wp_title;
+                }
+            }
+        }
+
+        return trim((string) ($room['RoomName'] ?? ''));
+    }
+}
+
+/**
 
  * Retrieve and display available rooms for a single hotel property
 

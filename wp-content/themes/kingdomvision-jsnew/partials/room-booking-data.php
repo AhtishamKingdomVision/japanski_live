@@ -515,6 +515,10 @@ if (!empty($wp_property_id)) {
 
                 $accomPayTerm = $supplierData;
 
+                $displayRoomName = function_exists('kv_bs_room_display_name')
+                    ? kv_bs_room_display_name($room)
+                    : trim((string) ($room['RoomName'] ?? ''));
+
 
             ?>
 
@@ -537,7 +541,7 @@ if (!empty($wp_property_id)) {
                             <a href="<?php echo esc_url($img); ?>" data-fancybox="room-gallery-<?php echo $RoomId; ?>">
 
 
-                                <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($room['RoomName'] ?? 'Room'); ?>">
+                                <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($displayRoomName ?: 'Room'); ?>">
 
 
                                 <div class="detail_btn">
@@ -594,7 +598,7 @@ if (!empty($wp_property_id)) {
                             <div class="tit_date">
 
 
-                                <h3 class="rb-room-title"><?php echo esc_html($room['RoomName'] ?? ''); ?></h3>
+                                <h3 class="rb-room-title"><?php echo esc_html($displayRoomName); ?></h3>
 
 
 
@@ -886,7 +890,7 @@ if (!empty($wp_property_id)) {
                                             [
 
 
-                                                'roomName' => esc_html($room['RoomName'] ?? ''),
+                                                'roomName' => esc_html($displayRoomName),
 
 
                                                 'ratePlanName' => $ratePlanName,
@@ -962,7 +966,7 @@ if (!empty($wp_property_id)) {
                                                 [
 
 
-                                                    'roomName' => esc_html($room['RoomName'] ?? ''),
+                                                    'roomName' => esc_html($displayRoomName),
 
 
                                                     'ratePlanName' => $ratePlanName,
@@ -1105,7 +1109,7 @@ if (!empty($wp_property_id)) {
                                 $accomPayTerm = array_merge($accomPayTerm, [
 
 
-                                    'roomName' => esc_html($room['RoomName'] ?? ''),
+                                    'roomName' => esc_html($displayRoomName),
 
 
                                     'ratePlanName' => $ratePlanName,
@@ -1617,7 +1621,7 @@ if (!empty($wp_property_id)) {
                                     'roomTypeId' => $roomTypeId,
 
 
-                                    'roomName' => $room['RoomName'] ?? '',
+                                    'roomName' => $displayRoomName,
 
 
                                     'roomImage' => $img,

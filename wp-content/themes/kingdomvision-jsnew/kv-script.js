@@ -306,6 +306,44 @@ jQuery(function ($) {
         });
     }
 
+    function kvGetStoredChildAge(child) {
+        const val = localStorage.getItem('sb_' + child);
+        return val && val !== '0' ? val : '';
+    }
+
+    function kvApplyStoredChildAgesToPopup(noOfChilds) {
+        const childCount = parseInt(noOfChilds, 10) || 0;
+
+        $('section.child_age .ch_inn ul li').each(function (index) {
+            const $item = $(this);
+            const $select = $item.find('select');
+            const child = $select.data('child');
+
+            if ((index + 1) > childCount) {
+                $item.hide();
+                $select.val('0');
+                return;
+            }
+
+            $item.show();
+            $select.val(kvGetStoredChildAge(child) || '0');
+        });
+    }
+
+    function kvWriteStoredChildAgesToScope($scope, noOfChilds) {
+        if (!$scope || !$scope.length) return;
+
+        const childCount = parseInt(noOfChilds, 10) || 0;
+
+        for (let i = 1; i <= 15; i++) {
+            const child = 'child_' + i;
+            const val = i <= childCount ? kvGetStoredChildAge(child) : '';
+            $scope.find('.' + child + ' input').val(val);
+        }
+    }
+
+    window.kvWriteStoredChildAgesToScope = kvWriteStoredChildAgesToScope;
+
     $(document).on('change', '.rec_children select, #input_1_10, #input_4_10', function (e) {
 
         let noOfChilds = $(this).val();
@@ -315,20 +353,12 @@ jQuery(function ($) {
             return;
 
         if (noOfChilds == '0') {
-            kvWriteChildAgesToScope(kvChildAgeTargetScope);
+            kvWriteStoredChildAgesToScope(kvChildAgeTargetScope, 0);
             return;
         }
 
         $('section.child_age').addClass('active');
-        $('section.child_age input').val('');
-        $('section.child_age .ch_inn ul li').show();
-
-        // DOM ELEMENTS
-        $.each($('section.child_age .ch_inn ul li'), function (index, value) {
-            if ((index + 1) > noOfChilds) {
-                $(value).hide();
-            }
-        });
+        kvApplyStoredChildAgesToPopup(noOfChilds);
 
     });
 

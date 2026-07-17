@@ -92,6 +92,8 @@ jQuery(document).ready(function ($) {
                 if (shouldTrigger) {
                     $scope.find(guestMapping.children.input).first().trigger('change');
                     $scope.find(guestMapping.infants.input).first().trigger('change');
+                } else if (typeof window.kvWriteStoredChildAgesToScope === 'function') {
+                    window.kvWriteStoredChildAgesToScope($scope, guests.children);
                 }
 
                 $scope.find('.eq-sb-guests-display').text(enquiryLabel(guests));

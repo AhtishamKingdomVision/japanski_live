@@ -3987,3 +3987,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+/* Page refresh loader */
+(function () {
+    function hidePageLoader() {
+        var loader = document.getElementById('kv-page-loader');
+        if (!loader || loader.classList.contains('is-hidden')) return;
+        loader.classList.add('is-hidden');
+        window.setTimeout(function () {
+            if (loader && loader.parentNode) {
+                loader.parentNode.removeChild(loader);
+            }
+        }, 400);
+    }
+
+    if (document.readyState === 'complete') {
+        hidePageLoader();
+    } else {
+        window.addEventListener('load', hidePageLoader);
+        // Safety: never leave the page blocked if load is delayed
+        window.setTimeout(hidePageLoader, 8000);
+    }
+})();
+
+/* Accommodation gallery skeleton loaders */
+jQuery(function ($) {
+    $('.acc-gallery .gi.is-skeleton[data-bg]').each(function () {
+        var $el = $(this);
+        var url = $el.attr('data-bg');
+        if (!url) {
+            $el.removeClass('is-skeleton');
+            return;
+        }
+
+        var img = new Image();
+        img.onload = img.onerror = function () {
+            $el.css('background-image', 'url("' + url + '")');
+            $el.removeClass('is-skeleton');
+        };
+        img.src = url;
+    });
+});
+

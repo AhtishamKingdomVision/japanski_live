@@ -72,7 +72,7 @@ echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-sec
 						continue;
 					}
 					echo '<div class="galleryItem" data-fancybox="gallery" data-src="'. $url .'">';
-						echo '<div style="background-image: url(&quot;'. $url .'&quot;);" class="gi attachment-full size-full"></div>';
+						echo '<div class="gi attachment-full size-full is-skeleton" data-bg="'. esc_attr($url) .'"></div>';
 					echo '</div>'; #galleryItem
 					if($key == 4){
 						echo '<span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> All Photos ('.$count.')</span>';
@@ -82,14 +82,14 @@ echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-sec
 			else if( has_post_thumbnail( $post->ID ) ){
 				$image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
 				echo '<div class="galleryItem">';
-				echo '<div style="background-image: url(&quot;'. esc_url($image_url) .'&quot;);" class="gi attachment-full size-full"></div>';
+				echo '<div class="gi attachment-full size-full is-skeleton" data-bg="'. esc_attr(esc_url($image_url)) .'"></div>';
 				echo '</div>'; #galleryItem
 
 			}
 			else{
 				$room_placeholder_img = get_stylesheet_directory_uri() . '/images/placeholder-listing.jpg';
 				echo '<div class="galleryItem">';
-				echo '<div style="background-image: url(&quot;'. esc_url($room_placeholder_img) .'&quot;);" class="gi attachment-full size-full"></div>';
+				echo '<div class="gi attachment-full size-full is-skeleton" data-bg="'. esc_attr(esc_url($room_placeholder_img)) .'"></div>';
 				echo '</div>'; #galleryItem
 			}
 			echo '</div>'; #acc-gallery

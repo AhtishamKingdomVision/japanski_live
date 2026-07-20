@@ -13,19 +13,47 @@
     }
 
     wp_head(); ?>
+    <style id="kv-page-loader-critical">
+        #kv-page-loader{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 35%,#0a2740 0%,#01111f 70%);transition:opacity .4s ease,visibility .4s ease}
+        #kv-page-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+        #kv-page-loader .kv-page-loader-inner{display:flex;flex-direction:column;align-items:center;gap:28px;padding:24px;text-align:center}
+        #kv-page-loader .kv-page-loader-logo{width:min(220px,55vw);height:auto;opacity:0;animation:kvLoaderLogoIn .6s ease forwards,kvLoaderLogoPulse 2s ease-in-out .6s infinite}
+        #kv-page-loader .kv-page-loader-bar{width:120px;height:3px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
+        #kv-page-loader .kv-page-loader-bar>span{display:block;height:100%;width:40%;border-radius:999px;background:linear-gradient(90deg,transparent,#fff 40%,#fff 60%,transparent);animation:kvLoaderBar 1.1s ease-in-out infinite}
+        #kv-page-loader .kv-page-loader-text{margin:0;color:rgba(255,255,255,.65);font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-family:inherit}
+        @keyframes kvLoaderLogoIn{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+        @keyframes kvLoaderLogoPulse{0%,100%{opacity:1}50%{opacity:.82}}
+        @keyframes kvLoaderBar{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+    </style>
 </head>
 <body <?php body_class(); ?>>
 
 <?php
+$logo          = get_field('logo', 'option');
+$search        = get_field('search', 'option');
+$buttons       = get_field('header_buttons', 'option');
+$header_filter = get_field('header_filter', 'option');
+$header_option = get_field('header_option');
+
+echo '<div id="kv-page-loader" aria-hidden="true">';
+    echo '<div class="kv-page-loader-inner">';
+        if ($logo) {
+            echo wp_get_attachment_image($logo, 'medium', false, array(
+                'class' => 'kv-page-loader-logo',
+                'alt'   => esc_attr(get_bloginfo('name')),
+            ));
+        } else {
+            echo '<div class="kv-page-loader-logo" style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:kvLoaderBar 1s linear infinite;background:transparent"></div>';
+        }
+        echo '<div class="kv-page-loader-bar" aria-hidden="true"><span></span></div>';
+        echo '<p class="kv-page-loader-text">Loading experience</p>';
+    echo '</div>';
+echo '</div>';
+echo '<noscript><style>#kv-page-loader{display:none!important}</style></noscript>';
 
 echo '<div class="main_wrapper full-section">';
     
     // Main Wrapper
-    $logo          = get_field('logo', 'option');
-    $search        = get_field('search', 'option');
-    $buttons       = get_field('header_buttons', 'option');
-    $header_filter = get_field('header_filter', 'option');
-    $header_option = get_field('header_option');
     // if($header_option == 'colored'):
         // echo '<div class="header_space"></div>';
     // endif;

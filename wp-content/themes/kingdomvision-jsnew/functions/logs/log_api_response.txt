@@ -1407,3 +1407,25 @@
     [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4466
 )
  -- -- -- 2026-07-20 11:49:22<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for Rhodri Davies has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4467
+)
+ -- -- -- 2026-07-20 13:04:47<br></pre>
+<pre> -- -- -- 2026-07-20 14:01:44<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for test test has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4470
+)
+ -- -- -- 2026-07-20 15:10:29<br></pre>
+<pre>Array
+(
+    [title] => success
+    [body] => New enquiry for test test has been successfully created.
+    [redirect_url] => https://stay.japanskiexperience.com/customer/enquiries/4471
+)
+ -- -- -- 2026-07-20 15:13:22<br></pre>

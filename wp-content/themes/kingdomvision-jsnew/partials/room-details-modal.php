@@ -42,7 +42,7 @@ try {
     $bathrooms = intval(get_field('room_bathroom', $room_id) ?? 0);
     $size = sanitize_text_field(get_field('room_size', $room_id) ?? '');
     $features = get_field('room_features', $room_id);
-    $room_desc = get_field( 'client_description', $room_id );
+    $room_desc = empty( get_field( 'client_description', $room_id ) ) ? get_field( 'room_desc', $room_id ) : get_field( 'client_description', $room_id );
     $bedding_options = get_the_terms( $room_id, 'bedding_options' );
     $occupency_options = get_the_terms( $room_id, 'room_occupencies' );
 

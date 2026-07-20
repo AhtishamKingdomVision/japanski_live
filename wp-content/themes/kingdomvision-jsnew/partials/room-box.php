@@ -60,27 +60,28 @@ try {
     $image_url = esc_url_raw($image_url);
 
     // ✅ STEP 5: Get accommodation details (property type and location)
-    // BedBank property → always "Request Booking".
-    // RoomBoss/hybrid → "Book Now" only when is_roomboss is explicitly on
-    // and the room still has a real RoomBoss room id.
+    // BedBank property → always "Request Booking" (ignore leftover room RoomBoss ids).
+    // RoomBoss/hybrid → "Book Now" only when property CTA helper says so.
+    // Passed rb=false (BedBank list / fallback) always wins.
     $is_roomboss = false;
     $area_list = [];
     $resort_name = '';
     $bookingPermission = '';
 
-    $room_rb_id = trim((string) get_post_meta($room_id, 'roomboss_room_id', true));
-    $room_is_roomboss = ($room_rb_id !== '' && $room_rb_id !== '0');
+    $rb_arg = $args['rb'] ?? null;
+    $force_bedbank_cta = ($rb_arg === false || $rb_arg === 0 || $rb_arg === '0');
 
     if (!empty($acc_id)) {
-        if (function_exists('kv_property_shows_roomboss_booking_cta')) {
-            $property_is_roomboss = kv_property_shows_roomboss_booking_cta($acc_id, $property_id);
+        if ($force_bedbank_cta) {
+            $is_roomboss = false;
+        } elseif (function_exists('kv_property_shows_roomboss_booking_cta')) {
+            $is_roomboss = kv_property_shows_roomboss_booking_cta($acc_id, $property_id);
         } elseif (function_exists('kv_explicit_is_roomboss_meta')) {
-            $property_is_roomboss = kv_explicit_is_roomboss_meta($acc_id) === true;
+            $is_roomboss = kv_explicit_is_roomboss_meta($acc_id) === true;
         } else {
             $is_roomboss_raw = get_post_meta($acc_id, 'is_roomboss', true);
-            $property_is_roomboss = ($is_roomboss_raw === true || $is_roomboss_raw === 1 || $is_roomboss_raw === '1');
+            $is_roomboss = ($is_roomboss_raw === true || $is_roomboss_raw === 1 || $is_roomboss_raw === '1');
         }
-        $is_roomboss = $property_is_roomboss && $room_is_roomboss;
         $bookingPermission = get_field('acc_booking_permission', $acc_id);
 
         // Get area information
@@ -94,6 +95,8 @@ try {
         if (!empty($categories) && !is_wp_error($categories)) {
             $resort_name = str_replace(' Accommodation', '', sanitize_text_field($categories[0]->name ?? ''));
         }
+    } elseif ($force_bedbank_cta) {
+        $is_roomboss = false;
     }
 
     // ✅ STEP 6: Build location display string

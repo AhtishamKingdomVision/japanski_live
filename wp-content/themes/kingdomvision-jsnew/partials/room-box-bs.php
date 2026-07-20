@@ -83,11 +83,16 @@ try {
     }
 
     // ✅ STEP 5: Determine unit type (RoomBoss or BedBank)
-    // CTA follows explicit is_roomboss meta only so BedBank conversion shows
-    // "Request Booking" even when leftover hotel/room ids still exist.
+    // CTA follows property BedBank/RoomBoss mode only so BedBank conversion
+    // shows "Request Booking". Passed rb=false always forces BedBank CTA.
     $acc_id = get_post_id_by_typeId($property_id, 'accommodation');
     $bookingPermission = get_field('acc_booking_permission', $acc_id) ?: '';
-    if (function_exists('kv_property_shows_roomboss_booking_cta')) {
+    $rb_arg = $args['rb'] ?? null;
+    $force_bedbank_cta = ($rb_arg === false || $rb_arg === 0 || $rb_arg === '0');
+
+    if ($force_bedbank_cta) {
+        $is_roomboss = false;
+    } elseif (function_exists('kv_property_shows_roomboss_booking_cta')) {
         $is_roomboss = kv_property_shows_roomboss_booking_cta($acc_id, $property_id);
     } elseif (function_exists('kv_explicit_is_roomboss_meta')) {
         $is_roomboss = kv_explicit_is_roomboss_meta($acc_id) === true;

@@ -6113,6 +6113,50 @@ function hz_process_accommodation_sync($post_id, $property_data) {
             update_field('is_roomboss', $is_bedbank ? 0 : 1, $post_id);
         }
 
+        // Keep bedbank supplier flag aligned with property_type conversion.
+        if ($is_bedbank) {
+            update_post_meta($post_id, 'is_bed_bank', '1');
+            update_post_meta($post_id, 'sup_is_bb', '1');
+        } else {
+            update_post_meta($post_id, 'is_bed_bank', '0');
+            update_post_meta($post_id, 'sup_is_bb', '0');
+        }
+
+        // Light sync only touches the accommodation post. After BedBank
+        // conversion, clear leftover RoomBoss room links so inventory/CTA
+        // logic does not treat units as still RoomBoss-backed.
+        if ($is_bedbank) {
+            $property_id_meta = get_post_meta($post_id, 'property_id', true);
+            $room_query = [
+                'post_type'      => 'japan_rooms',
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+                'post_status'    => ['publish', 'draft', 'pending', 'private'],
+                'meta_query'     => [
+                    [
+                        'key'     => 'property_id',
+                        'value'   => $property_id_meta !== '' ? $property_id_meta : $hotel_id,
+                        'compare' => '=',
+                    ],
+                ],
+            ];
+
+            $room_ids = get_posts($room_query);
+            foreach ($room_ids as $room_id) {
+                $room_id = absint($room_id);
+                if ($room_id < 1) {
+                    continue;
+                }
+                update_post_meta($room_id, 'is_roomboss', '0');
+                update_post_meta($room_id, 'roomboss_room_id', '0');
+                delete_post_meta($room_id, 'room_hotel_id');
+                delete_post_meta($room_id, 'room_type_id');
+                if (function_exists('update_field')) {
+                    update_field('is_roomboss', 0, $room_id);
+                }
+            }
+        }
+
         return [
 
             'success' => true,
@@ -6568,6 +6612,11 @@ function render_rooms_section($atts) {
 
     $data = get_hotel_rooms($property_id, [], $is_roomboss ? 'roomboss' : '');
 
+    // Button label follows CTA helper (BedBank → Request Booking), not inventory mode.
+    $show_roomboss_cta = function_exists('kv_property_shows_roomboss_booking_cta')
+        ? kv_property_shows_roomboss_booking_cta($post_id, $property_id)
+        : $is_roomboss;
+
     // ✅ STEP 3: Validate array structure before accessing keys
 
     if (!is_array($data)) {
@@ -6694,7 +6743,7 @@ function render_rooms_section($atts) {
 
                                 foreach ($rooms as $room) :
 
-                                    get_template_part('partials/room-box', null, ['room' => $room, 'rb' => $is_roomboss, 'property_id' => $property_id]);
+                                    get_template_part('partials/room-box', null, ['room' => $room, 'rb' => $show_roomboss_cta, 'property_id' => $property_id]);
 
                                 endforeach;
 

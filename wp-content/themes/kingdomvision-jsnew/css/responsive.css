@@ -526,6 +526,8 @@ section.room-listing .bedroom-tabs { justify-content: center; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3) { border-radius: 0 10px 10px 0; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4) { border-radius: 10px 0 0 10px; }
 
+.accommodation-map-dialog { height: 70vh; }
+
 }
 
 

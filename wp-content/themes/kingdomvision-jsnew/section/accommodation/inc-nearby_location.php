@@ -1,5 +1,13 @@
 <?php
+$section = [];
 
+foreach ($accommodation_builder as $key => $builder_section) {
+    $section = $builder_section;
+}
+pre( 'the_id' );
+pre( get_the_ID() );
+pre( 'accommodation_builder' );
+pre( get_field('accommodation_builder', get_the_ID() ), 1 );
 $locations = $section['location'] ?? [];
 $main_lat = get_field('accomodation_details_acc_latitude') ?? 42.858377;
 $main_lng = get_field('accomodation_details_acc_longitude') ?? 140.705364;

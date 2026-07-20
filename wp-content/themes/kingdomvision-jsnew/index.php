@@ -1,4 +1,4 @@
-<?php get_header();
+    <?php get_header();
  /*
  * The default page template
  */
@@ -26,6 +26,19 @@ echo '<div class="content-wrapper full-section '.$header_option.'">';
                     echo '<div class="sh-cont">';
                         echo '<h3><a href="'.get_the_permalink().'">'.get_the_title().'</a></h3>';
                         $content = get_the_content();
+                        
+                        /* if post type is accommodation then use get_field( 'client_long_description' ); */
+                        if( get_post_type() == 'accommodation' ){
+                            $is_rb = get_field( 'is_roomboss' );
+
+                            if( $is_rb && intval( $is_rb ) != 0 ){
+                                $content = get_field( 'client_quote_desc' );
+                            }
+                            else{
+                                $content = get_field( 'quote_desc' );
+                            }
+                        }
+
                         if($content){
                             echo '<p>'.wp_trim_words($content , 30 , '...').'</p>';
                         } elseif ($meta_desc) {

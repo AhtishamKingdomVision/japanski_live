@@ -59,7 +59,7 @@ echo '</div>'; // acco
     		    $link_url = $cta_button['url'];
     		    $link_title = $cta_button['title'];
     		    $link_target = $cta_button['target'] ? $cta_button['target'] : '_self';
-    		    echo '<a class="btn" href="'.$link_url.'" target="'.$link_title.'">'.$link_title.'</a>';
+    		    echo '<a class="btn" href="'.$link_url.'" target="'.$link_target.'">'.$link_title.'</a>';
     		endif;
     	echo '</div>';
     }

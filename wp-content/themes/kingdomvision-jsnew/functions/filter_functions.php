@@ -2612,16 +2612,48 @@ if (!function_exists('kv_explicit_is_roomboss_meta')) {
 
 if (!function_exists('kv_property_shows_roomboss_booking_cta')) {
     /**
-     * "Book Now" only when is_roomboss is explicitly enabled.
-     * After BedBank conversion (0 / empty / false) → "Request Booking".
+     * "Book Now" when is_roomboss is explicitly enabled (RoomBoss / hybrid).
+     * Explicit is_roomboss=0 → "Request Booking".
      * Ignores leftover acc_hotel_id / roomboss_room_id so CTAs follow conversion.
+     * Bedbank taxonomy / is_bed_bank only apply when is_roomboss is not explicitly 1
+     * (stale bedbank flags must not override a RoomBoss conversion).
      */
     function kv_property_shows_roomboss_booking_cta($post_id = 0, $property_id = 0): bool {
         $post_id = absint($post_id);
         $property_id = absint($property_id);
 
+        $is_bedbank_signals = static function (int $accommodation_id): bool {
+            if ($accommodation_id < 1) {
+                return false;
+            }
+
+            $bed_bank = get_post_meta($accommodation_id, 'is_bed_bank', true);
+            if ($bed_bank === true || $bed_bank === 1 || $bed_bank === '1') {
+                return true;
+            }
+
+            $terms = wp_get_post_terms($accommodation_id, 'property_types', ['fields' => 'slugs']);
+            if (!is_wp_error($terms) && is_array($terms)) {
+                foreach ($terms as $slug) {
+                    $slug = strtolower((string) $slug);
+                    if ($slug !== '' && (strpos($slug, 'bedbank') !== false || strpos($slug, 'bed-bank') !== false || strpos($slug, 'bed_bank') !== false)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        };
+
         if ($post_id > 0) {
-            return kv_explicit_is_roomboss_meta($post_id) === true;
+            $explicit = kv_explicit_is_roomboss_meta($post_id);
+            if ($explicit === true) {
+                return true;
+            }
+            if ($explicit === false || $is_bedbank_signals($post_id)) {
+                return false;
+            }
+            return false;
         }
 
         if ($property_id > 0) {
@@ -2640,7 +2672,15 @@ if (!function_exists('kv_property_shows_roomboss_booking_cta')) {
             ]);
 
             if (!empty($accommodation_ids)) {
-                return kv_explicit_is_roomboss_meta(absint($accommodation_ids[0])) === true;
+                $accommodation_id = absint($accommodation_ids[0]);
+                $explicit = kv_explicit_is_roomboss_meta($accommodation_id);
+                if ($explicit === true) {
+                    return true;
+                }
+                if ($explicit === false || $is_bedbank_signals($accommodation_id)) {
+                    return false;
+                }
+                return false;
             }
         }
 
@@ -2814,7 +2854,7 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $r
 
 
 
-        // ✅ STEP 4: Query for rooms
+        // ✅ STEP 4: Query for rooms by property_id meta
 
         $args = [
 
@@ -2840,6 +2880,66 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $r
 
             $rooms = [];
 
+        }
+
+        // Fallback: admin lists rooms by post_parent, but some BedBank-converted
+        // rooms lose/mismatch property_id meta. Resolve accommodation by
+        // property_id and load child rooms the same way the admin filter does.
+        if (empty($rooms) && function_exists('get_post_id_by_typeId')) {
+            $accommodation_id = absint(get_post_id_by_typeId($property_id, 'accommodation'));
+            if ($accommodation_id > 0) {
+                $parent_args = [
+                    'post_type'      => 'japan_rooms',
+                    'posts_per_page' => -1,
+                    'post_status'    => ['publish', 'draft', 'pending'],
+                    'post_parent'    => $accommodation_id,
+                ];
+
+                if ($room_source === 'roomboss') {
+                    $parent_args['meta_query'] = [
+                        [
+                            'key'     => 'roomboss_room_id',
+                            'value'   => ['', '0'],
+                            'compare' => 'NOT IN',
+                        ],
+                    ];
+                }
+
+                if (!empty($allowedRoomTypeIds) && is_array($allowedRoomTypeIds)) {
+                    $allowedRoomTypeIds = array_filter(array_map('absint', $allowedRoomTypeIds));
+                    if (!empty($allowedRoomTypeIds)) {
+                        if (!isset($parent_args['meta_query'])) {
+                            $parent_args['meta_query'] = ['relation' => 'AND'];
+                        } elseif (!isset($parent_args['meta_query']['relation'])) {
+                            $parent_args['meta_query'] = array_merge(
+                                ['relation' => 'AND'],
+                                $parent_args['meta_query']
+                            );
+                        }
+                        $parent_args['meta_query'][] = [
+                            'key'     => 'actual_room_id',
+                            'value'   => $allowedRoomTypeIds,
+                            'compare' => 'IN',
+                        ];
+                    }
+                }
+
+                $parent_rooms = get_posts($parent_args);
+                if (is_array($parent_rooms) && !empty($parent_rooms)) {
+                    $rooms = $parent_rooms;
+
+                    // Backfill property_id so later AJAX/meta lookups stay consistent.
+                    foreach ($rooms as $parent_room) {
+                        if (!is_object($parent_room) || empty($parent_room->ID)) {
+                            continue;
+                        }
+                        $existing_pid = trim((string) get_post_meta($parent_room->ID, 'property_id', true));
+                        if ($existing_pid === '' || $existing_pid === '0') {
+                            update_post_meta($parent_room->ID, 'property_id', $property_id);
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -3869,7 +3969,7 @@ add_action('wp_ajax_nopriv_niseko_search_roomboss_single', 'niseko_search_roombo
  * Flatten Units[].Rooms and optionally keep only RoomBoss inventory.
  *
  * RoomBoss / hybrid WP property → RoomBossData=1 only.
- * BedBank-converted property → all rooms (RB + BedBank).
+ * BedBank property → all rooms (RB with rates + BedBank).
  */
 if (!function_exists('kv_bs_filter_rooms_by_property_type')) {
     function kv_bs_filter_rooms_by_property_type(array $units, bool $roomboss_only = false): array {
@@ -3922,6 +4022,66 @@ if (!function_exists('kv_bs_room_display_name')) {
         }
 
         return trim((string) ($room['RoomName'] ?? ''));
+    }
+}
+
+/**
+ * BedBank WP-room fallback when live quotation API has no sellable units.
+ * Property mode (is_roomboss=0) wins over leftover roomboss_room_id meta.
+ *
+ * @param int   $property_id        Booking-system property id
+ * @param array $exclude_actual_ids Optional actual_room_id map already shown from API
+ * @return array{html:string,count:int,available_bedroom_types:array,room_count:int}|null
+ */
+if (!function_exists('kv_bedbank_wp_rooms_fallback_response')) {
+    function kv_bedbank_wp_rooms_fallback_response($property_id, array $exclude_actual_ids = []): ?array {
+        $property_id = absint($property_id);
+        if ($property_id < 1) {
+            return null;
+        }
+
+        $wp_rooms_data = function_exists('get_hotel_rooms') ? get_hotel_rooms($property_id, [], '') : [];
+        $wp_rooms = is_array($wp_rooms_data['rooms'] ?? null) ? $wp_rooms_data['rooms'] : [];
+        if (empty($wp_rooms)) {
+            return null;
+        }
+
+        ob_start();
+        $room_count = 0;
+
+        foreach ($wp_rooms as $wp_room) {
+            if (!is_object($wp_room) || empty($wp_room->ID)) {
+                continue;
+            }
+
+            $actual_room_id = intval(get_post_meta($wp_room->ID, 'actual_room_id', true));
+            if ($actual_room_id > 0 && isset($exclude_actual_ids[$actual_room_id])) {
+                continue;
+            }
+
+            $room_count++;
+            get_template_part('partials/room-box', null, [
+                'room' => $wp_room,
+                'rb' => false,
+                'property_id' => $property_id,
+            ]);
+        }
+
+        $html = ob_get_clean();
+        if ($room_count < 1) {
+            return null;
+        }
+
+        return [
+            'html' => $html,
+            'count' => $room_count,
+            'available_bedroom_types' => is_array($wp_rooms_data['bedroom_types'] ?? null)
+                ? $wp_rooms_data['bedroom_types']
+                : [],
+            'room_count' => $room_count,
+            // room-box cards belong in #room-results (.room-list), not .booking-wrap
+            'fallback_room_list' => true,
+        ];
     }
 }
 
@@ -3988,6 +4148,10 @@ function niseko_search_roomboss_single()
         $roomData = kv_bs_available_room_data($property_id, $checkin, $checkout, 1);
 
         $is_roomboss = is_array($roomData) && intval($roomData['is_roomboss'] ?? 0) === 1;
+        // Button label: BedBank property → Request Booking (ignore leftover inventory flags).
+        $show_roomboss_cta = function_exists('kv_property_shows_roomboss_booking_cta')
+            ? kv_property_shows_roomboss_booking_cta(0, $property_id)
+            : $is_roomboss;
 
         // Collect ActualRoomIds already returned by the live API so we can
         // still append manually-added / BedBank WP rooms that are not in the response.
@@ -4020,14 +4184,16 @@ function niseko_search_roomboss_single()
 
                 get_template_part('partials/room-box-bs', null, [
                     'room' => $room,
-                    'rb' => $is_roomboss,
+                    'rb' => $show_roomboss_cta,
                     'property_id' => $property_id,
                 ]);
             }
         }
 
-        // BedBank-converted properties: also show manual / BedBank WP rooms.
+        // BedBank-converted properties: also show WP rooms.
         // Pure RoomBoss (and hybrid) properties: only live RoomBoss inventory.
+        // After BedBank conversion, leftover roomboss_room_id must NOT hide rooms —
+        // property mode is the source of truth (same as kv_property_uses_roomboss_rooms).
         $property_uses_roomboss = function_exists('kv_property_uses_roomboss_rooms')
             ? kv_property_uses_roomboss_rooms(0, $property_id)
             : $is_roomboss;
@@ -4043,14 +4209,7 @@ function niseko_search_roomboss_single()
                     continue;
                 }
 
-                $rb_room_id = trim((string) get_post_meta($wp_room->ID, 'roomboss_room_id', true));
-                $is_manual_or_bedbank = ($rb_room_id === '' || $rb_room_id === '0');
                 $actual_room_id = intval(get_post_meta($wp_room->ID, 'actual_room_id', true));
-
-                // Skip RoomBoss-synced rooms already covered by (or intentionally omitted from) API results.
-                if (!$is_manual_or_bedbank) {
-                    continue;
-                }
 
                 // Avoid duplicate cards if the same actual_room_id somehow came from the API.
                 if ($actual_room_id > 0 && isset($api_actual_room_ids[$actual_room_id])) {
@@ -4240,6 +4399,10 @@ function kv_bs_available_room_data(
 
 
 
+        // RoomBoss / hybrid → RoomBossData=1 only.
+        // BedBank → all live rooms (RB with rates + BedBank).
+        // Do NOT unfilter when RB inventory is empty — leftover BedBank units
+        // must stay hidden after a property is converted back to RoomBoss.
         $treat_as_roomboss = kv_property_uses_roomboss_rooms(0, $propertyId);
 
         $rooms = kv_bs_filter_rooms_by_property_type($property['Units'], $treat_as_roomboss);
@@ -4737,9 +4900,29 @@ function kv_ajax_load_roomboss_booking()
 
 
 
+        $treat_as_roomboss = function_exists('kv_property_uses_roomboss_rooms')
+            ? kv_property_uses_roomboss_rooms(0, $property_id)
+            : false;
+
+        // BedBank only: when live API has nothing, fall back to WP unit types
+        // (enquiry / Request Booking). RoomBoss / hybrid must never surface
+        // leftover BedBank WP rooms via this path.
+        $bedbank_empty_fallback = static function () use ($property_id, $treat_as_roomboss) {
+            if ($treat_as_roomboss) {
+                return null;
+            }
+            return function_exists('kv_bedbank_wp_rooms_fallback_response')
+                ? kv_bedbank_wp_rooms_fallback_response($property_id)
+                : null;
+        };
+
         // ✅ STEP 9: Validate availability response
 
         if (empty($availability) || !is_array($availability)) {
+            $fallback = $bedbank_empty_fallback();
+            if (is_array($fallback)) {
+                return wp_send_json_success($fallback);
+            }
 
             return wp_send_json_success([
 
@@ -4759,21 +4942,31 @@ function kv_ajax_load_roomboss_booking()
         $units = is_array($property_payload['Units'] ?? null) ? $property_payload['Units'] : [];
 
         if (empty($units)) {
+            $fallback = $bedbank_empty_fallback();
+            if (is_array($fallback)) {
+                return wp_send_json_success($fallback);
+            }
+
             return wp_send_json_success([
                 'html' => '<p>No rooms available for the selected dates. Please try different dates.</p>',
                 'available_bedroom_types' => [],
             ]);
         }
 
-        $treat_as_roomboss = function_exists('kv_property_uses_roomboss_rooms')
-            ? kv_property_uses_roomboss_rooms(0, $property_id)
-            : false;
-
         $bs_rooms = function_exists('kv_bs_filter_rooms_by_property_type')
             ? kv_bs_filter_rooms_by_property_type($units, $treat_as_roomboss)
             : [];
 
+        // RoomBoss / hybrid: never unfilter to BedBank leftovers when RB rows
+        // are empty. BedBank: WP enquiry fallback only (gated below).
+        $force_bedbank = false;
+
         if (empty($bs_rooms)) {
+            $fallback = $bedbank_empty_fallback();
+            if (is_array($fallback)) {
+                return wp_send_json_success($fallback);
+            }
+
             return wp_send_json_success([
                 'html' => '<p>No rooms available for the selected dates. Please try different dates.</p>',
                 'available_bedroom_types' => [],
@@ -4819,6 +5012,8 @@ function kv_ajax_load_roomboss_booking()
                 'rate_plans' => $rate_plans,
 
                 'room_descriptions' => $room_descriptions,
+
+                'force_bedbank' => $force_bedbank,
 
                 'dates' => [
 

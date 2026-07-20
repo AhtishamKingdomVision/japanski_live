@@ -3,7 +3,7 @@ $data_type    = $section['data_type'] ?? '';
 $static_data  = $section['static_data'] ?? [];
 $dynamic      = $section['dynamic'] ?? [];
 $section_desc = $section['section_desc'] ?? [];
-echo '<section ' . SectionAttributes($section, 'full-section four_column_boxes') . ' ' . BackgroundFromSection($section) . ' role="region">';
+echo '<section ' . SectionAttributes($section, 'full-section four_column_boxes') . ' ' . BackgroundFromSection($section) . '>';
 echo '<div class="container">';
 echo TitleFromSection($section);
 if(!empty($section_desc)){

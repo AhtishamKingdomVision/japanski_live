@@ -263,6 +263,14 @@
                             $('.book-btn').prop('disabled', false).removeClass('disabled');
 
                             $('.units_avl').text(res.data.count);
+                            const searchCount = parseInt(res.data.count, 10) || 0;
+                            if (searchCount > 0) {
+                                $('.total_units').each(function() {
+                                    if ((parseInt($(this).text(), 10) || 0) < 1) {
+                                        $(this).text(searchCount);
+                                    }
+                                });
+                            }
 
 
 
@@ -663,6 +671,39 @@
                 success: function(resp) {
 
                     if (resp && resp.success) {
+
+                        // BedBank / no live rates: room-box cards must stay in
+                        // .room-list — dumping them into .booking-wrap breaks CSS.
+                        if (resp.data && resp.data.fallback_room_list) {
+                            rb_storage.set('rb_ui_state', 'list');
+                            rb_storage.setJSON('rb_booking_context', {
+                                property_id: params.property_id,
+                                checkin: params.checkin || params.start_date,
+                                checkout: params.checkout || params.end_date,
+                                adults: params.adults || 0,
+                                children: params.children || 0,
+                                infants: params.infants || 0
+                            });
+
+                            const roomCount = resp.data.count || resp.data.room_count || 0;
+                            $('#room-results').html(resp.data.html || '');
+                            if (typeof updateBedroomTabs === 'function') {
+                                updateBedroomTabs(resp.data.available_bedroom_types || []);
+                            }
+                            if (roomCount > 0) {
+                                $('.units_avl').text(roomCount);
+                                $('.total_units').each(function() {
+                                    if ((parseInt($(this).text(), 10) || 0) < 1) {
+                                        $(this).text(roomCount);
+                                    }
+                                });
+                            }
+
+                            $('.booking-wrap').hide().empty();
+                            $('.room-list').show();
+                            $('.book-btn').prop('disabled', false).removeClass('disabled');
+                            return;
+                        }
 
                         rb_storage.set('rb_ui_state', 'booking');
 
@@ -1070,23 +1111,38 @@
 
         function updateBedroomTabs(availableBedroomTypes) {
 
-            var avl_units = $( '.available_units' )[0].outerHTML;
+            var $tabs = $('.bedroom-tabs');
+            var $existingUnits = $('.available_units');
+            var unitsHtml = $existingUnits.length ? $existingUnits.first()[0].outerHTML : '';
 
-            $('.bedroom-tabs').empty();
+            // Avoid duplicate "X unit types available" rows — one lives outside
+            // the tabs and updateBedroomTabs used to prepend a second copy.
+            $existingUnits.remove();
 
-            $('.bedroom-tabs').append('<button type="button" class="bedroom-tab active" data-bedroom="all">All Bedrooms</button>');
+            $tabs.empty();
+
+            if (unitsHtml) {
+                $tabs.prepend(unitsHtml);
+            }
+
+            $tabs.append('<button type="button" class="bedroom-tab active" data-bedroom="all">All Bedrooms</button>');
 
             $.each(availableBedroomTypes, function(index, type) {
 
-                $('.bedroom-tabs').append('<button type="button" class="bedroom-tab" data-bedroom="' + type + '">' + type + ' Bedroom' + (type > 1 ? 's' : '') + '</button>');
+                $tabs.append('<button type="button" class="bedroom-tab" data-bedroom="' + type + '">' + type + ' Bedroom' + (type > 1 ? 's' : '') + '</button>');
 
             });
-
-            $('.bedroom-tabs').prepend( avl_units );
 
             var room_count = $( '#room-results .room-card' ).length;
 
             $( '.units_avl' ).text( room_count );
+            if (room_count > 0) {
+                $( '.total_units' ).each(function() {
+                    if ((parseInt($(this).text(), 10) || 0) < 1) {
+                        $(this).text(room_count);
+                    }
+                });
+            }
 
         }
 

@@ -14058,3 +14058,195 @@ We have used your services last season and stayed at Powdersuites in Hakuba. Loo
     [redirection] => 5
 )
 <br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Rhodri Davies
+            [first_name] => Rhodri
+            [last_name] => Davies
+            [email] => rhodrialeddavies@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 26-12-2026
+            [check_out] => 02-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Wadano Forest Hotel
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Shane Comerford
+            [first_name] => Shane
+            [last_name] => Comerford
+            [email] => combotron1979@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 09-12-2026
+            [check_out] => 16-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 13
+                    [1] => 10
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Greenleaf hotel
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 5
+            [child_ages] => Array
+                (
+                    [0] => 9
+                    [1] => 5
+                    [2] => 10
+                    [3] => 6
+                    [4] => 8
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => Setsu Niseko
+            [room_name] => 4 Bedroom Penthouse (Tsuki Suite)
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 5
+            [child_ages] => Array
+                (
+                    [0] => 9
+                    [1] => 5
+                    [2] => 10
+                    [3] => 6
+                    [4] => 8
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => Setsu Niseko
+            [room_name] => 3 Bedroom Penthouse (Hana Suite)
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>

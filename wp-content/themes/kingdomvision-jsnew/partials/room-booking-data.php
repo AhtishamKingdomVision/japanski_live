@@ -58,6 +58,9 @@ $args = wp_parse_args($args ?? [], [
     'property_id'        => 0,
 
 
+    'force_bedbank'      => null,
+
+
 ]);
 
 
@@ -155,13 +158,18 @@ $endDisplay = date_format_readable($endDisplay, 'Y-m-d', 'd/m/Y');
 
 
 $is_roomboss = false;
-if (!empty($wp_property_id)) {
+// Prefer flag from AJAX (already resolved after BedBank safety nets).
+if (array_key_exists('force_bedbank', $args) && $args['force_bedbank'] !== null) {
+    $is_roomboss = empty($args['force_bedbank']);
+} elseif (!empty($wp_property_id) || !empty($propertyId)) {
     // Inventory + rate rows follow RoomBoss/BedBank property mode.
-    if (function_exists('kv_property_uses_roomboss_rooms')) {
+    if (function_exists('kv_booking_treat_as_roomboss')) {
+        $is_roomboss = kv_booking_treat_as_roomboss((int) $propertyId);
+    } elseif (function_exists('kv_property_uses_roomboss_rooms')) {
         $is_roomboss = kv_property_uses_roomboss_rooms($wp_property_id, $propertyId);
     } elseif (function_exists('kv_property_shows_roomboss_booking_cta')) {
         $is_roomboss = kv_property_shows_roomboss_booking_cta($wp_property_id, $propertyId);
-    } else {
+    } elseif (!empty($wp_property_id)) {
         $raw = get_post_meta($wp_property_id, 'is_roomboss', true);
         $is_roomboss = ($raw === true || $raw === 1 || $raw === '1');
     }
@@ -293,10 +301,10 @@ if (!empty($accommodationSetting)) {
         'conditionType' => 'no supplier discount',
 
 
-        'isDeposit' => $supplierTerm['isDeposit'] == true, // true or false
+        'isDeposit' => isset( $supplierTerm['isDeposit'] ) && $supplierTerm['isDeposit'] === true ? true : false, // true or false
 
 
-        'isPercentage' => $supplierTerm['isPercentage'] == true,
+        'isPercentage' => isset( $supplierTerm['isPercentage'] ) && $supplierTerm['isPercentage'] === true ? true : false,
 
 
         'depositPercentage' => floatval($supplierTerm['depositPercentage'] ?? 0), // percentage value if isPercentage is true
@@ -427,12 +435,20 @@ if (!empty($wp_property_id)) {
 
 
                 // ✅ Extract room identifiers with defaults
+                // BedBank rows often have ActualRoomId set but RoomId empty/0.
 
 
-                $RoomId = ($room['RoomId'] ?? 0);
+                $RoomId = intval($room['RoomId'] ?? 0);
 
 
-                $roomTypeId = $room['ActualRoomId'];
+                if ($RoomId < 1) {
+
+
+                    $RoomId = intval($room['ActualRoomId'] ?? 0);
+                }
+
+
+                $roomTypeId = intval($room['ActualRoomId'] ?? $RoomId);
 
 
 
@@ -441,7 +457,7 @@ if (!empty($wp_property_id)) {
                 // Skip rooms without ID
 
 
-                if (empty($RoomId)) {
+                if ($RoomId < 1) {
 
 
                     continue;

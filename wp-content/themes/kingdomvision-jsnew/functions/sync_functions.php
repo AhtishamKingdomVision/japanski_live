@@ -1706,6 +1706,10 @@ function sq_mapping_properties($properties) {
 
             $meta_input['is_roomboss'] = '1';
 
+            // Clear stale BedBank supplier flag after RoomBoss/hybrid conversion.
+            $meta_input['is_bed_bank'] = '0';
+            $meta_input['sup_is_bb'] = '0';
+
         } else {
 
             // BedBank property — clear RoomBoss hotel id so filters treat it as BedBank.
@@ -2147,6 +2151,12 @@ function sq_mapping_properties($properties) {
 
             }
 
+        }
+
+        // property_type wins over stale supplier is_bed_bank after conversion.
+        if ($is_roomboss) {
+            $meta_input['is_bed_bank'] = '0';
+            $meta_input['sup_is_bb'] = '0';
         }
 
         // ✅ STEP 7h: Prepare accommodation post data for insert/update
@@ -2775,6 +2785,18 @@ function sq_mapping_properties($properties) {
 
                 }
 
+                // Fully clear stale RoomBoss room links after BedBank conversion
+                // (empty string / delete — not only '0' — so leftover IDs cannot survive).
+                if (!$room_is_roomboss) {
+                    update_post_meta($upd_room_id, 'is_roomboss', '0');
+                    update_post_meta($upd_room_id, 'roomboss_room_id', '0');
+                    delete_post_meta($upd_room_id, 'room_hotel_id');
+                    delete_post_meta($upd_room_id, 'room_type_id');
+                    if (function_exists('update_field')) {
+                        update_field('is_roomboss', 0, $upd_room_id);
+                    }
+                }
+
                 // cf_log( $room_facilities, 'roomfacilities' );
 
                 if (!empty($room_facilities)) {
@@ -3000,7 +3022,7 @@ function sq_mapping_properties($properties) {
         ]);
 
     }
-    // kv_update_accommodation_menu_order();
+    kv_update_accommodation_menu_order();
 
 }
 

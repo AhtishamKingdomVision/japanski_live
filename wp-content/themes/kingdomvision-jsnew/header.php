@@ -30,7 +30,7 @@ echo '<div class="main_wrapper full-section">';
         // echo '<div class="header_space"></div>';
     // endif;
 
-    echo '<header class="newHeader '.esc_attr($header_option).'" role="header">';
+    echo '<header class="newHeader '.esc_attr($header_option).'">';
         echo '<div class="topHeader">';
             echo '<div class="container">';
                 echo '<div class="logoWrap" aria-label="Go to homepage">';

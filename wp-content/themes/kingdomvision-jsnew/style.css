@@ -217,16 +217,7 @@ p.gform_required_legend, h2.gform_submission_error.hide_summary { inset-inline-s
 .gform_wrapper.quote_form_wrapper .gform-footer.gform_footer input:hover { background: var(--button-hover-color); }
 .gform_wrapper.quote_form_wrapper .gfield_validation_message,
 .gform_wrapper.quote_form_wrapper .gfield_description.validation_message,
-.gform_wrapper.quote_form_wrapper .validation_message {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: static;
-    margin-top: 6px;
-    font-size: 13px;
-    line-height: 1.3;
-    color: #ffb4b4;
-}
+.gform_wrapper.quote_form_wrapper .validation_message { display: block !important; visibility: visible !important; opacity: 1 !important; position: static; margin-top: 6px; font-size: 13px; line-height: 1.3; color: #ffb4b4; }
 .gform_wrapper.quote_form_wrapper .gfield.gfield_error,
 .gform_wrapper.quote_form_wrapper .gfield { margin-bottom: 18px; }
 .Enquiry-modal-form-slot,
@@ -240,8 +231,10 @@ p.gform_required_legend, h2.gform_submission_error.hide_summary { inset-inline-s
 .ff_content_image .ff_image img { width: 97.413px; height: 44px; aspect-ratio: 97.41 / 44.00; }
 
 .acc_enquiry_form { max-width: 750px; margin: 50px auto auto; }
-.acc_enquiry_form .acc_enquiry_head { text-align: center; margin-bottom: 40px; }
-.acc_enquiry_form .mob_quote_inner .gform_wrapper.quote_form_wrapper { border-radius: 20px; }
+.acc_enquiry_form .acc_enquiry_head { text-align: center; background: #004080; padding: 20px 150px 1px; border-radius: 20px 20px 0 0; }
+.acc_enquiry_form .mob_quote_inner .gform_wrapper.quote_form_wrapper { border-radius: 0 0 20px 20px; }
+
+
 .Enquiry-modal-form-slot .mob_quote_inner .gform_wrapper.quote_form_wrapper { border-radius: 20px; }
 
 /*Titles With Icons*/
@@ -579,8 +572,8 @@ section.kv-related-posts { background: #00111f; padding: 80px 0 80px; }
 
 section.form_area .container .left-side { width: 65%; }
 section.form_area .container .left-side h1.main-title { margin: 0 0 20px; }
-section.form_area .container .left-side .acc-address { position: relative; padding-left: 30px; font-size: 16px; font-weight: 500; margin-bottom: 30px; }
-section.form_area .container .left-side .acc-address:before { content: ""; position: absolute; top: 0; bottom: 0; margin: auto; width: 17px; height: 21px; background: url(images/add-pointer.svg) no-repeat center; left: 0; }
+section.form_area .container .left-side .acc-address { position: relative; padding: 10px 30px 10px 40px; font-size: 16px; font-weight: 500; margin-bottom: 30px; }
+section.form_area .container .left-side .acc-address:before { content: ""; position: absolute; top: 0; bottom: 0; margin: auto; width: 17px; height: 21px; background: url(images/add-pointer.svg) no-repeat center; left: 15px; }
 .acc-gallery { gap: 8px; cursor: pointer; display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; border-radius: 16px; overflow: hidden; }
 .acc-gallery .galleryItem { position: relative; overflow: hidden; border-radius: 0; margin: 0; }
 .acc-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -738,14 +731,14 @@ section.nearby_location { border-top: 1px solid rgba(255, 255, 255, 0.20); }
 /*Child Popup STYLE*/
 section.child_age { position: fixed; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: 100%; height: 100%; z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.5s ease 0s; pointer-events: none; }
 section.child_age.active { opacity: 1; visibility: visible; pointer-events: auto; }
-section.child_age .ch_inn { max-width: 650px; width: 100%; position: relative; background: #06417e; border-radius: 20px; }
-section.child_age .ch_inn a.child_close { position: absolute; right: -20px; top: -20px; width: 30px; height: 30px; background: #1a3554; color: #fff; border-radius: 40px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-section.child_age .ch_inn ul { padding: 70px 20px 0 20px; list-style: none; display: flex; flex-wrap: wrap; margin: 0; }
+section.child_age .ch_inn { max-width: 650px; width: 100%; position: relative; background: #091e3a; border-radius: 20px; }
+section.child_age .ch_inn a.child_close { position: absolute; right: 5px; top: 5px; width: 25px; height: 25px; background: #1a3554; color: #fff; border-radius: 40px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+section.child_age .ch_inn ul { padding: 35px 20px 0 20px; list-style: none; display: flex; flex-wrap: wrap; margin: 0; justify-content: center; }
 section.child_age .ch_inn ul li { width: 32%; margin-right: 2%; margin-bottom: 2%; }
 section.child_age .ch_inn ul li:nth-child(3n) { margin-right: 0; }
 section.child_age .ch_inn ul li label { font-size: 15px; font-weight: 500; line-height: 30px; margin-bottom: 5px; color: #02474d; }
 section.child_age .ch_inn ul li select { width: 100%; outline: none; background:#06417e url(images/arrow.svg) no-repeat center right 15px; padding: 0px 20px 0px; border-radius: 8px; border: solid 1px #bfcfdf; color: var(--body-color); height: 50px; line-height: 50px; appearance: none; -webkit-appearance: none; -moz-appearance: none; font-size: 13px; }
-section.child_age .age-error-box { color: #db3242; position: absolute; top: 20px; font-weight: 700; font-size: 20px; left: 0; right: 0; text-align: center; }
+section.child_age .age-error-box { color: #db3242; position: absolute; top: 5px; font-weight: 700; font-size: 15px; left: 0; right: 0; text-align: center; }
 section.child_age .ch_inn a.age_confirm { margin: 0 auto 25px; display: block; width: 150px; }
 
 .accom-image { position: relative; border-radius: 30px; overflow: hidden; min-height: 280px; background-size: cover; background-repeat: no-repeat; background-position: center; }
@@ -2083,6 +2076,7 @@ body.single-accommodation #cta_with_bg_image0  { display: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3):before { content: "\f073"; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4):before { content: "\f007"; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a { padding: 15px 0; color: #bfcfdf; font-size: 14px; display: flex; gap: 15px; align-items: center; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf .gfield_validation_message { position: absolute; width: 100%; font-size: 10px; bottom: 2px; left: 28px; }
 
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf { padding: 0 0 0 25px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { padding: 0 0 0 30px; }
@@ -2099,3 +2093,15 @@ section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wra
 section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(2) { border-radius: 10px 0 0 10px; }
 section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3) { border-radius: 0 10px 10px 0; }
 section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4) { border-radius: 10px 0 0 10px; }
+
+
+.accommodation-map-modal { display: none; position: fixed; inset: 0; z-index: 9999; align-items: center; justify-content: center; padding: 20px; background: rgba(0, 0, 0, 0.65); }
+.accommodation-map-modal.is-visible { display: flex; }
+.accommodation-map-dialog { position: relative; width: 100%; max-width: 900px; height: 80vh; max-height: 600px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35); animation: accommodationMapFadeIn 0.25s ease-out; }
+.accommodation-map-close { padding: 0; position: absolute; top: 12px; right: 12px; z-index: 2; width: 36px; height: 36px; border: none; border-radius: 50%; background: #fff; color: #222; font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); transition: background 0.2s ease, transform 0.2s ease; }
+.accommodation-map-close:hover { color: #222; background: #f2f2f2; transform: scale(1.05); }
+.accommodation-map-frame { width: 100%; height: 100%; border: 0; display: block; }
+@keyframes accommodationMapFadeIn {
+	from { opacity: 0; transform: translateY(10px) scale(0.98); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}

@@ -1522,6 +1522,12 @@ jQuery(function ($) {
         if (hasProductData) {
             $scope.find('.enquiry_type input').attr('value', 'Product').trigger('change');
         }
+
+        // Prefill → lock BBF bar until user clicks Change
+        $scope.find('.gform_wrapper.quote_form_wrapper').attr('data-bbf-unlocked', '0');
+        syncEnquiryBbfLock($scope);
+        setTimeout(function () { syncEnquiryBbfLock($scope); }, 200);
+        setTimeout(function () { syncEnquiryBbfLock($scope); }, 600);
     }
 
     $(document).on('click', '.enq_cta, .enquire_btn', function (e) {
@@ -1567,6 +1573,147 @@ jQuery(function ($) {
     $(document).on('mousedown keydown', '.resort_name select.disabled', function (e) {
         e.preventDefault();
     });
+
+    // BBF bar: onchange → lock when all 4 filled; Change → unlock editable
+    function getEnquiryFormWrappers($from) {
+        if ($from && $from.length) {
+            if ($from.is('.gform_wrapper.quote_form_wrapper')) return $from;
+            const $closest = $from.closest('.gform_wrapper.quote_form_wrapper');
+            if ($closest.length) return $closest;
+            const $found = $from.find('.gform_wrapper.quote_form_wrapper');
+            if ($found.length) return $found;
+        }
+        return $('.gform_wrapper.quote_form_wrapper');
+    }
+
+    function getEnquiryBbfFields($wrap) {
+        const $resort = $wrap.find('.resort_name select, select[name="input_4"], #input_1_4').first();
+        const $checkIn = $wrap.find('input[name="input_5"], #input_1_5').first();
+        let $checkOut = $wrap.find('input[name="input_6"], #input_1_6').first();
+        if (!$checkIn.length) {
+            // fallback calendar inputs in BBF row
+        }
+        const $calInputs = $wrap.find('.gfield.bbf.calender_icon input, .calender_icon input');
+        const $ci = $checkIn.length ? $checkIn : $calInputs.eq(0);
+        const $co = $checkOut.length ? $checkOut : $calInputs.eq(1);
+
+        return {
+            $resort: $resort,
+            $checkIn: $ci,
+            $checkOut: $co,
+            $guests: $wrap.find('.eq-sb-guests-display, .guest_input > span').first(),
+            $dates: $().add($ci).add($co)
+        };
+    }
+
+    function enquiryBbfAllFilled($wrap) {
+        const f = getEnquiryBbfFields($wrap);
+        const resort = (f.$resort.val() || '').toString().trim();
+        const checkIn = (f.$checkIn.val() || '').toString().trim();
+        const checkOut = (f.$checkOut.val() || '').toString().trim();
+        const guestLabel = (f.$guests.text() || '').trim();
+        const adults = parseInt($wrap.find('.rec_adults select').first().val(), 10);
+        const hasGuests = /\d+\s*Guest/i.test(guestLabel) || (!isNaN(adults) && adults > 0);
+        return !!(resort && checkIn && checkOut && hasGuests);
+    }
+
+    function setEnquiryBbfLocked($wrap, locked) {
+        if (!$wrap || !$wrap.length) return;
+
+        $wrap.toggleClass('bbf-fields-locked', !!locked);
+        const f = getEnquiryBbfFields($wrap);
+
+        if (locked) {
+            f.$resort
+                .addClass('disabled')
+                .attr('aria-disabled', 'true')
+                .attr('tabindex', '-1')
+                .prop('disabled', false);
+            f.$dates.prop('readonly', true).attr('tabindex', '-1');
+            f.$guests.attr('aria-disabled', 'true');
+            $wrap.find('.eq-guests-popover').removeClass('open');
+        } else {
+            f.$resort
+                .removeClass('disabled')
+                .attr('aria-disabled', 'false')
+                .attr('tabindex', '0');
+            f.$dates.prop('readonly', false).removeAttr('tabindex');
+            f.$guests.removeAttr('aria-disabled');
+        }
+    }
+
+    function syncEnquiryBbfLock($from) {
+        getEnquiryFormWrappers($from).each(function () {
+            const $wrap = $(this);
+            if (!$wrap.find('.gfield.bbf').length) return;
+
+            const allFilled = enquiryBbfAllFilled($wrap);
+            const manuallyUnlocked = $wrap.attr('data-bbf-unlocked') === '1';
+
+            if (!allFilled) {
+                // Koi field empty → editable, next complete fill can lock again
+                $wrap.attr('data-bbf-unlocked', '0');
+                setEnquiryBbfLocked($wrap, false);
+                return;
+            }
+
+            // Sari fields filled → readonly (unless Change clicked)
+            setEnquiryBbfLocked($wrap, !manuallyUnlocked);
+        });
+    }
+
+    window.kvSyncEnquiryBbfLock = syncEnquiryBbfLock;
+
+    // onchange: jese hi sari fields filled → readonly
+    const BBF_CHANGE_SEL = [
+        '.gform_wrapper.quote_form_wrapper .resort_name select',
+        '.gform_wrapper.quote_form_wrapper select[name="input_4"]',
+        '.gform_wrapper.quote_form_wrapper input[name="input_5"]',
+        '.gform_wrapper.quote_form_wrapper input[name="input_6"]',
+        '.gform_wrapper.quote_form_wrapper #input_1_4',
+        '.gform_wrapper.quote_form_wrapper #input_1_5',
+        '.gform_wrapper.quote_form_wrapper #input_1_6',
+        '.gform_wrapper.quote_form_wrapper .calender_icon input',
+        '.gform_wrapper.quote_form_wrapper .rec_adults select',
+        '.gform_wrapper.quote_form_wrapper .rec_children select'
+    ].join(', ');
+
+    $(document).on('change', BBF_CHANGE_SEL, function () {
+        syncEnquiryBbfLock($(this));
+    });
+
+    // Guests counter buttons also affect filled state
+    $(document).on('click', '.gform_wrapper.quote_form_wrapper .eq-guests-popover .g-btn', function () {
+        const $wrap = $(this).closest('.gform_wrapper.quote_form_wrapper');
+        setTimeout(function () { syncEnquiryBbfLock($wrap); }, 50);
+    });
+
+    // Change → editable
+    $(document).on('click', '.gform_wrapper.quote_form_wrapper .gfield a', function (e) {
+        const label = ($(this).text() || '').replace(/\s+/g, ' ').trim();
+        if (!/change/i.test(label)) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const $wrap = $(this).closest('.gform_wrapper.quote_form_wrapper');
+        $wrap.attr('data-bbf-unlocked', '1');
+        setEnquiryBbfLocked($wrap, false);
+    });
+
+    // Block dateDropper / select while locked
+    $(document).on('mousedown focus click', '.bbf-fields-locked .gfield.bbf input, .bbf-fields-locked .gfield.bbf select', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $(this).blur();
+        return false;
+    });
+
+    // Initial sync for already-filled forms
+    syncEnquiryBbfLock();
+    setTimeout(function () { syncEnquiryBbfLock(); }, 300);
+    setTimeout(function () { syncEnquiryBbfLock(); }, 1000);
+
     // ahtisham work end
 
 
@@ -1805,6 +1952,11 @@ jQuery(function ($) {
 
         localStorage.setItem('niseko_checkin', val);
 
+        $('.gform_wrapper.quote_form_wrapper').find('input[name="input_5"], #input_1_5').trigger('change');
+        if (typeof window.kvSyncEnquiryBbfLock === 'function') {
+            window.kvSyncEnquiryBbfLock();
+        }
+
     }
 
 
@@ -1816,6 +1968,11 @@ jQuery(function ($) {
         localStorage.setItem('niseko_checkout', val);
 
         localStorage.setItem('maxdate', toPickerDate(val));
+
+        $('.gform_wrapper.quote_form_wrapper').find('input[name="input_6"], #input_1_6').trigger('change');
+        if (typeof window.kvSyncEnquiryBbfLock === 'function') {
+            window.kvSyncEnquiryBbfLock();
+        }
 
     }
 
@@ -2028,6 +2185,10 @@ jQuery(function ($) {
     if (savedCheckout) $(CHECKOUT_SEL).val(savedCheckout);
 
     $(CHECKOUT_SEL).prop('disabled', false);
+
+    if (typeof syncEnquiryBbfLock === 'function') {
+        syncEnquiryBbfLock();
+    }
 
 
 
@@ -2379,6 +2540,10 @@ jQuery(function ($) {
 
             if (typeof window.kvRefreshEnquiryGuestLabels === 'function') {
                 window.kvRefreshEnquiryGuestLabels();
+            }
+
+            if (typeof window.kvSyncEnquiryBbfLock === 'function') {
+                window.kvSyncEnquiryBbfLock();
             }
 
             // Keep popup open after validation, and restore the parked (unused) form
@@ -3025,15 +3190,7 @@ jQuery(function ($) {
 
 
 
-    $(document).on('click', '#sc-guests-popup', function (e) {
-
-        var g_popup = $('#room-filter-guests-popover');
-
-        g_popup.addClass('active');
-
-    });
-
-
+    // Room-listing guests open/close is handled by .sv-guests delegation below (DOMContentLoaded).
 
     // Initialise each enquiry guest popover from its own fields / HTML defaults.
     // Do NOT seed from search-card localStorage — guest counts stay independent.
@@ -3345,59 +3502,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        // Existing page form / card
-
+        // Search-card guest buttons only (room-listing popovers are bound outside this loop)
         bindGuestButtons(card);
-
-
-
-        // Popup form
-
-        bindGuestButtons(document.getElementById('room-search-popup-modal'));
-
-        bindGuestButtons(document.getElementById('room-filter-guests-popover'));
-
-
-
-        jQuery(document).on('click', '.sv-guests', function (e) {
-
-            e.preventDefault();
-
-            e.stopPropagation();
-
-
-
-            const $form = jQuery(this).closest('form');
-
-            const $popover = $form.find('.room-filter-guests-popover');
-
-
-
-            jQuery('.room-filter-guests-popover').not($popover).removeClass('active');
-
-            $popover.toggleClass('active');
-
-        });
-
-
-
-        jQuery(document).on('click', '.room-filter-guests-popover', function (e) {
-
-            e.stopPropagation();
-
-        });
-
-
-
-        jQuery(document).on('click', function (e) {
-
-            if (!jQuery(e.target).closest('.sv-guests, .room-filter-guests-popover').length) {
-
-                jQuery('.room-filter-guests-popover').removeClass('active');
-
-            }
-
-        });
 
 
 
@@ -3438,6 +3544,125 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     });
+
+
+
+    /* Room listing / change-guests popup counters.
+       Must run even when no .search-card exists on the page. */
+    (function initRoomFilterGuestCounters() {
+        function readGuestState() {
+            const adults = parseInt(localStorage.getItem('sb_adults'), 10);
+            const children = parseInt(localStorage.getItem('sb_children'), 10);
+            return {
+                adults: Number.isFinite(adults) && adults > 0 ? adults : 2,
+                children: Number.isFinite(children) && children >= 0 ? children : 0,
+                infants: 0
+            };
+        }
+
+        function guestLabel(g) {
+            const total = g.adults + g.children;
+            return total > 0
+                ? (total + ' Guest' + (total !== 1 ? 's' : ''))
+                : '';
+        }
+
+        function updateRoomFilterUI(g) {
+            document.querySelectorAll('.room-filter-guests-popover').forEach(function (pop) {
+                const adultsVal = pop.querySelector('.js-v-adults');
+                const childrenVal = pop.querySelector('.js-v-children');
+                const btnAM = pop.querySelector('.js-btn-adults-minus');
+                const btnCM = pop.querySelector('.js-btn-children-minus');
+                if (adultsVal) adultsVal.textContent = String(g.adults);
+                if (childrenVal) childrenVal.textContent = String(g.children);
+                if (btnAM) btnAM.disabled = g.adults <= 1;
+                if (btnCM) btnCM.disabled = g.children <= 0;
+            });
+
+            const label = guestLabel(g);
+            document.querySelectorAll('.sv-guests').forEach(function (input) {
+                if (label) {
+                    input.value = label;
+                    input.classList.remove('empty');
+                } else {
+                    input.value = '';
+                }
+            });
+        }
+
+        function applyRoomFilterAdjust(type, delta) {
+            const g = readGuestState();
+
+            if (type === 'adults') {
+                g.adults = Math.max(1, g.adults + delta);
+            } else if (type === 'children') {
+                g.children = Math.max(0, g.children + delta);
+            } else {
+                return;
+            }
+
+            g.infants = 0;
+            localStorage.setItem('sb_adults', String(g.adults));
+            localStorage.setItem('sb_children', String(g.children));
+            localStorage.setItem('sb_infants', '0');
+
+            updateRoomFilterUI(g);
+
+            if (typeof window.kvApplySharedGuests === 'function') {
+                window.kvApplySharedGuests(g);
+            }
+
+            if (type === 'children' && delta > 0 && g.children > 0) {
+                triggerChildAgePopup(g.children);
+            }
+        }
+
+        jQuery(document).off('click.kvRoomGuests', '.room-filter-guests-popover .g-btn');
+        jQuery(document).on('click.kvRoomGuests', '.room-filter-guests-popover .g-btn', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (this.disabled) return;
+
+            const row = this.closest('.g-row');
+
+            if (this.classList.contains('js-btn-adults-minus')) {
+                applyRoomFilterAdjust('adults', -1);
+            } else if (this.classList.contains('js-btn-children-minus')) {
+                applyRoomFilterAdjust('children', -1);
+            } else if (this.classList.contains('js-btn-adults-plus') || (row && row.querySelector('.js-v-adults'))) {
+                applyRoomFilterAdjust('adults', 1);
+            } else if (this.classList.contains('js-btn-children-plus') || (row && row.querySelector('.js-v-children'))) {
+                applyRoomFilterAdjust('children', 1);
+            }
+        });
+
+        jQuery(document).off('click.kvRoomGuestsOpen', '.sv-guests');
+        jQuery(document).on('click.kvRoomGuestsOpen', '.sv-guests', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const $form = jQuery(this).closest('form');
+            const $popover = $form.find('.room-filter-guests-popover');
+
+            jQuery('.room-filter-guests-popover').not($popover).removeClass('active');
+            $popover.toggleClass('active');
+        });
+
+        jQuery(document).off('click.kvRoomGuestsStop', '.room-filter-guests-popover');
+        jQuery(document).on('click.kvRoomGuestsStop', '.room-filter-guests-popover', function (e) {
+            e.stopPropagation();
+        });
+
+        jQuery(document).off('click.kvRoomGuestsClose');
+        jQuery(document).on('click.kvRoomGuestsClose', function (e) {
+            if (!jQuery(e.target).closest('.sv-guests, .room-filter-guests-popover').length) {
+                jQuery('.room-filter-guests-popover').removeClass('active');
+            }
+        });
+
+        updateRoomFilterUI(readGuestState());
+    })();
 
 
 

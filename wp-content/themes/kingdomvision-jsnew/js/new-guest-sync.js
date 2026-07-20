@@ -115,6 +115,16 @@ jQuery(document).ready(function ($) {
             $card.find('.js-btn-children-minus').prop('disabled', guests.children <= 0);
             $card.find('.js-btn-infants-minus').prop('disabled', guests.infants <= 0);
         });
+
+        // Accommodation room-listing / change-guests popup
+        $('.room-filter-guests-popover').each(function () {
+            const $pop = $(this);
+            $pop.find('.js-v-adults').text(guests.adults);
+            $pop.find('.js-v-children').text(guests.children);
+            $pop.find('.js-btn-adults-minus').prop('disabled', guests.adults <= 1);
+            $pop.find('.js-btn-children-minus').prop('disabled', guests.children <= 0);
+        });
+        $('.sv-guests').val(label).removeClass('empty');
     }
 
     window.kvApplySharedGuests = function (state, options) {
@@ -247,6 +257,10 @@ jQuery(document).ready(function ($) {
     // ---------------------------
     $(document).on('click', '.eq-sb-guests-display', function (e) {
         e.preventDefault();
+
+        if ($(this).closest('.bbf-fields-locked').length || $(this).attr('aria-disabled') === 'true') {
+            return;
+        }
 
         const parent = $(this).closest('.eq_guests');
         const popover = parent.find('.eq-guests-popover').first();

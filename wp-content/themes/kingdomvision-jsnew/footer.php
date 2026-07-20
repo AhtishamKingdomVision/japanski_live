@@ -247,6 +247,7 @@ if ( is_singular( 'accommodation' ) ) {
                             name="guets" 
                             autocomplete="off" 
                             placeholder="Click to add guests" 
+                            readonly
                             required
                         >
                     </div>

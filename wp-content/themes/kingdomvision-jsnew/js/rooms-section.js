@@ -1442,10 +1442,13 @@
 
                 // Mark the selected rate plan
 
-                $(`.rb-rateplan-box[data-room-type-id="${it.room_type_id}"][data-item-unique-id="${it.item_unique_id}"]`)
+                // here to start
 
-                    .find('.rb-select-btn').addClass('is-selected').text('Booked');
+                // $(`.rb-rateplan-box[data-room-type-id="${it.room_type_id}"][data-item-unique-id="${it.item_unique_id}"]`)
 
+                //     .find('.rb-select-btn').addClass('is-selected').text('Booked');
+
+                // end Comment By Ahtisham
 
 
                 // Disable all other rate plans for the same room

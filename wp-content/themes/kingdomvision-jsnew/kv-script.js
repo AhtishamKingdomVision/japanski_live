@@ -1189,42 +1189,49 @@ jQuery(function ($) {
     // });
 
     // ahtisham work start
-    // Two enquiry form instances can exist (listing + modal). Gravity Forms always
-    // updates the first #gform_1, so we temporarily park the inactive form on submit
-    // so validation messages only appear on the form the customer actually used.
+    // Listing + single pages can render 2x GF #gform_1 (page + modal).
+    // Park the inactive copy on submit so validation stays on the active form.
 
     var parkedEnquiryMount = null;
-    var parkedEnquiryTarget = null;
 
     function getModalEnquiryScope() {
         return $('.Enquiry-modal-content').first();
     }
 
+    /** Page/listing enquiry mount (anything except the modal copy). */
+    function getPageEnquiryMount() {
+        const $root = $(
+            '.acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form, .full-section.enquiry_form'
+        ).first();
+
+        if ($root.length) {
+            if ($root.hasClass('mob_quote_form1')) return $root;
+            const $nested = $root.find('.mob_quote_form1').first();
+            if ($nested.length) return $nested;
+        }
+
+        return $('.mob_quote_form1').filter(function () {
+            return $(this).closest('.Enquiry-modal').length === 0;
+        }).first();
+    }
+
+    // Back-compat alias used by gform_post_render / guest sync.
     function getListingEnquiryScope() {
-        return $('.acc_enquiry_form').first();
+        return getPageEnquiryMount();
     }
 
     function clearEnquiryValidationIn($scope) {
         if (!$scope || !$scope.length) return;
         const $wrapper = $scope.find('.gform_wrapper').first();
-        const $ctx = $wrapper.length ? $wrapper : $scope;
-        $ctx.removeClass('gform_validation_error');
-        $ctx.find('.gform_validation_errors, .validation_error, .validation_message').remove();
-        $ctx.find('.gfield_error').removeClass('gfield_error');
-        $ctx.find('.gfield_validation_message').remove();
-        $ctx.find('[aria-invalid="true"]').attr('aria-invalid', 'false');
-        $ctx.find('.gform_submission_error').remove();
+        const $target = $wrapper.length ? $wrapper : $scope;
+        $target.removeClass('gform_validation_error');
+        $target.find('.gform_validation_errors, .validation_error, .validation_message, .gfield_validation_message, .gform_submission_error').remove();
+        $target.find('.gfield_error').removeClass('gfield_error');
+        $target.find('[aria-invalid="true"]').attr('aria-invalid', 'false');
     }
 
     function unparkEnquiryForm() {
-        const $parked = $('.kv-enquiry-parked');
-        if (!$parked.length && (!parkedEnquiryMount || !parkedEnquiryMount.length)) {
-            parkedEnquiryMount = null;
-            parkedEnquiryTarget = null;
-            return;
-        }
-
-        $parked.each(function () {
+        $('.kv-enquiry-parked').each(function () {
             const $root = $(this);
             $root.find('[data-kv-parked-id]').each(function () {
                 this.id = $(this).attr('data-kv-parked-id');
@@ -1232,30 +1239,17 @@ jQuery(function ($) {
             });
             $root.removeClass('kv-enquiry-parked');
         });
-
         parkedEnquiryMount = null;
-        parkedEnquiryTarget = null;
     }
 
     function parkEnquiryFormExcept(active) {
         unparkEnquiryForm();
+        const $inactive = active === 'modal'
+            ? getPageEnquiryMount()
+            : $('.Enquiry-modal .mob_quote_form1').first();
 
-        let $inactive = $();
-        if (active === 'modal') {
-            $inactive = getListingEnquiryScope().find('.mob_quote_form1').first();
-            parkedEnquiryTarget = 'listing';
-        } else if (active === 'listing') {
-            $inactive = $('.Enquiry-modal-form-slot .mob_quote_form1, .Enquiry-modal .mob_quote_form1').first();
-            parkedEnquiryTarget = 'modal';
-        }
+        if (!$inactive.length) return;
 
-        if (!$inactive.length) {
-            parkedEnquiryTarget = null;
-            return;
-        }
-
-        // Keep the unused form visible, but rename its IDs so GF validation
-        // only updates the form that was actually submitted.
         $inactive.addClass('kv-enquiry-parked');
         $inactive.find('[id]').each(function () {
             if ($(this).attr('data-kv-parked-id')) return;
@@ -1265,30 +1259,79 @@ jQuery(function ($) {
         parkedEnquiryMount = $inactive;
     }
 
+    function parkActiveEnquiryForm($form) {
+        if (!$form || !$form.length) return;
+        if ($form.closest('.Enquiry-modal').length) {
+            lockEnquiryModalPageScroll();
+            parkEnquiryFormExcept('modal');
+            return;
+        }
+        if ($form.closest('.Enquiry-modal').length === 0 && $form.closest('.mob_quote_form1, .acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form').length) {
+            parkEnquiryFormExcept('listing');
+        }
+    }
+
     function enquiryFind(selector) {
         if ($('body').hasClass('enquire-open')) {
             const $inModal = getModalEnquiryScope().find(selector);
             if ($inModal.length) return $inModal;
         }
-        const $inListing = getListingEnquiryScope().find(selector);
-        if ($inListing.length) return $inListing;
+        const $inPage = getPageEnquiryMount().find(selector);
+        if ($inPage.length) return $inPage;
         return $(selector);
+    }
+
+    function enquiryDatesFromPage() {
+        return {
+            checkIn: $('#sc-check-in').val() || localStorage.getItem('niseko_checkin') || localStorage.getItem('sb_checkin') || '',
+            checkOut: $('#sc-check-out').val() || localStorage.getItem('niseko_checkout') || localStorage.getItem('sb_checkout') || ''
+        };
     }
 
     function closeEnquiryModal() {
         clearEnquiryValidationIn(getModalEnquiryScope());
         unparkEnquiryForm();
-        $('.Enquiry-modal').removeClass('active');
+        $('.Enquiry-modal').removeClass('active').css('display', '');
         $('body').removeClass('enquire-open');
         window.kvEnquiryModalScrollY = null;
     }
 
     function openEnquiryModal() {
-        unparkEnquiryForm();
-        clearEnquiryValidationIn(getModalEnquiryScope());
-        $('.Enquiry-modal').addClass('active');
+        try {
+            unparkEnquiryForm();
+            clearEnquiryValidationIn(getModalEnquiryScope());
+            clearEnquiryValidationIn(getPageEnquiryMount());
+        } catch (err) { /* no-op */ }
+
+        const $modal = $('.Enquiry-modal');
+        if (!$modal.length) return false;
+
+        $modal.addClass('active').css('display', 'flex');
         $('body').addClass('enquire-open');
         window.kvEnquiryModalScrollY = window.scrollY || window.pageYOffset || 0;
+        return true;
+    }
+
+    /** Shared entry: open modal + populate from a trigger button/attrs. */
+    function openEnquiryFromTrigger($btn, data) {
+        data = data || {};
+        if (!openEnquiryModal()) {
+            return false;
+        }
+
+        const dates = enquiryDatesFromPage();
+        try {
+            populateEnquiryModal($.extend({
+                propertyName: ($btn && $btn.attr('hotel-name')) || data.propertyName || '',
+                resortName: ($btn && $btn.attr('resort-name')) || data.resortName || '',
+                roomName: ($btn && $btn.attr('room-title')) || data.roomName || '',
+                checkIn: data.checkIn || dates.checkIn,
+                checkOut: data.checkOut || dates.checkOut
+            }, data));
+        } catch (err) {
+            console.warn('populateEnquiryModal failed', err);
+        }
+        return true;
     }
 
     function lockEnquiryModalPageScroll() {
@@ -1306,7 +1349,6 @@ jQuery(function ($) {
         const $content = $('.Enquiry-modal-content');
         if (!$content.length || !$('.Enquiry-modal').hasClass('active')) return;
 
-        // Keep the page where it was — do not jump down to the listing enquiry form.
         restoreEnquiryModalPageScroll();
 
         const $target = $content.find(
@@ -1314,42 +1356,26 @@ jQuery(function ($) {
         ).first();
 
         if ($target.length) {
-            const contentOffset = $content.offset().top;
-            const targetOffset = $target.offset().top;
-            const nextTop = $content.scrollTop() + (targetOffset - contentOffset) - 24;
+            const nextTop = $content.scrollTop() + ($target.offset().top - $content.offset().top) - 24;
             $content.stop(true).animate({ scrollTop: Math.max(0, nextTop) }, 250);
         } else {
             $content.stop(true).animate({ scrollTop: 0 }, 200);
         }
 
-        // GF may animate page scroll slightly later — reinstate locked position.
         window.setTimeout(restoreEnquiryModalPageScroll, 50);
         window.setTimeout(restoreEnquiryModalPageScroll, 300);
     }
 
-    // Before GF ajax submit: leave only the active form in the DOM.
-    $(document).on('submit', 'form#gform_1', function () {
-        const $form = $(this);
-        if ($form.closest('.Enquiry-modal').length) {
-            lockEnquiryModalPageScroll();
-            parkEnquiryFormExcept('modal');
-        } else if ($form.closest('.acc_enquiry_form, .load-more-enquiry-form').length) {
-            parkEnquiryFormExcept('listing');
-        }
-    });
+    $(document).on(
+        'submit',
+        'form#gform_1',
+        function () { parkActiveEnquiryForm($(this)); }
+    );
 
     $(document).on(
         'click',
         'form#gform_1 input[type="submit"], form#gform_1 #gform_submit_button_1, form#gform_1 .gform_button',
-        function () {
-            const $form = $(this).closest('form');
-            if ($form.closest('.Enquiry-modal').length) {
-                lockEnquiryModalPageScroll();
-                parkEnquiryFormExcept('modal');
-            } else if ($form.closest('.acc_enquiry_form, .load-more-enquiry-form').length) {
-                parkEnquiryFormExcept('listing');
-            }
-        }
+        function () { parkActiveEnquiryForm($(this).closest('form')); }
     );
 
     $(document).on('click', '.Enquiry-modal-close, .Enquiry-modal-overlay', function (e) {
@@ -1459,6 +1485,10 @@ jQuery(function ($) {
     }
 
     function setEnquiryResortField($resortField, resortName, isLocked) {
+        if (!$resortField || !$resortField.length) {
+            return;
+        }
+
         const options = getResortOptions($resortField);
         const match = matchResortOption(options, resortName);
 
@@ -1530,16 +1560,32 @@ jQuery(function ($) {
         setTimeout(function () { syncEnquiryBbfLock($scope); }, 600);
     }
 
-    $(document).on('click', '.enq_cta, .enquire_btn', function (e) {
+    $(document).on('click', '.enq_cta, .enquire_btn, .enq-btn-popup, .sticky-cta-btn.enq-btn-popup', function (e) {
         e.preventDefault();
+        e.stopPropagation();
 
         const $btn = $(this);
-        openEnquiryModal();
 
+        // Listing cards
+        if ($btn.hasClass('enquire_btn')) {
+            const $card = $btn.closest('.accom-card, .result-card');
+            const propertyName = (
+                $btn.parents('.accom-content').find('h3').first().text() ||
+                $card.find('.accom-content h3').first().text() ||
+                ''
+            ).trim();
+            openEnquiryFromTrigger($btn, {
+                propertyName: propertyName,
+                resortName: $card.data('resortName') || $btn.attr('resort-name') || ''
+            });
+            return;
+        }
+
+        // Booking rate-plan enquire
         const $ratePlanBox = $btn.closest('.rb-rateplan-box');
         if ($ratePlanBox.length) {
             const roomData = parseRoomDataFromBox($ratePlanBox);
-            populateEnquiryModal({
+            openEnquiryFromTrigger($btn, {
                 propertyName: roomData.propertyName || '',
                 resortName: roomData.resortName || '',
                 checkIn: roomData.checkIn || '',
@@ -1549,25 +1595,28 @@ jQuery(function ($) {
             return;
         }
 
-        if ($btn.hasClass('enquire_btn')) {
-            const $card = $btn.closest('.accom-card, .result-card');
-            const propertyName = (
-                $btn.parents('.accom-content').find('h3').first().text() ||
-                $card.find('.accom-content h3').first().text() ||
-                ''
-            ).trim();
-            populateEnquiryModal({
-                propertyName: propertyName,
-                resortName: $card.data('resortName') || $btn.attr('resort-name') || ''
-            });
+        // Single-room / sticky CTA (hotel-name / room-title attrs)
+        openEnquiryFromTrigger($btn);
+    });
+
+    // Legacy sticky/CTA class: open modal when present, else /enquire/
+    $(document).on('click', '.enq-btn', function (e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const roomTitle = $btn.attr('room-title') || '';
+        const hotelName = $btn.attr('hotel-name') || '';
+        const resortName = $btn.attr('resort-name') || '';
+
+        if (roomTitle) localStorage.setItem('enquiry_room_title', roomTitle);
+        if (hotelName) localStorage.setItem('enquiry_hotel_name', hotelName);
+        if (resortName) localStorage.setItem('enquiry_resort_name', resortName);
+
+        if ($('.Enquiry-modal').length) {
+            openEnquiryFromTrigger($btn);
             return;
         }
 
-        populateEnquiryModal({
-            propertyName: $btn.attr('hotel-name') || '',
-            resortName: $btn.attr('resort-name') || '',
-            roomName: $btn.attr('room-title') || ''
-        });
+        window.location.href = '/enquire/';
     });
 
     $(document).on('mousedown keydown', '.resort_name select.disabled, #input_1_66.disabled, select[name="input_66"].disabled', function (e) {
@@ -2608,7 +2657,10 @@ jQuery(function ($) {
                 unparkEnquiryForm();
             }
             if ($('body').hasClass('enquire-open')) {
-                $('.Enquiry-modal').addClass('active');
+                $('.Enquiry-modal').addClass('active').css('display', 'flex');
+                if (typeof clearEnquiryValidationIn === 'function') {
+                    clearEnquiryValidationIn(getListingEnquiryScope());
+                }
                 if (typeof scrollEnquiryModalToValidation === 'function') {
                     scrollEnquiryModalToValidation();
                 }
@@ -3119,78 +3171,6 @@ jQuery(function ($) {
         }
 
     });
-
-
-
-    $(document).on('click', '.enq-btn', function (e) {
-
-        e.preventDefault();
-
-
-
-        // Get room title and hotel name from button attributes
-
-        const roomTitle = $(this).attr('room-title');
-
-        const hotelName = $(this).attr('hotel-name');
-
-        const resortName = $(this).attr('resort-name');
-
-
-
-        // Save to localStorage
-
-        if (roomTitle) {
-
-            localStorage.setItem('enquiry_room_title', roomTitle);
-
-        }
-
-
-
-        if (hotelName) {
-
-            localStorage.setItem('enquiry_hotel_name', hotelName);
-
-        }
-
-
-
-        if (resortName) {
-
-            localStorage.setItem('enquiry_resort_name', resortName);
-
-        }
-
-
-
-        // Redirect to /about/
-
-        window.location.href = '/enquire/';
-
-    });
-
-    $(document).on('click', '.enq-btn-popup', function (e) {
-
-        e.preventDefault();
-
-        e.stopPropagation();
-
-        const $btn = $(this);
-
-        openEnquiryModal();
-
-        populateEnquiryModal({
-            propertyName: $btn.attr('hotel-name') || '',
-            resortName: $btn.attr('resort-name') || '',
-            roomName: $btn.attr('room-title') || '',
-            checkIn: $('#sc-check-in').val() || localStorage.getItem('niseko_checkin') || localStorage.getItem('sb_checkin') || '',
-            checkOut: $('#sc-check-out').val() || localStorage.getItem('niseko_checkout') || localStorage.getItem('sb_checkout') || ''
-        });
-
-    });
-
-
 
 
 

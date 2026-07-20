@@ -137,11 +137,18 @@ if ($sticky_ctas) {
 }
 $attr = '';
 if( !empty($matched_cta) ){ 
-    $attr = $current_pt == 'accommodation' ? 'class="sticky-cta-btn enq-btn" hotel-name="'.get_the_title().'" room-title=""': 'class="sticky-cta-btn" href="'.esc_url($matched_cta['url']).'"';
+    if ( $current_pt == 'accommodation' ) {
+        // Same popup behaviour as listing Enquire Now buttons.
+        $attr = 'href="javascript:;" class="sticky-cta-btn enq-btn-popup" hotel-name="'.esc_attr(get_the_title()).'" room-title=""';
+        $cta_target = '_self';
+    } else {
+        $attr = 'class="sticky-cta-btn" href="'.esc_url($matched_cta['url']).'"';
+        $cta_target = $matched_cta['target'] ?: '_self';
+    }
     ?>
     <!-- This is the Sticky CTA HTML -->
     <div class="sticky-cta-container">
-        <a target="<?php echo esc_attr($matched_cta['target'] ?: '_self'); ?>" <?php  echo $attr;?>><?php echo esc_html($matched_cta['title']); ?></a>
+        <a target="<?php echo esc_attr($cta_target); ?>" <?php  echo $attr;?>><?php echo esc_html($matched_cta['title']); ?></a>
     </div>
 <?php } ?>
 

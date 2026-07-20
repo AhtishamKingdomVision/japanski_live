@@ -1,4 +1,5 @@
-(function(){'use strict';const STORAGE_KEY='rb_cart';const ICON_SELECTOR='.kv-floating-cart';const BACKDROP_SEL='.kv-floating-cart__backdrop';const POPUP_SEL='.kv-floating-cart__popup';const urlCache=Object.create(null);function readCart(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return{items:[]};const parsed=JSON.parse(raw);if(parsed&&Array.isArray(parsed.items))return parsed;if(Array.isArray(parsed))return{items:parsed};return{items:[]}}catch(e){return{items:[]}}}
+(function(){'use strict';const STORAGE_KEY='rb_cart';const ICON_SELECTOR='.kv-floating-cart';const BACKDROP_SEL='.kv-floating-cart__backdrop';const POPUP_SEL='.kv-floating-cart__popup';const urlCache=Object.create(null);function bookingPageUrl(){const home=(typeof kv_object!=='undefined'&&kv_object.homeUrl)?String(kv_object.homeUrl):'/';return home.replace(/\/?$/,'/')+'booking/'}
+function readCart(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return{items:[]};const parsed=JSON.parse(raw);if(parsed&&Array.isArray(parsed.items))return parsed;if(Array.isArray(parsed))return{items:parsed};return{items:[]}}catch(e){return{items:[]}}}
 function getPrimaryItem(cart){if(!cart||!Array.isArray(cart.items)||!cart.items.length)return null;return cart.items[0]}
 function getItemCount(cart){if(!cart||!Array.isArray(cart.items))return 0;return cart.items.length}
 function getItemTotal(cart){if(!cart||!Array.isArray(cart.items))return 0;let total=0;for(let i=0;i<cart.items.length;i++){const it=cart.items[i];const price=Number(it?.price||it?.amount||it?.total_price||it?.total_amount||0);total+=isNaN(price)?0:price}
@@ -41,7 +42,7 @@ const first=items[0];let propertyHtml='';if(first.property_name){const pImg=firs
                     </div>
                 </div>
             `}
-let cardsHtml='';for(let idx=0;idx<items.length;idx++){const it=items[idx];const price=Number(it?.price||0);const dep=Number(it?.payment?.depositAmount||0);const bal=Number(it?.payment?.balanceDueAmount||(price-dep));const adults=Number(it?.guests?.adults||0);const children=Number(it?.guests?.children||0);const infants=Number(it?.guests?.infants||0);const totalPax=adults+children+infants;const ciRaw=it?.dates?.check_in||'';const coRaw=it?.dates?.check_out||'';const ciDisplay=ciRaw?formatDate(ciRaw):(it?.dates?.checkinDisplay||'');const coDisplay=coRaw?formatDate(coRaw):(it?.dates?.checkoutDisplay||'');const balanceDate=it?.payment?.balanceDueDate?formatDate(it.payment.balanceDueDate):'';const roomImgHtml=it?.room_image?`<div class="kv-floating-cart__room-img-wrap"><img src="${escapeHtml(it.room_image)}" alt="${escapeHtml(it.room_name || '')}" class="kv-floating-cart__room-img"></div>`:'';let paymentHtml='';if(dep>0){paymentHtml+=`
+let cardsHtml='';for(let idx=0;idx<items.length;idx++){const it=items[idx];const price=Number(it?.price||0);const dep=Number(it?.payment?.depositAmount||0);const bal=Number(it?.payment?.balanceDueAmount||(price-dep));const adults=Number(it?.guests?.adults||0);const children=Number(it?.guests?.children||0);const totalPax=adults+children;const ciRaw=it?.dates?.check_in||'';const coRaw=it?.dates?.check_out||'';const ciDisplay=ciRaw?formatDate(ciRaw):(it?.dates?.checkinDisplay||'');const coDisplay=coRaw?formatDate(coRaw):(it?.dates?.checkoutDisplay||'');const balanceDate=it?.payment?.balanceDueDate?formatDate(it.payment.balanceDueDate):'';const roomImgHtml=it?.room_image?`<div class="kv-floating-cart__room-img-wrap"><img src="${escapeHtml(it.room_image)}" alt="${escapeHtml(it.room_name || '')}" class="kv-floating-cart__room-img"></div>`:'';let paymentHtml='';if(dep>0){paymentHtml+=`
                     <div class="kv-floating-cart__row">
                         <span>Deposit on booking</span>
                         <strong>¥${dep.toLocaleString('ja-JP')}</strong>
@@ -75,7 +76,6 @@ cardsHtml+=`
                         </div>
                         ${adults ? `<div class="kv-floating-cart__row"><span>Adults</span><strong>${adults}</strong></div>` : ''}
                         ${children ? `<div class="kv-floating-cart__row"><span>Children</span><strong>${children}</strong></div>` : ''}
-                        ${infants ? `<div class="kv-floating-cart__row"><span>Infants</span><strong>${infants}</strong></div>` : ''}
                         <div class="kv-floating-cart__dates">
                             <div class="kv-floating-cart__date">
                                 <span>Check in</span>
@@ -114,10 +114,10 @@ function openMobilePopup(){ensurePopupNode();renderPopupBody();const popup=docum
 function closeMobilePopup(){const popup=document.querySelector(POPUP_SEL);if(popup)popup.classList.remove('is-visible');const backdrop=document.querySelector(BACKDROP_SEL);if(backdrop)backdrop.classList.remove('is-visible');document.body.classList.remove('cart-active')}
 function onIconClick(e){e.preventDefault();const node=e.currentTarget;const propertyId=node.getAttribute('data-property-id');if(isMobile()){openMobilePopup();return}
 if(!propertyId){return}
-window.location.href='/booking/'}
+window.location.href=bookingPageUrl()}
 function onProceedClick(e){e.preventDefault();const node=e.currentTarget;const cart=readCart();const primary=getPrimaryItem(cart);const propertyId=primary?(primary.hotel_type_id||primary.property_id||''):'';if(!propertyId){return}
 if(node){node.disabled=!0;node.textContent='Loading…'}
-window.location.href='/booking/'}
+window.location.href=bookingPageUrl()}
 function escapeHtml(s){if(s==null)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 let resizeRaf=null;function onResize(){if(resizeRaf)return;resizeRaf=requestAnimationFrame(()=>{resizeRaf=null;updateIcon()})}
 function bindEvents(){document.addEventListener('rb:cart-updated',updateIcon);document.addEventListener('storage',(e)=>{if(e.key===STORAGE_KEY)updateIcon()});window.addEventListener('resize',onResize);document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeMobilePopup()}})}

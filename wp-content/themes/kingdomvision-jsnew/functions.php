@@ -52,8 +52,9 @@ function theme_files()
     wp_register_script('hz-essentials', 'https://cdn.jsdelivr.net/gh/HumzaKV/hz_essentials@main/essentials.js', [], false, false);
     wp_enqueue_script('hz-essentials');
 
-    // KV-Script
-    wp_register_script('kv-script', get_template_directory_uri() . '/kv-script.js', array('jquery'), filemtime(get_template_directory().'/kv-script.js'), true);
+    // KV-Script — version bump so WP Rocket minify cannot keep a stale bundle
+    $kv_script_ver = (string) filemtime(get_template_directory().'/kv-script.js') . '-enq3';
+    wp_register_script('kv-script', get_template_directory_uri() . '/kv-script.js', array('jquery'), $kv_script_ver, true);
 	wp_enqueue_script('kv-script');
 
     /*Hamza scrip*/

@@ -3117,6 +3117,26 @@ jQuery(function ($) {
 
 
 
+    $(document).on('click', '.enq-btn-popup', function (e) {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        const $btn = $(this);
+
+        openEnquiryModal();
+
+        populateEnquiryModal({
+            propertyName: $btn.attr('hotel-name') || '',
+            resortName: $btn.attr('resort-name') || '',
+            roomName: $btn.attr('room-title') || '',
+            checkIn: $('#sc-check-in').val() || localStorage.getItem('niseko_checkin') || localStorage.getItem('sb_checkin') || '',
+            checkOut: $('#sc-check-out').val() || localStorage.getItem('niseko_checkout') || localStorage.getItem('sb_checkout') || ''
+        });
+
+    });
+
 
     // Populate quote form with room and hotel details from localStorage
 

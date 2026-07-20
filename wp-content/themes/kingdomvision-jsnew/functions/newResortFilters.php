@@ -83,7 +83,7 @@ function newResortFiltersCode(){
           echo '</div>';
         echo '</div>';
         echo '<div class="g-row">';
-          echo '<div><span class="g-label">Children</span><span class="g-sub">Age 0–15</span></div>';
+          echo '<div><span class="g-label">Children</span><span class="g-sub">child age 0–15</span></div>';
           echo '<div class="g-counter">';
               echo '<button class="g-btn js-btn-children-minus" disabled>−</button>';
               echo '<span class="g-val js-v-children">0</span>';

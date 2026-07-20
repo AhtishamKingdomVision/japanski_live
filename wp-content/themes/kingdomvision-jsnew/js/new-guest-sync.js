@@ -10,6 +10,13 @@ jQuery(document).ready(function ($) {
                 'font-size: 18px; line-height: 1; color: #555; padding: 0;' +
             '}' +
             '.eq-pop-close:hover { color: #000; }' +
+            '.eq-guests-popover .g-counter { position: relative; }' +
+            '.eq-guests-popover .g-counter .eq-adults,' +
+            '.eq-guests-popover .g-counter .eq-children,' +
+            '.eq-guests-popover .g-counter .eq-infants {' +
+                'position: absolute; width: 1px; height: 1px; opacity: 0;' +
+                'pointer-events: none; border: 0; padding: 0; margin: 0;' +
+            '}' +
         '</style>').appendTo('head');
     }
 
@@ -60,7 +67,70 @@ jQuery(document).ready(function ($) {
         return `${guests.adults + guests.children} Guest${guests.adults + guests.children !== 1 ? 's' : ''}`;
     }
 
+    function syncEnquiryCounterUI($pop, guests) {
+        if (!$pop || !$pop.length) return;
+        guests = normalizeGuests(guests);
+
+        $pop.find('.js-v-adults').text(guests.adults);
+        $pop.find('.js-v-children').text(guests.children);
+        $pop.find('.js-btn-adults-minus').prop('disabled', guests.adults <= 1);
+        $pop.find('.js-btn-children-minus').prop('disabled', guests.children <= 0);
+        $pop.find('.js-btn-adults-plus').prop('disabled', guests.adults >= guestMapping.adults.max);
+        $pop.find('.js-btn-children-plus').prop('disabled', guests.children >= guestMapping.children.max);
+    }
+
+    // Match search guest UI: − [count] + instead of bare number inputs
+    function upgradeEnquiryGuestCounters($root) {
+        const $pops = $root && $root.length
+            ? $root.find('.eq-guests-popover').addBack('.eq-guests-popover')
+            : $('.eq-guests-popover');
+
+        $pops.each(function () {
+            const $pop = $(this);
+
+            [
+                { type: 'adults', min: 1, defaultVal: 2, label: 'Age 16+' },
+                { type: 'children', min: 0, defaultVal: 0, label: 'Ages 0–15' }
+            ].forEach(function (cfg) {
+                const $input = $pop.find('.eq-' + cfg.type).first();
+                if (!$input.length) return;
+
+                const $counter = $input.closest('.g-counter');
+                if (!$counter.length) return;
+
+                // Already upgraded
+                if ($counter.find('.js-btn-' + cfg.type + '-plus').length) {
+                    return;
+                }
+
+                let val = parseInt($input.val(), 10);
+                if (isNaN(val)) val = cfg.defaultVal;
+                if (val < cfg.min) val = cfg.min;
+
+                $input.attr({ type: 'hidden', value: String(val) }).removeClass('g-val');
+
+                const minusDisabled = val <= cfg.min ? ' disabled' : '';
+                $counter.prepend(
+                    '<button type="button" class="g-btn js-btn-' + cfg.type + '-minus"' + minusDisabled + '>−</button>'
+                );
+                $('<span class="g-val js-v-' + cfg.type + '">' + val + '</span>').insertBefore($input);
+                $counter.append(
+                    '<button type="button" class="g-btn js-btn-' + cfg.type + '-plus">+</button>'
+                );
+
+                const $row = $counter.closest('.g-row');
+                if ($row.length && cfg.type === 'children') {
+                    $row.find('.g-sub').text(cfg.label);
+                }
+            });
+
+            $pop.find('.eq-infants').closest('.g-row').hide();
+        });
+    }
+
     function writeEnquiryGuests(guests, $triggerScope, changedType) {
+        upgradeEnquiryGuestCounters();
+
         $('.eq-guests-popover').each(function () {
             const $pop = $(this);
             const $scope = getFormScope($pop);
@@ -75,6 +145,7 @@ jQuery(document).ready(function ($) {
             $pop.find('.eq-children').val(guests.children);
             $pop.find('.eq-infants').val(0);
             $pop.find('.eq-infants').closest('.g-row').hide();
+            syncEnquiryCounterUI($pop, guests);
 
             if ($scope.length) {
                 $scope.find(guestMapping.adults.input).first().val(String(guests.adults)).trigger('change');
@@ -144,6 +215,7 @@ jQuery(document).ready(function ($) {
     };
 
     window.kvRefreshEnquiryGuestLabels = function () {
+        upgradeEnquiryGuestCounters();
         window.kvApplySharedGuests(normalizeGuests(), { skipSearch: false });
     };
 
@@ -176,9 +248,49 @@ jQuery(document).ready(function ($) {
     }
 
     // ---------------------------
-    // INPUT HANDLER
+    // +/- BUTTONS (same UX as search)
     // ---------------------------
-    $(document).on('input change', '.eq-guests-popover .g-val, #eq-guests-popover .g-val', function () {
+    $(document).on('click', '.eq-guests-popover .g-btn', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (this.disabled) return;
+
+        const $btn = $(this);
+        const $pop = getPopover($btn);
+        if (!$pop.length) return;
+
+        const guests = normalizeGuests({
+            adults: $pop.find('.eq-adults').val(),
+            children: $pop.find('.eq-children').val()
+        });
+
+        let type = null;
+        let next = null;
+
+        if ($btn.hasClass('js-btn-adults-minus')) {
+            type = 'adults';
+            next = guests.adults - 1;
+        } else if ($btn.hasClass('js-btn-adults-plus')) {
+            type = 'adults';
+            next = guests.adults + 1;
+        } else if ($btn.hasClass('js-btn-children-minus')) {
+            type = 'children';
+            next = guests.children - 1;
+        } else if ($btn.hasClass('js-btn-children-plus')) {
+            type = 'children';
+            next = guests.children + 1;
+        }
+
+        if (!type) return;
+
+        setValue(type, $pop.find('.eq-' + type).first(), next);
+    });
+
+    // ---------------------------
+    // INPUT HANDLER (legacy number inputs, if any remain)
+    // ---------------------------
+    $(document).on('input change', '.eq-guests-popover input.eq-adults, .eq-guests-popover input.eq-children, #eq-guests-popover input.eq-adults, #eq-guests-popover input.eq-children', function () {
         const $input = $(this);
 
         let type =
@@ -192,9 +304,9 @@ jQuery(document).ready(function ($) {
     });
 
     // ---------------------------
-    // KEYBOARD STEP CONTROL (UP/DOWN)
+    // KEYBOARD STEP CONTROL (UP/DOWN) on legacy inputs
     // ---------------------------
-    $(document).on('keydown', '.eq-guests-popover .g-val, #eq-guests-popover .g-val', function (e) {
+    $(document).on('keydown', '.eq-guests-popover input.eq-adults, .eq-guests-popover input.eq-children, #eq-guests-popover input.eq-adults, #eq-guests-popover input.eq-children', function (e) {
         const $input = $(this);
 
         let type =
@@ -243,10 +355,12 @@ jQuery(document).ready(function ($) {
 
         if (!$('.eq-guests-popover').length) return;
 
+        upgradeEnquiryGuestCounters();
         injectCloseButton();
         window.kvRefreshEnquiryGuestLabels();
     });
 
+    upgradeEnquiryGuestCounters();
     injectCloseButton();
     if (typeof window.kvRefreshEnquiryGuestLabels === 'function') {
         window.kvRefreshEnquiryGuestLabels();
@@ -262,11 +376,18 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-        const parent = $(this).closest('.eq_guests');
-        const popover = parent.find('.eq-guests-popover').first();
+        upgradeEnquiryGuestCounters();
 
-        $('.eq-guests-popover').not(popover).removeClass('open');
-        popover.addClass('open');
+        let $popover = $(this).closest('.eq_guests, .gfield').find('.eq-guests-popover').first();
+        if (!$popover.length) {
+            $popover = $(this).closest('.guest_input').siblings('.eq-guests-popover').first();
+        }
+        if (!$popover.length) {
+            $popover = $(this).parent().find('.eq-guests-popover').first();
+        }
+
+        $('.eq-guests-popover').not($popover).removeClass('open');
+        $popover.addClass('open');
     });
 
     // ---------------------------

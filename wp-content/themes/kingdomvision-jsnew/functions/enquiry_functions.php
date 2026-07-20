@@ -14,7 +14,9 @@ define( 'FORM_1_FIELD_MAP', [
 
     'phone' => '3',
 
-    'resort_name' => '4',
+    //'resort_name' => '4',
+
+    'resort_name' => '66',
 
     'check_in' => '5',
 
@@ -34,7 +36,9 @@ define( 'FORM_1_FIELD_MAP', [
 
     'preferences' => '11',
 
-    'type' => '8',
+    //'type' => '8',
+
+    'type' => '71',
 
     'country' => '33',  
 

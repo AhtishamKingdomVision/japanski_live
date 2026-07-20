@@ -3616,9 +3616,9 @@ function kv_display_product_reviews_shortcode($atts) {
 
                         dots: false,
 
-                        prevArrow: '<button type="button" class="slick-prev"><img src="' + base_url + '/wp-content/themes/kingdomvision/images/left_arrow.svg" alt="Previous"></button>',
+                        prevArrow: '<button type="button" class="slick-prev"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/images/left_arrow.svg" alt="Previous"></button>',
 
-                        nextArrow: '<button type="button" class="slick-next"><img src="' + base_url + '/wp-content/themes/kingdomvision/images/right_arrow.svg" alt="Next"></button>',
+                        nextArrow: '<button type="button" class="slick-next"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/images/right_arrow.svg" alt="Next"></button>',
 
                         responsive: [{
 

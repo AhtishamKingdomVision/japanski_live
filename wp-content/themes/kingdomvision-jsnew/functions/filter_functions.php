@@ -203,6 +203,13 @@ function date_format_readable($date_str, $newFormat = 'Y-m-d', $format = 'Y-m-d'
 
 function niseko_search() {
 
+    // Booking-system searches call an external API (up to 45s) plus extra WP work.
+    // Give PHP enough headroom so the request can finish within the client's 60s window
+    // instead of the connection being dropped mid-request.
+    if (function_exists('set_time_limit')) {
+        @set_time_limit(60);
+    }
+
     try {
 
         // ✅ STEP 1: Validate POST data exists
@@ -969,6 +976,14 @@ function hz_search_in_booking_system() {
 
             // BedBank properties are enquiry-based and often have no live Unit count.
             // Include them in date search results even when the booking API omits them.
+            //
+            // PERF: the previous approach used a meta_query of
+            // (is_roomboss != '1' OR is_roomboss NOT EXISTS) with posts_per_page => -1
+            // plus an N+1 get_post_meta() loop. On this dataset that single stage took
+            // 100+ seconds (NOT EXISTS/!= force un-indexed postmeta scans + LEFT JOINs),
+            // which is what caused the admin-ajax timeout. Instead we run the plain
+            // filter query (no is_roomboss clause) and resolve is_roomboss/property_id
+            // for all candidates in ONE indexed postmeta query, then filter in PHP.
             $bedbank_args = niseko_build_search_query_args($_POST, [
 
                 'fields'         => 'ids',
@@ -981,41 +996,45 @@ function hz_search_in_booking_system() {
 
 
 
-            $bedbank_args['meta_query'][] = [
-
-                'relation' => 'OR',
-
-                [
-
-                    'key'     => 'is_roomboss',
-
-                    'value'   => '1',
-
-                    'compare' => '!=',
-
-                ],
-
-                [
-
-                    'key'     => 'is_roomboss',
-
-                    'compare' => 'NOT EXISTS',
-
-                ],
-
-            ];
+            $bedbank_candidate_ids = array_values(array_filter(array_map('intval', (array) get_posts($bedbank_args))));
 
 
 
-            $bedbank_query = get_posts($bedbank_args);
+            if (!empty($bedbank_candidate_ids)) {
 
+                global $wpdb;
 
+                $ids_placeholder = implode(',', $bedbank_candidate_ids);
 
-            $bedbank_property_ids = array_filter(array_map(function ($bedbank_post) {
+                $bedbank_meta_rows = $wpdb->get_results(
+                    "SELECT post_id, meta_key, meta_value
+                     FROM {$wpdb->postmeta}
+                     WHERE post_id IN ({$ids_placeholder})
+                       AND meta_key IN ('is_roomboss', 'property_id')"
+                );
 
-                return get_post_meta($bedbank_post, 'property_id', true);
+                $bedbank_meta_by_post = [];
 
-            }, $bedbank_query));
+                foreach ($bedbank_meta_rows as $bedbank_meta_row) {
+                    $bedbank_meta_by_post[(int) $bedbank_meta_row->post_id][$bedbank_meta_row->meta_key] = $bedbank_meta_row->meta_value;
+                }
+
+                foreach ($bedbank_candidate_ids as $bedbank_post_id) {
+                    // Skip RoomBoss properties; keep enquiry-based (non-roomboss / missing flag) ones.
+                    if (($bedbank_meta_by_post[$bedbank_post_id]['is_roomboss'] ?? '') === '1') {
+                        continue;
+                    }
+
+                    $bedbank_prop = $bedbank_meta_by_post[$bedbank_post_id]['property_id'] ?? '';
+
+                    if ($bedbank_prop !== '' && $bedbank_prop !== null) {
+                        $bedbank_property_ids[] = $bedbank_prop;
+                    }
+                }
+
+                $bedbank_property_ids = array_values(array_filter($bedbank_property_ids));
+
+            }
 
 
 
@@ -1046,8 +1065,6 @@ function hz_search_in_booking_system() {
 
 
         // cf_log( $merged_property_id, 'merged_property_id' );
-
-
 
         niseko_search_roomboss_wp($merged_property_id, $roombossData, $bookingPagination);
 
@@ -1588,6 +1605,48 @@ function kv_roomboss_parse_availability(array $body): array {
 
 
 
+    // Resolve every PropertyId -> post_id in a SINGLE query. Previously the loop below
+    // ran one WP_Query per property (and an errant update_field on each), which made
+    // large resorts / "All Resorts" searches take ~50s. This primes a lookup map and
+    // the post-meta cache once so the per-property work is just array access.
+    $kv_property_post_map = [];
+    $kv_response_property_ids = [];
+
+    foreach ($body['properties'] as $hotel) {
+        if (!empty($hotel['PropertyId'])) {
+            $kv_response_property_ids[] = $hotel['PropertyId'];
+        }
+    }
+
+    $kv_response_property_ids = array_values(array_unique($kv_response_property_ids));
+
+    if (!empty($kv_response_property_ids)) {
+        $kv_map_post_ids = get_posts([
+            'post_type'              => 'accommodation',
+            'post_status'            => 'any',
+            'posts_per_page'         => -1,
+            'fields'                 => 'ids',
+            'no_found_rows'          => true,
+            'update_post_term_cache' => false,
+            'meta_query'             => [[
+                'key'     => 'property_id',
+                'value'   => $kv_response_property_ids,
+                'compare' => 'IN',
+            ]],
+        ]);
+
+        if (is_array($kv_map_post_ids)) {
+            foreach ($kv_map_post_ids as $kv_map_post_id) {
+                $kv_map_property_id = get_post_meta($kv_map_post_id, 'property_id', true);
+                if ($kv_map_property_id !== '' && !isset($kv_property_post_map[$kv_map_property_id])) {
+                    $kv_property_post_map[$kv_map_property_id] = (int) $kv_map_post_id;
+                }
+            }
+        }
+    }
+
+
+
     foreach ($body['properties'] as $hotel) {
 
         // Skip hotels without units
@@ -1630,13 +1689,18 @@ function kv_roomboss_parse_availability(array $body): array {
 
         if(  $bookingPermission !== null  ){
 
-            $bk_p = get_field( 'acc_booking_permission', $hotel['bookingPermission'] );
+            $post_id = $kv_property_post_map[ $hotel['PropertyId'] ] ?? null;
 
-            $post_id = get_post_id_by_property_id( $hotel['PropertyId'] );
+            if( $post_id ){
 
-            if( $post_id !== null && !$bk_p ){
+                $db_booking_permission = get_post_meta( $post_id, 'acc_booking_permission', true );
 
-                update_field( 'acc_booking_permission', $hotel['bookingPermission'], $post_id );
+                // Only write when the value actually changed to avoid a DB write per search.
+                if( (string) $db_booking_permission !== (string) $bookingPermission ){
+
+                    update_field( 'acc_booking_permission', $bookingPermission, $post_id );
+
+                }
 
             }
 
@@ -1908,7 +1972,7 @@ function kv_booking_system_filter_args( string $authorization, array $overrides 
 
             'body'        => wp_json_encode($body),
 
-            'timeout'     => 30,
+            'timeout'     => 45,
 
             'data_format' => 'body',
 

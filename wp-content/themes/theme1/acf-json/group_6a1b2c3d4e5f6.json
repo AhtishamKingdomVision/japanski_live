@@ -1,0 +1,88 @@
+{
+    "key": "group_6a1b2c3d4e5f6",
+    "title": "Cart Timer Settings",
+    "fields": [
+        {
+            "key": "field_6a1b2c3d4e5f7",
+            "label": "Cart Timer Duration (Minutes)",
+            "name": "acc_cart_timer_minutes",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "How long (in minutes) should the cart be held before expiring? Used for RoomBoss and hybrid properties. Leave empty to use the default of 10 minutes.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69724c24a61dc",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 10,
+            "min": 1,
+            "max": 1440,
+            "allow_in_bindings": 0,
+            "placeholder": "10",
+            "step": 1,
+            "prepend": "",
+            "append": "min"
+        },
+        {
+            "key": "field_6a1b2c3d4e5f8",
+            "label": "Cart Timer Duration (Hours) - BedBank",
+            "name": "acc_cart_timer_bedbank_hours",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "How long (in hours) should the cart be held for BedBank properties? Leave empty to use the default of 6 hours.",
+            "required": 0,
+            "conditional_logic": [
+                {
+                    "field": "field_69724c24a61dc",
+                    "operator": "!=",
+                    "value": "1"
+                }
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 6,
+            "min": 1,
+            "max": 168,
+            "allow_in_bindings": 0,
+            "placeholder": "6",
+            "step": 1,
+            "prepend": "",
+            "append": "hrs"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "accommodation"
+            }
+        ]
+    ],
+    "menu_order": 5,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1775236368
+}

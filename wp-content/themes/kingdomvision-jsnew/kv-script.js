@@ -172,7 +172,7 @@ jQuery(function ($) {
 
         var resort = pathArray[0].charAt(0).toUpperCase() + pathArray[0].slice(1);
 
-        $('.mob_quote_inner').find('.resort_name select').val(resort);
+        $('.mob_quote_inner').find('#input_1_66, select[name="input_66"], .resort_name select').val(resort);
 
     }
 
@@ -1493,7 +1493,7 @@ jQuery(function ($) {
             $propertyField.val('').prop('readonly', false).removeClass('disabled');
         }
 
-        const $resortField = $scope.find('#input_1_4, .resort_name select').first();
+        const $resortField = $scope.find('#input_1_66, select[name="input_66"], .resort_name select').first();
         const urlResortName = getUrlResortName($resortField);
         // Prefer URL resort when on a resort page; otherwise use the selected property resort.
         const resortName = urlResortName || data.resortName || '';
@@ -1570,7 +1570,7 @@ jQuery(function ($) {
         });
     });
 
-    $(document).on('mousedown keydown', '.resort_name select.disabled', function (e) {
+    $(document).on('mousedown keydown', '.resort_name select.disabled, #input_1_66.disabled, select[name="input_66"].disabled', function (e) {
         e.preventDefault();
     });
 
@@ -1587,7 +1587,7 @@ jQuery(function ($) {
     }
 
     function getEnquiryBbfFields($wrap) {
-        const $resort = $wrap.find('.resort_name select, select[name="input_4"], #input_1_4').first();
+        const $resort = $wrap.find('.resort_name select, select[name="input_66"], #input_1_66').first();
         const $checkIn = $wrap.find('input[name="input_5"], #input_1_5').first();
         let $checkOut = $wrap.find('input[name="input_6"], #input_1_6').first();
         if (!$checkIn.length) {
@@ -1654,11 +1654,13 @@ jQuery(function ($) {
                 // Koi field empty → editable, next complete fill can lock again
                 $wrap.attr('data-bbf-unlocked', '0');
                 setEnquiryBbfLocked($wrap, false);
+                refreshBbfToggleLabel($wrap);
                 return;
             }
 
             // Sari fields filled → readonly (unless Change clicked)
             setEnquiryBbfLocked($wrap, !manuallyUnlocked);
+            refreshBbfToggleLabel($wrap);
         });
     }
 
@@ -1667,10 +1669,10 @@ jQuery(function ($) {
     // onchange: jese hi sari fields filled → readonly
     const BBF_CHANGE_SEL = [
         '.gform_wrapper.quote_form_wrapper .resort_name select',
-        '.gform_wrapper.quote_form_wrapper select[name="input_4"]',
+        '.gform_wrapper.quote_form_wrapper select[name="input_66"]',
         '.gform_wrapper.quote_form_wrapper input[name="input_5"]',
         '.gform_wrapper.quote_form_wrapper input[name="input_6"]',
-        '.gform_wrapper.quote_form_wrapper #input_1_4',
+        '.gform_wrapper.quote_form_wrapper #input_1_66',
         '.gform_wrapper.quote_form_wrapper #input_1_5',
         '.gform_wrapper.quote_form_wrapper #input_1_6',
         '.gform_wrapper.quote_form_wrapper .calender_icon input',
@@ -1688,17 +1690,54 @@ jQuery(function ($) {
         setTimeout(function () { syncEnquiryBbfLock($wrap); }, 50);
     });
 
-    // Change → editable
+    // Change ⇄ Done toggle: sirf link ka text node badlo (icon safe rahe)
+    function setBbfToggleText($a, text) {
+        const textNode = $a.contents().filter(function () {
+            return this.nodeType === 3 && this.nodeValue.trim().length;
+        }).first();
+        if (textNode.length) {
+            textNode[0].nodeValue = text;
+        } else {
+            $a.prepend(document.createTextNode(text + ' '));
+        }
+    }
+
+    function getBbfToggleLink($wrap) {
+        return $wrap.find('.gfield.bbf a, .gfield a').filter(function () {
+            return /change|done/i.test(($(this).text() || ''));
+        }).first();
+    }
+
+    // Label ko lock state ke sath sync rakho: locked → "Change", unlocked → "Done"
+    function refreshBbfToggleLabel($wrap) {
+        const $a = getBbfToggleLink($wrap);
+        if (!$a.length) return;
+        const unlocked = $wrap.attr('data-bbf-unlocked') === '1';
+        setBbfToggleText($a, unlocked ? 'Done' : 'Change');
+    }
+
+    // Change → editable, Done → wapis lock
     $(document).on('click', '.gform_wrapper.quote_form_wrapper .gfield a', function (e) {
         const label = ($(this).text() || '').replace(/\s+/g, ' ').trim();
-        if (!/change/i.test(label)) return;
+        if (!/change|done/i.test(label)) return;
 
         e.preventDefault();
         e.stopPropagation();
 
         const $wrap = $(this).closest('.gform_wrapper.quote_form_wrapper');
-        $wrap.attr('data-bbf-unlocked', '1');
-        setEnquiryBbfLocked($wrap, false);
+        const isUnlocked = $wrap.attr('data-bbf-unlocked') === '1';
+
+        if (isUnlocked) {
+            // Done → agar sari fields filled hain to lock, warna editable rehne do
+            $wrap.attr('data-bbf-unlocked', '0');
+            syncEnquiryBbfLock($wrap);
+        } else {
+            // Change → editable
+            $wrap.attr('data-bbf-unlocked', '1');
+            setEnquiryBbfLocked($wrap, false);
+        }
+
+        refreshBbfToggleLabel($wrap);
     });
 
     // Block dateDropper / select while locked
@@ -2512,6 +2551,23 @@ jQuery(function ($) {
 
             $(CHECKOUT_SEL).prop('disabled', false);
 
+            // Prefill the enquiry Resort field (GF field 66) from the resort page URL
+            // (e.g. /niseko/accommodation/) or the saved search resort, mirroring how
+            // check-in/check-out are prefilled above. Never override an existing choice.
+            $('.mob_quote_form1, .gform_wrapper.quote_form_wrapper, .acc_enquiry_form').each(function () {
+                const $resortField = $(this).find('#input_1_66, select[name="input_66"], .resort_name select').first();
+                if (!$resortField.length || $resortField.val()) return;
+
+                const urlResort = getUrlResortName($resortField);
+                let savedResort = localStorage.getItem('sb_resort') || '';
+                if (savedResort.toLowerCase() === 'all') savedResort = '';
+
+                const resortName = urlResort || savedResort;
+                if (resortName) {
+                    setEnquiryResortField($resortField, resortName, !!urlResort);
+                }
+            });
+
             const reMinDate = localStorage.getItem('mindate') || kv_object.check_start_date;
 
             if ($(CHECKIN_SEL).length) initCheckinPickers();
@@ -3114,9 +3170,6 @@ jQuery(function ($) {
 
     });
 
-
-
-
     $(document).on('click', '.enq-btn-popup', function (e) {
 
         e.preventDefault();
@@ -3136,6 +3189,9 @@ jQuery(function ($) {
         });
 
     });
+
+
+
 
 
     // Populate quote form with room and hotel details from localStorage
@@ -3166,9 +3222,9 @@ jQuery(function ($) {
 
         if (resortName) {
 
-            $('.resort_name select').val(resortName);
+            $('#input_1_66, select[name="input_66"], .resort_name select').val(resortName);
 
-            $('.resort_name select').addClass('disabled');
+            $('#input_1_66, select[name="input_66"], .resort_name select').addClass('disabled');
 
         }
 
@@ -3192,7 +3248,7 @@ jQuery(function ($) {
 
 
 
-            $('.room_name input, .property_name textarea, .resort_name select, .enquiry_type input').trigger('change');
+            $('.room_name input, .property_name textarea, #input_1_66, select[name="input_66"], .resort_name select, .enquiry_type input').trigger('change');
 
         }
 

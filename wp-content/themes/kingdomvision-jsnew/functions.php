@@ -44,9 +44,9 @@ function theme_files()
     wp_register_style('font-css', THEME_URL . '/css/fonts.css', false, null);
     wp_enqueue_style('font-css');
 	
-	// Font Awesome
-    // wp_register_style( 'theme-fontawesome', get_stylesheet_directory_uri().'/fontawesome/css/all.css', false, filemtime(get_theme_file_path('/fontawesome/css/all.css')));
-    // wp_enqueue_style('theme-fontawesome');
+	//Font Awesome
+    wp_register_style( 'theme-fontawesome', get_stylesheet_directory_uri().'/fontawesome/css/all.css', false, filemtime(get_theme_file_path('/fontawesome/css/all.css')));
+    wp_enqueue_style('theme-fontawesome');
 
     // essentials used in kv-script are here
     wp_register_script('hz-essentials', 'https://cdn.jsdelivr.net/gh/HumzaKV/hz_essentials@main/essentials.js', [], false, false);

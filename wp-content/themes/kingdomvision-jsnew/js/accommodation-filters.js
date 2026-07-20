@@ -33,7 +33,11 @@ const AccommodationFilters = (function() {
 
             action: 'niseko_search',
 
-            timeout: 30000
+            // Server budget: external booking API (up to 45s via wp_remote_get) + WP
+            // work, with PHP set_time_limit(60). Client must wait longer than the
+            // server, otherwise the browser aborts a request the server still completes
+            // ("Request timed out." even though the API responded).
+            timeout: 60000
 
         },
 
@@ -639,7 +643,9 @@ const AccommodationFilters = (function() {
 
                 if (resort) {
 
-                    // localStorage.setItem(CONFIG.storage.resort, resort);
+                    // Persist the selected resort so pages without a resort URL
+                    // (e.g. /get-expert-recommendations/) can prefill the enquiry Resort field.
+                    localStorage.setItem(CONFIG.storage.resort, resort);
 
                 } else {
 

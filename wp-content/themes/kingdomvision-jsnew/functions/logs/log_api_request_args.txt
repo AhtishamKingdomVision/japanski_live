@@ -9181,15 +9181,518 @@ Sam Pimlott
 
     [body] => Array
         (
-            [full_name] => Muhammad asasfad
-            [first_name] => Muhammad
-            [last_name] => asasfad
-            [email] => ahtisham.kv@gmail.com
+            [full_name] => Danielle Randall Danielle Randall
+            [first_name] => Danielle Randall
+            [last_name] => Danielle Randall
+            [email] => dani.Randall@gmail.com
             [phone_number] => 
             [resort_name] => Niseko
             [resort_id] => 
-            [check_in] => 13-03-2027
-            [check_out] => 17-03-2027
+            [check_in] => 04-03-2027
+            [check_out] => 13-03-2027
+            [no_of_adults] => 1
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => I am looking for a ski in ski out with a sauna and breakfast included
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Callyce Heaney
+            [first_name] => Callyce
+            [last_name] => Heaney
+            [email] => callyce@live.com.au
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 16-01-2027
+            [check_out] => 28-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 3
+            [child_ages] => Array
+                (
+                    [0] => 15
+                    [1] => 13
+                    [2] => 6
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Finn Brittain
+            [first_name] => Finn
+            [last_name] => Brittain
+            [email] => finn.brittain@icloud.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 14-02-2027
+            [check_out] => 20-02-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Elizabeth Pereira
+            [first_name] => Elizabeth
+            [last_name] => Pereira
+            [email] => elizabeth.yates@ymail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 20-01-2027
+            [check_out] => 24-01-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 13
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Shayne Connolly
+            [first_name] => Shayne
+            [last_name] => Connolly
+            [email] => shayne.connolly@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 06-01-2027
+            [check_out] => 20-01-2027
+            [no_of_adults] => 5
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Lieu Chai ping
+            [first_name] => Lieu
+            [last_name] => Chai ping
+            [email] => jolenelieu@hotmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 18-12-2026
+            [check_out] => 25-12-2026
+            [no_of_adults] => 1
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 14
+                    [1] => 4
+                    [2] => 1
+                    [3] => 1
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Hotel kanronomori
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test enquire testing
+            [first_name] => test enquire
+            [last_name] => testing
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Rusutsu
+            [resort_id] => 
+            [check_in] => 18-02-2027
+            [check_out] => 25-02-2027
+            [no_of_adults] => 6
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => The Vale Rusutsu
+            [room_name] => 2 Bedroom Residence
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => David Taylor
+            [first_name] => David
+            [last_name] => Taylor
+            [email] => thinkjet88@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 03-01-2027
+            [check_out] => 09-01-2027
+            [no_of_adults] => 8
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 184
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => David Taylor
+            [first_name] => David
+            [last_name] => Taylor
+            [email] => thinkjet88@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 03-01-2027
+            [check_out] => 09-01-2027
+            [no_of_adults] => 8
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 184
+            [bedrooms] => 
+            [property_name] => Muwa Niseko
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => testenquire@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 20-02-2027
+            [check_out] => 24-02-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => Grand Phenix Hakuba
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => testing test
+            [first_name] => testing
+            [last_name] => test
+            [email] => testenquire@test.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 20-02-2027
+            [check_out] => 24-02-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => The Vale Rusutsu
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => testing form listing page
+            [first_name] => testing form
+            [last_name] => listing page
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 20-02-2027
+            [check_out] => 24-02-2027
             [no_of_adults] => 
             [no_of_childs] => 
             [child_ages] => Array
@@ -9198,7 +9701,4347 @@ Sam Pimlott
 
             [type] => Deluxe
             [bedrooms] => 
-            [property_name] => asdfasfasf
+            [property_name] => testing
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Loraine Caw
+            [first_name] => Loraine
+            [last_name] => Caw
+            [email] => lorainegotao@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 03-01-2027
+            [check_out] => 07-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 12
+                    [1] => 14
+                )
+
+            [type] => 122
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Mathias Sinke
+            [first_name] => Mathias
+            [last_name] => Sinke
+            [email] => mathiassinke@hotmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 23-12-2026
+            [check_out] => 06-01-2027
+            [no_of_adults] => 1
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Green Leaf Hotel
+            [room_name] => Corner Suite – Single incl breakfast
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Stuart Barclay
+            [first_name] => Stuart
+            [last_name] => Barclay
+            [email] => stuart@agritracexports.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 30-12-2026
+            [check_out] => 09-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 4
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Amber Mizuho
+            [room_name] => 4 Bedroom Chalet
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Dee Oshea
+            [first_name] => Dee
+            [last_name] => Oshea
+            [email] => osheadeirbhile@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 23-12-2026
+            [check_out] => 30-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Samantha Roger
+            [first_name] => Samantha
+            [last_name] => Roger
+            [email] => samroger8@yahoo.co.uk
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 06-12-2026
+            [check_out] => 13-12-2026
+            [no_of_adults] => 4
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => Hi, I was wondering if it’s possible to have a conversation with you. We have never skied in Japan before. Looking to go early December, but need a recommendation as we do need some beginner slopes. I’m wondering where is best to book, or if it’s too much of a risk that there will not be snow, and we are best not to go that early. Looking for recommendation for a resort at this stage. I do not mind which resort we ski, or what type of accommodation? I just want to know where it has the best snow for these days. Thank you.
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Amy Huxley
+            [first_name] => Amy
+            [last_name] => Huxley
+            [email] => samsonamy@outlook.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 12-01-2027
+            [check_out] => 19-01-2027
+            [no_of_adults] => 8
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => Green Leaf Hotel
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Michelle Gethin
+            [first_name] => Michelle
+            [last_name] => Gethin
+            [email] => megethin@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 11-01-2027
+            [check_out] => 18-01-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 14
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test resort check enquire testing
+            [first_name] => test resort check
+            [last_name] => enquire testing
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 25-03-2027
+            [check_out] => 03-04-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 8
+            [child_ages] => Array
+                (
+                    [0] => 2
+                    [1] => 3
+                    [2] => 1
+                    [3] => 10
+                    [4] => 11
+                    [5] => 12
+                    [6] => 11
+                    [7] => 14
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => Shiyuki
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Sarah Kemp
+            [first_name] => Sarah
+            [last_name] => Kemp
+            [email] => sarah31@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 27-02-2027
+            [check_out] => 11-03-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => clement Poutard
+            [first_name] => clement
+            [last_name] => Poutard
+            [email] => clementpoutard@hotmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 24-12-2026
+            [check_out] => 30-12-2026
+            [no_of_adults] => 3
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 12
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Clement Poutard
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Samantha Graves
+            [first_name] => Samantha
+            [last_name] => Graves
+            [email] => samanthaaaakidd@hotmail.co.uk
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 16-01-2027
+            [check_out] => 23-01-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test testL
+            [first_name] => test
+            [last_name] => testL
+            [email] => ahtisham.kv@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 1
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 6
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => testing starry-the-garden-iwatake
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Kelly Chen
+            [first_name] => Kelly
+            [last_name] => Chen
+            [email] => chenkelly286@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 04-01-2027
+            [check_out] => 08-01-2027
+            [no_of_adults] => 5
+            [no_of_childs] => 5
+            [child_ages] => Array
+                (
+                    [0] => 10
+                    [1] => 8
+                    [2] => 8
+                    [3] => 6
+                    [4] => 2
+                )
+
+            [type] => 122
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Syed Umar
+            [first_name] => Syed
+            [last_name] => Umar
+            [email] => syed.umarkingdomvision@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 10-12-2026
+            [check_out] => 20-12-2026
+            [no_of_adults] => 1
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => ramida Werataechanon
+            [first_name] => ramida
+            [last_name] => Werataechanon
+            [email] => dr.ramida@gmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 13-02-2027
+            [check_out] => 18-02-2027
+            [no_of_adults] => 10
+            [no_of_childs] => 3
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Slopeside Chalet Tsugaike
+            [room_name] => 8 bedroom
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test premium plus test
+            [first_name] => test premium plus
+            [last_name] => test
+            [email] => test@kingdom-vision.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 12-12-2026
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 334
+            [bedrooms] => 
+            [property_name] => testing
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test12
+            [first_name] => test
+            [last_name] => test12
+            [email] => ahtisham.kv@gmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => starry-residence-suite
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => tes tes
+            [first_name] => tes
+            [last_name] => tes
+            [email] => ahtisham.kv@gmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => always niseko
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Test Test
+            [first_name] => Test
+            [last_name] => Test
+            [email] => test@gmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 14-01-2027
+            [check_out] => 21-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 13
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => Test
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test checking f test checking l
+            [first_name] => test checking f
+            [last_name] => test checking l
+            [email] => chckingtest@gmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 10-12-2026
+            [check_out] => 17-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => test checking
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => testing testing
+            [first_name] => testing
+            [last_name] => testing
+            [email] => testing@abc.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 20-12-2026
+            [check_out] => 27-12-2026
+            [no_of_adults] => 1
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 11
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => testing
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Jasper Pleydell
+            [first_name] => Jasper
+            [last_name] => Pleydell
+            [email] => jasperpleydell6@gmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 13-12-2026
+            [check_out] => 12-03-2027
+            [no_of_adults] => 1
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Melissa Holmes
+            [first_name] => Melissa
+            [last_name] => Holmes
+            [email] => melissajayneholmes@hotmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 25-12-2026
+            [check_out] => 01-01-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => Park Hyatt Niseko Hanazono
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Stephen Matthews
+            [first_name] => Stephen
+            [last_name] => Matthews
+            [email] => stephen@sagechildcare.com.au
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 28-12-2026
+            [check_out] => 03-01-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => Muwa Niseko
+            [room_name] => 2.5 Bedroom Suite with Onsen & Tea room
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test kv
+            [first_name] => test
+            [last_name] => kv
+            [email] => test@kv.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => testing
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test1 test1
+            [first_name] => test1
+            [last_name] => test1
+            [email] => test1@gmail.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 12-12-2026
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 334
+            [bedrooms] => 
+            [property_name] => test1
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test KVD
+            [first_name] => test
+            [last_name] => KVD
+            [email] => test@kvd.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => tetsing
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test kv
+            [first_name] => test
+            [last_name] => kv
+            [email] => test@kv.com
+            [phone_number] => 
+            [resort_name] => 
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => testing
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test kvd
+            [first_name] => test
+            [last_name] => kvd
+            [email] => test@kvd.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => trst
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test2 test2
+            [first_name] => test2
+            [last_name] => test2
+            [email] => test2@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 12-12-2026
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 334
+            [bedrooms] => 
+            [property_name] => test2
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test1 kvd1
+            [first_name] => test1
+            [last_name] => kvd1
+            [email] => test1@kvd.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => trstesting
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test3 kvd3
+            [first_name] => test3
+            [last_name] => kvd3
+            [email] => test3@kvd.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => testing again 3
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test kvddd
+            [first_name] => test
+            [last_name] => kvddd
+            [email] => test@kk.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => testjkbkj
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => testchecking1 testchecking1
+            [first_name] => testchecking1
+            [last_name] => testchecking1
+            [email] => testchecking1@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => testchecking1
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test kvd43
+            [first_name] => test
+            [last_name] => kvd43
+            [email] => test@kvd32.com
+            [phone_number] => 
+            [resort_name] => Rusutsu
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 212
+            [bedrooms] => 
+            [property_name] => testingggggg
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test testtest
+            [first_name] => test
+            [last_name] => testtest
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => testing
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => tttesttt testt
+            [first_name] => tttesttt
+            [last_name] => testt
+            [email] => test@kvddd.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => testtt
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => tttest ttest
+            [first_name] => tttest
+            [last_name] => ttest
+            [email] => ttest@gm.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => test
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => checktest checktest
+            [first_name] => checktest
+            [last_name] => checktest
+            [email] => checktest@gmail.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 11
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => checktest
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test1234 test1234
+            [first_name] => test1234
+            [last_name] => test1234
+            [email] => test1234@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 11
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => test123@gmail.com
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test654 tesy654
+            [first_name] => test654
+            [last_name] => tesy654
+            [email] => test654@gmail.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => testingggg
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Tarsha test
+            [first_name] => Tarsha
+            [last_name] => test
+            [email] => tarsha.autio@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 03-12-2026
+            [check_out] => 16-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Lucia Jones
+            [first_name] => Lucia
+            [last_name] => Jones
+            [email] => luciamayjones708@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 18-02-2027
+            [check_out] => 26-02-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Clement chan
+            [first_name] => Clement
+            [last_name] => chan
+            [email] => clementch4n@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 09-02-2027
+            [check_out] => 13-02-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => the vale
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Shirley Kalnins
+            [first_name] => Shirley
+            [last_name] => Kalnins
+            [email] => ausshirl@yahoo.com.au
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 18-12-2026
+            [check_out] => 31-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => Niseko
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Shirley Kalnins
+            [first_name] => Shirley
+            [last_name] => Kalnins
+            [email] => ausshirl@yahoo.com.au
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 18-12-2026
+            [check_out] => 31-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Camilla Anderson
+            [first_name] => Camilla
+            [last_name] => Anderson
+            [email] => camillaanderson1976@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 13-02-2027
+            [check_out] => 20-02-2027
+            [no_of_adults] => 6
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Camilla Anderson
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Camilla Anderson
+            [first_name] => Camilla
+            [last_name] => Anderson
+            [email] => camillaanderson1976@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 13-02-2027
+            [check_out] => 20-02-2027
+            [no_of_adults] => 6
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Hakuba Hifumi
+            [room_name] => Deluxe Western/Japanese Room (2 person occupancy)
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Camilla Anderson
+            [first_name] => Camilla
+            [last_name] => Anderson
+            [email] => camillaanderson1976@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 13-02-2027
+            [check_out] => 20-02-2027
+            [no_of_adults] => 6
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Shizuku Villas
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Camilla Anderson
+            [first_name] => Camilla
+            [last_name] => Anderson
+            [email] => camillaanderson1976@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 13-02-2027
+            [check_out] => 20-02-2027
+            [no_of_adults] => 6
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Summit Views
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Camilla Anderson
+            [first_name] => Camilla
+            [last_name] => Anderson
+            [email] => camillaanderson1976@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 13-02-2027
+            [check_out] => 20-02-2027
+            [no_of_adults] => 6
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Hakuba Powder Mountain
+            [room_name] => 2 Bedroom Suite + Loft (Moose)
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Oliver Whittingham
+            [first_name] => Oliver
+            [last_name] => Whittingham
+            [email] => ollie_whittingham@yahoo.com.au
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 03-01-2027
+            [check_out] => 13-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 3
+            [child_ages] => Array
+                (
+                    [0] => 11
+                    [1] => 13
+                    [2] => 6
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => Looking for a apartment or house / villa with at least 2 bedrooms and at least 1 bathroom with laundry and at least 75sqm. budget is $900 - $1500 per night. ideally want to be around Ecoland area. thanks oliver
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test form enq
+            [first_name] => test form
+            [last_name] => enq
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 14
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => Hakuba Grand Apartments
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 14
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => test enquire
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Connie Yap
+            [first_name] => Connie
+            [last_name] => Yap
+            [email] => limconnie2002@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 24-01-2027
+            [check_out] => 29-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 8
+                    [1] => 11
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Family friendly , we are travelling with 2 kids
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test RB enquire test
+            [first_name] => test RB enquire
+            [last_name] => test
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 14
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => AYA Niseko
+            [room_name] => Studio Village View
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Malcolm Utley
+            [first_name] => Malcolm
+            [last_name] => Utley
+            [email] => 3wonga@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 22-12-2026
+            [check_out] => 29-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 11
+                    [1] => 13
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-03-2027
+            [check_out] => 07-03-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 5
+                    [1] => 8
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => test
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Corey Thomson
+            [first_name] => Corey
+            [last_name] => Thomson
+            [email] => pinetrees04@icloud.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 09-01-2027
+            [check_out] => 16-01-2027
+            [no_of_adults] => 5
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Natalie Lawson
+            [first_name] => Natalie
+            [last_name] => Lawson
+            [email] => natalie.l.berents@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 15-01-2027
+            [check_out] => 28-01-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 3
+                    [1] => 5
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Natalie Lawson
+            [first_name] => Natalie
+            [last_name] => Lawson
+            [email] => natalie.l.berents@gmail.com
+            [phone_number] => 
+            [resort_name] => Furano
+            [resort_id] => 
+            [check_in] => 15-01-2027
+            [check_out] => 28-01-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 3
+                    [1] => 5
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Nicole Lim
+            [first_name] => Nicole
+            [last_name] => Lim
+            [email] => nicolelimhuimin@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 08-12-2026
+            [check_out] => 12-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => test@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => Aya Niseko
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Damien Moloney
+            [first_name] => Damien
+            [last_name] => Moloney
+            [email] => damien.moloney@outlook.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 07-01-2027
+            [check_out] => 14-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Hakuba Powder Mountain
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Emma Hill
+            [first_name] => Emma
+            [last_name] => Hill
+            [email] => emmanatalie@yahoo.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 20-01-2027
+            [check_out] => 25-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Sheree Hourston
+            [first_name] => Sheree
+            [last_name] => Hourston
+            [email] => housty70@hotmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 18-01-2027
+            [check_out] => 25-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 3
+            [child_ages] => Array
+                (
+                    [0] => 6
+                    [1] => 14
+                    [2] => 15
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Sue Dingwall
+            [first_name] => Sue
+            [last_name] => Dingwall
+            [email] => suedingwall@live.com.au
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 24-12-2026
+            [check_out] => 02-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Katelin Hawes
+            [first_name] => Katelin
+            [last_name] => Hawes
+            [email] => katelinhawes.work@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 27-12-2026
+            [check_out] => 04-01-2027
+            [no_of_adults] => 5
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => We would be arriving in Tokyo at 7.30am on the 27th, will this be enough time to transfer to Niseko on the 27th or should we change our arrival date ? We are three singles and one couple so would like 2 rooms (1bed and 3 beds). Thanks !
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Finn Mulligan
+            [first_name] => Finn
+            [last_name] => Mulligan
+            [email] => finnmulligan06@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 17-01-2027
+            [check_out] => 24-01-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 3 actual beds. Walking distance to ski fields and night life.
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Anna McErlane
+            [first_name] => Anna
+            [last_name] => McErlane
+            [email] => s_a_mcerlane@hotmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 11-01-2027
+            [check_out] => 25-01-2027
+            [no_of_adults] => 7
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 8
+                    [1] => 10
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => We are after accomodation that will suit 2 families. Happy to be in one chalet or side by side. Preferably with an Onsen. Thank you!
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Todd Brogan
+            [first_name] => Todd
+            [last_name] => Brogan
+            [email] => tlb_crycurr1@bigpond.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 17-01-2027
+            [check_out] => 22-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => Hello we are looking for a two bedrooms apartment  or two hotel rooms for 3 pax [2 in one 'room' + 1 in other 'room' across the dates of check in 17/01/27 check out 22/01/27 ... can you please help support us in what is available in this areas , close to Happo-one ... please let us know what is available thank you Todd
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => mason highcock
+            [first_name] => mason
+            [last_name] => highcock
+            [email] => masonhighcock@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 04-02-2027
+            [check_out] => 10-03-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Tasha Hinkley
+            [first_name] => Tasha
+            [last_name] => Hinkley
+            [email] => vthinkley@iinet.net.au
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 06-01-2027
+            [check_out] => 18-01-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 14
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Kevin Yap
+            [first_name] => Kevin
+            [last_name] => Yap
+            [email] => ktpy222@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 24-01-2027
+            [check_out] => 29-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 8
+                    [1] => 11
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Family holiday
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Hady Perez
+            [first_name] => Hady
+            [last_name] => Perez
+            [email] => hperez@nelconcargo.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 08-02-2027
+            [check_out] => 15-02-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 14
+                    [1] => 10
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => AYA Niseko
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Maryanne Kwa
+            [first_name] => Maryanne
+            [last_name] => Kwa
+            [email] => maryannekwa@yahoo.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 15-03-2027
+            [check_out] => 19-03-2027
+            [no_of_adults] => 7
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 13
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => Preferably ski in ski out in Nagano or Hokkaido. Budget under $700 per night.
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Laurence Mulligan
+            [first_name] => Laurence
+            [last_name] => Mulligan
+            [email] => laurencemulligan7@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 17-01-2027
+            [check_out] => 24-01-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => tori clements
+            [first_name] => tori
+            [last_name] => clements
+            [email] => torijazz@hotmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 27-01-2027
+            [check_out] => 04-02-2027
+            [no_of_adults] => 9
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Amber Echoland Hakuba
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => tori clements
+            [first_name] => tori
+            [last_name] => clements
+            [email] => torijazz@hotmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 27-01-2027
+            [check_out] => 04-02-2027
+            [no_of_adults] => 9
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Amber Mizuho
+            [room_name] => 4 Bedroom Chalet
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Marion Auld
+            [first_name] => Marion
+            [last_name] => Auld
+            [email] => helloauld@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 17-12-2026
+            [check_out] => 23-12-2026
+            [no_of_adults] => 3
+            [no_of_childs] => 3
+            [child_ages] => Array
+                (
+                    [0] => 8
+                    [1] => 11
+                    [2] => 13
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => Hilton, that standard
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Janet LEN
+            [first_name] => Janet
+            [last_name] => LEN
+            [email] => planetjanet257@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 31-01-2027
+            [check_out] => 07-02-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => 
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Test Test
+            [first_name] => Test
+            [last_name] => Test
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 22-03-2027
+            [check_out] => 31-03-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 4
+            [child_ages] => Array
+                (
+                    [0] => 4
+                    [1] => 2
+                    [2] => 1
+                    [3] => 2
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => test
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => austin jones
+            [first_name] => austin
+            [last_name] => jones
+            [email] => austin@fremantlefuel.com.au
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-03-2027
+            [check_out] => 08-03-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 2 bedroom and ensuite.
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Rory Orr
+            [first_name] => Rory
+            [last_name] => Orr
+            [email] => rory@easyconsulting.com.au
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 18-02-2027
+            [check_out] => 28-02-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 1
+            [child_ages] => Array
+                (
+                    [0] => 6
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Anton Oud
+            [first_name] => Anton
+            [last_name] => Oud
+            [email] => anton.j.oud@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 05-01-2027
+            [check_out] => 13-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 13
+                    [1] => 11
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Nikko Style Niseko HANAZONO
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Edward Montague
+            [first_name] => Edward
+            [last_name] => Montague
+            [email] => edward.montague@gmail.com
+            [phone_number] => 
+            [resort_name] => Rusutsu
+            [resort_id] => 
+            [check_in] => 19-12-2026
+            [check_out] => 26-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 12
+                    [1] => 14
+                )
+
+            [type] => Premium
+            [bedrooms] => 
+            [property_name] => Rusutsu Resort Hotel & Convention
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Kate Lain
+            [first_name] => Kate
+            [last_name] => Lain
+            [email] => buddhaontherun@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 15-01-2027
+            [check_out] => 23-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                    [0] => 8
+                    [1] => 11
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => We are happy with a chalet or hotel. We want to be close to snow so we don't have to walk too far and close to a shuttle to get around the different areas. We would like to have some places to eat around. Thanks
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test GER
+            [first_name] => test
+            [last_name] => GER
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-04-2027
+            [check_out] => 05-04-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => test get expert recommendations form
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => test@test.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Premium Plus
+            [bedrooms] => 
+            [property_name] => Kira Kira
+            [room_name] => Studio Apartment
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => jasmine dillon
+            [first_name] => jasmine
+            [last_name] => dillon
+            [email] => jasminedillon06@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 14-01-2027
+            [check_out] => 22-01-2027
+            [no_of_adults] => 16
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => would prefer a chalet
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Wendy bridge
+            [first_name] => Wendy
+            [last_name] => bridge
+            [email] => wendy.bridge5@det.nsw.edu.au
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 14-02-2027
+            [check_out] => 21-02-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 2
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Jai Alpin
+            [first_name] => Jai
+            [last_name] => Alpin
+            [email] => jai@alpin.au
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 01-02-2027
+            [check_out] => 15-02-2027
+            [no_of_adults] => 8
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => Hi Team! Sending an enquiry in for all of the options (Hakuba, Niseko, Rusutsu and Furano)
+
+We have used your services last season and stayed at Powdersuites in Hakuba. Looking to plan something for February again. We have 8 people and are fairly flexible with dates for the first half of Feb. Thanks in advance!
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Deng Peter
+            [first_name] => Deng
+            [last_name] => Peter
+            [email] => dengp505@gmail.com
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 30-12-2026
+            [check_out] => 04-01-2027
+            [no_of_adults] => 3
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Standard
+            [bedrooms] => 
+            [property_name] => 
+            [room_name] => 
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Saffyre Armour
+            [first_name] => Saffyre
+            [last_name] => Armour
+            [email] => saffyre.armour@gmail.com
+            [phone_number] => 
+            [resort_name] => Niseko
+            [resort_id] => 
+            [check_in] => 11-01-2027
+            [check_out] => 15-01-2027
+            [no_of_adults] => 2
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => Green Leaf Hotel
+            [room_name] => Corner Suite – Twin incl breakfast
+            [assignees] => Array
+                (
+                )
+
+            [platform] => wordpress
+            [utm_source] => 
+            [utm_medium] => 
+            [utm_campaign] => 
+            [enquiry_type] => generate_enquiry
+        )
+
+    [timeout] => 15
+    [redirection] => 5
+)
+<br></pre>
+<pre>Array
+(
+    [method] => POST
+    [headers] => Array
+        (
+            [Accept] => application/json
+            [Content-Type] => application/x-www-form-urlencoded
+        )
+
+    [body] => Array
+        (
+            [full_name] => Mark Draper
+            [first_name] => Mark
+            [last_name] => Draper
+            [email] => mark@lydstep.com.au
+            [phone_number] => 
+            [resort_name] => Hakuba
+            [resort_id] => 
+            [check_in] => 05-01-2027
+            [check_out] => 12-01-2027
+            [no_of_adults] => 4
+            [no_of_childs] => 0
+            [child_ages] => Array
+                (
+                )
+
+            [type] => Deluxe
+            [bedrooms] => 
+            [property_name] => 
             [room_name] => 
             [assignees] => Array
                 (

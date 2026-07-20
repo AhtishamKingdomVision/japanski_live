@@ -334,15 +334,7 @@ section.child_age .ch_inn ul li:nth-child(3n) { margin-right: 2%; }
 section.child_age .ch_inn ul li:nth-child(2n) { margin-right: 0; }
 section.child_age .ch_inn ul { overflow-x: auto; padding: 15px; }
 section.child_age .ch_inn ul li select option { background: #091825; }
-.gform_wrapper.quote_form_wrapper .validation_message,
-.gform_wrapper.quote_form_wrapper .gfield_validation_message,
-.gform_wrapper.quote_form_wrapper .gfield_description.validation_message {
-    color: #ffb4b4;
-    font-size: 13px;
-    position: static;
-    display: block !important;
-    margin-top: 6px;
-}
+.gform_wrapper.quote_form_wrapper .validation_message { color: #fff; font-size: 13px; position: absolute; bottom: -17px; }
 
 
 
@@ -527,7 +519,13 @@ section.room-listing .bedroom-tabs { justify-content: center; }
 .sticky-cart-container.foo-cart { bottom: 70px; }
 .sticky-cart-container.foo-cart a.sticky-cta-btn { border-radius: 50%; }
 .webcam-item { min-width: 100%; max-width: 100%; }
-	
+
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf { width: 50%; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { width: 100%; border-radius: 10px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(2) { border-radius: 10px 0 0 10px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3) { border-radius: 0 10px 10px 0; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4) { border-radius: 10px 0 0 10px; }
+
 }
 
 

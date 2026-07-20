@@ -1560,7 +1560,7 @@ jQuery(function ($) {
         setTimeout(function () { syncEnquiryBbfLock($scope); }, 600);
     }
 
-    $(document).on('click', '.enq_cta, .enquire_btn, .enq-btn-popup, .sticky-cta-btn.enq-btn-popup', function (e) {
+    $(document).on('click', '.enq_cta, .enquire_btn, .enq-btn-popup', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -1595,11 +1595,11 @@ jQuery(function ($) {
             return;
         }
 
-        // Single-room / sticky CTA (hotel-name / room-title attrs)
+        // Single-room Enquire Now (.enq-btn-popup)
         openEnquiryFromTrigger($btn);
     });
 
-    // Legacy sticky/CTA class: open modal when present, else /enquire/
+    // Sticky / legacy CTA → full enquire page (do not open on-page popup)
     $(document).on('click', '.enq-btn', function (e) {
         e.preventDefault();
         const $btn = $(this);
@@ -1610,11 +1610,6 @@ jQuery(function ($) {
         if (roomTitle) localStorage.setItem('enquiry_room_title', roomTitle);
         if (hotelName) localStorage.setItem('enquiry_hotel_name', hotelName);
         if (resortName) localStorage.setItem('enquiry_resort_name', resortName);
-
-        if ($('.Enquiry-modal').length) {
-            openEnquiryFromTrigger($btn);
-            return;
-        }
 
         window.location.href = '/enquire/';
     });

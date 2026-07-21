@@ -118,12 +118,9 @@ $is_price_exc = get_field('is_price_excluded');
 if( !$is_roomboss || $is_price_exc ){
     echo '<section class="full-section enquiry_form">';
         echo '<div class="container">';
-            // Same wrapper as listing/load-more enquiry so popup validation
-            // parking can find this form instance.
-            echo '<div class="acc_enquiry_form">';
-            echo get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]');
-            echo '</div>';
+            // Same structure as listing enquiry (title + description + form).
+            echo get_acc_enquiry_form();
         echo '</div>'; //container
-    echo '</section>'; // room-boss
+    echo '</section>'; // enquiry_form
 }
-?>
+?>  

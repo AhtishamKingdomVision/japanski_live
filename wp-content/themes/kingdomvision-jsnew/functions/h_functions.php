@@ -7975,11 +7975,28 @@ function get_enquiry_form_html( $form_shortcode = '[gravityform id="1" title="tr
         </div>';
 }
 
-function get_acc_enquiry_form(){
+// function get_acc_enquiry_form(){
+//     return '<div class="acc_enquiry_form">
+//         <div class="acc_enquiry_head">
+//             <h3>Skip the searching</h3>
+//             <p class="acc_enquiry_desc">Tell us a little more and our local experts will recommend the best available options.</p>
+//         </div>
+//         <div class="acc_enquiry_form_slot">
+//             ' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '
+//         </div>
+//     </div>';
+// }
+
+function get_acc_enquiry_form($title = 'Skip the searching', $description = 'Tell us a little more and our local experts will recommend the best available options.'){
+    $heading = '<h3>' . esc_html($title) . '</h3>';
+    $description_html = $description !== ''
+        ? '<p class="acc_enquiry_desc">' . esc_html($description) . '</p>'
+        : '';
+
     return '<div class="acc_enquiry_form">
         <div class="acc_enquiry_head">
-            <h3>Skip the searching</h3>
-            <p class="acc_enquiry_desc">Tell us a little more and our local experts will recommend the best available options.</p>
+            ' . $heading . '
+            ' . $description_html . '
         </div>
         <div class="acc_enquiry_form_slot">
             ' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '

@@ -118,8 +118,8 @@ $is_price_exc = get_field('is_price_excluded');
 if( !$is_roomboss || $is_price_exc ){
     echo '<section class="full-section enquiry_form">';
         echo '<div class="container">';
-            // Same structure as listing enquiry (title + description + form).
-            echo get_acc_enquiry_form();
+        // echo get_acc_enquiry_form();
+            echo get_acc_enquiry_form('Enquire Now', '');
         echo '</div>'; //container
     echo '</section>'; // enquiry_form
 }

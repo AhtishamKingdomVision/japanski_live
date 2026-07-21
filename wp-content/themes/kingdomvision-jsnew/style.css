@@ -2076,21 +2076,35 @@ body.single-accommodation #cta_with_bg_image0  { display: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf .guest_input span { color: #bfcfdf; border-radius: 0; border: none; background: none; padding: 0 0 0 5px; font-size: 14px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf input { color: #bfcfdf; border: none; background: none; border-radius: 0; padding: 0; font-size: 14px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { border-radius: 10px 0 0 10px; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5) { border-radius: 0 10px 10px 0; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5) { border-radius: 0 10px 10px 0; padding: 6px 8px; box-sizing: border-box; overflow: hidden; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:after { background: #1f3656; width: 1px; height: 30px; position: absolute; right: 0; top: 50%; transform: translateY(-50%); content: ""; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:before { position: absolute; left: 15px; font: 15px FontAwesome; top: 50%; transform: translateY(-50%); color: #bfcfdf; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child:before { content: "\f3c5"; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(2):before { content: "\f073"; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3):before { content: "\f073"; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4):before { content: "\f007"; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a { padding: 15px 0; color: #bfcfdf; font-size: 14px; display: flex; gap: 15px; align-items: center; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5):before,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5):after { display: none; content: none; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a { padding: 15px 0; color: #bfcfdf; font-size: 14px; display: flex; gap: 10px; align-items: center; background: none; border: none; border-radius: 0; box-shadow: none; margin: 0; text-decoration: none; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a.bbf-edit-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; max-width: 100%; box-sizing: border-box; padding: 8px 10px; margin: 0; min-height: 34px; border-radius: 8px; background: rgba(255, 255, 255, 0.1) !important; border: none !important; box-shadow: none !important; color: #fff !important; font-size: 12px; font-weight: 600; line-height: 1; white-space: nowrap; cursor: pointer; transition: background 0.2s ease; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a.bbf-edit-btn:hover,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a.bbf-edit-btn:focus { background: rgba(255, 255, 255, 0.18) !important; color: #fff !important; border: none !important; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a.bbf-edit-btn.is-editing { background: #db3242 !important; color: #fff !important; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a.bbf-edit-btn.is-editing:hover { background: #c02a38 !important; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a .bbf-toggle-track,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a .bbf-toggle-thumb { display: none !important; }
+.gform_wrapper.quote_form_wrapper.bbf-fields-locked .gfield.bbf input,
+.gform_wrapper.quote_form_wrapper.bbf-fields-locked .gfield.bbf select { cursor: default; opacity: 0.9; }
+.gform_wrapper.quote_form_wrapper.bbf-resort-locked .resort_name select,
+.gform_wrapper.quote_form_wrapper.bbf-resort-locked #input_1_66,
+.gform_wrapper.quote_form_wrapper.bbf-resort-locked select[name="input_66"] { cursor: not-allowed; opacity: 0.75; pointer-events: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf .gfield_validation_message { position: absolute; width: 100%; font-size: 10px; bottom: 2px; left: 28px; }
 
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf { padding: 0 0 0 25px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { padding: 0 0 0 30px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child::before { left: 12px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:before { left: 8px; font-size: 13px; }
-section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5) { padding: 0 0 0 10px; }
+section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5) { padding: 6px 8px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf select { font-size: 12px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf input { font-size: 12px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf .guest_input span { font-size: 12px; }

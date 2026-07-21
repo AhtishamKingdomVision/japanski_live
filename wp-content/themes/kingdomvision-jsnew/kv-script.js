@@ -1528,7 +1528,8 @@ jQuery(function ($) {
         // Prefer URL resort when on a resort page; otherwise use the selected property resort.
         const resortName = urlResortName || data.resortName || '';
         // Lock whenever resort is known (from URL or selected property).
-        setEnquiryResortField($resortField, resortName, !!resortName);
+        const lockResort = !!resortName;
+        setEnquiryResortField($resortField, resortName, lockResort);
 
         const $roomField = $scope.find('#input_1_44, .room_name input').first();
         if (data.roomName) {
@@ -1553,8 +1554,11 @@ jQuery(function ($) {
             $scope.find('.enquiry_type input').attr('value', 'Product').trigger('change');
         }
 
-        // Prefill → lock BBF bar until user clicks Change
-        $scope.find('.gform_wrapper.quote_form_wrapper').attr('data-bbf-unlocked', '0');
+        // Prefill → lock BBF bar until user clicks Change.
+        // Enquire Now: resort stays locked even after unlock (dates/guests editable).
+        $scope.find('.gform_wrapper.quote_form_wrapper')
+            .attr('data-bbf-unlocked', '0')
+            .attr('data-bbf-lock-resort', lockResort ? '1' : '0');
         syncEnquiryBbfLock($scope);
         setTimeout(function () { syncEnquiryBbfLock($scope); }, 200);
         setTimeout(function () { syncEnquiryBbfLock($scope); }, 600);
@@ -1661,11 +1665,21 @@ jQuery(function ($) {
         return !!(resort && checkIn && checkOut && hasGuests);
     }
 
+    function enquiryShouldLockResort($wrap) {
+        // Enquire Now modal/forms: keep resort fixed when it was prefilled.
+        if ($wrap.attr('data-bbf-lock-resort') === '1') return true;
+        if ($wrap.closest('.Enquiry-modal').length && $wrap.find('.resort_name select.disabled, #input_1_66.disabled, select[name="input_66"].disabled').length) {
+            return true;
+        }
+        return false;
+    }
+
     function setEnquiryBbfLocked($wrap, locked) {
         if (!$wrap || !$wrap.length) return;
 
         $wrap.toggleClass('bbf-fields-locked', !!locked);
         const f = getEnquiryBbfFields($wrap);
+        const keepResortLocked = enquiryShouldLockResort($wrap);
 
         if (locked) {
             f.$resort
@@ -1677,13 +1691,24 @@ jQuery(function ($) {
             f.$guests.attr('aria-disabled', 'true');
             $wrap.find('.eq-guests-popover').removeClass('open');
         } else {
-            f.$resort
-                .removeClass('disabled')
-                .attr('aria-disabled', 'false')
-                .attr('tabindex', '0');
+            // Dates + guests editable; resort stays locked on Enquire Now forms.
+            if (keepResortLocked) {
+                f.$resort
+                    .addClass('disabled')
+                    .attr('aria-disabled', 'true')
+                    .attr('tabindex', '-1')
+                    .prop('disabled', false);
+            } else {
+                f.$resort
+                    .removeClass('disabled')
+                    .attr('aria-disabled', 'false')
+                    .attr('tabindex', '0');
+            }
             f.$dates.prop('readonly', false).removeAttr('tabindex');
             f.$guests.removeAttr('aria-disabled');
         }
+
+        $wrap.toggleClass('bbf-resort-locked', keepResortLocked);
     }
 
     function syncEnquiryBbfLock($from) {
@@ -1734,36 +1759,50 @@ jQuery(function ($) {
         setTimeout(function () { syncEnquiryBbfLock($wrap); }, 50);
     });
 
-    // Change ⇄ Done toggle: sirf link ka text node badlo (icon safe rahe)
-    function setBbfToggleText($a, text) {
-        const textNode = $a.contents().filter(function () {
-            return this.nodeType === 3 && this.nodeValue.trim().length;
-        }).first();
-        if (textNode.length) {
-            textNode[0].nodeValue = text;
+    // Edit ⇄ Confirm toggle button (no switch knob)
+    function setBbfToggleText($a, text, unlocked) {
+        if (!$a || !$a.length) return;
+
+        $a.addClass('bbf-edit-btn')
+            .toggleClass('is-editing', !!unlocked)
+            .attr({ role: 'button', 'aria-pressed': unlocked ? 'true' : 'false', href: 'javascript:void(0)' });
+        $a.find('.bbf-toggle-track, .bbf-toggle-thumb, .bbf-toggle-label').remove();
+
+        const $icons = $a.children('i, svg, img, .fa, [class*="icon"], [class*="pencil"]').detach();
+        $a.contents().filter(function () { return this.nodeType === 3; }).remove();
+        $a.prepend(document.createTextNode(text + ' '));
+
+        if ($icons.length) {
+            $a.append($icons);
         } else {
-            $a.prepend(document.createTextNode(text + ' '));
+            $a.append(unlocked
+                ? '<i class="fa fa-check" aria-hidden="true"></i>'
+                : '<i class="fa fa-pencil" aria-hidden="true"></i>');
         }
+
+        $a.find('i.fa, i[class*="fa-"]').first()
+            .removeClass('fa-pencil fa-check fa-pen')
+            .addClass(unlocked ? 'fa-check' : 'fa-pencil');
     }
 
     function getBbfToggleLink($wrap) {
-        return $wrap.find('.gfield.bbf a, .gfield a').filter(function () {
-            return /change|done/i.test(($(this).text() || ''));
+        return $wrap.find('.gfield.bbf a.bbf-edit-btn, .gfield.bbf a, .gfield a').filter(function () {
+            return $(this).hasClass('bbf-edit-btn') || /edit|confirm|change|done/i.test(($(this).text() || ''));
         }).first();
     }
 
-    // Label ko lock state ke sath sync rakho: locked → "Change", unlocked → "Done"
+    // locked → "Edit", unlocked → "Confirm"
     function refreshBbfToggleLabel($wrap) {
         const $a = getBbfToggleLink($wrap);
         if (!$a.length) return;
         const unlocked = $wrap.attr('data-bbf-unlocked') === '1';
-        setBbfToggleText($a, unlocked ? 'Done' : 'Change');
+        setBbfToggleText($a, unlocked ? 'Confirm' : 'Edit', unlocked);
     }
 
-    // Change → editable, Done → wapis lock
+    // Edit → editable, Confirm → wapis lock
     $(document).on('click', '.gform_wrapper.quote_form_wrapper .gfield a', function (e) {
         const label = ($(this).text() || '').replace(/\s+/g, ' ').trim();
-        if (!/change|done/i.test(label)) return;
+        if (!/edit|confirm|change|done/i.test(label)) return;
 
         e.preventDefault();
         e.stopPropagation();
@@ -1772,11 +1811,11 @@ jQuery(function ($) {
         const isUnlocked = $wrap.attr('data-bbf-unlocked') === '1';
 
         if (isUnlocked) {
-            // Done → agar sari fields filled hain to lock, warna editable rehne do
+            // Confirm → agar sari fields filled hain to lock
             $wrap.attr('data-bbf-unlocked', '0');
             syncEnquiryBbfLock($wrap);
         } else {
-            // Change → editable
+            // Edit → dates/guests editable (resort may stay locked on Enquire Now)
             $wrap.attr('data-bbf-unlocked', '1');
             setEnquiryBbfLocked($wrap, false);
         }
@@ -1784,7 +1823,7 @@ jQuery(function ($) {
         refreshBbfToggleLabel($wrap);
     });
 
-    // Block dateDropper / select while locked
+    // Block dateDropper / select while BBF bar is locked
     $(document).on('mousedown focus click', '.bbf-fields-locked .gfield.bbf input, .bbf-fields-locked .gfield.bbf select', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -1792,10 +1831,25 @@ jQuery(function ($) {
         return false;
     });
 
-    // Initial sync for already-filled forms
+    // Enquire Now: resort never editable even when BBF unlocked
+    $(document).on('mousedown focus click keydown', '.gform_wrapper[data-bbf-lock-resort="1"] .resort_name select, .gform_wrapper[data-bbf-lock-resort="1"] #input_1_66, .gform_wrapper[data-bbf-lock-resort="1"] select[name="input_66"]', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $(this).blur();
+        return false;
+    });
+
+    function initAllBbfToggles() {
+        $('.gform_wrapper.quote_form_wrapper').each(function () {
+            refreshBbfToggleLabel($(this));
+        });
+    }
+    window.kvInitAllBbfToggles = initAllBbfToggles;
+
     syncEnquiryBbfLock();
-    setTimeout(function () { syncEnquiryBbfLock(); }, 300);
-    setTimeout(function () { syncEnquiryBbfLock(); }, 1000);
+    initAllBbfToggles();
+    setTimeout(function () { syncEnquiryBbfLock(); initAllBbfToggles(); }, 300);
+    setTimeout(function () { syncEnquiryBbfLock(); initAllBbfToggles(); }, 1000);
 
     // ahtisham work end
 
@@ -2644,6 +2698,9 @@ jQuery(function ($) {
 
             if (typeof window.kvSyncEnquiryBbfLock === 'function') {
                 window.kvSyncEnquiryBbfLock();
+            }
+            if (typeof window.kvInitAllBbfToggles === 'function') {
+                window.kvInitAllBbfToggles();
             }
 
             // Keep popup open after validation, and restore the parked (unused) form

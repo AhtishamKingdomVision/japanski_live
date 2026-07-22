@@ -240,6 +240,11 @@ function build_third_party_body( $entry ) {
 
     cf_log( $entry, 'entry' );
 
+    $resort_name = trim( (string) rgar( $entry, $field_map['resort_name'] ) );
+    $resort_id   = function_exists( 'kv_get_bs_resort_id_by_name' )
+        ? kv_get_bs_resort_id_by_name( $resort_name )
+        : '';
+
     return [
 
         'full_name'      => rgar( $entry, $field_map['first_name'] ) .' '. rgar( $entry, $field_map['last_name'] ),
@@ -252,9 +257,9 @@ function build_third_party_body( $entry ) {
 
         'phone_number'   => rgar( $entry, $field_map['phone'] ),
 
-        'resort_name'    => rgar( $entry, $field_map['resort_name'] ),
+        'resort_name'    => $resort_name,
 
-        'resort_id'      => '',
+        'resort_id'      => $resort_id,
 
         'check_in'       => $check_in,
 
@@ -287,6 +292,77 @@ function build_third_party_body( $entry ) {
         'enquiry_type'   => $enquiry_type,
 
     ];
+
+}
+
+
+
+/**
+
+ * Resolve booking-system resort_id from Gravity Forms resort name/slug.
+
+ *
+
+ * @param string $resort_name e.g. Niseko, niseko-accommodation
+
+ * @return string|int Empty string when not found
+
+ */
+
+function kv_get_bs_resort_id_by_name( $resort_name ) {
+
+    $resort_name = trim( (string) $resort_name );
+
+    if ( $resort_name === '' ) {
+
+        return '';
+
+    }
+
+    $normalized = strtolower( trim( preg_replace(
+        '/[\s-]*accommodation$/i',
+        '',
+        str_replace( '-', ' ', $resort_name )
+    ) ) );
+
+    if ( $normalized === '' || $normalized === 'all' ) {
+
+        return '';
+
+    }
+
+    $terms = get_terms( [
+        'taxonomy'   => 'accommodation-cat',
+        'parent'     => 0,
+        'hide_empty' => false,
+    ] );
+
+    if ( is_wp_error( $terms ) || empty( $terms ) ) {
+
+        return '';
+
+    }
+
+    foreach ( $terms as $term ) {
+
+        $term_name = strtolower( trim( str_ireplace( ' Accommodation', '', $term->name ) ) );
+        $term_slug = strtolower( str_replace( [ '-accommodation', '-' ], [ '', ' ' ], $term->slug ) );
+
+        if ( $term_name === $normalized || $term_slug === $normalized ) {
+
+            $resort_id = get_field( 'bs_resort_id', 'term_' . $term->term_id );
+
+            if ( ! empty( $resort_id ) ) {
+
+                return $resort_id;
+
+            }
+
+        }
+
+    }
+
+    return '';
 
 }
 

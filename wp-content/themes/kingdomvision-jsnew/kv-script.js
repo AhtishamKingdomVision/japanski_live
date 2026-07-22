@@ -1446,42 +1446,168 @@ jQuery(function ($) {
         }) || null;
     }
 
-    // Only treat URLs like /hakuba/accommodation/ as a locked resort page.
-    // Plain /accommodation/ must NOT lock the Resort field.
-    function getUrlResortName($resortField) {
-        const options = getResortOptions($resortField);
-        const path = window.location.pathname.toLowerCase();
+    // Resolve a resort name from any pathname (current page or document.referrer).
+    // Supports /hakuba/accommodation/, /hakuba-accommodation/, and /hakuba/...
+    // Plain /accommodation/ or /enquire/ → empty (no default).
+    function getResortNameFromPath(pathname, options) {
+        options = options || [];
+        const path = String(pathname || '').toLowerCase();
         const pathParts = path.split('/').filter(Boolean);
 
-        // /accommodation/ or /.../accommodation/ with no resort segment before it
+        if (!pathParts.length) {
+            return '';
+        }
+
+        // Never treat the enquire page itself as a resort source.
+        if (pathParts[0] === 'enquire' || pathParts[0] === 'get-a-quote') {
+            return '';
+        }
+
         const accommodationIndex = pathParts.findIndex(function (part) {
             return part === 'accommodation' || part.endsWith('-accommodation');
         });
 
-        if (accommodationIndex === -1) {
-            return '';
-        }
-
-        // Exact "/accommodation/" root listing — never lock from URL
-        if (pathParts[accommodationIndex] === 'accommodation') {
-            const previous = accommodationIndex > 0 ? pathParts[accommodationIndex - 1] : '';
-            if (!previous) {
-                return '';
+        if (accommodationIndex !== -1) {
+            // Exact "/accommodation/" root listing — no resort in URL
+            if (pathParts[accommodationIndex] === 'accommodation') {
+                const previous = accommodationIndex > 0 ? pathParts[accommodationIndex - 1] : '';
+                if (!previous) {
+                    return '';
+                }
+                const match = matchResortOption(options, previous);
+                return match ? (match.rawValue || match.value || match.text) : '';
             }
 
-            // /hakuba/accommodation/...
-            const match = matchResortOption(options, previous);
-            return match ? (match.rawValue || match.value || match.text) : '';
+            // /hakuba-accommodation/...
+            if (pathParts[accommodationIndex].endsWith('-accommodation')) {
+                const slugResort = pathParts[accommodationIndex].replace(/-accommodation$/, '');
+                const match = matchResortOption(options, slugResort);
+                return match ? (match.rawValue || match.value || match.text) : '';
+            }
         }
 
-        // /hakuba-accommodation/...
-        if (pathParts[accommodationIndex].endsWith('-accommodation')) {
-            const slugResort = pathParts[accommodationIndex].replace(/-accommodation$/, '');
-            const match = matchResortOption(options, slugResort);
-            return match ? (match.rawValue || match.value || match.text) : '';
-        }
+        // /niseko/ or /niseko/things-to-do/ — first segment matched against resort options
+        const first = pathParts[0];
+        const matchFirst = matchResortOption(options, first);
+        return matchFirst ? (matchFirst.rawValue || matchFirst.value || matchFirst.text) : '';
+    }
 
+    // Only treat URLs like /hakuba/accommodation/ as a locked resort page.
+    // Plain /accommodation/ must NOT lock the Resort field.
+    function getUrlResortName($resortField) {
+        const options = getResortOptions($resortField);
+        return getResortNameFromPath(window.location.pathname, options);
+    }
+
+    // When landing on /enquire/, map resort from the previous page URL if it had one.
+    function getReferrerResortName($resortField) {
+        try {
+            const ref = document.referrer;
+            if (!ref) return '';
+            const url = new URL(ref);
+            if (url.origin !== window.location.origin) return '';
+            return getResortNameFromPath(url.pathname, getResortOptions($resortField));
+        } catch (e) {
+            return '';
+        }
+    }
+
+    // One-shot handoff from sticky CTA / .enq-btn (not search-card sb_resort).
+    // Kept in memory for this page load so multiple form renders can reuse it.
+    var _enquiryResortHandoff = null;
+
+    function consumeStashedEnquiryResort() {
+        if (_enquiryResortHandoff !== null) {
+            return _enquiryResortHandoff;
+        }
+        let stored = '';
+        try {
+            stored = sessionStorage.getItem('enquiry_resort_name') || '';
+            sessionStorage.removeItem('enquiry_resort_name');
+        } catch (e) { /* ignore */ }
+        if (!stored) {
+            stored = localStorage.getItem('enquiry_resort_name') || '';
+        }
+        localStorage.removeItem('enquiry_resort_name');
+        _enquiryResortHandoff = stored;
+        return _enquiryResortHandoff;
+    }
+
+    function stashEnquiryResortName(resortName) {
+        const value = (resortName || '').toString().trim();
+        _enquiryResortHandoff = null;
+        if (value) {
+            try { sessionStorage.setItem('enquiry_resort_name', value); } catch (e) { /* ignore */ }
+            localStorage.setItem('enquiry_resort_name', value);
+        } else {
+            try { sessionStorage.removeItem('enquiry_resort_name'); } catch (e) { /* ignore */ }
+            localStorage.removeItem('enquiry_resort_name');
+        }
+    }
+
+    function getSavedSearchResort() {
+        const live = ($('.js-sb-resort').first().val() || '').toString().trim();
+        if (live && live.toLowerCase() !== 'all') {
+            return live;
+        }
+        let saved = localStorage.getItem('sb_resort') || '';
+        if (saved.toLowerCase() === 'all') saved = '';
+        return saved;
+    }
+
+    function isBareEnquirePage() {
+        const parts = window.location.pathname.toLowerCase().split('/').filter(Boolean);
+        return parts[0] === 'enquire' || parts[0] === 'get-a-quote';
+    }
+
+    function hasSameOriginReferrer() {
+        try {
+            if (!document.referrer) return false;
+            return new URL(document.referrer).origin === window.location.origin;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function resolvePageResortForEnquiry($btn) {
+        const fromAttr = (($btn && $btn.attr('resort-name')) || '').toString().trim();
+        if (fromAttr) return fromAttr;
+
+        const $field = $('#input_1_66, select[name="input_66"], .resort_name select, .js-sb-resort').first();
+        const options = $field.length ? getResortOptions($field) : [];
+        const fromPath = getResortNameFromPath(window.location.pathname, options);
+        if (fromPath) return fromPath;
+
+        const searchResort = getSavedSearchResort();
+        if (searchResort) return searchResort;
+
+        if (!options.length) {
+            return getResortNameFromPath(window.location.pathname, [
+                { value: 'Niseko', text: 'Niseko', rawValue: 'Niseko' },
+                { value: 'Hakuba', text: 'Hakuba', rawValue: 'Hakuba' },
+                { value: 'Furano', text: 'Furano', rawValue: 'Furano' },
+                { value: 'Rusutsu', text: 'Rusutsu', rawValue: 'Rusutsu' },
+                { value: 'Kiroro', text: 'Kiroro', rawValue: 'Kiroro' },
+                { value: 'Tokyo', text: 'Tokyo', rawValue: 'Tokyo' }
+            ]) || '';
+        }
         return '';
+    }
+
+    function getEnquiryPrefillResort($resortField) {
+        const stored = consumeStashedEnquiryResort();
+        const urlResort = getUrlResortName($resortField);
+        const refResort = getReferrerResortName($resortField);
+        if (stored || urlResort || refResort) {
+            return stored || urlResort || refResort;
+        }
+
+        const searchResort = getSavedSearchResort();
+        // /enquire/ direct open → no default. Same-origin navigation or blog/other pages → map search resort.
+        if (isBareEnquirePage()) {
+            return hasSameOriginReferrer() ? searchResort : '';
+        }
+        return searchResort;
     }
 
     function setEnquiryResortField($resortField, resortName, isLocked) {
@@ -1609,13 +1735,37 @@ jQuery(function ($) {
         const $btn = $(this);
         const roomTitle = $btn.attr('room-title') || '';
         const hotelName = $btn.attr('hotel-name') || '';
-        const resortName = $btn.attr('resort-name') || '';
+        const resortName = resolvePageResortForEnquiry($btn);
 
         if (roomTitle) localStorage.setItem('enquiry_room_title', roomTitle);
         if (hotelName) localStorage.setItem('enquiry_hotel_name', hotelName);
-        if (resortName) localStorage.setItem('enquiry_resort_name', resortName);
+        // Map resort from previous page URL when present; clear when not (no default on /enquire/).
+        stashEnquiryResortName(resortName);
 
         window.location.href = '/enquire/';
+    });
+
+    // Sticky CTA link (non-.enq-btn) → /enquire/: stash resort from current URL first.
+    $(document).on('click', 'a.sticky-cta-btn', function () {
+        const $btn = $(this);
+        if ($btn.hasClass('enq-btn')) return; // handled above
+
+        const href = ($btn.attr('href') || '').toString();
+        if (!/\/enquire\/?/i.test(href)) return;
+
+        stashEnquiryResortName(resolvePageResortForEnquiry($btn));
+    });
+
+    // Header/search resort → map into empty enquiry Resort fields (blog sidebar, etc.).
+    $(document).on('change', '.js-sb-resort', function () {
+        const resortName = ($(this).val() || '').toString().trim();
+        if (!resortName || resortName.toLowerCase() === 'all') return;
+
+        $('.gform_wrapper.quote_form_wrapper, .mob_quote_form1, .acc_enquiry_form').each(function () {
+            const $resortField = $(this).find('#input_1_66, select[name="input_66"], .resort_name select').first();
+            if (!$resortField.length || $resortField.val()) return;
+            setEnquiryResortField($resortField, resortName, false);
+        });
     });
 
     $(document).on('mousedown keydown', '.resort_name select.disabled, #input_1_66.disabled, select[name="input_66"].disabled', function (e) {
@@ -2649,20 +2799,16 @@ jQuery(function ($) {
 
             $(CHECKOUT_SEL).prop('disabled', false);
 
-            // Prefill the enquiry Resort field (GF field 66) from the resort page URL
-            // (e.g. /niseko/accommodation/) or the saved search resort, mirroring how
-            // check-in/check-out are prefilled above. Never override an existing choice.
+            // Prefill Resort only from URL / sticky handoff / referrer — never sb_resort default.
+            // Direct /enquire/ with no prior resort page → leave unselected.
             $('.mob_quote_form1, .gform_wrapper.quote_form_wrapper, .acc_enquiry_form').each(function () {
                 const $resortField = $(this).find('#input_1_66, select[name="input_66"], .resort_name select').first();
                 if (!$resortField.length || $resortField.val()) return;
 
-                const urlResort = getUrlResortName($resortField);
-                let savedResort = localStorage.getItem('sb_resort') || '';
-                if (savedResort.toLowerCase() === 'all') savedResort = '';
-
-                const resortName = urlResort || savedResort;
+                const resortName = getEnquiryPrefillResort($resortField);
                 if (resortName) {
-                    setEnquiryResortField($resortField, resortName, !!urlResort);
+                    const lockFromUrl = !!(getUrlResortName($resortField) || getReferrerResortName($resortField));
+                    setEnquiryResortField($resortField, resortName, lockFromUrl);
                 }
             });
 
@@ -3226,7 +3372,7 @@ jQuery(function ($) {
 
 
 
-    // Populate quote form with room and hotel details from localStorage
+    // Populate quote form with room/hotel/resort from sticky CTA handoff or referrer URL.
 
     if ($('form.quote_form').length) {
 
@@ -3234,7 +3380,8 @@ jQuery(function ($) {
 
         const hotelName = localStorage.getItem('enquiry_hotel_name') ?? '';
 
-        const resortName = localStorage.getItem('enquiry_resort_name') ?? '';
+        const $resortField = $('#input_1_66, select[name="input_66"], .resort_name select').first();
+        const resortName = getEnquiryPrefillResort($resortField);
 
 
 
@@ -3252,11 +3399,9 @@ jQuery(function ($) {
 
         }
 
-        if (resortName) {
+        if (resortName && $resortField.length) {
 
-            $('#input_1_66, select[name="input_66"], .resort_name select').val(resortName);
-
-            $('#input_1_66, select[name="input_66"], .resort_name select').addClass('disabled');
+            setEnquiryResortField($resortField, resortName, !!(hotelName || roomTitle));
 
         }
 
@@ -3266,17 +3411,15 @@ jQuery(function ($) {
 
 
 
-
-
             localStorage.removeItem('enquiry_room_title');
 
             localStorage.removeItem('enquiry_hotel_name');
 
-            localStorage.removeItem('enquiry_resort_name');
 
 
-
-            $('.enquiry_type input').attr('value', 'Product');
+            if (roomTitle || hotelName) {
+                $('.enquiry_type input').attr('value', 'Product');
+            }
 
 
 

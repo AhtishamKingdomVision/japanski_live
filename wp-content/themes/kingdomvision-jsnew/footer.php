@@ -138,9 +138,15 @@ if ($sticky_ctas) {
 $attr = '';
 if( !empty($matched_cta) ){ 
     // Sticky CTA should go to /enquire/ (legacy .enq-btn), not open the on-page popup.
-    $attr = $current_pt == 'accommodation'
-        ? 'class="sticky-cta-btn enq-btn" hotel-name="'.esc_attr(get_the_title()).'" room-title=""'
-        : 'class="sticky-cta-btn" href="'.esc_url($matched_cta['url']).'"';
+    if ( $current_pt == 'accommodation' ) {
+        $sticky_resort = '';
+        if ( function_exists( 'hz_get_parent_category' ) ) {
+            $sticky_resort = str_replace( ' Accommodation', '', (string) hz_get_parent_category( get_the_ID() ) );
+        }
+        $attr = 'class="sticky-cta-btn enq-btn" hotel-name="'.esc_attr(get_the_title()).'" room-title="" resort-name="'.esc_attr( $sticky_resort ).'"';
+    } else {
+        $attr = 'class="sticky-cta-btn" href="'.esc_url($matched_cta['url']).'"';
+    }
     ?>
     <!-- This is the Sticky CTA HTML -->
     <div class="sticky-cta-container">

@@ -53,7 +53,7 @@ function theme_files()
     wp_enqueue_script('hz-essentials');
 
     // KV-Script — version bump so WP Rocket minify cannot keep a stale bundle
-    $kv_script_ver = (string) filemtime(get_template_directory().'/kv-script.js') . '-enq5';
+    $kv_script_ver = (string) filemtime(get_template_directory().'/kv-script.js') . '-enq-resort2';
     wp_register_script('kv-script', get_template_directory_uri() . '/kv-script.js', array('jquery'), $kv_script_ver, true);
 	wp_enqueue_script('kv-script');
 

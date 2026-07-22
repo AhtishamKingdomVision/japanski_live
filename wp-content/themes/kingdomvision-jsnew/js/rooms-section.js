@@ -1283,13 +1283,15 @@
 
             cart.items.forEach((it, idx) => {
 
-                const price   = Number(it.price || 0);
+                const pricesExcluded = !!it.prices_excluded;
+
+                const price   = pricesExcluded ? 0 : Number(it.price || 0);
 
                 subtotal     += price;
 
-                const deposit = Number(it.payment?.depositAmount    || 0);
+                const deposit = pricesExcluded ? 0 : Number(it.payment?.depositAmount    || 0);
 
-                const balance = Number(it.payment?.balanceDueAmount || (price - deposit));
+                const balance = pricesExcluded ? 0 : Number(it.payment?.balanceDueAmount || (price - deposit));
 
                 totalDeposit += deposit;
 
@@ -1299,7 +1301,7 @@
 
                 const totalPax      = (it.guests?.adults || 0) + (it.guests?.children || 0) + (it.guests?.infants || 0);
 
-                const formattedPrice = '¥' + price.toLocaleString('ja-JP');
+                const formattedPrice = pricesExcluded ? '' : ('¥' + price.toLocaleString('ja-JP'));
 
 
 
@@ -1320,6 +1322,8 @@
 
 
                 let paymentHtml = '';
+
+                if (!pricesExcluded) {
 
                 if (deposit > 0) {
 
@@ -1367,6 +1371,8 @@
 
                 }
 
+                }
+
 
 
                 html += `<div class="rb-summary-card" data-idx="${idx}">
@@ -1387,7 +1393,7 @@
 
                             <div class="rb-summary-price-wrap">
 
-                                <div class="rb-summary-price">${formattedPrice}</div>
+                                ${formattedPrice ? `<div class="rb-summary-price">${formattedPrice}</div>` : ''}
 
                                 <button type="button" class="rb-remove" title="Remove"></button>
 
@@ -1431,6 +1437,10 @@
 
             let footerHtml = '';
 
+            const anyPriced = cart.items.some(function (it) { return !it.prices_excluded && Number(it.price || 0) > 0; });
+
+            if (anyPriced) {
+
             if (cart.items.length > 1) {
 
                 footerHtml += `<div class="rb-total-row rb-subtotal-row">
@@ -1465,6 +1475,7 @@
 
             </div>`;
 
+            }
 
 
             $footer.html(footerHtml).show();
@@ -1860,7 +1871,9 @@
 
                         rateplan_name:   roomData.ratePlanName,
 
-                        price:           roomData.priceRetail,
+                        price:           roomData.pricesExcluded ? 0 : roomData.priceRetail,
+
+                        prices_excluded: !!roomData.pricesExcluded,
 
                         discount_type:   roomData.discountType || null,
 

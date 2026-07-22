@@ -57,7 +57,12 @@ try {
             }
 
     }
-    $price = ($db_price > 0) ? $db_price : $rb_price;
+    // Prefer live search price when available so BedBank rates show when
+    // "Exclude prices" is unchecked.
+    $price = max((float) $db_price, (float) $rb_price);
+    $is_price_excluded = function_exists('kv_is_price_excluded')
+        ? kv_is_price_excluded($post_id)
+        : (get_post_meta($post_id, 'is_price_excluded', true) === '1');
 
     $areas_display = implode(', ', $display_categories);
 
@@ -133,7 +138,7 @@ if (!empty($post_title)) : ?>
             <h3><?php echo esc_html($post_title); ?></h3>
 
             <!-- Price Display -->
-            <?php if ( $price > 0 && get_post_meta( $post_id, 'is_price_excluded', true ) !== '1' ) : 
+            <?php if ( $price > 0 && ! $is_price_excluded ) : 
                 
                 $checkin_str = isset( $_POST['checkin'] ) ? $_POST['checkin'] : '';
                 $checkout_str = isset( $_POST['checkout'] ) ? $_POST['checkout'] : '';
@@ -155,7 +160,7 @@ if (!empty($post_title)) : ?>
                     $guests = isset( $_POST['guests'] ) ? $_POST['guests'] : 0;
                 }
                 ?>
-                <p class="price" excl="<?php echo get_post_meta( $post_id, 'is_price_excluded', true ) === '1' ? '1' : '0'; ?>">
+                <p class="price" excl="0">
                     JPY <?php echo number_format_i18n((float) $price); if( $nights > 0 ):?>
                     <span class="num_nights">&nbsp; &nbsp;<?php echo $nights; ?> Nights</span> <?php endif; ?> &middot; <span class="num_guests"><?php echo $guests; ?> Guests </span>
                 </p>

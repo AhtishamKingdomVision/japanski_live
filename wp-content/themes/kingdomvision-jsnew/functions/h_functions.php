@@ -1765,7 +1765,9 @@ function hz_get_roomboss_data() {
 
             $acc_html .= '<div class="acc_title"><h3>' . esc_html($hotel_title) . '</h3></div>';
 
-            $acc_html .= '<div class="acc_min_price"><p>From: ' . _currency_format_new($get_min_room_price, true) . '</p> /night</div>';
+            if ( ! empty( $get_min_room_price ) && get_post_meta( $acc_id, 'is_price_excluded', true ) !== '1' ) {
+                $acc_html .= '<div class="acc_min_price"><p>From: ' . _currency_format_new($get_min_room_price, true) . '</p> /night</div>';
+            }
 
             $acc_html .= '<div class="acc_short_esc">';
 
@@ -2045,7 +2047,9 @@ function hz_get_roomboss_data() {
 
             $html .= '<div class="acc_title"><h3>' . esc_html($title) . '</h3></div>';
 
-            $html .= '<div class="acc_min_price"><p>From: ' . _currency_format_new($get_min_room_price, true) . '</p> /night</div>';
+            if ( ! empty( $get_min_room_price ) && get_post_meta( $acc_id, 'is_price_excluded', true ) !== '1' ) {
+                $html .= '<div class="acc_min_price"><p>From: ' . _currency_format_new($get_min_room_price, true) . '</p> /night</div>';
+            }
 
             $html .= '<div class="short_esc">';
 
@@ -6658,10 +6662,14 @@ function render_rooms_section($atts) {
             </div>
 
             <?php
-            // Always show Check Rates on the property page so BedBank can load
-            // live ActualPrice rows. is_price_excluded still controls card CTAs
-            // (Enquire Now) and listing price display elsewhere.
-            echo do_shortcode('[SingleResortFilters post_id="' . $post_id . '"]');
+            // Exclude prices: hide Check Rates / date search filter; rooms use Enquire Now.
+            $is_price_excluded = function_exists('kv_is_price_excluded')
+                ? kv_is_price_excluded($post_id)
+                : (get_post_meta($post_id, 'is_price_excluded', true) === '1');
+
+            if (!$is_price_excluded) {
+                echo do_shortcode('[SingleResortFilters post_id="' . $post_id . '"]');
+            }
             ?>
 
             <div class="rooms-wrap">
@@ -6686,7 +6694,17 @@ function render_rooms_section($atts) {
 
                 </div>
 
-                <?php if ($is_roomboss): ?>
+                <?php if ($is_price_excluded): ?>
+
+                    <div class="available_units" data-bedbank-status="enquiry-only">
+
+                        <span class="units_avl"><?php echo (int) $total_room_count; ?></span>
+                        unit type<?php echo $total_room_count > 1 ? 's' : ''; ?> available —
+                        prices on request. Click Enquire Now and our team will confirm availability.
+
+                    </div>
+
+                <?php elseif ($is_roomboss): ?>
 
                     <div class="available_units">
 
@@ -6740,7 +6758,13 @@ function render_rooms_section($atts) {
 
                                 foreach ($rooms as $room) :
 
-                                    get_template_part('partials/room-box', null, ['room' => $room, 'rb' => $show_roomboss_cta, 'property_id' => $property_id]);
+                                    get_template_part('partials/room-box', null, [
+                                        'room' => $room,
+                                        'rb' => $show_roomboss_cta,
+                                        'property_id' => $property_id,
+                                        'acc_id' => $post_id,
+                                        'force_enquire' => $is_price_excluded,
+                                    ]);
 
                                 endforeach;
 
@@ -7153,6 +7177,32 @@ function hz_get_allowed_accommodation_areas($post_id)
 
 
     return $display_categories;
+
+}
+
+
+
+/**
+
+ * Whether accommodation has "Exclude prices" checked in admin.
+
+ * Only trust checkbox meta saved as '1' (avoid ACF default false-positives).
+
+ */
+
+function kv_is_price_excluded( $post_id ) {
+
+    $post_id = (int) $post_id;
+
+    if ( $post_id <= 0 ) {
+
+        return false;
+
+    }
+
+
+
+    return get_post_meta( $post_id, 'is_price_excluded', true ) === '1';
 
 }
 

@@ -97,9 +97,11 @@ try {
     <!-- Action Button -->
     <?php
     if (empty($page_type) || $page_type != 'booking') {
-        // BedBank with live rates → Request Booking; RoomBoss price-excluded → Enquire Now.
-        $is_price_excluded = (get_post_meta($acc_id, 'is_price_excluded', true) === '1');
-        if ($is_roomboss && $is_price_excluded) : ?>
+        // Exclude prices → Enquire Now popup (RoomBoss + BedBank).
+        $is_price_excluded = function_exists('kv_is_price_excluded')
+            ? kv_is_price_excluded($acc_id)
+            : (get_post_meta($acc_id, 'is_price_excluded', true) === '1');
+        if ($is_price_excluded) : ?>
             <button bookingPermission="<?php echo $bookingPermission ?>" class="btn enq-btn-popup bedbank_btn" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>">Enquire Now</button>
         <?php elseif ($is_roomboss) :
             if (!empty($bookingPermission)) :

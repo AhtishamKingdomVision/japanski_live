@@ -28,9 +28,12 @@ try {
     }
 
     // ✅ STEP 2: Get accommodation post ID for related data
-    $acc_id = 0;
-    if (!empty($property_id)) {
-        $acc_id = get_post_id_by_typeId($property_id, 'accommodation');
+    $acc_id = !empty($args['acc_id']) ? (int) $args['acc_id'] : 0;
+    if ($acc_id <= 0 && !empty($property_id)) {
+        $acc_id = (int) get_post_id_by_typeId($property_id, 'accommodation');
+    }
+    if ($acc_id <= 0 && is_singular('accommodation')) {
+        $acc_id = (int) get_the_ID();
     }
 
     // ✅ STEP 3: Extract and sanitize room details from ACF
@@ -170,13 +173,12 @@ try {
             <!-- Action Buttons -->
             <div class="room-btns">
                 <?php
-                // BedBank: rates available → Request Booking (loads prices).
-                // No live rates (fallback) → Enquire Now via force_enquire.
-                // is_price_excluded only forces Enquire Now for RoomBoss.
+                // Exclude prices / force_enquire → Enquire Now popup (no Request Booking).
                 $force_enquire = !empty($args['force_enquire']);
-                $is_price_excluded = (get_post_meta($acc_id, 'is_price_excluded', true) === '1');
+                $is_price_excluded = $force_enquire
+                    || (function_exists('kv_is_price_excluded') ? kv_is_price_excluded($acc_id) : (get_post_meta($acc_id, 'is_price_excluded', true) === '1'));
 
-                if ($force_enquire || ($is_roomboss && $is_price_excluded)) : ?>
+                if ($is_price_excluded) : ?>
                     <button bookingPermission="<?php echo $bookingPermission ?>" class="btn bedbank_btn enq-btn-popup" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>" >Enquire Now</button>
                 <?php elseif ($is_roomboss) :
                         if (!empty($bookingPermission)) :

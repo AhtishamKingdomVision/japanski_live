@@ -188,6 +188,14 @@ if (!$mode_resolved && (!empty($wp_property_id) || !empty($propertyId))) {
 }
 $property_is_bedbank = !$is_roomboss;
 
+// Admin "Exclude prices" checkbox — hide website prices (BedBank + RoomBoss).
+$is_price_excluded = false;
+if (!empty($wp_property_id)) {
+    $is_price_excluded = function_exists('kv_is_price_excluded')
+        ? kv_is_price_excluded((int) $wp_property_id)
+        : (get_post_meta((int) $wp_property_id, 'is_price_excluded', true) === '1');
+}
+
 
 $accommodationSetting = @$property['AccommodationSetting'] ?? [];
 
@@ -1440,6 +1448,7 @@ if (!empty($wp_property_id)) {
                                         <div class="rb-room-price">
 
 
+                                            <?php if (empty($is_price_excluded) && $priceRetail > 0) : ?>
                                             <div class="rb-final-price"
 
 
@@ -1450,6 +1459,7 @@ if (!empty($wp_property_id)) {
 
 
                                             </div>
+                                            <?php endif; ?>
 
 
                                         </div>
@@ -1487,8 +1497,8 @@ if (!empty($wp_property_id)) {
 
                                                 <?php
 
-
-                                                if ($accomPayTerm['isDeposit'] && $accomPayTerm['isNightFee'] && $accomPayTerm['noOfNights'] > 0) {
+                                                // Exclude prices: do not render deposit / due amounts on site.
+                                                if (empty($is_price_excluded) && $accomPayTerm['isDeposit'] && $accomPayTerm['isNightFee'] && $accomPayTerm['noOfNights'] > 0) {
 
 
 
@@ -1521,7 +1531,7 @@ if (!empty($wp_property_id)) {
 
 
 
-                                                if ($accomPayTerm['isDeposit']) {
+                                                if (empty($is_price_excluded) && $accomPayTerm['isDeposit']) {
 
 
                                                     if ($accomPayTerm['isPercentage'] && $accomPayTerm['depositPercentage'] > 0) {
@@ -1554,7 +1564,7 @@ if (!empty($wp_property_id)) {
                                                 // pre($accomPayTerm, 0);
 
 
-                                                if ($accomPayTerm['depositAmount'] > 0) {
+                                                if (empty($is_price_excluded) && $accomPayTerm['depositAmount'] > 0) {
 
 
 
@@ -1579,7 +1589,7 @@ if (!empty($wp_property_id)) {
 
 
                                                     );
-                                                } else {
+                                                } elseif (empty($is_price_excluded)) {
 
 
                                                     $accomPayTerm['balanceDueAmount'] = $priceRetail;
@@ -1644,6 +1654,9 @@ if (!empty($wp_property_id)) {
 
 
                                     'isBedbank' => $isBedbank,
+
+
+                                    'pricesExcluded' => !empty($is_price_excluded),
 
 
                                     'propertyId' => $propertyId,

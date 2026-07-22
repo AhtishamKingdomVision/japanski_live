@@ -169,11 +169,12 @@ try {
             <!-- Room Action Buttons -->
             <div class="room-btns">
                 <?php
-                // BedBank live rates → Request Booking; no rates → Enquire Now.
+                // Exclude prices / force_enquire → Enquire Now popup.
                 $force_enquire = !empty($args['force_enquire']);
-                $is_price_excluded = (get_post_meta($acc_id, 'is_price_excluded', true) === '1');
+                $is_price_excluded = $force_enquire
+                    || (function_exists('kv_is_price_excluded') ? kv_is_price_excluded($acc_id) : (get_post_meta($acc_id, 'is_price_excluded', true) === '1'));
 
-                if ($force_enquire || ($is_roomboss && $is_price_excluded)) : ?>
+                if ($is_price_excluded) : ?>
                     <button bookingPermission="<?php echo esc_attr($bookingPermission); ?>" class="btn bedbank_btn enq-btn-popup" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>">Enquire Now</button>
                 <?php elseif ($is_roomboss) :
                         if (!empty($bookingPermission)) :

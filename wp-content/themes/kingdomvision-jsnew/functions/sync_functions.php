@@ -2510,7 +2510,11 @@ function sq_mapping_properties($properties) {
 
                 /*check if client_rateplan_name contains keyword "discount" mark the accomdation as discount*/
 
+                $pivot = $rateplan['pivot'];
 
+                if( $pivot['is_archived'] == 0 ){
+                    continue;
+                }
 
                 if (!empty($rateplan['client_rateplan_name']) && stripos($rateplan['client_rateplan_name'], 'discount') !== false) {
 
@@ -2523,8 +2527,6 @@ function sq_mapping_properties($properties) {
                     update_post_meta($upd_hotel_id, 'is_discount', 0);
 
                 }
-
-
 
                 $rate_plan_rows[] = [
 

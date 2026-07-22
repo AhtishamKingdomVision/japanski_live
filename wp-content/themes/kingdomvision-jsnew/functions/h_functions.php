@@ -6657,14 +6657,11 @@ function render_rooms_section($atts) {
 
             </div>
 
-            <?php 
-
-            if ( get_post_meta( $post_id, 'is_price_excluded', true ) !== '1' ) {
-
-                echo do_shortcode('[SingleResortFilters post_id="' . $post_id . '"]'); 
-
-            }
-
+            <?php
+            // Always show Check Rates on the property page so BedBank can load
+            // live ActualPrice rows. is_price_excluded still controls card CTAs
+            // (Enquire Now) and listing price display elsewhere.
+            echo do_shortcode('[SingleResortFilters post_id="' . $post_id . '"]');
             ?>
 
             <div class="rooms-wrap">
@@ -6713,11 +6710,11 @@ function render_rooms_section($atts) {
 
                 else: ?>
 
-                    <div class="available_units">
+                    <div class="available_units" data-bedbank-status="enquiry">
 
-                        <!-- This property has <span class="total_units"><?php //echo $total_room_count ?></span> unit type<?php //echo $total_room_count > 1 ? 's' : ''; ?> - enquire for availability. -->
-
-                        The results below are not based on live availability. Please submit a booking request and, if your selected dates can be confirmed, our team will place the property on hold and send you a booking link.
+                        <span class="units_avl"><?php echo (int) $total_room_count; ?></span>
+                        unit type<?php echo $total_room_count > 1 ? 's' : ''; ?> —
+                        enter dates and click Check Rates for live prices. Booking requests are confirmed by our team.
 
                     </div>
 
@@ -7975,23 +7972,11 @@ function get_enquiry_form_html( $form_shortcode = '[gravityform id="1" title="tr
         </div>';
 }
 
-// function get_acc_enquiry_form(){
-//     return '<div class="acc_enquiry_form">
-//         <div class="acc_enquiry_head">
-//             <h3>Skip the searching</h3>
-//             <p class="acc_enquiry_desc">Tell us a little more and our local experts will recommend the best available options.</p>
-//         </div>
-//         <div class="acc_enquiry_form_slot">
-//             ' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '
-//         </div>
-//     </div>';
-// }
-
 function get_acc_enquiry_form($title = 'Skip the searching', $description = 'Tell us a little more and our local experts will recommend the best available options.'){
     $heading = '<h3>' . esc_html($title) . '</h3>';
     $description_html = $description !== ''
-        ? '<p class="acc_enquiry_desc">' . esc_html($description) . '</p>'
-        : '';
+            ? '<p class="acc_enquiry_desc">' . esc_html($description) . '</p>'
+            : '';
 
     return '<div class="acc_enquiry_form">
         <div class="acc_enquiry_head">
@@ -8003,3 +7988,15 @@ function get_acc_enquiry_form($title = 'Skip the searching', $description = 'Tel
         </div>
     </div>';
 }
+
+//function get_acc_enquiry_form(){
+//    return '<div class="acc_enquiry_form">
+//        <div class="acc_enquiry_head">
+//            <h3>Skip the searching</h3>
+//            <p class="acc_enquiry_desc">Tell us a little more and our local experts will recommend the best available options.</p>
+//        </div>
+//        <div class="acc_enquiry_form_slot">
+//            ' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '
+//        </div>
+//    </div>';
+//}

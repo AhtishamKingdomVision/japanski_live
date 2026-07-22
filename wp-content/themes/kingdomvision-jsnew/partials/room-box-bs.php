@@ -168,14 +168,16 @@ try {
             </div>
             <!-- Room Action Buttons -->
             <div class="room-btns">
-                <?php 
-                if ( get_post_meta( $acc_id, 'is_price_excluded', true ) === '1' ): ?>
+                <?php
+                // BedBank live rates → Request Booking; no rates → Enquire Now.
+                $force_enquire = !empty($args['force_enquire']);
+                $is_price_excluded = (get_post_meta($acc_id, 'is_price_excluded', true) === '1');
+
+                if ($force_enquire || ($is_roomboss && $is_price_excluded)) : ?>
                     <button bookingPermission="<?php echo esc_attr($bookingPermission); ?>" class="btn bedbank_btn enq-btn-popup" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>">Enquire Now</button>
-                <?php else : 
-                    if ($is_roomboss) :
+                <?php elseif ($is_roomboss) :
                         if (!empty($bookingPermission)) :
                             if (strpos($bookingPermission, 'REQUEST') !== false) : ?>                    
-                                <!-- <button bookingPermission="<?php //echo $bookingPermission ?>" class="btn req-book book-btn roomboss_btn" hotel-id="<?php //echo esc_attr($property_id); ?>">Request to Book</button> -->
                                 <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
                             <?php elseif (strpos($bookingPermission, 'RESERVATION') == false) : ?>
                                 <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
@@ -183,9 +185,8 @@ try {
                         <?php else : ?>
                             <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
                         <?php endif; ?>
-                    <?php else : ?>
+                <?php else : ?>
                             <button bookingPermission="<?php echo $bookingPermission ?>" class="btn chk-avl-btn book-btn bs_btn bedbank_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Request Booking</button>
-                        <?php endif; ?>
                 <?php endif; ?>
                 <a href="javascript:;" class="btn details-btn" property-id="<?php echo esc_attr($property_id); ?>" room-id="<?php echo esc_attr($room_id); ?>"> Details </a>
             </div>

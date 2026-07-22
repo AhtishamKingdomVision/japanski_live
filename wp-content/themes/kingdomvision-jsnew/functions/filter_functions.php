@@ -4064,6 +4064,8 @@ if (!function_exists('kv_bedbank_wp_rooms_fallback_response')) {
                 'room' => $wp_room,
                 'rb' => false,
                 'property_id' => $property_id,
+                // No live rates from API — keep enquiry CTA.
+                'force_enquire' => true,
             ]);
         }
 
@@ -4789,14 +4791,14 @@ function kv_ajax_load_roomboss_booking()
 
 
         // ✅ STEP 4: Validate and calculate guest count
+        // empty(0) is true in PHP — do not treat a posted 0 adults as "missing".
+        $adults = isset($_POST['adults']) ? max(0, intval($_POST['adults'])) : 1;
+        $children = isset($_POST['children']) ? max(0, intval($_POST['children'])) : 0;
+        $infants = isset($_POST['infants']) ? max(0, intval($_POST['infants'])) : 0;
 
-        $adults = !empty($_POST['adults']) ? intval($_POST['adults']) : 1;
-
-        $children = !empty($_POST['children']) ? intval($_POST['children']) : 0;
-
-        $infants = !empty($_POST['infants']) ? intval($_POST['infants']) : 0;
-
-
+        if ($adults < 1 && $children < 1) {
+            $adults = 1;
+        }
 
         $guests = $adults + $children + $infants;
 
@@ -4846,7 +4848,7 @@ function kv_ajax_load_roomboss_booking()
 
         // ✅ STEP 7: Build cache key and check transient
 
-        $cache_key = "availability_{$property_id}_{$checkIn}_{$checkOut}";
+        $cache_key = "availability_{$property_id}_{$checkIn}_{$checkOut}_{$adults}_{$children}_{$infants}";
 
         $availability = get_transient($cache_key);
 
@@ -4866,7 +4868,13 @@ function kv_ajax_load_roomboss_booking()
 
                 $checkOut,
 
-                $guests
+                $guests,
+
+                $adults,
+
+                $children,
+
+                $infants
 
             );
 
@@ -4959,7 +4967,7 @@ function kv_ajax_load_roomboss_booking()
 
         // RoomBoss / hybrid: never unfilter to BedBank leftovers when RB rows
         // are empty. BedBank: WP enquiry fallback only (gated below).
-        $force_bedbank = false;
+        // (property mode is passed to the template as treat_as_roomboss)
 
         if (empty($bs_rooms)) {
             $fallback = $bedbank_empty_fallback();
@@ -5013,7 +5021,11 @@ function kv_ajax_load_roomboss_booking()
 
                 'room_descriptions' => $room_descriptions,
 
-                'force_bedbank' => $force_bedbank,
+                // Explicit mode from WP property meta — do not pass force_bedbank=false
+                // (that previously forced RoomBoss mode and hid all BedBank prices).
+                'treat_as_roomboss' => $treat_as_roomboss,
+
+                'force_bedbank' => $treat_as_roomboss ? null : true,
 
                 'dates' => [
 
@@ -5056,6 +5068,11 @@ function kv_ajax_load_roomboss_booking()
             'available_bedroom_types' => $available_bedroom_types,
 
             'room_count' => count($grouped_rooms),
+
+            // Lets the rooms UI swap enquiry copy for live unit counts.
+            'has_live_rates' => true,
+
+            'is_bedbank' => empty($treat_as_roomboss),
 
         ]);
 
@@ -5293,7 +5310,13 @@ function kv_roomboss_get_availability(
 
     string $checkOut,
 
-    int $guests
+    int $guests,
+
+    int $adults = 0,
+
+    int $children = 0,
+
+    int $infants = 0
 
 ) {
 
@@ -5328,20 +5351,6 @@ function kv_roomboss_get_availability(
             );
 
         }
-
-
-
-        // if ($guests < 1 || $guests > 20) {
-
-        //     return new WP_Error(
-
-        //         'invalid_guest_count',
-
-        //         'Guest count must be between 1 and 20'
-
-        //     );
-
-        // }
 
 
 
@@ -5385,8 +5394,22 @@ function kv_roomboss_get_availability(
 
 
 
-        // ✅ STEP 4: Build booking system API arguments
+        // Guest breakdown — match admin cart / quotation-filteration body.
+        // offlineProperties=true returns BedBank unit shells with ActualPrice=0
+        // (admin shows real Yen because it uses live filtration, not offline).
+        $adults = max(0, intval($adults));
+        $children = max(0, intval($children));
+        $infants = max(0, intval($infants));
+        $guests = max(0, intval($guests));
 
+        if ($adults < 1 && $children < 1 && $infants < 1) {
+            $adults = max(1, $guests > 0 ? $guests : 1);
+            $guests = $adults;
+        } elseif ($guests < 1) {
+            $guests = $adults + $children + $infants;
+        }
+
+        // ✅ STEP 4: Build booking system API arguments
         $args = [
 
             'start_date' => $checkIn,
@@ -5399,15 +5422,30 @@ function kv_roomboss_get_availability(
 
             'bedBank' => true,
 
+            // Live priced inventory only (same as admin cart create).
             'offlineProperties' => false,
+
+            'testMode' => false,
+
+            'units' => 1,
 
             'duration' => $duration,
 
-            'maxPersons' => $guests,
+            'maxPersons' => max(1, $guests),
 
             'propertyIds' => [intval($propertyId)],
 
-            'adults' => [$guests],
+            'adults' => [$adults > 0 ? $adults : max(1, $guests)],
+
+            'children' => [$children],
+
+            'infants' => [$infants],
+
+            'totalAdults' => $adults > 0 ? $adults : max(1, $guests),
+
+            'totalChildren' => $children,
+
+            'totalInfants' => $infants,
 
         ];
 

@@ -109,8 +109,6 @@ function post_to_third_party( $entry, $form ) {
 
     }
 
-
-
     // Prepare request arguments
 
     $args = [
@@ -161,32 +159,23 @@ function post_to_third_party( $entry, $form ) {
         }
 
         // Check for errors
+        $status_code = wp_remote_retrieve_response_code( $response );
 
         if ( is_wp_error( $response ) ) {
 
             cf_log( 'API Error for ' . $api_url . ': ' . $response->get_error_message(), 'err__enquiry_api.txt', false, true );
-
-            // continue;
+            wp_mail( 'humza.kingdomvision@gmail.com, ahtisham.kv@gmail.com', 'API Request Failed', 'API Request failed for ' . $api_url . ' (Status: ' . $status_code . '): ' . $response->get_error_message() );
 
         }
 
 
-
-        $status_code = wp_remote_retrieve_response_code( $response );
-
-        $body_response = wp_remote_retrieve_body( $response );
-
-
-
         if ( $status_code < 200 || $status_code >= 300 ) {
 
-            cf_log( 'API Request failed for ' . $api_url . ' (Status: ' . $status_code . '): ' . $body_response, 'err__enquiry_api.txt', false, true );
+            cf_log( 'API Request failed for ' . $api_url . ' (Status: ' . $status_code . '): ' . $response->get_error_message(), 'err__enquiry_api.txt', false, true );
 
             /* send email to humza,kingdomvision@gmail.com & ahtisham.kv@gmail.com */
 
-            wp_mail( 'humza.kingdomvision@gmail.com, ahtisham.kv@gmail.com', 'API Request Failed', 'API Request failed for ' . $api_url . ' (Status: ' . $status_code . '): ' . $body_response );
-
-            // continue;
+            wp_mail( 'humza.kingdomvision@gmail.com, ahtisham.kv@gmail.com', 'API Request Failed', 'API Request failed for ' . $api_url . ' (Status: ' . $status_code . '): ' . $response->get_error_message() );
 
         }
 

@@ -1,0 +1,2828 @@
+<?php
+add_action('wp_head', 'jse_inject_dynamic_page_builder_schema', 5);
+
+function jse_schema_clean($value) {
+    if (empty($value)) {
+        return '';
+    }
+
+    $value = wp_strip_all_tags($value);
+    $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, get_bloginfo('charset'));
+    $value = preg_replace('/\s+/', ' ', $value);
+
+    return trim($value);
+}
+
+function jse_schema_image_url($image, $size = 'full') {
+    if (empty($image)) {
+        return '';
+    }
+
+    if (is_numeric($image)) {
+        return wp_get_attachment_image_url($image, $size);
+    }
+
+    if (is_array($image)) {
+        if (!empty($image['url'])) {
+            return esc_url($image['url']);
+        }
+
+        if (!empty($image['ID'])) {
+            return wp_get_attachment_image_url($image['ID'], $size);
+        }
+
+        if (!empty($image['id'])) {
+            return wp_get_attachment_image_url($image['id'], $size);
+        }
+    }
+
+    if (is_string($image)) {
+        return esc_url($image);
+    }
+
+    return '';
+}
+
+function jse_schema_accommodation_listing_node( $post_id = 0 ) {
+
+    // Mirror the URL-segment logic from inc-packages_listing.php / accommodation-config.php.
+    // Use get_permalink($post_id) when available — it is the canonical WordPress URL and
+    // is more reliable than $wp->request (which can be affected by redirects or rewrites).
+    // Fall back to get_url_path_segments() / $wp->request when no post_id is given.
+    if ( $post_id ) {
+        $relative_url = wp_make_link_relative( get_permalink( $post_id ) );
+        $all_segments = array_values( array_filter( explode( '/', $relative_url ) ) );
+        $segments     = array_slice( $all_segments, -3 );
+    } elseif ( function_exists( 'get_url_path_segments' ) ) {
+        $segments = get_url_path_segments();
+    } else {
+        $segments = array_slice( array_filter( explode( '/', wp_make_link_relative( home_url( add_query_arg( [], $GLOBALS['wp']->request ) ) ) ) ), -3 );
+    }
+
+    [ $resort, $acc, $area ] = array_pad( $segments, 3, null );
+
+    // context_segment mirrors the same logic used in inc-packages_listing.php
+    $context_segment = ( $resort === 'accommodation' ) ? $acc : $area;
+
+    $search_params = [];
+
+    // ── Resort ───────────────────────────────────────────────────────────────
+    if ( $resort && ! in_array( $resort, [ 'accommodation', 'offers', 'deals' ], true ) ) {
+        $resort_slug = $resort . '-accommodation';
+        if ( get_term_by( 'slug', $resort_slug, 'accommodation-cat' ) ) {
+            $search_params['resort'] = $resort_slug;
+        }
+    }
+
+    // ── Context segment (type / area / amenity / special flag) ───────────────
+    if ( $context_segment ) {
+        if ( in_array( $context_segment, [ 'deals', 'offers' ], true ) ) {
+            $search_params['discount'] = 1;
+
+        } elseif ( $context_segment === 'ski-in-ski-out' ) {
+            $search_params['ski_in_ski_out'] = 1;
+
+        } elseif ( $context_segment === 'onsen' ) {
+            $search_params['onsen'] = 1;
+
+        } elseif ( $context_segment === 'instant-booking' ) {
+            $search_params['booking'] = 1;
+
+        } else {
+            // Check if it is a property_types taxonomy slug
+            $type_term = get_term_by( 'slug', $context_segment, 'property_types' );
+            if ( $type_term ) {
+                $search_params['accommodation_type'] = [ $context_segment ];
+            } else {
+                // Treat as an area slug, applying the same URL → DB-slug mappings
+                $area_map = [
+                    'niseko-village' => 'niseko-village-higashiyama',
+                    'happo'          => 'happo-one-village',
+                    'wadano'         => 'wadano_no_mori',
+                    'hirafu'         => 'hirafu_village',
+                ];
+                $mapped = $area_map[ $context_segment ] ?? $context_segment;
+                $search_params['areas'] = [ $mapped ];
+            }
+        }
+    }
+
+    // ── Global offers/deals page ──────────────────────────────────────────────
+    if ( $resort === 'offers' ) {
+        $search_params['discount'] = 1;
+    }
+
+    // Save the page post ID now — the while loop below overwrites $post_id
+    // with each property's ID and we need the page ID for the node metadata.
+    $page_post_id  = $post_id;
+    $page_permalink = trailingslashit( get_permalink( $page_post_id ) );
+
+    $initial_args = niseko_build_search_query_args(
+        $search_params,
+        [
+            'posts_per_page' => -1,
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
+        ]
+    );
+
+    $initial_query = new WP_Query($initial_args);
+
+    if (!$initial_query->have_posts()) {
+        return [];
+    }
+
+    $items    = [];
+    $position = 1;
+
+    while ($initial_query->have_posts()) {
+
+        $initial_query->the_post();
+
+        $post_id = get_the_ID();
+
+        $image = has_post_thumbnail($post_id)
+            ? wp_get_attachment_image_url(get_post_thumbnail_id($post_id), 'full')
+            : get_template_directory_uri() . '/images/placeholder-featured.jpg';
+
+        $short_desc = get_field('bs_short_description', $post_id)
+            ? trim(sanitize_text_field(get_field('bs_short_description', $post_id)))
+            : '';
+
+        $items[] = [
+            '@type'    => 'ListItem',
+            'position' => $position++,
+            'item'     => [
+            '@type'                     => 'Accommodation',
+                '@id'                   => get_permalink($post_id) . '#accommodation',
+                'name'                  => jse_schema_clean(get_the_title($post_id)),
+                'url'                   => get_permalink($post_id),
+                'image'                 => esc_url($image),
+                'description'           => jse_schema_clean($short_desc),
+            ],
+        ];
+    }
+
+    wp_reset_postdata();
+
+    // Build a descriptive node name from the URL context (not from the last
+    // property's taxonomy, which was the previous bug).
+    $node_name = '';
+
+    if ( ! empty( $search_params['resort'] ) ) {
+        $resort_term = get_term_by( 'slug', $search_params['resort'], 'accommodation-cat' );
+        if ( $resort_term ) {
+            $node_name = str_ireplace( ' Accommodation', '', $resort_term->name ) . ' Accommodation';
+        }
+    }
+
+    if ( $context_segment ) {
+        $type_term = get_term_by( 'slug', $context_segment, 'property_types' );
+        if ( $type_term ) {
+            // e.g. "Niseko Hotels", "Niseko Chalets"
+            $node_name = str_ireplace( ' Accommodation', '', $node_name ) . ' ' . $type_term->name;
+        }
+    }
+
+    // Fall back to the WordPress page title for the root /accommodation page
+    // and any page whose context we cannot determine from the URL.
+    if ( empty( $node_name ) ) {
+        $node_name = get_the_title( $page_post_id );
+    }
+
+    return [
+        '@type'      => 'CollectionPage',
+        '@id'        => $page_permalink . '#accommodation-list',
+        'url'        => $page_permalink,
+        'name'       => $node_name,
+        'isPartOf'   => [ '@id' => $page_permalink . '#webpage' ],
+        'mainEntity' => [
+            '@type'           => 'ItemList',
+            'itemListElement' => $items,
+        ],
+    ];
+}
+
+function jse_schema_room_listing_node($post_id) {
+    $property_id = get_post_meta($post_id, 'property_id', true);
+
+    if (empty($property_id)) {
+        $property_id = get_field('property_id', $post_id);
+    }
+
+    $property_name = get_the_title($post_id);
+
+    if (empty($property_id)) {
+        return [];
+    }
+
+    $data = get_hotel_rooms($property_id);
+
+    if (empty($data['rooms'])) {
+        return [];
+    }
+
+    $items = [];
+    $position = 1;
+
+    // Accommodation category (Niseko, Hakuba, etc.)
+    $display_categories = wp_get_post_terms(
+        $post_id,
+        'accommodation-cat',
+        ['parent' => 0]
+    );
+
+    $categories = [];
+
+    if (!empty($display_categories) && !is_wp_error($display_categories)) {
+        foreach ($display_categories as $category) {
+            $categories[] = $category->name;
+        }
+    }
+
+    $category_name = implode(', ', $categories);
+
+    foreach ($data['rooms'] as $room) {
+
+        if (empty($room->ID)) {
+            continue;
+        }
+
+        $room_id = $room->ID;
+
+        $image = has_post_thumbnail($room_id)
+            ? wp_get_attachment_image_url(get_post_thumbnail_id($room_id), 'full')
+            : '';
+
+        $guests = intval(get_field('room_guests', $room_id) ?? 0);
+        $bedrooms = intval(get_field('room_bedroom', $room_id) ?? 0);
+        $bathrooms = intval(get_field('room_bathroom', $room_id) ?? 0);
+        $sqm = sanitize_text_field(get_field('room_sqm', $room_id) ?? '');
+
+        $room_schema = [
+            '@type'                     => 'Room',
+            '@id'                       => get_permalink($post_id) . '#room-' . $room_id,
+            'name'                      => jse_schema_clean(get_the_title($room_id)),
+            'accommodationCategory'     => $category_name,
+        ];
+
+        if (!empty($image)) {
+            $room_schema['image'] = esc_url($image);
+        }
+
+        if ($guests > 0) {
+            $room_schema['occupancy'] = [
+                '@type' => 'QuantitativeValue',
+                'value' => $guests,
+            ];
+        }
+
+        if ($bedrooms > 0) {
+            $room_schema['numberOfBedrooms'] = $bedrooms;
+        }
+
+        if ($bathrooms > 0) {
+            $room_schema['numberOfFullBathrooms'] = $bathrooms;
+        }
+
+        if (!empty($sqm)) {
+            $room_schema['floorSize'] = [
+                '@type'    => 'QuantitativeValue',
+                'value'    => preg_replace('/[^0-9.]/', '', $sqm),
+                'unitCode' => 'MTK',
+            ];
+        }
+
+        $items[] = [
+            '@type'    => 'ListItem',
+            'position' => $position++,
+            'item'     => $room_schema,
+        ];
+    }
+
+    $property_permalink = trailingslashit( get_permalink( $post_id ) );
+
+    return [
+        '@type'    => 'CollectionPage',
+        '@id'      => $property_permalink . '#room-list',
+        'url'      => $property_permalink,
+        'name'     => $property_name,
+        'isPartOf' => [ '@id' => $property_permalink . '#webpage' ],
+        'mainEntity' => [
+            '@type'           => 'ItemList',
+            'itemListElement' => $items,
+        ],
+    ];
+}
+
+function jse_schema_link_url($link) {
+    if (empty($link)) {
+        return '';
+    }
+
+    $url = '';
+
+    if (is_array($link) && !empty($link['url'])) {
+        $url = $link['url'];
+    } elseif (is_string($link)) {
+        $url = $link;
+    }
+
+    if (empty($url)) {
+        return '';
+    }
+
+    if (strpos($url, '/') === 0) {
+        $url = home_url($url);
+    }
+
+    return esc_url($url);
+}
+
+function jse_schema_get_post_id_from_url($url) {
+    if (empty($url)) {
+        return 0;
+    }
+
+    $post_id = url_to_postid($url);
+
+    return $post_id ? intval($post_id) : 0;
+}
+
+function jse_schema_organization_node($current_domain) {
+    /*
+     * Yoast now owns the Organization node.
+     * Return only an @id reference so this file can attach the remaining
+     * extra properties (aggregateRating, review, employee) without rebuilding
+     * a duplicate Organization node.
+     */
+    return [
+        '@id' => $current_domain . '/#organization',
+    ];
+}
+
+function jse_schema_has_value($value) {
+    return $value !== '' && $value !== null && $value !== false;
+}
+
+function jse_schema_normalize_number($value) {
+    if (is_array($value)) {
+        $value = $value['value'] ?? reset($value);
+    }
+
+    if (is_string($value)) {
+        if (preg_match('/\d[\d,]*(?:\.\d+)?/', $value, $matches)) {
+            $value = str_replace(',', '', $matches[0]);
+        } else {
+            $value = '';
+        }
+    }
+
+    return is_numeric($value) ? (float) $value : 0;
+}
+
+
+function jse_schema_format_rating_value($value) {
+    $number = jse_schema_normalize_number($value);
+
+    if ($number <= 0) {
+        return '';
+    }
+
+    return number_format($number, 1, '.', '');
+}
+
+function jse_schema_first_value_from_fields($field_names, $context = 'option') {
+    if (!function_exists('get_field')) {
+        return '';
+    }
+
+    foreach ($field_names as $field_name) {
+        $value = get_field($field_name, $context);
+
+        if (is_array($value)) {
+            if (isset($value['value'])) {
+                $value = $value['value'];
+            } elseif (isset($value['label'])) {
+                $value = $value['label'];
+            }
+        }
+
+        if (jse_schema_has_value($value)) {
+            return $value;
+        }
+    }
+
+    return '';
+}
+
+function jse_schema_get_company_review_totals() {
+    $rating_value = '';
+    $review_count = '';
+
+    /*
+     * Theme Options ACF fields are the authoritative source for the aggregate
+     * totals displayed site-wide (e.g. "4.8 / 1,198 reviews"). Check these
+     * first so get_review_data() — which only counts a subset of published
+     * posts — cannot override the real cumulative total.
+     */
+    $review_count = jse_schema_first_value_from_fields([
+        'company_review_count',
+        'company_reviews_count',
+        'review_count',
+        'reviews_count',
+        'total_reviews',
+        'aggregate_review_count',
+        'jse_company_review_count',
+    ]);
+
+    $rating_value = jse_schema_first_value_from_fields([
+        'company_aggregate_rating',
+        'company_rating',
+        'company_review_average',
+        'review_average',
+        'reviews_average',
+        'average_review_rating',
+        'aggregate_rating',
+        'jse_company_rating_value',
+    ]);
+
+    /*
+     * Fall back to get_review_data() only for values still missing after
+     * checking Theme Options.
+     */
+    if ((!jse_schema_has_value($rating_value) || !jse_schema_has_value($review_count))
+        && function_exists('get_review_data')
+    ) {
+        $review_data = get_review_data();
+
+        if (is_array($review_data)) {
+            if (!jse_schema_has_value($rating_value)) {
+                $rating_value = $review_data['average'] ?? $review_data['rating_value'] ?? '';
+            }
+            if (!jse_schema_has_value($review_count)) {
+                $review_count = $review_data['total'] ?? $review_data['review_count'] ?? '';
+            }
+        } elseif (is_object($review_data)) {
+            if (!jse_schema_has_value($rating_value)) {
+                $rating_value = $review_data->average ?? $review_data->rating_value ?? '';
+            }
+            if (!jse_schema_has_value($review_count)) {
+                $review_count = $review_data->total ?? $review_data->review_count ?? '';
+            }
+        }
+    }
+
+    /*
+     * Requested live fallback values. Theme Options / get_review_data should
+     * override these on production.
+     */
+    $rating_value = jse_schema_normalize_number($rating_value);
+    $review_count = (int) jse_schema_normalize_number($review_count);
+
+    if ($rating_value <= 0) {
+        $rating_value = 4.8;
+    }
+
+    if ($review_count <= 0) {
+        $review_count = 1198;
+    }
+
+    return [
+        'rating_value' => number_format($rating_value, 1, '.', ''),
+        'review_count' => $review_count,
+    ];
+}
+
+function jse_schema_first_value_from_row($row, $keys) {
+    if (!is_array($row)) {
+        return '';
+    }
+
+    foreach ($keys as $key) {
+        if (array_key_exists($key, $row) && jse_schema_has_value($row[$key])) {
+            return $row[$key];
+        }
+    }
+
+    return '';
+}
+
+function jse_schema_build_review_node($review_text, $author_name = '', $rating = '', $date_published = '') {
+
+    $review_text = jse_schema_clean($review_text);
+
+    if (empty($review_text)) {
+        return [];
+    }
+
+    $author_name = jse_schema_clean($author_name);
+
+    if (empty($author_name)) {
+        $author_name = 'Guest Review';
+    }
+
+    $node = [
+        '@type' => 'Review',
+        'author' => [
+            '@type' => 'Person',
+            'name'  => $author_name,
+        ],
+        'reviewBody' => $review_text,
+    ];
+
+    $rating_value = jse_schema_format_rating_value($rating);
+
+    if (!empty($rating_value)) {
+        $node['reviewRating'] = [
+            '@type'       => 'Rating',
+            'ratingValue' => $rating_value,
+            'bestRating'  => '5',
+        ];
+    }
+
+    if (!empty($date_published)) {
+
+        $timestamp = strtotime($date_published);
+
+        if ($timestamp && $timestamp > 0) {
+            $node['datePublished'] = date('Y-m-d', $timestamp);
+        }
+    }
+
+    return $node;
+}
+
+function jse_schema_extract_review_nodes_from_rows($rows) {
+    $reviews = [];
+
+    if (empty($rows) || !is_array($rows)) {
+        return $reviews;
+    }
+
+    foreach ($rows as $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+
+        $review_text = jse_schema_first_value_from_row($row, [
+            'review_text',
+            'review_body',
+            'review',
+            'content',
+            'description',
+            'testimonial',
+        ]);
+
+        $author_name = jse_schema_first_value_from_row($row, [
+            'namedate',
+            'name_date',
+            'name',
+            'reviewer',
+            'author',
+            'guest_name',
+            'client_name',
+        ]);
+
+        $rating = jse_schema_first_value_from_row($row, [
+            'rating',
+            'review_rating',
+            'score',
+            'stars',
+        ]);
+
+        $date_published = jse_schema_first_value_from_row($row, [
+            'posted_date',
+            'date',
+            'review_date',
+        ]);
+
+        $review_node = jse_schema_build_review_node($review_text, $author_name, $rating, $date_published);
+
+        if (!empty($review_node)) {
+            $reviews[] = $review_node;
+        }
+    }
+
+    return $reviews;
+}
+
+function jse_schema_get_accommodation_reviews($post_id) {
+    $reviews = [];
+
+    if (!function_exists('get_field')) {
+        return $reviews;
+    }
+
+    foreach ([
+        'reviews_lisitng',
+        'reviews_listing',
+        'reviews',
+        'guest_reviews',
+        'client_reviews',
+        'property_reviews',
+        'product_reviews',
+        'accommodation_reviews',
+        'prd_reviews',
+        'prd_review',
+    ] as $field_name) {
+
+        $rows = get_field($field_name, $post_id);
+
+        $reviews = array_merge(
+            $reviews,
+            jse_schema_extract_review_nodes_from_rows($rows)
+        );
+    }
+
+    // Remove duplicate reviews
+    $unique_reviews = [];
+
+    foreach ($reviews as $review) {
+
+        $key = md5(
+            ($review['reviewBody'] ?? '') .
+            ($review['author']['name'] ?? '')
+        );
+
+        $unique_reviews[$key] = $review;
+    }
+
+    return array_values($unique_reviews);
+}
+
+function jse_schema_calculate_review_average($reviews) {
+    $rating_total = 0;
+    $rating_count = 0;
+
+    if (empty($reviews) || !is_array($reviews)) {
+        return [];
+    }
+
+    foreach ($reviews as $review) {
+        if (empty($review['reviewRating']['ratingValue'])) {
+            continue;
+        }
+
+        $rating_value = jse_schema_normalize_number($review['reviewRating']['ratingValue']);
+
+        if ($rating_value <= 0) {
+            continue;
+        }
+
+        $rating_total += $rating_value;
+        $rating_count++;
+    }
+
+    if ($rating_count <= 0) {
+        return [];
+    }
+
+    return [
+        'rating_value' => number_format($rating_total / $rating_count, 1, '.', ''),
+        'review_count' => $rating_count,
+    ];
+}
+
+function jse_schema_get_accommodation_review_totals($post_id, $reviews = []) {
+    $rating_value = jse_schema_first_value_from_fields([
+        'property_average_rating',
+        'property_rating',
+        'guest_rating',
+        'guest_review_average',
+        'review_average',
+        'average_rating',
+        'prd_review_rating',
+        'accommodation_rating',
+    ], $post_id);
+
+    $review_count = jse_schema_first_value_from_fields([
+        'property_review_count',
+        'guest_review_count',
+        'reviews_count',
+        'review_count',
+        'prd_review_count',
+        'accommodation_review_count',
+    ], $post_id);
+
+    if (jse_schema_has_value($review_count) && jse_schema_normalize_number($review_count) <= 0) {
+        return [];
+    }
+
+    if (jse_schema_has_value($rating_value) && jse_schema_has_value($review_count)) {
+        $rating_value = jse_schema_format_rating_value($rating_value);
+        $review_count = (int) jse_schema_normalize_number($review_count);
+
+        if (!empty($rating_value) && $review_count > 0) {
+            return [
+                'rating_value' => $rating_value,
+                'review_count' => $review_count,
+            ];
+        }
+    }
+
+    return jse_schema_calculate_review_average($reviews);
+}
+
+function jse_schema_normalize_review_list($reviews) {
+    if (empty($reviews)) {
+        return [];
+    }
+
+    if (isset($reviews['@type']) && $reviews['@type'] === 'Review') {
+        return [$reviews];
+    }
+
+    return is_array($reviews) ? array_values($reviews) : [];
+}
+
+function jse_schema_attach_reviews_to_schema_node(&$node, $reviews, $post_id = 0) {
+
+    $reviews = jse_schema_normalize_review_list($reviews);
+
+    if (empty($reviews) || !is_array($node)) {
+        return;
+    }
+
+    $existing_reviews = [];
+
+    if (!empty($node['review'])) {
+        $existing_reviews = jse_schema_normalize_review_list($node['review']);
+    }
+
+    $node['review'] = array_values(
+        array_merge($existing_reviews, $reviews)
+    );
+
+    $totals = $post_id
+        ? jse_schema_get_accommodation_review_totals($post_id, $node['review'])
+        : jse_schema_calculate_review_average($node['review']);
+
+    if (!empty($totals['review_count']) && !empty($totals['rating_value'])) {
+
+        $node['aggregateRating'] = [
+            '@type'       => 'AggregateRating',
+            'ratingValue' => $totals['rating_value'],
+            'reviewCount' => (int) $totals['review_count'],
+            'ratingCount' => (int) $totals['review_count'],
+            'bestRating'  => '5',
+        ];
+    }
+    cf_log( $node, 'review_node' );
+}
+
+function jse_schema_attach_reviews_to_graph_node(&$graph_nodes, $node_id, $reviews, $post_id = 0) {
+    foreach ($graph_nodes as &$graph_node) {
+        if (!empty($graph_node['@id']) && $graph_node['@id'] === $node_id) {
+            cf_log( $graph_node, 'graph_node');
+            jse_schema_attach_reviews_to_schema_node($graph_node, $reviews, $post_id);
+            unset($graph_node);
+            return;
+        }
+    }
+    unset($graph_node);
+}
+
+function jse_schema_get_page_builder_description($post_id) {
+    if (!have_rows('page_builder', $post_id)) {
+        return '';
+    }
+
+    while (have_rows('page_builder', $post_id)) {
+        the_row();
+
+        $possible_fields = [
+            'description',
+            'content',
+            'section_desc',
+            'intro_text',
+            'text',
+        ];
+
+        foreach ($possible_fields as $field_name) {
+            $value = get_sub_field($field_name);
+
+            if (!empty($value) && is_string($value)) {
+                reset_rows();
+                return jse_schema_clean(wp_trim_words($value, 35));
+            }
+        }
+    }
+
+    reset_rows();
+
+    return '';
+}
+
+function jse_schema_article_node($post_id, $current_domain) {
+    $url            = get_permalink($post_id);
+    $featured_image = get_the_post_thumbnail_url($post_id, 'full');
+
+    $node = [
+        '@type'         => 'BlogPosting',
+        '@id'           => trailingslashit($url) . '#article',
+        'mainEntityOfPage' => [
+            '@id' => trailingslashit($url) . '#webpage',
+        ],
+        'headline'      => jse_schema_clean(get_the_title($post_id)),
+        'description'   => jse_schema_clean(get_the_excerpt($post_id)),
+        'datePublished' => get_the_date('c', $post_id),
+        'dateModified'  => get_the_modified_date('c', $post_id),
+        'author'        => [
+            '@type' => 'Person',
+            'name'  => get_the_author_meta('display_name', get_post_field('post_author', $post_id)),
+        ],
+        'publisher' => [
+            '@id' => $current_domain . '/#organization',
+        ],
+    ];
+
+    if (!empty($featured_image)) {
+        $node['image'] = esc_url($featured_image);
+    }
+
+    return $node;
+}
+
+function jse_schema_accommodation_node($post_id, $current_domain) {
+    $url            = get_permalink($post_id);
+    $featured_image = get_the_post_thumbnail_url($post_id, 'full');
+
+    $details = get_field('accomodation_details', $post_id);
+
+    $address   = is_array($details) && !empty($details['address']) ? $details['address'] : '';
+    $latitude  = is_array($details) && !empty($details['acc_latitude']) ? $details['acc_latitude'] : '';
+    $longitude = is_array($details) && !empty($details['acc_longitude']) ? $details['acc_longitude'] : '';
+    $country   = is_array($details) && !empty($details['acc_country']) ? $details['acc_country'] : 'JP';
+
+    $description = get_field('bs_short_description', $post_id);
+
+    if (empty($description)) {
+        $description = get_the_excerpt($post_id);
+    }
+
+    if (empty($description)) {
+        $description = wp_trim_words(
+            wp_strip_all_tags(get_post_field('post_content', $post_id)),
+            40
+        );
+    }
+
+    $node = [
+        '@type'       => 'LodgingBusiness',
+        '@id'         => trailingslashit($url) . '#lodging',
+        'name'        => jse_schema_clean(get_the_title($post_id)),
+        'url'         => $url,
+        'description' => jse_schema_clean($description),
+        'mainEntityOfPage' => [
+            '@id' => trailingslashit($url) . '#webpage',
+        ],
+    ];
+
+    if (!empty($featured_image)) {
+        $node['image'] = esc_url($featured_image);
+    }
+
+    if (!empty($address)) {
+        $node['address'] = [
+            '@type'           => 'PostalAddress',
+            'streetAddress'   => jse_schema_clean($address),
+            'addressCountry'  => jse_schema_clean($country),
+        ];
+    }
+
+    $min_price = get_field('min_room_price', $post_id);
+
+    if (!empty($min_price)) {
+        $node['priceRange'] = 'From ¥' . jse_schema_clean($min_price);
+    }
+
+    /*
+     * Property facilities from taxonomy.
+     */
+    $facilities = get_the_terms($post_id, 'property_ammenites');
+
+    if (!empty($facilities) && !is_wp_error($facilities)) {
+        $amenities = [];
+
+        foreach ($facilities as $facility) {
+            $amenities[] = [
+                '@type' => 'LocationFeatureSpecification',
+                'name'  => jse_schema_clean($facility->name),
+                'value' => true,
+            ];
+        }
+
+        if (!empty($amenities)) {
+            $node['amenityFeature'] = $amenities;
+        }
+    }
+
+    /*
+     * Property type.
+     */
+    $property_types = get_the_terms($post_id, 'property_types');
+
+    if (!empty($property_types) && !is_wp_error($property_types)) {
+        $node['additionalType'] = array_map(function($term) {
+            return jse_schema_clean($term->name);
+        }, $property_types);
+    }
+
+    /*
+     * Deal / discount offer.
+     */
+    $is_discount = get_field('is_discount', $post_id);
+
+    if (!empty($is_discount)) {
+        $offer_name = 'Accommodation Deal';
+
+        if (have_rows('rate_plan', $post_id)) {
+            while (have_rows('rate_plan', $post_id)) {
+                the_row();
+
+                $rate_plan_name = get_sub_field('rate_plan_name');
+
+                if (!empty($rate_plan_name) && stripos($rate_plan_name, 'discount') !== false) {
+                    $offer_name = wp_strip_all_tags($rate_plan_name);
+                    break;
+                }
+            }
+
+            reset_rows();
+        }
+
+        $node['makesOffer'] = [
+            '@type'        => 'Offer',
+            'name'         => jse_schema_clean($offer_name),
+            'url'          => $url,
+            'availability' => 'https://schema.org/InStock',
+            'seller'       => [
+                '@id' => $current_domain . '/#organization',
+            ],
+        ];
+    }
+
+    $rooms = jse_schema_get_accommodation_rooms($post_id, $current_domain);
+
+    if (!empty($rooms)) {
+        $node['containsPlace'] = $rooms;
+    }
+
+    /*
+     * Property-specific reviews belong on the LodgingBusiness node.
+     * Do not fall back to company ratings here: properties with zero reviews
+     * should not output an aggregateRating.
+     */
+    $property_reviews = jse_schema_get_accommodation_reviews($post_id);
+
+    if (!empty($property_reviews)) {
+        $node['review'] = $property_reviews;
+    }
+
+    $property_totals = jse_schema_get_accommodation_review_totals($post_id, $property_reviews);
+
+    if (!empty($property_totals['review_count']) && !empty($property_totals['rating_value'])) {
+        $node['aggregateRating'] = [
+            '@type'       => 'AggregateRating',
+            'ratingValue' => $property_totals['rating_value'],
+            'reviewCount' => intval($property_totals['review_count']),
+            'bestRating'  => '5',
+        ];
+    }
+
+    return $node;
+}
+
+function jse_schema_get_accommodation_rooms($post_id, $current_domain) {
+
+    $property_id = get_post_meta($post_id, 'property_id', true);
+
+    if (empty($property_id)) {
+        $property_id = get_field('property_id', $post_id);
+    }
+
+    if (empty($property_id)) {
+        return [];
+    }
+
+    $data = get_hotel_rooms($property_id);
+
+    if (empty($data['rooms'])) {
+        return [];
+    }
+
+    $room_nodes = [];
+
+    foreach ($data['rooms'] as $room) {
+
+        if (empty($room->ID)) {
+            continue;
+        }
+
+        $room_id = $room->ID;
+
+        $name = get_the_title($room_id);
+
+        $image = has_post_thumbnail($room_id)
+            ? wp_get_attachment_image_url(get_post_thumbnail_id($room_id), 'full')
+            : '';
+
+        $guests = intval(get_field('room_guests', $room_id) ?? 0);
+
+        $bedrooms = intval(get_field('room_bedroom', $room_id) ?? 0);
+
+        $bathrooms = intval(get_field('room_bathroom', $room_id) ?? 0);
+
+        $sqm = sanitize_text_field(
+            get_field('room_sqm', $room_id) ?? ''
+        );
+
+        $room_categories = get_the_terms($room_id, 'room_types');
+
+        $category_names = [];
+
+        if (!empty($room_categories) && !is_wp_error($room_categories)) {
+
+            foreach ($room_categories as $category) {
+                $category_names[] = $category->name;
+            }
+        }
+
+        $room_node = [
+            '@type' => 'Room',
+            '@id'   => get_permalink($post_id) . '#room-' . $room_id,
+
+            'name' => jse_schema_clean($name),
+        ];
+
+        if (!empty($image)) {
+            $room_node['image'] = esc_url($image);
+        }
+
+        if (!empty($category_names)) {
+            $room_node['category'] = implode(', ', $category_names);
+        }
+
+        if ($guests > 0) {
+            $room_node['occupancy'] = [
+                '@type' => 'QuantitativeValue',
+                'value' => $guests,
+            ];
+        }
+
+        if ($bedrooms > 0) {
+            $room_node['numberOfBedrooms'] = $bedrooms;
+        }
+
+        if ($bathrooms > 0) {
+            $room_node['numberOfFullBathrooms'] = $bathrooms;
+        }
+
+        if (!empty($sqm)) {
+
+            $room_node['floorSize'] = [
+                '@type'    => 'QuantitativeValue',
+                'value'    => preg_replace('/[^0-9.]/', '', $sqm),
+                'unitCode' => 'MTK'
+            ];
+        }
+
+        $room_nodes[] = $room_node;
+    }
+
+    return $room_nodes;
+}
+
+function jse_schema_get_dynamic_reviews() {
+    $individual_reviews = [];
+    $company_totals     = jse_schema_get_company_review_totals();
+
+    if (function_exists('get_reviews_args')) {
+        $review_args  = get_reviews_args([], [], '20');
+        $review_query = new WP_Query($review_args);
+
+        if ($review_query->have_posts()) {
+            while ($review_query->have_posts()) {
+                $review_query->the_post();
+
+                $review_post_id = get_the_ID();
+                $r_date         = get_field('posted_date', $review_post_id);
+                $r_title        = get_field('custom_title', $review_post_id) ?: get_the_title();
+                $r_score        = get_post_meta($review_post_id, 'review_rating', true);
+                $r_body         = wp_strip_all_tags(get_the_content());
+
+                $review_node = jse_schema_build_review_node($r_body, $r_title, $r_score, $r_date);
+
+                if (!empty($review_node)) {
+                    $individual_reviews[] = $review_node;
+                }
+            }
+
+            wp_reset_postdata();
+        }
+    }
+
+    return [
+        'reviews'      => $individual_reviews,
+        'review_count' => $company_totals['review_count'],
+        'rating_value' => $company_totals['rating_value'],
+    ];
+}
+
+function jse_schema_get_discount_offers() {
+    $offers = [];
+
+    $deal_query = new WP_Query([
+        'post_type'      => 'accommodation',
+        'posts_per_page' => 10,
+        'orderby'        => 'rand',
+        'post_status'    => 'publish',
+        'meta_query'     => [
+            [
+                'key'     => 'is_discount',
+                'value'   => '1',
+                'compare' => '=',
+            ],
+        ],
+    ]);
+
+    if ($deal_query->have_posts()) {
+        while ($deal_query->have_posts()) {
+            $deal_query->the_post();
+
+            $deal_post_id = get_the_ID();
+            $deal_desc    = get_field('bs_short_description', $deal_post_id) ?: '';
+
+            $offers[] = [
+                '@type' => 'Offer',
+                'itemOffered' => [
+                    '@type'       => 'LodgingBusiness',
+                    'name'        => jse_schema_clean(get_the_title($deal_post_id)),
+                    'url'         => get_permalink($deal_post_id),
+                    'description' => !empty($deal_desc)
+                        ? jse_schema_clean(wp_trim_words($deal_desc, 20))
+                        : 'Exclusive winter ski holiday package deal.',
+                ],
+            ];
+        }
+
+        wp_reset_postdata();
+    }
+
+    return $offers;
+}
+
+function jse_schema_scan_accommodation_builder_reviews($post_id) {
+
+    $review_nodes = [];
+
+    if (!have_rows('accommodation_builder', $post_id)) {
+        return $review_nodes;
+    }
+
+    while (have_rows('accommodation_builder', $post_id)) {
+
+        the_row();
+
+        $layout = get_row_layout();
+
+        if ($layout !== 'client_reviews') {
+            continue;
+        }
+
+        $review_repeater = '';
+
+        if (have_rows('reviews_lisitng', $post_id)) {
+            $review_repeater = 'reviews_lisitng';
+        } elseif (have_rows('reviews_listing', $post_id)) {
+            $review_repeater = 'reviews_listing';
+        } elseif (have_rows('reviews')) {
+            $review_repeater = 'reviews';
+        } elseif (have_rows('property_reviews')) {
+            $review_repeater = 'property_reviews';
+        }
+
+        if (!empty($review_repeater)) {
+
+            while (have_rows($review_repeater)) {
+
+                the_row();
+
+                $review_text = get_sub_field('review_text')
+                    ?: get_sub_field('review_body')
+                    ?: get_sub_field('review')
+                    ?: get_sub_field('description');
+
+                $name_date = get_sub_field('namedate')
+                    ?: get_sub_field('name_date');
+
+                $review_name = get_sub_field('name')
+                    ?: get_sub_field('guest_name')
+                    ?: get_sub_field('client_name');
+
+                $reviewer = get_sub_field('reviewer')
+                    ?: get_sub_field('author');
+
+                $rating = get_sub_field('rating')
+                    ?: get_sub_field('review_rating')
+                    ?: get_sub_field('score')
+                    ?: get_sub_field('stars');
+
+                $date = get_sub_field('posted_date')
+                    ?: get_sub_field('date')
+                    ?: get_sub_field('review_date');
+
+                $author_name = $name_date ?: $review_name ?: $reviewer ?: 'Guest Review';
+
+                $review_node = jse_schema_build_review_node(
+                    $review_text,
+                    $author_name,
+                    $rating,
+                    $date
+                );
+
+                if (!empty($review_node)) {
+                    $review_nodes[] = $review_node;
+                }
+            }
+        }
+        
+    }
+
+    reset_rows();
+
+    return $review_nodes;
+}
+
+function jse_schema_scan_page_builder($post_id, $current_domain) {
+
+    $page_elements   = [];
+    $section_counter = 0;
+    $faq_nodes     = [];
+    $team_nodes    = [];
+    $review_nodes  = [];
+    $video_nodes   = [];
+    $howto_nodes   = [];
+    $item_lists    = [];
+    $faq_counter   = 0;
+    $video_counter = 0;
+    $howto_counter = 0;
+    $list_counter  = 0;
+
+    $builder_field = 'page_builder';
+
+    if (
+        get_post_type($post_id) === 'accommodation' &&
+        have_rows('accommodation_builder', $post_id)
+    ) {
+        $builder_field = 'accommodation_builder';
+    }
+
+    if (!have_rows($builder_field, $post_id)) {
+        return [
+            'faq_nodes'    => [],
+            'team_nodes'   => [],
+            'review_nodes' => [],
+            'video_nodes'  => [],
+            'howto_nodes'  => [],
+            'item_lists'   => [],
+        ];
+    }
+
+    while (have_rows($builder_field, $post_id)) {
+        the_row();
+
+        $layout = get_row_layout();
+
+        /*
+         * FAQ schema from:
+         * - accordion
+         * - common_questions
+         */
+        if ($layout === 'accordion') {
+
+            /*
+            * Accommodation accordion
+            * FAQs come from external API.
+            */
+            if (
+                get_post_type($post_id) === 'accommodation' &&
+                $builder_field === 'accommodation_builder'
+            ) {
+
+                $property_api_id = get_field('property_id', $post_id);
+
+                if ($property_api_id) {
+
+                    $response = wp_remote_post(
+                        'https://stay.japanskiexperience.com/api/wp-property-faqs',
+                        [
+                            'method'  => 'POST',
+                            'timeout' => 30,
+                            'headers' => [
+                                'Content-Type'  => 'application/json',
+                                'Authorization' => 'Bearer 12587|W4oROCSRowx1SqVWUrCg7wy4NNhESs4sjsevdtJee2f6b8af',
+                            ],
+                            'body' => wp_json_encode([
+                                'propertyIds' => [(int) $property_api_id],
+                            ]),
+                        ]
+                    );
+
+                    if (
+                        !is_wp_error($response) &&
+                        wp_remote_retrieve_response_code($response) === 200
+                    ) {
+
+                        $data = json_decode(
+                            wp_remote_retrieve_body($response),
+                            true
+                        );
+
+                        $accordion_faqs = [];
+
+                        /*
+                        * Default FAQs
+                        */
+                        if (!empty($data['default_faqs'])) {
+
+                            foreach ($data['default_faqs'] as $faq) {
+
+                                $accordion_faqs[] = [
+                                    'question' => $faq['title'] ?? '',
+                                    'answer'   => $faq['description'] ?? '',
+                                ];
+                            }
+                        }
+
+                        /*
+                        * Property FAQs
+                        */
+                        if (!empty($data['property'])) {
+
+                            foreach ($data['property'] as $property) {
+
+                                if (empty($property['faqs'])) {
+                                    continue;
+                                }
+
+                                foreach ($property['faqs'] as $faq) {
+
+                                    $accordion_faqs[] = [
+                                        'question' => $faq['title'] ?? '',
+                                        'answer'   => $faq['description'] ?? '',
+                                    ];
+                                }
+                            }
+                        }
+
+                        foreach ($accordion_faqs as $faq) {
+
+                            if (
+                                empty($faq['question']) ||
+                                empty($faq['answer'])
+                            ) {
+                                continue;
+                            }
+
+                            $faq_nodes[] = [
+                                '@type' => 'Question',
+                                'name'  => jse_schema_clean($faq['question']),
+                                'acceptedAnswer' => [
+                                    '@type' => 'Answer',
+                                    'text'  => jse_schema_clean($faq['answer']),
+                                ],
+                            ];
+
+                            $faq_counter++;
+
+                            if ($faq_counter >= 20) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            /*
+            * Normal page builder accordion
+            */
+            else {
+
+                if (have_rows('accordion', $post_id)) {
+
+                    while (have_rows('accordion', $post_id)) {
+
+                        the_row(true);
+
+                        $question = get_sub_field('title');
+                        $answer   = get_sub_field('description');
+
+                        if (!empty($question) && !empty($answer)) {
+
+                            $faq_nodes[] = [
+                                '@type' => 'Question',
+                                'name'  => jse_schema_clean($question),
+                                'acceptedAnswer' => [
+                                    '@type' => 'Answer',
+                                    'text'  => jse_schema_clean($answer),
+                                ],
+                            ];
+
+                            $faq_counter++;
+                        }
+
+                        if ($faq_counter >= 20) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($layout === 'packages_listing') {
+            $selected_category = get_sub_field('select_category');
+            $main_title        = get_sub_field('main_title');
+            $product_count     = get_sub_field('product_count');
+
+            $posts_per_page = !empty($product_count) ? intval($product_count) : 9;
+
+            if ($posts_per_page <= 0) {
+                $posts_per_page = 9;
+            }
+
+            $query_args = [
+                'post_type'      => 'accommodation',
+                'posts_per_page' => $posts_per_page,
+                'post_status'    => 'publish',
+            ];
+
+            if (is_page('deals') || strpos(get_permalink($post_id), '/accommodation/deals/') !== false) {
+                $query_args['meta_query'] = [
+                    [
+                        'key'     => 'is_discount',
+                        'value'   => '1',
+                        'compare' => '=',
+                    ],
+                ];
+            }
+
+            if (!empty($selected_category) && is_object($selected_category)) {
+                $query_args['tax_query'] = [
+                    [
+                        'taxonomy' => 'accommodation-cat',
+                        'field'    => 'term_id',
+                        'terms'    => $selected_category->term_id,
+                    ],
+                ];
+            }
+
+            $accommodation_query = new WP_Query($query_args);
+
+            if ($accommodation_query->have_posts()) {
+                $items    = [];
+                $position = 1;
+
+                while ($accommodation_query->have_posts()) {
+                    $accommodation_query->the_post();
+
+                    $acc_id    = get_the_ID();
+                    $acc_url   = get_permalink($acc_id);
+                    // $acc_image = get_the_post_thumbnail_url($acc_id, 'full');
+                    // $acc_desc  = get_field('bs_short_description', $acc_id);
+
+                    // $top_label = '';
+
+                    // if (have_rows('rate_plan', $acc_id)) {
+                    //     while (have_rows('rate_plan', $acc_id)) {
+                    //         the_row();
+
+                    //         $rate_plan_name = get_sub_field('rate_plan_name');
+
+                    //         if (!empty($rate_plan_name) && stripos($rate_plan_name, 'discount') !== false) {
+                    //             $top_label = wp_strip_all_tags($rate_plan_name);
+                    //             break;
+                    //         }
+                    //     }
+
+                    //     reset_rows();
+                    // }
+
+                    // if (empty($acc_desc)) {
+                    //     $acc_desc = get_the_excerpt($acc_id);
+                    // }
+
+                    // if ((is_page('deals') || strpos(get_permalink($post_id), '/accommodation/deals/') !== false) && !empty($top_label)) {
+                    //     $lodging_item['makesOffer'] = [
+                    //         '@type'        => 'Offer',
+                    //         'name'         => jse_schema_clean($top_label),
+                    //         'url'          => $acc_url,
+                    //         'availability' => 'https://schema.org/InStock',
+                    //         'seller'       => [
+                    //             '@id' => $current_domain . '/#organization',
+                    //         ],
+                    //     ];
+                    // }
+
+                    $items[] = [
+                        '@type'    => 'ListItem',
+                        'position' => $position,
+                        'name'     => jse_schema_clean(get_the_title($acc_id)),
+                        'url'      => $acc_url,
+                    ];
+
+                    $position++;
+                }
+
+                wp_reset_postdata();
+
+                if (!empty($items)) {
+                    $list_counter++;
+
+                    $item_lists[] = [
+                        '@type'           => 'ItemList',
+                        '@id'             => trailingslashit(get_permalink($post_id)) . '#packages-list-' . $list_counter,
+                        'name'            => !empty($main_title)
+                            ? jse_schema_clean($main_title)
+                            : 'Accommodation Listings',
+                        'itemListElement' => $items,
+                    ];
+                }
+            }
+        }
+
+        if ($layout === 'common_questions') {
+            if (have_rows('faqs', $post_id)) {
+                while (have_rows('faqs', $post_id)) {
+                    the_row(true);
+
+                    $question = get_sub_field('question');
+                    $answer   = get_sub_field('answer');
+
+                    if (!empty($question) && !empty($answer)) {
+                        $faq_nodes[] = [
+                            '@type' => 'Question',
+                            'name'  => jse_schema_clean($question),
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text'  => jse_schema_clean($answer),
+                            ],
+                        ];
+
+                        $faq_counter++;
+                    }
+
+                    if ($faq_counter >= 20) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if ($layout === 'nearby_location') {
+
+            $items    = [];
+            $position = 1;
+
+            if (have_rows('location')) {
+
+                while (have_rows('location')) {
+                    the_row();
+
+                    $title = get_sub_field('title');
+
+                    if (!empty($title)) {
+
+                        $items[] = [
+                            '@type'    => 'ListItem',
+                            'position' => $position,
+                            'name'     => jse_schema_clean($title),
+                        ];
+
+                        $position++;
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+
+                $list_counter++;
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#nearby-locations-' . $list_counter,
+                    'name'            => 'Nearby Locations',
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+
+        if ($layout === 'three_column_boxes') {
+
+            $items    = [];
+            $position = 1;
+
+            if (have_rows('boxes')) {
+
+                while (have_rows('boxes')) {
+                    the_row();
+
+                    $title  = get_sub_field('title');
+                    $button = get_sub_field('button');
+
+                    $items[] = [
+                        '@type'    => 'ListItem',
+                        'position' => $position,
+                        'name'     => jse_schema_clean($title),
+                        'url'      => jse_schema_link_url($button),
+                    ];
+
+                    $position++;
+                }
+            }
+
+            if (!empty($items)) {
+
+                $list_counter++;
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#three-column-boxes-' . $list_counter,
+                    'name'            => jse_schema_clean(get_sub_field('title')),
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+
+        if ($layout === 'about_accomodation') {
+
+            $items    = [];
+            $position = 1;
+
+            if (have_rows('ammenites')) {
+
+                while (have_rows('ammenites')) {
+                    the_row();
+
+                    $label = get_sub_field('label');
+
+                    if (!empty($label)) {
+
+                        $items[] = [
+                            '@type'    => 'ListItem',
+                            'position' => $position,
+                            'name'     => jse_schema_clean($label),
+                        ];
+
+                        $position++;
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+
+                $list_counter++;
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#amenities-' . $list_counter,
+                    'name'            => 'Amenities',
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+
+        /*
+         * Team schema from:
+         * - teams
+         * - team_two
+         */
+        if ($layout === 'teams' || $layout === 'team_two' || $layout === 'team') {
+            $team_members_selection = get_sub_field('team_members');
+            $team_members_options   = get_field('team_members', 'option');
+
+            if (!empty($team_members_selection) && !empty($team_members_options) && is_array($team_members_selection)) {
+                foreach ($team_members_selection as $member_row) {
+                    $selected_name = $member_row['select_member'] ?? '';
+
+                    if (empty($selected_name)) {
+                        continue;
+                    }
+
+                    foreach ($team_members_options as $option_row) {
+                        if (!isset($option_row['name']) || $option_row['name'] !== $selected_name) {
+                            continue;
+                        }
+
+                        $team_nodes[] = [
+                            '@type'    => 'Person',
+                            'name'     => jse_schema_clean($option_row['name']),
+                            'jobTitle' => !empty($option_row['designation'])
+                                ? jse_schema_clean($option_row['designation'])
+                                : 'Ski Holiday Expert',
+                            'image' => !empty($option_row['profile_image'])
+                                ? jse_schema_image_url($option_row['profile_image'])
+                                : '',
+                        ];
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        /*
+        * Review schema from:
+        * - guest_reviews
+        * - client_reviews
+        * - product_review
+        *
+        * Do not invent a 5-star rating when a card has no stored rating.
+        */
+        if ($layout === 'guest_reviews' || $layout === 'client_reviews' || $layout === 'product_review') {
+
+            $review_repeater = '';
+
+            if (have_rows('reviews_lisitng')) {
+                $review_repeater = 'reviews_lisitng';
+            } elseif (have_rows('reviews_listing')) {
+                $review_repeater = 'reviews_listing';
+            } elseif (have_rows('reviews')) {
+                $review_repeater = 'reviews';
+            } elseif (have_rows('property_reviews')) {
+                $review_repeater = 'property_reviews';
+            } elseif (have_rows('product_reviews')) {
+                $review_repeater = 'product_reviews';
+            }
+
+            if (!empty($review_repeater)) {
+                while (have_rows($review_repeater)) {
+                    the_row();
+
+                    $review_text = get_sub_field('review_text') ?: get_sub_field('review_body') ?: get_sub_field('review') ?: get_sub_field('description');
+                    $name_date   = get_sub_field('namedate') ?: get_sub_field('name_date');
+                    $review_name = get_sub_field('name') ?: get_sub_field('guest_name') ?: get_sub_field('client_name');
+                    $reviewer    = get_sub_field('reviewer') ?: get_sub_field('author');
+                    $rating      = get_sub_field('rating') ?: get_sub_field('review_rating') ?: get_sub_field('score') ?: get_sub_field('stars');
+                    $date        = get_sub_field('posted_date') ?: get_sub_field('date') ?: get_sub_field('review_date');
+
+                    $author_name = $name_date ?: $review_name ?: $reviewer ?: 'Guest Review';
+                    $review_node = jse_schema_build_review_node($review_text, $author_name, $rating, $date);
+
+                    if (!empty($review_node)) {
+                        $review_nodes[] = $review_node;
+                    }
+                }
+            }
+        }
+
+        /*
+         * Video schema from content/video sections.
+         */
+        if ($layout === 'content_with_video_popup') {
+            $video_url       = get_sub_field('video_url');
+            $video_upload    = get_sub_field('video_upload');
+            $video_thumbnail = get_sub_field('video_thumbnail');
+            $title           = get_sub_field('title');
+
+            $final_video_url = !empty($video_upload) ? $video_upload : $video_url;
+
+            if (!empty($final_video_url)) {
+                $video_counter++;
+
+                if( empty( $video_thumbnail ) ){
+
+                    $youtube_id = '';
+    
+                    if (!empty($final_video_url)) {
+                        if (preg_match('/(?:youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([^&?\/]+)/', $final_video_url, $matches)) {
+                            $youtube_id = $matches[1];
+                        }
+                    }
+    
+                    if (!empty($youtube_id)) {
+                        $video_thumbnail = 'https://img.youtube.com/vi/' . $youtube_id . '/maxresdefault.jpg';
+                    }
+                }
+
+                $video_nodes[] = [
+                    '@type'        => 'VideoObject',
+                    '@id'          => trailingslashit(get_permalink($post_id)) . '#video-' . $video_counter,
+                    'name'         => !empty($title) ? jse_schema_clean($title) : get_the_title($post_id),
+                    'description'  => jse_schema_clean(get_sub_field('content')),
+                    'thumbnailUrl' => jse_schema_image_url($video_thumbnail),
+                    'uploadDate'   => get_the_modified_date('c', $post_id),
+                    'contentUrl'   => esc_url($final_video_url),
+                    'embedUrl'     => esc_url($final_video_url),
+                ];
+            }
+        }
+
+        if ($layout === 'content_with_video') {
+            $video_group     = get_sub_field('video');
+            $title           = get_sub_field('title');
+            $description     = get_sub_field('description');
+            $video_thumbnail = $video_group['video_thumbnail'] ?? '';
+            $youtube_url     = $video_group['youtube_video_url'] ?? '';
+            $vimeo_url       = $video_group['vimeo_video_url'] ?? '';
+            $html5_video     = $video_group['html5_video'] ?? '';
+
+            $final_video_url = $html5_video ?: $youtube_url ?: $vimeo_url;
+            
+            if( empty( $video_thumbnail ) ){
+
+                $youtube_id = '';
+
+                if (!empty($final_video_url)) {
+                    if (preg_match('/(?:youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([^&?\/]+)/', $final_video_url, $matches)) {
+                        $youtube_id = $matches[1];
+                    }
+                }
+
+                if (!empty($youtube_id)) {
+                    $video_thumbnail = 'https://img.youtube.com/vi/' . $youtube_id . '/maxresdefault.jpg';
+                }
+            }
+
+            if (!empty($final_video_url)) {
+                $video_counter++;
+
+                $video_nodes[] = [
+                    '@type'        => 'VideoObject',
+                    '@id'          => trailingslashit(get_permalink($post_id)) . '#video-' . $video_counter,
+                    'name'         => !empty($title) ? jse_schema_clean($title) : get_the_title($post_id),
+                    'description'  => jse_schema_clean($description),
+                    'thumbnailUrl' => jse_schema_image_url($video_thumbnail),
+                    'uploadDate'   => get_the_modified_date('c', $post_id),
+                    'contentUrl'   => esc_url($final_video_url),
+                    'embedUrl'     => esc_url($final_video_url),
+                ];
+            }
+        }
+
+        if ($layout === 'simple_content') {
+            $select_option   = get_sub_field('select_option');
+            $title           = get_sub_field('title');
+            $description     = get_sub_field('description');
+            $video_thumbnail = get_sub_field('video_thumbnail');
+            $youtube_url     = get_sub_field('youtube_url');
+            $vimeo_url       = get_sub_field('vimeo_url');
+            $html5_video     = get_sub_field('html_5_video');
+
+            $final_video_url = $html5_video ?: $youtube_url ?: $vimeo_url;
+
+            if ($select_option === 'video' && !empty($final_video_url)) {
+                $video_counter++;
+
+                $video_nodes[] = [
+                    '@type'        => 'VideoObject',
+                    '@id'          => trailingslashit(get_permalink($post_id)) . '#video-' . $video_counter,
+                    'name'         => !empty($title) ? jse_schema_clean($title) : get_the_title($post_id),
+                    'description'  => jse_schema_clean($description),
+                    'thumbnailUrl' => jse_schema_image_url($video_thumbnail),
+                    'uploadDate'   => get_the_modified_date('c', $post_id),
+                    'contentUrl'   => esc_url($final_video_url),
+                    'embedUrl'     => esc_url($final_video_url),
+                ];
+            }
+        }
+
+        /*
+         * Static/dynamic ItemList schema.
+         * Good for card sections, linked pages, featured posts and package/post listings.
+         */
+        if ($layout === 'four_column_boxes') {
+            $items = [];
+            $data_type = get_sub_field('data_type');
+
+            if ($data_type === 'static' && have_rows('static_data')) {
+                $position = 1;
+
+                while (have_rows('static_data')) {
+                    the_row();
+
+                    $title = get_sub_field('title');
+                    $link  = get_sub_field('link');
+                    $url   = jse_schema_link_url($link);
+
+                    if (!empty($title) || !empty($url)) {
+                        $items[] = [
+                            '@type'    => 'ListItem',
+                            'position' => $position,
+                            'name'     => jse_schema_clean($title),
+                            'url'      => $url,
+                        ];
+
+                        $position++;
+                    }
+                }
+            }
+
+            if ($data_type === 'dynamic' && have_rows('dynamic')) {
+                $position = 1;
+
+                while (have_rows('dynamic')) {
+                    the_row();
+
+                    $selected_url = get_sub_field('select_page');
+                    $selected_id  = jse_schema_get_post_id_from_url($selected_url);
+
+                    if ($selected_id) {
+                        $items[] = [
+                            '@type'    => 'ListItem',
+                            'position' => $position,
+                            'name'     => jse_schema_clean(get_the_title($selected_id)),
+                            'url'      => get_permalink($selected_id),
+                        ];
+
+                        $position++;
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+                $list_counter++;
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#itemlist-' . $list_counter,
+                    'name'            => jse_schema_clean(get_sub_field('title')),
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+
+        if ($layout === 'featured_post') {
+            $selected_post = get_sub_field('select_post');
+
+            if (!empty($selected_post)) {
+                $selected_id = is_object($selected_post) ? $selected_post->ID : intval($selected_post);
+
+                if ($selected_id) {
+                    $list_counter++;
+
+                    $item_lists[] = [
+                        '@type' => 'ItemList',
+                        '@id'   => trailingslashit(get_permalink($post_id)) . '#featured-posts-' . $list_counter,
+                        'name'  => 'Featured Post',
+                        'itemListElement' => [
+                            [
+                                '@type'    => 'ListItem',
+                                'position' => 1,
+                                'name'     => jse_schema_clean(get_the_title($selected_id)),
+                                'url'      => get_permalink($selected_id),
+                            ],
+                        ],
+                    ];
+                }
+            }
+        }
+
+        if ($layout === 'post_listing') {
+            $items    = [];
+            $position = 1;
+
+            if (have_rows('post')) {
+                while (have_rows('post')) {
+                    the_row();
+
+                    $selected_post = get_sub_field('list');
+                    $selected_id   = is_object($selected_post) ? $selected_post->ID : intval($selected_post);
+
+                    if ($selected_id) {
+                        $items[] = [
+                            '@type'    => 'ListItem',
+                            'position' => $position,
+                            'name'     => jse_schema_clean(get_the_title($selected_id)),
+                            'url'      => get_permalink($selected_id),
+                        ];
+
+                        $position++;
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+                $list_counter++;
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#post-list-' . $list_counter,
+                    'name'            => jse_schema_clean(get_sub_field('title')),
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+
+        if ($layout === 'category_tabs_static') {
+            $items    = [];
+            $position = 1;
+
+            if (have_rows('tabs')) {
+                while (have_rows('tabs')) {
+                    the_row();
+
+                    if (have_rows('tab_content')) {
+                        while (have_rows('tab_content')) {
+                            the_row();
+
+                            $title = get_sub_field('title_inner');
+                            $link  = get_sub_field('link_inner');
+                            $url   = jse_schema_link_url($link);
+
+                            if (!empty($title) || !empty($url)) {
+                                $items[] = [
+                                    '@type'    => 'ListItem',
+                                    'position' => $position,
+                                    'name'     => jse_schema_clean($title),
+                                    'url'      => $url,
+                                ];
+
+                                $position++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+                $list_counter++;
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#tabs-list-' . $list_counter,
+                    'name'            => jse_schema_clean(get_sub_field('title')),
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+
+        if ($layout === 'how_it_works') {
+            $how_title    = get_sub_field('title');
+            $how_subtitle = get_sub_field('sub_title');
+            $steps        = [];
+            $step_pos     = 1;
+
+            if (have_rows('bullet_points')) {
+                while (have_rows('bullet_points')) {
+                    the_row();
+                    $step_name = get_sub_field('title');
+                    $step_text = get_sub_field('text');
+
+                    if (!empty($step_name)) {
+                        $step = [
+                            '@type'    => 'HowToStep',
+                            'position' => $step_pos,
+                            'name'     => jse_schema_clean($step_name),
+                        ];
+
+                        if (!empty($step_text)) {
+                            $step['text'] = jse_schema_clean($step_text);
+                        }
+
+                        $steps[] = $step;
+                        $step_pos++;
+                    }
+                }
+            }
+
+            if (!empty($steps)) {
+                $howto_counter++;
+
+                $howto_nodes[] = [
+                    '@type'       => 'HowTo',
+                    '@id'         => trailingslashit(get_permalink($post_id)) . '#howto-' . $howto_counter,
+                    'name'        => !empty($how_title) ? jse_schema_clean($how_title) : get_the_title($post_id),
+                    'description' => !empty($how_subtitle) ? jse_schema_clean($how_subtitle) : '',
+                    'step'        => $steps,
+                ];
+            }
+        }
+
+        if ($layout === 'industry_recognition') {
+            $items    = [];
+            $position = 1;
+
+            if (have_rows('awards')) {
+                while (have_rows('awards')) {
+                    the_row();
+                    $award_title = get_sub_field('title');
+                    $award_years = get_sub_field('years');
+
+                    if (!empty($award_title)) {
+                        $label = jse_schema_clean($award_title);
+                        if (!empty($award_years)) {
+                            $label .= ' (' . jse_schema_clean($award_years) . ')';
+                        }
+
+                        $items[] = [
+                            '@type'    => 'ListItem',
+                            'position' => $position,
+                            'name'     => $label,
+                        ];
+
+                        $position++;
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+                $list_counter++;
+
+                $section_title = get_sub_field('title');
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#awards-' . $list_counter,
+                    'name'            => !empty($section_title) ? jse_schema_clean($section_title) : 'Industry Awards',
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+
+        if ($layout === 'why_choose_us') {
+            $items    = [];
+            $position = 1;
+
+            if (have_rows('bullet_points')) {
+                while (have_rows('bullet_points')) {
+                    the_row();
+                    $text = get_sub_field('text');
+
+                    if (!empty($text)) {
+                        $items[] = [
+                            '@type'    => 'ListItem',
+                            'position' => $position,
+                            'name'     => jse_schema_clean($text),
+                        ];
+
+                        $position++;
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+                $list_counter++;
+
+                $section_title = get_sub_field('title');
+
+                $item_lists[] = [
+                    '@type'           => 'ItemList',
+                    '@id'             => trailingslashit(get_permalink($post_id)) . '#why-choose-us-' . $list_counter,
+                    'name'            => !empty($section_title) ? jse_schema_clean($section_title) : 'Why Choose Us',
+                    'itemListElement' => $items,
+                ];
+            }
+        }
+    }
+
+    reset_rows();
+
+    return [
+        'faq_nodes'     => $faq_nodes,
+        'team_nodes'    => $team_nodes,
+        'review_nodes'  => $review_nodes,
+        'video_nodes'   => $video_nodes,
+        'howto_nodes'   => $howto_nodes,
+        'item_lists'    => $item_lists,
+        'page_elements' => $page_elements,
+    ];
+}
+
+function jse_schema_get_deals_offer_catalog($current_domain) {
+    $offers = [];
+
+    $deal_query = new WP_Query([
+        'post_type'      => 'accommodation',
+        'posts_per_page' => 10,
+        'post_status'    => 'publish',
+        'meta_query'     => [
+            [
+                'key'     => 'is_discount',
+                'value'   => '1',
+                'compare' => '=',
+            ],
+        ],
+    ]);
+
+    if ($deal_query->have_posts()) {
+        while ($deal_query->have_posts()) {
+            $deal_query->the_post();
+
+            $deal_post_id = get_the_ID();
+            $deal_url     = get_permalink($deal_post_id);
+            $deal_name    = get_the_title($deal_post_id);
+
+            $offer_name = 'Accommodation Deal';
+
+            if (have_rows('rate_plan', $deal_post_id)) {
+                while (have_rows('rate_plan', $deal_post_id)) {
+                    the_row();
+
+                    $rate_plan_name = get_sub_field('rate_plan_name');
+
+                    if (!empty($rate_plan_name) && stripos($rate_plan_name, 'discount') !== false) {
+                        $offer_name = wp_strip_all_tags($rate_plan_name);
+                        break;
+                    }
+                }
+
+                reset_rows();
+            }
+
+            $offers[] = [
+                '@type'        => 'Offer',
+                'name'         => jse_schema_clean($offer_name . ' - ' . $deal_name),
+                'url'          => $deal_url,
+                'availability' => 'https://schema.org/InStock',
+                'seller'       => [
+                    '@id' => $current_domain . '/#organization',
+                ],
+                'itemOffered'  => [
+                    '@type' => 'LodgingBusiness',
+                    'name'  => jse_schema_clean($deal_name),
+                    'url'   => $deal_url,
+                ],
+            ];
+        }
+
+        wp_reset_postdata();
+    }
+
+    if (empty($offers)) {
+        return [];
+    }
+
+    return [
+        '@type'           => 'OfferCatalog',
+        '@id'             => trailingslashit(home_url('/accommodation/deals/')) . '#offer-catalog',
+        'name'            => 'Japan Ski Accommodation Deals',
+        'itemListElement' => $offers,
+    ];
+}
+
+function jse_schema_get_blog_listing_posts($post_id, $current_domain) {
+    $blog_posts = [];
+
+    $posts_query = new WP_Query([
+        'post_type'      => 'post',
+        'posts_per_page' => 10,
+        'post_status'    => 'publish',
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    ]);
+
+    if ($posts_query->have_posts()) {
+        while ($posts_query->have_posts()) {
+            $posts_query->the_post();
+
+            $blog_post_id = get_the_ID();
+            $post_url     = get_permalink($blog_post_id);
+            $image_url    = get_the_post_thumbnail_url($blog_post_id, 'full');
+            $excerpt      = get_the_excerpt($blog_post_id);
+
+            $post_node = [
+                '@type'            => 'BlogPosting',
+                '@id'              => trailingslashit($post_url) . '#article',
+                'headline'         => jse_schema_clean(get_the_title($blog_post_id)),
+                'url'              => $post_url,
+                'mainEntityOfPage' => [
+                    '@id' => trailingslashit($post_url) . '#webpage',
+                ],
+                'datePublished'    => get_the_date('c', $blog_post_id),
+                'dateModified'     => get_the_modified_date('c', $blog_post_id),
+                'author'           => [
+                    '@type' => 'Person',
+                    'name'  => get_the_author_meta(
+                        'display_name',
+                        get_post_field('post_author', $blog_post_id)
+                    ),
+                ],
+                'publisher' => [
+                    '@id' => $current_domain . '/#organization',
+                ],
+            ];
+
+            if (!empty($excerpt)) {
+                $post_node['description'] = jse_schema_clean($excerpt);
+            }
+
+            if (!empty($image_url)) {
+                $post_node['image'] = esc_url($image_url);
+            }
+
+            $blog_posts[] = $post_node;
+        }
+
+        wp_reset_postdata();
+    }
+
+    return $blog_posts;
+}
+
+function jse_inject_dynamic_page_builder_schema() {
+    if (is_admin() || is_404() || is_search() || is_archive()) {
+        return;
+    }
+
+    if (!is_singular() && !is_front_page() && !is_home()) {
+        return;
+    }
+
+    $post_id           = get_the_ID();
+    $current_domain    = untrailingslashit(get_site_url());
+    $graph_nodes       = [];
+    $organization_node = jse_schema_organization_node($current_domain);
+    $company_reviews   = [];
+
+    /*
+     * Post type specific schema.
+     * Yoast now provides the WebSite and WebPage nodes, so this file only
+     * outputs the additional nodes and keeps references pointing to Yoast IDs.
+     */
+    if (is_singular('post')) {
+        $graph_nodes[] = jse_schema_article_node($post_id, $current_domain);
+    }
+
+    if (is_singular('accommodation')) {
+        $graph_nodes[] = jse_schema_accommodation_node($post_id, $current_domain);
+
+        $accommodation_reviews = jse_schema_scan_accommodation_builder_reviews($post_id);
+
+        if (!empty($accommodation_reviews)) {
+
+            jse_schema_attach_reviews_to_graph_node(
+                $graph_nodes,
+                trailingslashit(get_permalink($post_id)) . '#lodging',
+                $accommodation_reviews,
+                $post_id
+            );
+        }
+
+        $accommodation_faq_nodes = jse_schema_accommodation_faq_nodes($post_id);
+
+        if (!empty($accommodation_faq_nodes)) {
+            $graph_nodes[] = [
+                '@type'      => 'FAQPage',
+                '@id'        => trailingslashit(get_permalink($post_id)) . '#faqpage',
+                'url'        => get_permalink($post_id),
+                'name'       => get_the_title($post_id) . ' FAQs',
+                'isPartOf'   => [
+                    '@id' => trailingslashit(get_permalink($post_id)) . '#webpage',
+                ],
+                'mainEntity' => $accommodation_faq_nodes,
+            ];
+        }
+
+        $room_schema = jse_schema_room_listing_node($post_id);
+
+        if (!empty($room_schema)) {
+            $graph_nodes[] = $room_schema;
+        }
+    }
+
+    if ($post_id) {
+        /*
+        * Add lightweight OfferCatalog on the Deals page without rebuilding
+        * Yoast's WebPage node.
+        */
+
+        $current_url = get_permalink($post_id);
+
+        if (
+            is_page() &&
+            strpos(get_permalink($post_id), '/accommodation/') !== false
+        ) {
+
+            $accommodation_listing_schema = jse_schema_accommodation_listing_node( $post_id );
+
+            if (!empty($accommodation_listing_schema)) {
+                $graph_nodes[] = $accommodation_listing_schema;
+            }
+        }
+        
+        if (
+            is_page('deals') ||
+            strpos(get_permalink($post_id), '/accommodation/deals/') !== false
+        ) {
+            $deals_catalog = jse_schema_get_deals_offer_catalog($current_domain);
+
+            if (!empty($deals_catalog)) {
+                $graph_nodes[] = $deals_catalog;
+            }
+        }
+
+        /*
+        * Add lightweight BlogPosting nodes on the Blog listing page without
+        * rebuilding Yoast's WebPage node.
+        */
+        if (
+            is_page('blog') ||
+            (
+                strpos(get_permalink($post_id), '/blog/') !== false &&
+                !is_singular('post')
+            )
+        ) {
+            $blog_posts = jse_schema_get_blog_listing_posts($post_id, $current_domain);
+
+            if (!empty($blog_posts)) {
+                foreach ($blog_posts as $blog_post) {
+                    $graph_nodes[] = $blog_post;
+                }
+            }
+        }
+    }
+
+    $is_homepage = is_front_page() || is_home();
+
+    /*
+    * Company reviews/ratings.
+    * aggregateRating stays on the TravelAgency node (homepage only).
+    * Individual Review nodes are collected here and output separately below —
+    * they are NOT embedded inside the TravelAgency node.
+    */
+    $dynamic_reviews = jse_schema_get_dynamic_reviews();
+
+    if ($is_homepage && !empty($dynamic_reviews['review_count'])) {
+        $organization_node['aggregateRating'] = [
+            '@type'       => 'AggregateRating',
+            'ratingValue' => $dynamic_reviews['rating_value'],
+            'reviewCount' => intval($dynamic_reviews['review_count']),
+            'bestRating'  => '5',
+        ];
+    }
+
+    // Dynamic reviews are company-level — only collect them on the homepage.
+    if ($is_homepage && !empty($dynamic_reviews['reviews'])) {
+        $company_reviews = array_merge($company_reviews, $dynamic_reviews['reviews']);
+    }
+
+    /*
+     * Scan ACF page builder for schema-friendly sections.
+     */
+    if ($post_id) {
+        $builder_schema = jse_schema_scan_page_builder($post_id, $current_domain);
+
+        if ($is_homepage && !empty($builder_schema['team_nodes'])) {
+            $organization_node['employee'] = $builder_schema['team_nodes'];
+        } elseif (!$is_homepage && !empty($builder_schema['team_nodes'])) {
+            foreach ($builder_schema['team_nodes'] as $index => $person) {
+                $person['@id']      = $current_domain . '/#person-' . ($index + 1);
+                $person['worksFor'] = ['@id' => $current_domain . '/#organization'];
+                $graph_nodes[]      = $person;
+            }
+        }
+
+        if (!empty($builder_schema['faq_nodes'])) {
+            $graph_nodes[] = [
+                '@type'      => 'FAQPage',
+                '@id'        => trailingslashit(get_permalink($post_id)) . '#faqpage',
+                'url'        => get_permalink($post_id),
+                'name'       => get_the_title($post_id) . ' FAQs',
+                'isPartOf'   => [
+                    '@id' => trailingslashit(get_permalink($post_id)) . '#webpage',
+                ],
+                'mainEntity' => $builder_schema['faq_nodes'],
+            ];
+        }
+
+        if (!empty($builder_schema['review_nodes'])) {
+            if (is_singular('accommodation')) {
+                /*
+                 * Property page reviews belong on the LodgingBusiness node,
+                 * not on the company Organization node.
+                 */
+
+                cf_log( 'jse_schema_attach_reviews_to_graph_node', 'reviews_to_graph_node' );
+                jse_schema_attach_reviews_to_graph_node(
+                    $graph_nodes,
+                    trailingslashit(get_permalink($post_id)) . '#lodging',
+                    $builder_schema['review_nodes'],
+                    $post_id
+                );
+            } else {
+                $company_reviews = array_merge($company_reviews, $builder_schema['review_nodes']);
+            }
+        }
+
+        if (!empty($builder_schema['video_nodes'])) {
+            foreach ($builder_schema['video_nodes'] as $video_node) {
+                $graph_nodes[] = $video_node;
+            }
+        }
+
+        if (!empty($builder_schema['howto_nodes'])) {
+            foreach ($builder_schema['howto_nodes'] as $howto_node) {
+                $graph_nodes[] = $howto_node;
+            }
+        }
+
+        if (!empty($builder_schema['item_lists'])) {
+            $current_url = get_permalink($post_id);
+
+            /*
+            * Skip ItemList on pages where Google detects them as Carousel markup.
+            *
+            * Homepage: skip
+            * Accommodation listing pages: skip
+            * Blog listing page: skip
+            *
+            * Other guide/service pages can still use small ItemList blocks.
+            */
+            $skip_item_lists = false;
+
+            if (is_front_page() || is_home()) {
+                $skip_item_lists = true;
+            }
+
+            if (
+                is_page('accommodation') ||
+                strpos($current_url, '/accommodation/') !== false
+            ) {
+                $skip_item_lists = true;
+            }
+
+            if (
+                is_page('blog') ||
+                (
+                    strpos($current_url, '/blog/') !== false &&
+                    !is_singular('post')
+                )
+            ) {
+                $skip_item_lists = true;
+            }
+
+            if (!$skip_item_lists) {
+                foreach ($builder_schema['item_lists'] as $item_list) {
+                    $graph_nodes[] = $item_list;
+                }
+            }
+        }
+
+        if (!empty($builder_schema['page_elements'])) {
+            foreach ($builder_schema['page_elements'] as $page_element) {
+                $graph_nodes[] = $page_element;
+            }
+        }
+    }
+
+    /*
+     * Output each company review as a standalone Review node — NOT embedded
+     * inside the TravelAgency. Each node gets a unique @id and an itemReviewed
+     * reference back to the Organization.
+     */
+    if (!empty($company_reviews)) {
+        foreach ($company_reviews as $index => $review) {
+            $review['@id']           = $current_domain . '/#review-' . ($index + 1);
+            $review['itemReviewed']  = ['@id' => $current_domain . '/#organization'];
+            $graph_nodes[]           = $review;
+        }
+    }
+
+    /*
+     * Only output the enriched TravelAgency node on the homepage.
+     * On all other pages Yoast's lean Organization node is sufficient.
+     * Reviews are intentionally excluded — they are separate nodes above.
+     */
+    if ($is_homepage && count($organization_node) > 1) {
+        array_unshift($graph_nodes, $organization_node);
+    }
+
+    /*
+    * Remove empty fields from graph nodes.
+    */
+    $graph_nodes = array_map('jse_schema_remove_empty_values', $graph_nodes);
+
+    $graph_nodes = array_filter($graph_nodes, function ($node) {
+        return !empty($node) && is_array($node);
+    });
+
+    $unique_graph_nodes = [];
+
+    foreach ($graph_nodes as $node) {
+        if (!empty($node['@id'])) {
+            $unique_graph_nodes[$node['@id']] = $node;
+        } else {
+            $unique_graph_nodes[] = $node;
+        }
+    }
+
+    $graph_nodes = array_values($unique_graph_nodes);
+
+    if (empty($graph_nodes)) {
+        return;
+    }
+
+    $master_schema = [
+        '@context' => 'https://schema.org',
+        '@graph'   => $graph_nodes,
+    ];
+
+    echo "\n\n";
+    echo '<script type="application/ld+json" id="master-schema">';
+    echo wp_json_encode(
+        $master_schema,
+        JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+    );
+    echo '</script>' . "\n";
+}
+
+function jse_schema_remove_empty_values($data) {
+    if (!is_array($data)) {
+        return $data;
+    }
+
+    foreach ($data as $key => $value) {
+        if (is_array($value)) {
+            $data[$key] = jse_schema_remove_empty_values($value);
+        }
+
+        if ($data[$key] === '' || $data[$key] === null || $data[$key] === []) {
+            unset($data[$key]);
+        }
+    }
+
+    return $data;
+}
+
+function jse_schema_accommodation_faq_nodes($post_id) {
+    $faq_nodes = [];
+
+    /*
+     * 1. FAQs from ammenities_faq taxonomy terms.
+     */
+    $faq_terms = get_the_terms($post_id, 'ammenites_faq');
+
+    if (!empty($faq_terms) && !is_wp_error($faq_terms)) {
+        foreach ($faq_terms as $term) {
+            if (empty($term->name) || empty($term->description)) {
+                continue;
+            }
+
+            $faq_nodes[] = [
+                '@type' => 'Question',
+                'name'  => jse_schema_clean($term->name),
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text'  => jse_schema_clean($term->description),
+                ],
+            ];
+        }
+    }
+
+    /*
+     * 2. Global accommodation FAQ CPT.
+     */
+    /*
+    * 2. FAQs from API
+    */
+    $property_api_id = get_field('property_id', $post_id);
+
+    if ($property_api_id) {
+
+        $api_url    = 'https://stay.japanskiexperience.com/api/wp-property-faqs';
+        $auth_token = get_field('trip_api_token', 'option');
+
+        $response = wp_remote_post(
+            $api_url,
+            [
+                'method'  => 'POST',
+                'timeout' => 30,
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $auth_token,
+                ],
+                'body' => wp_json_encode([
+                    'propertyIds' => [(int) $property_api_id],
+                ]),
+            ]
+        );
+
+        if (
+            !is_wp_error($response) &&
+            wp_remote_retrieve_response_code($response) === 200
+        ) {
+
+            $data = json_decode(
+                wp_remote_retrieve_body($response),
+                true
+            );
+
+            /*
+            * Default FAQs first
+            */
+            if (
+                !empty($data['default_faqs']) &&
+                is_array($data['default_faqs'])
+            ) {
+
+                foreach ($data['default_faqs'] as $faq) {
+
+                    $title       = $faq['title'] ?? '';
+                    $description = $faq['description'] ?? '';
+
+                    if (empty($title) || empty($description)) {
+                        continue;
+                    }
+
+                    $faq_nodes[] = [
+                        '@type' => 'Question',
+                        'name'  => jse_schema_clean($title),
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text'  => jse_schema_clean($description),
+                        ],
+                    ];
+                }
+            }
+
+            /*
+            * Property specific FAQs
+            */
+            if (
+                !empty($data['property']) &&
+                is_array($data['property'])
+            ) {
+
+                foreach ($data['property'] as $property) {
+
+                    if (
+                        empty($property['faqs']) ||
+                        !is_array($property['faqs'])
+                    ) {
+                        continue;
+                    }
+
+                    foreach ($property['faqs'] as $faq) {
+
+                        $title       = $faq['title'] ?? '';
+                        $description = $faq['description'] ?? '';
+
+                        if (empty($title) || empty($description)) {
+                            continue;
+                        }
+
+                        $faq_nodes[] = [
+                            '@type' => 'Question',
+                            'name'  => jse_schema_clean($title),
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text'  => jse_schema_clean($description),
+                            ],
+                        ];
+                    }
+                }
+            }
+        }
+    }
+
+    return $faq_nodes;
+}
+
+// =============================================================================
+// YOAST SEO SCHEMA FILTERS
+// =============================================================================
+
+/**
+ * Modify Yoast's @graph array before it is output to the page.
+ *
+ * - Organization → TravelAgency on every page, so Yoast's own node and our
+ *   enrichment node (same @id) both carry the same type; no validator mismatch.
+ *
+ * - WebPage.breadcrumb removed: BreadcrumbList already exists as a standalone
+ *   @graph node, so the back-reference only causes validators to render it
+ *   collapsed inside WebPage. Without it, BreadcrumbList shows as its own block.
+ *
+ * - WebPage.about removed on the homepage: the Organization is already linked
+ *   via WebSite.publisher; the second path through WebPage.about is redundant
+ *   and causes the full TravelAgency to be expanded inside the homepage WebPage.
+ */
+add_filter( 'wpseo_schema_graph', 'jse_yoast_filter_schema_graph', 11, 2 );
+function jse_yoast_filter_schema_graph( $data, $context ) {
+    $is_homepage = is_front_page() || is_home();
+
+    foreach ( $data as $index => $piece ) {
+        if ( empty( $piece ) || ! is_array( $piece ) ) {
+            continue;
+        }
+
+        $type = $piece['@type'] ?? '';
+
+        // Upgrade Organization → TravelAgency
+        if ( $type === 'Organization' ) {
+            $data[ $index ]['@type'] = 'TravelAgency';
+        }
+
+        // Clean WebPage node
+        if ( $type === 'WebPage' || ( is_array( $type ) && in_array( 'WebPage', $type, true ) ) ) {
+            unset( $data[ $index ]['breadcrumb'] );
+
+            if ( $is_homepage ) {
+                unset( $data[ $index ]['about'] );
+            }
+        }
+    }
+
+    return $data;
+}

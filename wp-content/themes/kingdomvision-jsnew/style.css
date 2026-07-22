@@ -886,8 +886,8 @@ section.room-listing .room-modal .room-modal-content .room-features .features-li
 section.room-listing .room-modal .room-modal-content button.room-modal-close { position: absolute; right: 10px; top: 10px; padding: 0; margin: 0; background: url(images/close.svg) no-repeat center; width: 50px; height: 50px; color: #000; font-size: 0; z-index: 999; }
 
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter { width: 100%; padding: 20px 0px; margin: 20px 0; border-top: solid 1px rgba(255, 255, 255, 0.20); border-bottom: solid 1px rgba(255, 255, 255, 0.20); }
-section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form { width: 100%; display: flex; gap: 14px; }
-section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field { width: 33.33%; }
+section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form { width: 100%; display: flex; gap: 14px; justify-content: space-between; }
+section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field { flex: 1; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form label { display: none; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field input { width: 100%; padding: 0px 20px 0px; border-radius: 8px; border: solid 1px #bfcfdf; color: rgba(255, 255, 255, 0.80); height: 50px; line-height: 50px; background: #00111f; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-guests-filter form .rb-guest-field label { display: block; }

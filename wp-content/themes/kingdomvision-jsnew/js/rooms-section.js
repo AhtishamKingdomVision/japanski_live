@@ -214,9 +214,9 @@
 
                 property_id: property_id,
 
-                adults: rb_storage.get('sb_adults') || 0,
+                adults: parseInt(rb_storage.get('sb_adults'), 10) || 2,
 
-                children: rb_storage.get('sb_children') || 0,
+                children: parseInt(rb_storage.get('sb_children'), 10) || 0,
 
                 infants: 0
 
@@ -658,11 +658,11 @@
 
                     end_date: params.checkout || params.end_date,
 
-                    adults: params.adults || 0,
+                    adults: parseInt(params.adults, 10) || parseInt(rb_storage.get('sb_adults'), 10) || 2,
 
-                    children: params.children || 0,
+                    children: parseInt(params.children, 10) || parseInt(rb_storage.get('sb_children'), 10) || 0,
 
-                    infants: params.infants || 0
+                    infants: parseInt(params.infants, 10) || 0
 
                 },
 
@@ -697,6 +697,16 @@
                                         $(this).text(roomCount);
                                     }
                                 });
+                            }
+
+                            // Live rates unavailable — keep / restore BedBank enquiry copy.
+                            const $unitsFallback = $('.available_units').first();
+                            if ($unitsFallback.length && $unitsFallback.data('bedbank-status') !== undefined) {
+                                $unitsFallback.attr('data-bedbank-status', 'enquiry').html(
+                                    '<span class="units_avl">' + roomCount + '</span> unit type' +
+                                    (roomCount === 1 ? '' : 's') +
+                                    ' — no live rates for these dates. Submit a booking request and our team will confirm availability.'
+                                );
                             }
 
                             $('.booking-wrap').hide().empty();
@@ -783,7 +793,20 @@
 
                         }
 
-                        $('.units_avl').text($('.rb-room-card').length);
+                        const liveRoomCount = resp.data.room_count || $('.rb-room-card').length;
+                        $('.units_avl').text(liveRoomCount);
+
+                        // BedBank: swap enquiry copy for RoomBoss-style live availability.
+                        if (resp.data.has_live_rates) {
+                            const $unitsLive = $('.available_units').first();
+                            if ($unitsLive.length) {
+                                $unitsLive.attr('data-bedbank-status', 'live').html(
+                                    '<span class="units_avl">' + liveRoomCount + '</span> unit type' +
+                                    (liveRoomCount === 1 ? '' : 's') +
+                                    ' available out of <span class="total_units">' + liveRoomCount + '</span>'
+                                );
+                            }
+                        }
 
                         $( '.available_units' ).length > 1 ? $( '.available_units' ).eq(1).remove() : '';
 

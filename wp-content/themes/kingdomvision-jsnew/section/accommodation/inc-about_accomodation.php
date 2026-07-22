@@ -115,12 +115,23 @@ echo '</section>'; #about-accomodation
 $is_roomboss = get_field('is_roomboss');
 
 $is_price_exc = get_field('is_price_excluded');
+// if( !$is_roomboss || $is_price_exc ){
+//     echo '<section class="full-section enquiry_form">';
+//         echo '<div class="container">';
+//             // Same wrapper as listing/load-more enquiry so popup validation
+//             // parking can find this form instance.
+//             echo '<div class="acc_enquiry_form">';
+//             echo get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]');
+//             echo '</div>';
+//         echo '</div>'; //container
+//     echo '</section>'; // room-boss
+// }
 if( !$is_roomboss || $is_price_exc ){
     echo '<section class="full-section enquiry_form">';
         echo '<div class="container">';
-        // echo get_acc_enquiry_form();
-            echo get_acc_enquiry_form('Enquire Now', '');
+            // Same structure as listing enquiry (title + description + form).
+    echo get_acc_enquiry_form('Enquire Now', '');
         echo '</div>'; //container
     echo '</section>'; // enquiry_form
 }
-?>  
+?>

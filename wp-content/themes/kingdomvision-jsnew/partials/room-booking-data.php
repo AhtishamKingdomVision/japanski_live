@@ -158,10 +158,22 @@ $endDisplay = date_format_readable($endDisplay, 'Y-m-d', 'd/m/Y');
 
 
 $is_roomboss = false;
-// Prefer flag from AJAX (already resolved after BedBank safety nets).
-if (array_key_exists('force_bedbank', $args) && $args['force_bedbank'] !== null) {
-    $is_roomboss = empty($args['force_bedbank']);
-} elseif (!empty($wp_property_id) || !empty($propertyId)) {
+// Resolve RoomBoss vs BedBank for rate-row rendering.
+// IMPORTANT: force_bedbank=false must NOT mean "treat as RoomBoss".
+// Previously empty(false) forced $is_roomboss=true, which skipped every
+// BedBank rate row (no ratePlanId) and left room cards with no prices.
+$mode_resolved = false;
+
+if (array_key_exists('treat_as_roomboss', $args) && $args['treat_as_roomboss'] !== null) {
+    $is_roomboss = !empty($args['treat_as_roomboss']);
+    $mode_resolved = true;
+} elseif (!empty($args['force_bedbank'])) {
+    // Explicit BedBank force only (true). Ignore false/null.
+    $is_roomboss = false;
+    $mode_resolved = true;
+}
+
+if (!$mode_resolved && (!empty($wp_property_id) || !empty($propertyId))) {
     // Inventory + rate rows follow RoomBoss/BedBank property mode.
     if (function_exists('kv_booking_treat_as_roomboss')) {
         $is_roomboss = kv_booking_treat_as_roomboss((int) $propertyId);
@@ -830,9 +842,27 @@ if (!empty($wp_property_id)) {
 
 
                             // ✅ Calculate prices with safe division
-
-
-                            $priceRetail = (float) ($room['ActualPrice'] ?? 0);
+                            // Prefer ActualPrice (live filtration). Offline shells often
+                            // send 0 — also check common / nested BedBank price keys.
+                            $priceRetail = 0.0;
+                            $price_candidates = [
+                                $room['ActualPrice'] ?? null,
+                                $room['TotalPrice'] ?? null,
+                                $room['SellPrice'] ?? null,
+                                $room['totalPrice'] ?? null,
+                                $room['sellPrice'] ?? null,
+                                $room['Price'] ?? null,
+                                $room['price'] ?? null,
+                                $room['ratePlan']['priceRetail'] ?? null,
+                                $room['ratePlan']['ActualPrice'] ?? null,
+                                $room['ratePlan']['price'] ?? null,
+                            ];
+                            foreach ($price_candidates as $candidate) {
+                                if ($candidate !== null && $candidate !== '' && is_numeric($candidate) && (float) $candidate > 0) {
+                                    $priceRetail = (float) $candidate;
+                                    break;
+                                }
+                            }
 
 
                             // pre(wp_json_encode($room), 0);

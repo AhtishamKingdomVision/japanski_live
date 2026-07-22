@@ -96,28 +96,25 @@ try {
     
     <!-- Action Button -->
     <?php
-    if( empty($page_type) || $page_type != 'booking') {
-        
-        if ( get_post_meta( $acc_id, 'is_price_excluded', true ) && get_post_meta( $acc_id, 'is_price_excluded', true ) === '1' ): ?>
-            
+    if (empty($page_type) || $page_type != 'booking') {
+        // BedBank with live rates → Request Booking; RoomBoss price-excluded → Enquire Now.
+        $is_price_excluded = (get_post_meta($acc_id, 'is_price_excluded', true) === '1');
+        if ($is_roomboss && $is_price_excluded) : ?>
             <button bookingPermission="<?php echo $bookingPermission ?>" class="btn enq-btn-popup bedbank_btn" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>">Enquire Now</button>
-        <?php else : 
-            if ($is_roomboss) : 
-                if (!empty($bookingPermission)) : 
-                    if (strpos($bookingPermission, 'REQUEST') !== false) : ?>              
-                        <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
-                    <?php elseif (strpos($bookingPermission, 'RESERVATION') !== false) : ?>
-                        <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
-                    <?php endif; ?>
-                <?php else : ?>
+        <?php elseif ($is_roomboss) :
+            if (!empty($bookingPermission)) :
+                if (strpos($bookingPermission, 'REQUEST') !== false) : ?>
                     <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
-                <?php endif; ?>
-            <?php else : ?>
-                <button bookingPermission="<?php echo $bookingPermission ?>" is_price_excluded="<?php echo get_post_meta( $acc_id, 'is_price_excluded', true ) ?>" class="btn chk-avl-btn book-btn bedbank_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Request Booking</button>
-            <?php endif; ?>
-        <?php endif; ?>
-        
-    <?php } // End page type check ?>
+                <?php elseif (strpos($bookingPermission, 'RESERVATION') !== false) : ?>
+                    <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
+                <?php endif;
+            else : ?>
+                <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
+            <?php endif;
+        else : ?>
+            <button bookingPermission="<?php echo $bookingPermission ?>" is_price_excluded="<?php echo get_post_meta($acc_id, 'is_price_excluded', true) ?>" class="btn chk-avl-btn book-btn bedbank_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Request Booking</button>
+        <?php endif;
+    } // End page type check ?>
 </div>
 
 <!-- Room Gallery -->

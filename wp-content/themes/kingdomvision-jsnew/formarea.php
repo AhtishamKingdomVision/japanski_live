@@ -39,7 +39,8 @@ if( intval( $form ) == 1 && $bg_image):?>
 
 <section
     class="form_area full-section" 
-    role="region"  
+    role="region"
+    id="form_area_section"
     aria-labelledby="section-heading"
     style="background-image: url('<?php echo esc_url($bg_image); ?>'); background-size: cover; background-position: center;"
 >

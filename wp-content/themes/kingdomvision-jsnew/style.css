@@ -802,6 +802,10 @@ section.room-listing .room-list .row .room-card .rc_cover .room-info span.sqm:be
 section.room-listing .booking-wrap a.btn.back-to-rooms { margin: 0 0 20px; }
 section.room-listing .booking-wrap { float: left; width: 100%; }
 section.room-listing .booking-wrap .rb-booking-layout { display: flex; justify-content: space-between; gap: 30px; }
+section.room-listing .booking-wrap .rb-booking-layout.rb-prices-excluded .rb-price-container,
+section.room-listing .booking-wrap .rb-booking-layout.rb-prices-excluded .rb-final-price,
+section.room-listing .booking-wrap .rb-booking-layout.rb-prices-excluded .rb-cart { display: none !important; }
+section.room-listing .booking-wrap .rb-booking-layout.rb-prices-excluded .rb-left { width: 100%; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-left { width: 65%; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-cart { width: 35%; position: relative; }
 section.room-listing .booking-wrap .rb-booking-layout .rb-cart .rb-cart-wrap { position: sticky; top: 130px; }

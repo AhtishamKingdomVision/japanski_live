@@ -6672,7 +6672,7 @@ function render_rooms_section($atts) {
             }
             ?>
 
-            <div class="rooms-wrap">
+            <div class="rooms-wrap" data-prices-excluded="<?php echo $is_price_excluded ? '1' : '0'; ?>">
 
                 <!-- Bedroom Tabs -->
 
@@ -7200,9 +7200,10 @@ function kv_is_price_excluded( $post_id ) {
 
     }
 
+    $meta = get_post_meta( $post_id, 'is_price_excluded', true );
 
-
-    return get_post_meta( $post_id, 'is_price_excluded', true ) === '1';
+    // Checkbox saves '1'; accept common truthy variants from meta/ACF sync.
+    return ( $meta === '1' || $meta === 1 || $meta === true );
 
 }
 

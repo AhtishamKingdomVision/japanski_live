@@ -430,7 +430,7 @@ if (!empty($wp_property_id)) {
 <a href="javascript:;" class="btn back-to-rooms btn-outline">← Back</a>
 
 
-<div class="rb-booking-layout">
+<div class="rb-booking-layout<?php echo !empty($is_price_excluded) ? ' rb-prices-excluded' : ''; ?>" data-prices-excluded="<?php echo !empty($is_price_excluded) ? '1' : '0'; ?>">
 
 
     <div class="rb-left">
@@ -1746,11 +1746,29 @@ if (!empty($wp_property_id)) {
                                 ?>
                                 <input type="hidden" class="rb-room-data" value="<?php echo esc_attr(wp_json_encode($roomJson)); ?>">
                                 <div class="rb-rateplan-actions">
-                                    <?php if (!$is_bedbank) : ?>
-                                        <button type="button" class="enquire_btn rb-enquiry-btn">Enquire Now</button>
+                                    <?php if (!empty($is_price_excluded)) : ?>
+                                        <?php
+                                        // RoomBoss + BedBank: Exclude prices → Enquire Now only (no Select / Book Now).
+                                        $enq_room_title = $displayRoomName ?? '';
+                                        $enq_hotel_name = !empty($wp_property_id) ? get_the_title($wp_property_id) : '';
+                                        $enq_resort = '';
+                                        if (!empty($wp_property_id) && function_exists('hz_get_parent_category')) {
+                                            $enq_resort = str_replace(' Accommodation', '', (string) hz_get_parent_category($wp_property_id));
+                                        }
+                                        ?>
+                                        <button type="button"
+                                            class="btn enquire_btn rb-enquiry-btn enq-btn-popup bedbank_btn"
+                                            hotel-name="<?php echo esc_attr($enq_hotel_name); ?>"
+                                            hotel-id="<?php echo esc_attr($propertyId); ?>"
+                                            room-title="<?php echo esc_attr($enq_room_title); ?>"
+                                            resort-name="<?php echo esc_attr($enq_resort); ?>">Enquire Now</button>
+                                    <?php else : ?>
+                                        <?php if (!$is_bedbank) : ?>
+                                            <button type="button" class="enquire_btn rb-enquiry-btn">Enquire Now</button>
+                                        <?php endif; ?>
+                                        <?php $select_btn_label = $is_bedbank ? 'Select' : 'Book Now'; ?>
+                                        <button type="button" class="rb-select-btn" data-default-label="<?php echo esc_attr($select_btn_label); ?>"><?php echo esc_html($select_btn_label); ?></button>
                                     <?php endif; ?>
-                                    <?php $select_btn_label = $is_bedbank ? 'Select' : 'Book Now'; ?>
-                                    <button type="button" class="rb-select-btn" data-default-label="<?php echo esc_attr($select_btn_label); ?>"><?php echo esc_html($select_btn_label); ?></button>
                                 </div>
 
                             </div>
@@ -1792,7 +1810,7 @@ if (!empty($wp_property_id)) {
     <!-- CART -->
 
 
-    <aside class="rb-cart">
+    <aside class="rb-cart"<?php echo !empty($is_price_excluded) ? ' style="display:none;"' : ''; ?>>
 
 
         <div class="rb-cart-wrap">

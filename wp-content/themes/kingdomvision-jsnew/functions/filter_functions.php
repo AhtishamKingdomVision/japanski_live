@@ -4184,6 +4184,13 @@ function niseko_search_roomboss_single()
 
         $room_count = 0;
 
+        $acc_id_for_exclude = function_exists('get_post_id_by_typeId')
+            ? (int) get_post_id_by_typeId($property_id, 'accommodation')
+            : 0;
+        $force_enquire = $acc_id_for_exclude > 0 && function_exists('kv_is_price_excluded')
+            ? kv_is_price_excluded($acc_id_for_exclude)
+            : (get_post_meta($acc_id_for_exclude, 'is_price_excluded', true) === '1');
+
         if (is_array($roomData)) {
             foreach ($roomData as $key => $room) {
                 if (!is_array($room) || $key === 'is_roomboss') {
@@ -4196,6 +4203,8 @@ function niseko_search_roomboss_single()
                     'room' => $room,
                     'rb' => $show_roomboss_cta,
                     'property_id' => $property_id,
+                    'acc_id' => $acc_id_for_exclude,
+                    'force_enquire' => $force_enquire,
                 ]);
             }
         }
@@ -4232,6 +4241,8 @@ function niseko_search_roomboss_single()
                     'room' => $wp_room,
                     'rb' => false,
                     'property_id' => $property_id,
+                    'acc_id' => $acc_id_for_exclude,
+                    'force_enquire' => $force_enquire,
                 ]);
             }
         }

@@ -544,6 +544,30 @@
 
         jQuery(document).on('click', '.book-btn', function(e) {
 
+            // Exclude prices (RoomBoss + BedBank): never open rate/price UI — use Enquire Now.
+            if ($('.rooms-wrap[data-prices-excluded="1"]').length
+                || $('.rb-booking-layout[data-prices-excluded="1"]').length) {
+                e.preventDefault();
+                const $btn = $(this);
+                if ($btn.hasClass('enq-btn-popup') || $btn.hasClass('enq-btn')) {
+                    return;
+                }
+                const $enquire = $btn.closest('.room-card, .room-btns, .rb-rateplan-box, .room-modal-header')
+                    .find('.enq-btn-popup, .rb-enquiry-btn, .enquire_btn').first();
+                if ($enquire.length) {
+                    $enquire.trigger('click');
+                    return;
+                }
+                const $fallback = $('<button type="button" class="enq-btn-popup" style="display:none" />')
+                    .attr('hotel-name', $btn.attr('hotel-name') || '')
+                    .attr('hotel-id', $btn.attr('hotel-id') || '')
+                    .attr('room-title', $btn.attr('room-title') || '')
+                    .attr('resort-name', $btn.attr('resort-name') || '');
+                $('body').append($fallback);
+                $fallback.trigger('click').remove();
+                return;
+            }
+
             if (e && typeof e.preventDefault === 'function') e.preventDefault();
 
 

@@ -104,6 +104,38 @@ function booking_sys_api_args()
 
 /**
 
+ * Trip API `status` column only:
+
+ *   status = 1 → active (WordPress publish)
+
+ *   status = 0 → inactive (WordPress draft)
+
+ *
+
+ * @param array $property API property row.
+
+ * @return bool
+
+ */
+
+function kv_property_is_api_active( array $property ) {
+
+    if ( ! array_key_exists( 'status', $property ) || $property['status'] === null || $property['status'] === '' ) {
+
+        // Legacy payloads without status — keep existing WP behaviour callers decide.
+
+        return true;
+
+    }
+
+    return intval( $property['status'] ) === 1;
+
+}
+
+
+
+/**
+
  * Find a post by its exact title
 
  * @param string $title     Exact post title to search for
@@ -1614,9 +1646,8 @@ function sq_mapping_properties($properties) {
         // a leftover room_boss_hotel_id is still present after BedBank conversion.
         $is_roomboss = ($property_type === 'roomboss' || $property_type === 'hybrid') ? 1 : 0;
 
-        // $is_enabled = $property['is_enabled'] == 1;
-
-        $_status = $property['status'] == 1;
+        // Trip API status column: 1 = publish, 0 = draft.
+        $_status = kv_property_is_api_active( $property );
 
         $hotel_name = trim( wp_strip_all_tags( empty( $property['client_property_name'] ) ? $property['name'] : $property['client_property_name'] ));
 
@@ -1762,8 +1793,6 @@ function sq_mapping_properties($properties) {
 
         $sku_code            = ($detail['sku_code'] ?? 0);
 
-
-
         // ✅ STEP 7e: Extract rate plans and room types
 
         $extra_properties = (!empty($property['extra_properties']) && is_array($property['extra_properties'])) ? $property['extra_properties'] : [];
@@ -1771,8 +1800,6 @@ function sq_mapping_properties($properties) {
         $rateplans = is_array($property['ratePlanDescriptions'] ?? null) ? $property['ratePlanDescriptions'] : [];
 
         $roomTypes = is_array($property['rooms'] ?? null) ? $property['rooms'] : [];
-
-
 
         $resort_id = trim((string) ($property['resort_id'] ?? ''));
 
@@ -1784,9 +1811,11 @@ function sq_mapping_properties($properties) {
 
         // sometimes does for newly added entries that haven't been reviewed
 
-        // yet). For existing posts: API inactive → draft; otherwise keep
+        // yet). For existing posts: API inactive → draft (flagged); API-flagged
 
-        // draft/pending/private as-is (do not auto-publish).
+        // drafts republish when API active again; manual draft/pending/private
+
+        // stay as-is (do not auto-publish intentional drafts).
 
         $post_order = wp_count_posts( 'accommodation' );
 
@@ -1806,7 +1835,7 @@ function sq_mapping_properties($properties) {
 
         // ✅ STEP 7f: Check if accommodation post already exists
 
-        $hotel = get_post_id_by_typeId($property_id, 'accommodation');
+        // ($hotelid already resolved above via get_post_id_by_typeId)
 
         // ⚠️ IMPORTANT: this flag is what allows the create vs update path
 
@@ -1820,36 +1849,8 @@ function sq_mapping_properties($properties) {
 
 
 
-        // New posts default to publish. Existing draft/pending/private stay
-        // unpublished even if the API reports status=1 (bulk sync must not
-        // auto-publish intentionally drafted properties). API status=0 still
-        // demotes to draft.
-
-        if ( $is_new_post ) {
-
-            $status = 'publish';
-
-        } else {
-
-            $current_status = get_post_status( $hotelid ) ?: 'draft';
-
-            $preserve_statuses = [ 'draft', 'pending', 'private' ];
-
-            if ( ! $_status ) {
-
-                $status = 'draft';
-
-            } elseif ( in_array( $current_status, $preserve_statuses, true ) ) {
-
-                $status = $current_status;
-
-            } else {
-
-                $status = 'publish';
-
-            }
-
-        }
+        // Trip API status: 1 → publish, 0 → draft (always follow API column).
+        $status = $_status ? 'publish' : 'draft';
 
 
 
@@ -2210,6 +2211,14 @@ function sq_mapping_properties($properties) {
 
         }
 
+        // Track API-driven drafts so a later sync can restore them to publish
+        // without also auto-publishing manually drafted properties.
+        if ( $status === 'draft' && ! $_status ) {
+            update_post_meta( $upd_hotel_id, '_kv_api_inactive_draft', '1' );
+        } elseif ( $status === 'publish' ) {
+            delete_post_meta( $upd_hotel_id, '_kv_api_inactive_draft' );
+        }
+
        /* if not empty property_type add it in term "property_types" */
 
        if( !empty($property_types) ){
@@ -2512,9 +2521,9 @@ function sq_mapping_properties($properties) {
 
                 $pivot = $rateplan['pivot'];
 
-                if( $pivot['is_archived'] == 0 ){
-                    continue;
-                }
+                // if( $pivot['is_archived'] == 0 ){
+                //     continue;
+                // }
 
                 if (!empty($rateplan['client_rateplan_name']) && stripos($rateplan['client_rateplan_name'], 'discount') !== false) {
 
@@ -2547,8 +2556,6 @@ function sq_mapping_properties($properties) {
                 ];
 
             }
-
-
 
             update_field('rate_plan', $rate_plan_rows, $upd_hotel_id);
 
@@ -4024,11 +4031,24 @@ function kv_process_single_property( array $property ) {
 
     // Empty/missing old hash is treated as "no prior sync" → never skipped.
 
+    // Also never skip when publish must demote (API inactive), or when an
+
+    // API-flagged draft must be restored to publish.
+
     if ( ! $is_new_post ) {
 
         $old_hash = (string) get_post_meta( $existing_post_id, '_kv_sync_hash', true );
 
-        if ( $old_hash !== '' && $old_hash === $new_hash ) {
+        $api_inactive = ! kv_property_is_api_active( $property );
+
+        $local_status = get_post_status( $existing_post_id );
+
+        // Force update when Trip status and WP post_status disagree.
+        $status_mismatch = ( $api_inactive && $local_status === 'publish' )
+
+            || ( ! $api_inactive && $local_status === 'draft' );
+
+        if ( $old_hash !== '' && $old_hash === $new_hash && ! $status_mismatch ) {
 
             $result['status']  = 'skipped';
 
@@ -4213,6 +4233,8 @@ function kv_draft_unseen_accommodations( array $seen_ids ) {
         if ( ! is_wp_error( $update ) ) {
 
             update_post_meta( intval( $row->ID ), '_kv_sync_stale_at', current_time( 'Y-m-d H:i:s' ) );
+
+            update_post_meta( intval( $row->ID ), '_kv_api_inactive_draft', '1' );
 
             $count++;
 
@@ -5636,7 +5658,17 @@ function kv_cron_run_update_batch() {
 
         // Skip when nothing changed (unless caller forced a full rewrite).
 
-        if ( ! $force_all && $old_hash !== '' && $old_hash === $new_hash ) {
+        // Force update when Trip status and WP post_status disagree.
+
+        $api_inactive = ! kv_property_is_api_active( $property );
+
+        $local_status = get_post_status( $existing_post_id );
+
+        $status_mismatch = ( $api_inactive && $local_status === 'publish' )
+
+            || ( ! $api_inactive && $local_status === 'draft' );
+
+        if ( ! $force_all && $old_hash !== '' && $old_hash === $new_hash && ! $status_mismatch ) {
 
             $state['skipped']++;
 
@@ -5954,9 +5986,7 @@ function kv_cron_run_status_batch() {
 
             // If the API says this property is disabled/inactive, record it.
 
-            $is_inactive = ( isset( $p['is_enabled'] ) && intval( $p['is_enabled'] ) === 0 )
-
-                        || ( isset( $p['status'] ) && intval( $p['status'] ) === 0 );
+            $is_inactive = ! kv_property_is_api_active( $p );
 
             if ( $is_inactive ) {
 
@@ -6279,6 +6309,8 @@ function kv_cron_draft_property_ids( array $ids, $dry_run = false ) {
         if ( ! is_wp_error( $update ) ) {
 
             update_post_meta( intval( $row->ID ), '_kv_sync_stale_at', current_time( 'Y-m-d H:i:s' ) );
+
+            update_post_meta( intval( $row->ID ), '_kv_api_inactive_draft', '1' );
 
             kv_cron_log( 'status', [
 

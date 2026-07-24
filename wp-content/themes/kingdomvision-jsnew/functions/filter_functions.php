@@ -2852,15 +2852,13 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $r
 
         }
 
-        if ($room_source === 'roomboss') {
-            $meta_query[] = [
-                'key'     => 'roomboss_room_id',
-                'value'   => ['', '0'],
-                'compare' => 'NOT IN',
-            ];
-        }
-
-
+        // if ($room_source === 'roomboss') {
+        //     $meta_query[] = [
+        //         'key'     => 'roomboss_room_id',
+        //         'value'   => ['', '0'],
+        //         'compare' => 'NOT IN',
+        //     ];
+        // }
 
         // ✅ STEP 4: Query for rooms by property_id meta
 
@@ -4871,8 +4869,6 @@ function kv_ajax_load_roomboss_booking()
 
         $availability = get_transient($cache_key);
 
-
-
         // ✅ STEP 8: Fetch from API if not cached
 
         // if ($availability === false) {
@@ -4896,8 +4892,6 @@ function kv_ajax_load_roomboss_booking()
                 $infants
 
             );
-
-
 
             // Handle API errors
 
@@ -4942,14 +4936,13 @@ function kv_ajax_load_roomboss_booking()
                 ? kv_bedbank_wp_rooms_fallback_response($property_id)
                 : null;
         };
-
         // ✅ STEP 9: Validate availability response
 
         if (empty($availability) || !is_array($availability)) {
             $fallback = $bedbank_empty_fallback();
-            if (is_array($fallback)) {
-                return wp_send_json_success($fallback);
-            }
+            // if (is_array($fallback)) {
+            //     return wp_send_json_success($fallback);
+            // }
 
             return wp_send_json_success([
 
@@ -5377,8 +5370,6 @@ function kv_roomboss_get_availability(
 
         $resort_id = get_resort_id_by_property_id($propertyId);
 
-
-
         if (empty($resort_id)) {
 
             return new WP_Error(
@@ -5396,8 +5387,6 @@ function kv_roomboss_get_availability(
         // ✅ STEP 3: Calculate duration
 
         $duration = get_duration_from_date($checkIn, $checkOut);
-
-
 
         if ($duration < 1) {
 
@@ -5476,12 +5465,6 @@ function kv_roomboss_get_availability(
 
         $bs_args = kv_booking_system_filter_args(KV_BS_authToken, $args);
 
-        // pre($url, 0);
-
-        // pre($bs_args, 0);
-
-
-
         if (!$bs_args) {
 
             return new WP_Error(
@@ -5499,9 +5482,7 @@ function kv_roomboss_get_availability(
         // ✅ STEP 6: Make API request
 
         $response = wp_remote_get($url, $bs_args);
-
-
-
+                
         if (is_wp_error($response)) {
 
             return new WP_Error(
@@ -5514,13 +5495,9 @@ function kv_roomboss_get_availability(
 
         }
 
-
-
         // ✅ STEP 7: Validate HTTP response code
 
         $http_code = wp_remote_retrieve_response_code($response);
-
-
 
         if ($http_code !== 200) {
 
@@ -5570,12 +5547,9 @@ function kv_roomboss_get_availability(
 
         }
 
-
-
         // ✅ STEP 9: Validate and extract properties
 
         if (empty($body['properties']) || !is_array($body['properties'])) {
-
             return [];
 
         }

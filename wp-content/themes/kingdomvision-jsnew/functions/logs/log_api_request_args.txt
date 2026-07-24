@@ -15768,25 +15768,24 @@ We have used your services last season and stayed at Powdersuites in Hakuba. Loo
 
     [body] => Array
         (
-            [full_name] => Ruxandra Dogaru
-            [first_name] => Ruxandra
-            [last_name] => Dogaru
-            [email] => ruxi_dog77@yahoo.com
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => humza.kingdomvision@gmail.com
             [phone_number] => 
-            [resort_name] => Furano
+            [resort_name] => Niseko
             [resort_id] => 
-            [check_in] => 28-02-2027
-            [check_out] => 07-03-2027
+            [check_in] => 10-12-2026
+            [check_out] => 17-12-2026
             [no_of_adults] => 2
-            [no_of_childs] => 1
+            [no_of_childs] => 0
             [child_ages] => Array
                 (
-                    [0] => 12
                 )
 
-            [type] => Deluxe
+            [type] => Premium Plus
             [bedrooms] => 
-            [property_name] => 
+            [property_name] => new test
             [room_name] => 
             [assignees] => Array
                 (
@@ -15814,20 +15813,19 @@ We have used your services last season and stayed at Powdersuites in Hakuba. Loo
 
     [body] => Array
         (
-            [full_name] => Ed Salazar
-            [first_name] => Ed
-            [last_name] => Salazar
-            [email] => esalazar@tasrc.com
+            [full_name] => test test
+            [first_name] => test
+            [last_name] => test
+            [email] => test@gmail.com
             [phone_number] => 
             [resort_name] => Niseko
             [resort_id] => 
-            [check_in] => 22-12-2026
-            [check_out] => 29-12-2026
-            [no_of_adults] => 4
-            [no_of_childs] => 1
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
+            [no_of_adults] => 2
+            [no_of_childs] => 0
             [child_ages] => Array
                 (
-                    [0] => 14
                 )
 
             [type] => Premium Plus
@@ -15860,198 +15858,16 @@ We have used your services last season and stayed at Powdersuites in Hakuba. Loo
 
     [body] => Array
         (
-            [full_name] => Emma White
-            [first_name] => Emma
-            [last_name] => White
-            [email] => whiteemma005@gmail.com
-            [phone_number] => 
-            [resort_name] => Niseko
-            [resort_id] => 
-            [check_in] => 02-01-2027
-            [check_out] => 08-01-2027
-            [no_of_adults] => 4
-            [no_of_childs] => 0
-            [child_ages] => Array
-                (
-                )
-
-            [type] => Standard
-            [bedrooms] => 
-            [property_name] => 
-            [room_name] => 
-            [assignees] => Array
-                (
-                )
-
-            [platform] => wordpress
-            [utm_source] => 
-            [utm_medium] => 
-            [utm_campaign] => 
-            [enquiry_type] => generate_enquiry
-        )
-
-    [timeout] => 15
-    [redirection] => 5
-)
-<br></pre>
-<pre>Array
-(
-    [method] => POST
-    [headers] => Array
-        (
-            [Accept] => application/json
-            [Content-Type] => application/x-www-form-urlencoded
-        )
-
-    [body] => Array
-        (
-            [full_name] => Daniel Hayes
-            [first_name] => Daniel
-            [last_name] => Hayes
-            [email] => dphayes1@bigpond.com
-            [phone_number] => 
-            [resort_name] => Hakuba
-            [resort_id] => 
-            [check_in] => 06-02-2027
-            [check_out] => 13-02-2027
-            [no_of_adults] => 2
-            [no_of_childs] => 0
-            [child_ages] => Array
-                (
-                )
-
-            [type] => Premium
-            [bedrooms] => 
-            [property_name] => Marillen Hotel
-            [room_name] => 
-            [assignees] => Array
-                (
-                )
-
-            [platform] => wordpress
-            [utm_source] => 
-            [utm_medium] => 
-            [utm_campaign] => 
-            [enquiry_type] => generate_enquiry
-        )
-
-    [timeout] => 15
-    [redirection] => 5
-)
-<br></pre>
-<pre>Array
-(
-    [method] => POST
-    [headers] => Array
-        (
-            [Accept] => application/json
-            [Content-Type] => application/x-www-form-urlencoded
-        )
-
-    [body] => Array
-        (
             [full_name] => test test
             [first_name] => test
             [last_name] => test
-            [email] => test@test.com
+            [email] => test@gmail.com
             [phone_number] => 
             [resort_name] => Niseko
-            [resort_id] => 
-            [check_in] => 26-03-2027
-            [check_out] => 31-03-2027
-            [no_of_adults] => 3
-            [no_of_childs] => 2
-            [child_ages] => Array
-                (
-                    [0] => 6
-                    [1] => 2
-                )
-
-            [type] => Standard
-            [bedrooms] => 
-            [property_name] => 
-            [room_name] => 
-            [assignees] => Array
-                (
-                )
-
-            [platform] => wordpress
-            [utm_source] => 
-            [utm_medium] => 
-            [utm_campaign] => 
-            [enquiry_type] => generate_enquiry
-        )
-
-    [timeout] => 15
-    [redirection] => 5
-)
-<br></pre>
-<pre>Array
-(
-    [method] => POST
-    [headers] => Array
-        (
-            [Accept] => application/json
-            [Content-Type] => application/x-www-form-urlencoded
-        )
-
-    [body] => Array
-        (
-            [full_name] => Sharon Maunder
-            [first_name] => Sharon
-            [last_name] => Maunder
-            [email] => sharonzky73@yahoo.com
-            [phone_number] => 
-            [resort_name] => Niseko
-            [resort_id] => 
-            [check_in] => 20-01-2027
-            [check_out] => 25-01-2027
+            [resort_id] => 1
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
             [no_of_adults] => 2
-            [no_of_childs] => 0
-            [child_ages] => Array
-                (
-                )
-
-            [type] => Deluxe
-            [bedrooms] => 
-            [property_name] => 
-            [room_name] => 
-            [assignees] => Array
-                (
-                )
-
-            [platform] => wordpress
-            [utm_source] => 
-            [utm_medium] => 
-            [utm_campaign] => 
-            [enquiry_type] => generate_enquiry
-        )
-
-    [timeout] => 15
-    [redirection] => 5
-)
-<br></pre>
-<pre>Array
-(
-    [method] => POST
-    [headers] => Array
-        (
-            [Accept] => application/json
-            [Content-Type] => application/x-www-form-urlencoded
-        )
-
-    [body] => Array
-        (
-            [full_name] => James Friel
-            [first_name] => James
-            [last_name] => Friel
-            [email] => james@bullseyeboring.com.au
-            [phone_number] => 
-            [resort_name] => Hakuba
-            [resort_id] => 
-            [check_in] => 02-03-2027
-            [check_out] => 07-03-2027
-            [no_of_adults] => 6
             [no_of_childs] => 0
             [child_ages] => Array
                 (
@@ -16059,9 +15875,8 @@ We have used your services last season and stayed at Powdersuites in Hakuba. Loo
 
             [type] => Premium
             [bedrooms] => 
-            [property_name] => Hi guys,
-We are an Irish party of potentially 6-8 (3/4 couples) coming to Japan from Australia at the same time as snow machine (early March 2027). We are all in our 30's and would love a ski-in ski-out accommodation. Ideally a chalet or house, but a hotel resort with separate rooms would work too. We haven't been to Japan before so we would love some recommendations. We would like to be close (within 10/15 minute walk) to the main lively areas but still far enough away to get some peace if you know what I mean. Look forward to hearing from you with some options. Thanks, James
-            [room_name] => 
+            [property_name] => The Setsumon
+            [room_name] => 3 Bedroom Penthouse Suite
             [assignees] => Array
                 (
                 )
@@ -16088,165 +15903,25 @@ We are an Irish party of potentially 6-8 (3/4 couples) coming to Japan from Aust
 
     [body] => Array
         (
-            [full_name] => Kimberly MacDonald
-            [first_name] => Kimberly
-            [last_name] => MacDonald
-            [email] => email.kima@gmail.com
+            [full_name] => test 123
+            [first_name] => test
+            [last_name] => 123
+            [email] => test@Gmail.com
             [phone_number] => 
-            [resort_name] => Hakuba
-            [resort_id] => 
-            [check_in] => 03-01-2027
-            [check_out] => 10-01-2027
+            [resort_name] => Niseko
+            [resort_id] => 1
+            [check_in] => 01-12-2026
+            [check_out] => 08-12-2026
             [no_of_adults] => 2
-            [no_of_childs] => 2
-            [child_ages] => Array
-                (
-                    [0] => 2
-                    [1] => 4
-                )
-
-            [type] => Deluxe
-            [bedrooms] => 
-            [property_name] => 
-            [room_name] => 
-            [assignees] => Array
-                (
-                )
-
-            [platform] => wordpress
-            [utm_source] => 
-            [utm_medium] => 
-            [utm_campaign] => 
-            [enquiry_type] => generate_enquiry
-        )
-
-    [timeout] => 15
-    [redirection] => 5
-)
-<br></pre>
-<pre>Array
-(
-    [method] => POST
-    [headers] => Array
-        (
-            [Accept] => application/json
-            [Content-Type] => application/x-www-form-urlencoded
-        )
-
-    [body] => Array
-        (
-            [full_name] => Thom Anderson-nicholls
-            [first_name] => Thom
-            [last_name] => Anderson-nicholls
-            [email] => thoman@ebm.com.au
-            [phone_number] => 
-            [resort_name] => Niseko
-            [resort_id] => 
-            [check_in] => 17-01-2027
-            [check_out] => 24-01-2027
-            [no_of_adults] => 10
-            [no_of_childs] => 2
-            [child_ages] => Array
-                (
-                    [0] => 14
-                    [1] => 15
-                )
-
-            [type] => Deluxe
-            [bedrooms] => 
-            [property_name] => prefer chalet with ski in ski out if possible - happy with furano or niseko aiming for a budget of  $20k aud to $30k aud for the week
-            [room_name] => 
-            [assignees] => Array
-                (
-                )
-
-            [platform] => wordpress
-            [utm_source] => 
-            [utm_medium] => 
-            [utm_campaign] => 
-            [enquiry_type] => generate_enquiry
-        )
-
-    [timeout] => 15
-    [redirection] => 5
-)
-<br></pre>
-<pre>Array
-(
-    [method] => POST
-    [headers] => Array
-        (
-            [Accept] => application/json
-            [Content-Type] => application/x-www-form-urlencoded
-        )
-
-    [body] => Array
-        (
-            [full_name] => LOUISE Kennaugh
-            [first_name] => LOUISE
-            [last_name] => Kennaugh
-            [email] => louseym@gmail.com
-            [phone_number] => 
-            [resort_name] => Hakuba
-            [resort_id] => 
-            [check_in] => 31-03-2027
-            [check_out] => 06-04-2027
-            [no_of_adults] => 3
-            [no_of_childs] => 1
-            [child_ages] => Array
-                (
-                    [0] => 14
-                )
-
-            [type] => Standard
-            [bedrooms] => 
-            [property_name] => The Ridge Hotel and Apartments
-            [room_name] => 2 Bedroom Mountain View Combination Room (Twin/King)
-            [assignees] => Array
-                (
-                )
-
-            [platform] => wordpress
-            [utm_source] => 
-            [utm_medium] => 
-            [utm_campaign] => 
-            [enquiry_type] => generate_enquiry
-        )
-
-    [timeout] => 15
-    [redirection] => 5
-)
-<br></pre>
-<pre>Array
-(
-    [method] => POST
-    [headers] => Array
-        (
-            [Accept] => application/json
-            [Content-Type] => application/x-www-form-urlencoded
-        )
-
-    [body] => Array
-        (
-            [full_name] => Tearlach MacLean
-            [first_name] => Tearlach
-            [last_name] => MacLean
-            [email] => tearlach.maclean@canterbury.ac.nz
-            [phone_number] => 
-            [resort_name] => Niseko
-            [resort_id] => 
-            [check_in] => 07-12-2026
-            [check_out] => 14-12-2026
-            [no_of_adults] => 5
             [no_of_childs] => 0
             [child_ages] => Array
                 (
                 )
 
-            [type] => Standard
+            [type] => Premium
             [bedrooms] => 
-            [property_name] => Tearlach MacLean
-            [room_name] => 
+            [property_name] => The Setsumon
+            [room_name] => 3 Bedroom Penthouse Suite
             [assignees] => Array
                 (
                 )

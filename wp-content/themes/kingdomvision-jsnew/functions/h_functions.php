@@ -5671,7 +5671,29 @@ add_action('wp_ajax_nopriv_hz_sync_selected_accommodations', 'hz_ajax_sync_selec
 // Ahtisham start code
 function hz_background_sq_mapping($property_data) {
     try {
+        if ( ! is_array( $property_data ) ) {
+            return;
+        }
         sq_mapping_properties([$property_data]);
+
+        // Re-assert WP post_status from Trip flags after heavy mapping so a
+        // draft property on Trip cannot remain published on WordPress.
+        if ( empty( $property_data['id'] ) || ! function_exists( 'kv_property_is_api_active' ) ) {
+            return;
+        }
+        $post_id = function_exists( 'get_post_id_by_typeId' )
+            ? get_post_id_by_typeId( $property_data['id'], 'accommodation' )
+            : 0;
+        if ( ! $post_id ) {
+            return;
+        }
+        if ( ! kv_property_is_api_active( $property_data ) ) {
+            wp_update_post( [
+                'ID'          => intval( $post_id ),
+                'post_status' => 'draft',
+            ] );
+            update_post_meta( intval( $post_id ), '_kv_api_inactive_draft', '1' );
+        }
     } catch (\Throwable $e) {
         error_log('[hz_sync] background sq_mapping failed: ' . $e->getMessage());
     }
@@ -6043,21 +6065,11 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
         }
 
-        // Determine post status:
-        // - API disabled → demote to draft
-        // - Existing draft/pending/private → keep as-is (do not auto-publish)
-        // - Otherwise publish when API enabled
-        $is_enabled = (bool) ($property_location['is_enabled'] ?? false);
-        $current_status = get_post_status($post_id) ?: 'draft';
-        $preserve_statuses = ['draft', 'pending', 'private'];
-
-        if (!$is_enabled) {
-            $status = 'draft';
-        } elseif (in_array($current_status, $preserve_statuses, true)) {
-            $status = $current_status;
-        } else {
-            $status = 'publish';
-        }
+        // Trip API status column: 1 → publish, 0 → draft.
+        $api_active = function_exists( 'kv_property_is_api_active' )
+            ? kv_property_is_api_active( $property_location )
+            : ( intval( $property_location['status'] ?? 1 ) === 1 );
+        $status = $api_active ? 'publish' : 'draft';
 
         // Prepare post data for update
 
@@ -6093,6 +6105,14 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
             ];
 
+        }
+
+        // Track API-driven drafts so later sync can restore without publishing
+        // properties that were manually drafted by an editor.
+        if ( $status === 'draft' && ! $api_active ) {
+            update_post_meta( $post_id, '_kv_api_inactive_draft', '1' );
+        } elseif ( $status === 'publish' ) {
+            delete_post_meta( $post_id, '_kv_api_inactive_draft' );
         }
 
         // Update post metadata

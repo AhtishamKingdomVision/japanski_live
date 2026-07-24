@@ -104,11 +104,17 @@ function booking_sys_api_args()
 
 /**
 
- * Trip API `status` column only:
+ * Whether a Booking System property payload should be treated as active.
 
- *   status = 1 → active (WordPress publish)
+ *
 
- *   status = 0 → inactive (WordPress draft)
+ * Inactive (→ WP draft) when ANY of these are true:
+
+ *   - status is present and not 1 (0, "0", "draft", …)
+
+ *   - is_enabled is present and off (0, false, "false", …)
+
+ *   - deleted_at is a non-empty value
 
  *
 
@@ -120,19 +126,257 @@ function booking_sys_api_args()
 
 function kv_property_is_api_active( array $property ) {
 
-    if ( ! array_key_exists( 'status', $property ) || $property['status'] === null || $property['status'] === '' ) {
+    if ( ! empty( $property['deleted_at'] ) ) {
 
-        // Legacy payloads without status — keep existing WP behaviour callers decide.
-
-        return true;
+        return false;
 
     }
 
-    return intval( $property['status'] ) === 1;
+
+
+    if ( array_key_exists( 'status', $property ) && $property['status'] !== null && $property['status'] !== '' ) {
+
+        $status_raw = $property['status'];
+
+        if ( is_numeric( $status_raw ) ) {
+
+            if ( intval( $status_raw ) !== 1 ) {
+
+                return false;
+
+            }
+
+        } else {
+
+            $status_l = strtolower( trim( (string) $status_raw ) );
+
+            if ( ! in_array( $status_l, [ '1', 'true', 'active', 'enabled', 'publish', 'published' ], true ) ) {
+
+                return false;
+
+            }
+
+        }
+
+    }
+
+
+
+    if ( array_key_exists( 'is_enabled', $property ) && $property['is_enabled'] !== null && $property['is_enabled'] !== '' ) {
+
+        $enabled = $property['is_enabled'];
+
+        if ( is_bool( $enabled ) ) {
+
+            return $enabled;
+
+        }
+
+        if ( is_numeric( $enabled ) ) {
+
+            return intval( $enabled ) === 1;
+
+        }
+
+        $enabled_l = strtolower( trim( (string) $enabled ) );
+
+        if ( in_array( $enabled_l, [ '0', 'false', 'no', 'off', 'disabled', 'inactive' ], true ) ) {
+
+            return false;
+
+        }
+
+    }
+
+
+
+    foreach ( [ 'is_active', 'active' ] as $flag ) {
+
+        if ( ! array_key_exists( $flag, $property ) || $property[ $flag ] === null || $property[ $flag ] === '' ) {
+
+            continue;
+
+        }
+
+        $val = $property[ $flag ];
+
+        if ( is_bool( $val ) && ! $val ) {
+
+            return false;
+
+        }
+
+        if ( is_numeric( $val ) && intval( $val ) !== 1 ) {
+
+            return false;
+
+        }
+
+    }
+
+
+
+    return true;
 
 }
 
 
+
+/**
+
+ * Map Booking System property row to a WordPress post_status.
+
+ *
+
+ * @param array $property API property row.
+
+ * @return string 'publish' or 'draft'
+
+ */
+
+function kv_wp_status_from_api_property( array $property ) {
+
+    return kv_property_is_api_active( $property ) ? 'publish' : 'draft';
+
+}
+
+
+
+/**
+
+ * Force an accommodation post_status via direct DB write.
+
+ * Bypasses filters that can silently block wp_update_post status changes.
+
+ *
+
+ * @param int    $post_id Accommodation post ID.
+
+ * @param string $status  'publish' or 'draft'.
+
+ * @return bool
+
+ */
+
+function kv_force_accommodation_post_status( $post_id, $status ) {
+
+    global $wpdb;
+
+
+
+    $post_id = intval( $post_id );
+
+    if ( $post_id < 1 || ! in_array( $status, [ 'publish', 'draft' ], true ) ) {
+
+        return false;
+
+    }
+
+
+
+    $old = get_post_status( $post_id );
+
+    $wpdb->update(
+
+        $wpdb->posts,
+
+        [ 'post_status' => $status ],
+
+        [ 'ID' => $post_id ],
+
+        [ '%s' ],
+
+        [ '%d' ]
+
+    );
+
+
+
+    clean_post_cache( $post_id );
+
+    $post = get_post( $post_id );
+
+    if ( $post && $old && $old !== $status ) {
+
+        wp_transition_post_status( $status, $old, $post );
+
+    }
+
+
+
+    if ( $status === 'draft' ) {
+
+        update_post_meta( $post_id, '_kv_api_inactive_draft', '1' );
+
+    } else {
+
+        delete_post_meta( $post_id, '_kv_api_inactive_draft' );
+
+    }
+
+
+
+    return ( get_post_status( $post_id ) === $status );
+
+}
+
+
+
+/**
+
+ * Apply Booking System active/inactive flags onto an accommodation post.
+
+ *
+
+ * @param int   $post_id  Accommodation post ID.
+
+ * @param array $property API property row.
+
+ * @return string Applied post_status ('publish'|'draft'), or empty string on failure.
+
+ */
+
+function kv_apply_accommodation_api_status( $post_id, array $property ) {
+
+    $post_id = intval( $post_id );
+
+    if ( $post_id < 1 ) {
+
+        return '';
+
+    }
+
+
+
+    $status = kv_wp_status_from_api_property( $property );
+
+    $ok     = kv_force_accommodation_post_status( $post_id, $status );
+
+
+
+    error_log( sprintf(
+
+        '[kv_status] post_id=%d api_status=%s is_enabled=%s deleted_at=%s → %s (%s)',
+
+        $post_id,
+
+        isset( $property['status'] ) ? var_export( $property['status'], true ) : 'null',
+
+        isset( $property['is_enabled'] ) ? var_export( $property['is_enabled'], true ) : 'null',
+
+        isset( $property['deleted_at'] ) ? var_export( $property['deleted_at'], true ) : 'null',
+
+        $status,
+
+        $ok ? 'ok' : 'FAILED'
+
+    ) );
+
+
+
+    return $ok ? $status : '';
+
+}
 
 /**
 
@@ -1803,20 +2047,9 @@ function sq_mapping_properties($properties) {
 
         $resort_id = trim((string) ($property['resort_id'] ?? ''));
 
-        // ✅ FIX #1 (create-vs-update): For NEW posts we always default to
-
-        // 'publish' so a brand-new property doesn't get silently hidden as a
-
-        // draft when the API returns status=0 / is_enabled=0 (which the API
-
-        // sometimes does for newly added entries that haven't been reviewed
-
-        // yet). For existing posts: API inactive → draft (flagged); API-flagged
-
-        // drafts republish when API active again; manual draft/pending/private
-
-        // stay as-is (do not auto-publish intentional drafts).
-
+        // Trip API status column drives WP post_status:
+        //   status = 1 → publish
+        //   status = 0 → draft
         $post_order = wp_count_posts( 'accommodation' );
 
         $post_order = $post_order ? $post_order->publish: 0;
@@ -1850,7 +2083,9 @@ function sq_mapping_properties($properties) {
 
 
         // Trip API status: 1 → publish, 0 → draft (always follow API column).
-        $status = $_status ? 'publish' : 'draft';
+        $status = function_exists( 'kv_wp_status_from_api_property' )
+            ? kv_wp_status_from_api_property( $property )
+            : ( $_status ? 'publish' : 'draft' );
 
 
 

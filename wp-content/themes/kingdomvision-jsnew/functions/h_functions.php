@@ -5279,7 +5279,7 @@ function hz_display_accommodation_sync_notice() {
 
                     type: 'POST',
 
-                    timeout: 30000,
+                    timeout: 120000,
 
                     data: {
 
@@ -5297,7 +5297,11 @@ function hz_display_accommodation_sync_notice() {
 
                         if (response.success) {
 
-                            document.getElementById('hz-sync-progress').textContent = response.data.message;
+                            var msg = response.data.message || '';
+                            if (response.data.errors && response.data.errors.length) {
+                                msg += ' | ' + response.data.errors.join(' ; ');
+                            }
+                            document.getElementById('hz-sync-progress').textContent = msg;
 
 
 
@@ -5310,12 +5314,13 @@ function hz_display_accommodation_sync_notice() {
                             } else {
 
                                 document.getElementById('hz-sync-notice').className = 'notice notice-success';
+                                document.getElementById('hz-sync-progress').textContent = msg + ' — If Booking System deactivated it, open Drafts list to confirm.';
 
                                 setTimeout(function() {
 
-                                    location.href = location.href.split('?')[0] + '?post_type=accommodation';
+                                    location.href = location.href.split('?')[0] + '?post_type=accommodation&post_status=draft';
 
-                                }, 2000);
+                                }, 2500);
 
                             }
 
@@ -5604,6 +5609,9 @@ function hz_ajax_sync_selected_accommodations() {
         if ($result['success']) {
 
             $synced_count++;
+            if ( ! empty( $result['message'] ) ) {
+                $errors[] = "Post #{$post_id}: " . $result['message'];
+            }
 
         } else {
 
@@ -5668,38 +5676,61 @@ add_action('wp_ajax_hz_sync_selected_accommodations', 'hz_ajax_sync_selected_acc
 add_action('wp_ajax_nopriv_hz_sync_selected_accommodations', 'hz_ajax_sync_selected_accommodations');
 
 
-// Ahtisham start code
+// Bulk "Sync with Booking System" — heavy mapping runs in background.
+// After mapping, RE-FETCH property from API and force WP status from fresh
+// flags. Cron-serialized payloads can drop status/is_enabled and wrongly
+// republish a draft; never trust the queued copy for status alone.
 function hz_background_sq_mapping($property_data) {
     try {
         if ( ! is_array( $property_data ) ) {
             return;
         }
-        sq_mapping_properties([$property_data]);
 
-        // Re-assert WP post_status from Trip flags after heavy mapping so a
-        // draft property on Trip cannot remain published on WordPress.
-        if ( empty( $property_data['id'] ) || ! function_exists( 'kv_property_is_api_active' ) ) {
+        $property_id = trim( (string) ( $property_data['id'] ?? '' ) );
+
+        if ( function_exists( 'sq_mapping_properties' ) ) {
+            sq_mapping_properties( [ $property_data ] );
+        }
+
+        if ( $property_id === '' ) {
             return;
         }
+
         $post_id = function_exists( 'get_post_id_by_typeId' )
-            ? get_post_id_by_typeId( $property_data['id'], 'accommodation' )
+            ? intval( get_post_id_by_typeId( $property_id, 'accommodation' ) )
             : 0;
-        if ( ! $post_id ) {
+        if ( $post_id < 1 ) {
             return;
         }
-        if ( ! kv_property_is_api_active( $property_data ) ) {
-            wp_update_post( [
-                'ID'          => intval( $post_id ),
-                'post_status' => 'draft',
-            ] );
-            update_post_meta( intval( $post_id ), '_kv_api_inactive_draft', '1' );
+
+        // Fresh flags from Booking System (source of truth for publish/draft).
+        $fresh = function_exists( 'hz_fetch_property_from_api' )
+            ? hz_fetch_property_from_api( $property_id )
+            : null;
+
+        if ( is_wp_error( $fresh ) || empty( $fresh ) || ! is_array( $fresh ) ) {
+            $code = is_wp_error( $fresh ) ? $fresh->get_error_code() : 'empty';
+            // Missing/deactivated property no longer returned by API → draft.
+            if ( in_array( $code, [ 'no_properties', 'empty_response', 'empty' ], true )
+                || empty( $fresh ) ) {
+                if ( function_exists( 'kv_force_accommodation_post_status' ) ) {
+                    kv_force_accommodation_post_status( $post_id, 'draft' );
+                } else {
+                    wp_update_post( [ 'ID' => $post_id, 'post_status' => 'draft' ] );
+                }
+                error_log( '[hz_sync] background: property ' . $property_id . ' missing from API → draft post ' . $post_id );
+            }
+            return;
         }
-    } catch (\Throwable $e) {
-        error_log('[hz_sync] background sq_mapping failed: ' . $e->getMessage());
+
+        if ( function_exists( 'kv_apply_accommodation_api_status' ) ) {
+            kv_apply_accommodation_api_status( $post_id, $fresh );
+        }
+    } catch ( \Throwable $e ) {
+        error_log( '[hz_sync] background sq_mapping failed: ' . $e->getMessage() );
     }
 }
-add_action('hz_background_sq_mapping', 'hz_background_sq_mapping', 10, 1);
-// Ahtisham end code
+add_action( 'hz_background_sq_mapping', 'hz_background_sq_mapping', 10, 1 );
 
 
 /**
@@ -5775,6 +5806,28 @@ function hz_sync_single_accommodation($post_id) {
         if (!$property_data || is_wp_error($property_data)) {
 
             $error_msg = is_wp_error($property_data) ? $property_data->get_error_message() : 'Unknown API error';
+            $error_code = is_wp_error($property_data) ? $property_data->get_error_code() : '';
+
+            // Property missing/removed from Booking System → treat as deactivated → draft.
+            if ( in_array( $error_code, [ 'no_properties', 'empty_response' ], true ) ) {
+                if ( function_exists( 'kv_force_accommodation_post_status' ) ) {
+                    kv_force_accommodation_post_status( $post_id, 'draft' );
+                } else {
+                    wp_update_post( [
+                        'ID'          => $post_id,
+                        'post_status' => 'draft',
+                    ] );
+                    update_post_meta( $post_id, '_kv_api_inactive_draft', '1' );
+                    clean_post_cache( $post_id );
+                }
+
+                return [
+                    'success'     => true,
+                    'message'     => 'Property not returned by Booking System — set to draft (deactivated/missing)',
+                    'post_id'     => $post_id,
+                    'post_status' => 'draft',
+                ];
+            }
 
             return [
 
@@ -5786,39 +5839,68 @@ function hz_sync_single_accommodation($post_id) {
 
         }
 
+        // Debug: log raw status flags so deactivate mismatches are visible in PHP error log.
+        error_log( sprintf(
+            '[hz_sync] property_id=%s post_id=%d api_status=%s is_enabled=%s deleted_at=%s → %s',
+            (string) $hotel_id,
+            $post_id,
+            isset( $property_data['status'] ) ? var_export( $property_data['status'], true ) : 'null',
+            isset( $property_data['is_enabled'] ) ? var_export( $property_data['is_enabled'], true ) : 'null',
+            isset( $property_data['deleted_at'] ) ? var_export( $property_data['deleted_at'], true ) : 'null',
+            function_exists( 'kv_wp_status_from_api_property' )
+                ? kv_wp_status_from_api_property( $property_data )
+                : 'n/a'
+        ) );
+
+        // Apply publish/draft FIRST (direct DB), before any other sync work that
+        // might fail or overwrite. Deactivated Booking System properties must
+        // become draft even if later mapping steps error out.
+        $applied_status = '';
+        if ( function_exists( 'kv_apply_accommodation_api_status' ) ) {
+            $applied_status = kv_apply_accommodation_api_status( $post_id, $property_data );
+        }
+
         // Sync the accommodation using existing REST endpoint logic
 
         $sync_result = hz_process_accommodation_sync($post_id, $property_data);
 
-        // pre([$property_data], 1);
-
-        // sq_mapping_properties([$property_data]); // Hamza       
-        // hz_sync_selected_accommodations();
-        // pre($sync_result, 1);
-
-        // Queue sq_mapping_properties for background processing via WP-Cron
-        // (image downloads are too heavy for the 60s proxy timeout)
-        wp_schedule_single_event(time() + 5, 'hz_background_sq_mapping', [$property_data]); // Ahtisham
-
         if (!$sync_result['success']) {
 
+            // Status already applied above — still report process failure.
             return [
 
                 'success' => false,
 
-                'message' => $sync_result['message'] ?? 'Unknown sync error',
+                'message' => ( $sync_result['message'] ?? 'Unknown sync error' )
+                    . ( $applied_status !== '' ? " (WP status forced to {$applied_status})" : '' ),
+
+                'post_status' => $applied_status,
 
             ];
 
         }
 
+        // Re-assert after light sync (title/content update).
+        if ( function_exists( 'kv_apply_accommodation_api_status' ) ) {
+            $applied_status = kv_apply_accommodation_api_status( $post_id, $property_data );
+        }
+
+        // Queue sq_mapping_properties for background processing via WP-Cron
+        // (image downloads are too heavy for the 60s proxy timeout).
+        // Background handler re-fetches API flags and forces status again.
+        wp_schedule_single_event(time() + 5, 'hz_background_sq_mapping', [$property_data]);
+
+        $status_label = $applied_status !== '' ? $applied_status : ( get_post_status( $post_id ) ?: 'unknown' );
+
         return [
 
             'success' => true,
 
-            'message' => 'Accommodation synced successfully',
+            'message' => 'Accommodation synced successfully (WP status: ' . $status_label . ', API status: ' . intval( $property_data['status'] ?? -1 ) . ', is_enabled: ' . intval( $property_data['is_enabled'] ?? -1 ) . ')',
 
             'post_id' => $post_id,
+
+            'post_status' => $status_label,
 
         ];
 
@@ -6065,17 +6147,28 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
         }
 
-        // Trip API status column: 1 → publish, 0 → draft.
-        $api_active = function_exists( 'kv_property_is_api_active' )
-            ? kv_property_is_api_active( $property_location )
-            : ( intval( $property_location['status'] ?? 1 ) === 1 );
-        $status = $api_active ? 'publish' : 'draft';
+        // Trip/Booking System active flags:
+        //   status = 1 and is_enabled not 0 → WordPress publish
+        //   status = 0 OR is_enabled = 0   → WordPress draft
+        if ( function_exists( 'kv_wp_status_from_api_property' ) ) {
+            $status = kv_wp_status_from_api_property( $property_location );
+        } else {
+            $status_ok  = intval( $property_location['status'] ?? 1 ) === 1;
+            $enabled_ok = ! isset( $property_location['is_enabled'] )
+                || intval( $property_location['is_enabled'] ) === 1;
+            $status = ( $status_ok && $enabled_ok ) ? 'publish' : 'draft';
+        }
 
-        // Prepare post data for update
-
-        $title = $property_location['name'] ?? 'Accommodation';
-
-        $content = $property_location['long_description'] ?? '';
+        // Prefer client-facing name when present (same as full mapper).
+        $title = ! empty( $property_location['client_property_name'] )
+            ? $property_location['client_property_name']
+            : ( $property_location['name'] ?? 'Accommodation' );
+        $detail = ( isset( $property_location['detail'] ) && is_array( $property_location['detail'] ) )
+            ? $property_location['detail']
+            : [];
+        $content = $detail['long_description']
+            ?? $property_location['long_description']
+            ?? '';
 
         $post_args = [
 
@@ -6107,11 +6200,12 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
         }
 
-        // Track API-driven drafts so later sync can restore without publishing
-        // properties that were manually drafted by an editor.
-        if ( $status === 'draft' && ! $api_active ) {
+        // Keep status meta in sync with Trip (used by later background mapping).
+        if ( function_exists( 'kv_apply_accommodation_api_status' ) ) {
+            kv_apply_accommodation_api_status( $post_id, $property_location );
+        } elseif ( $status === 'draft' ) {
             update_post_meta( $post_id, '_kv_api_inactive_draft', '1' );
-        } elseif ( $status === 'publish' ) {
+        } else {
             delete_post_meta( $post_id, '_kv_api_inactive_draft' );
         }
 
@@ -6185,9 +6279,11 @@ function hz_process_accommodation_sync($post_id, $property_data) {
 
             'success' => true,
 
-            'message' => 'Accommodation updated successfully',
+            'message' => 'Accommodation updated successfully (status: ' . $status . ')',
 
             'post_id' => $post_id,
+
+            'post_status' => $status,
 
         ];
 

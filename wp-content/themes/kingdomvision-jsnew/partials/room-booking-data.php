@@ -1763,10 +1763,27 @@ if (!empty($wp_property_id)) {
                                             room-title="<?php echo esc_attr($enq_room_title); ?>"
                                             resort-name="<?php echo esc_attr($enq_resort); ?>">Enquire Now</button>
                                     <?php else : ?>
+                                        <?php
+                                        $enq_room_title = $displayRoomName ?? '';
+                                        $enq_hotel_name = !empty($wp_property_id) ? get_the_title($wp_property_id) : ($property_title ?? '');
+                                        $enq_resort = '';
+                                        if (!empty($wp_property_id) && function_exists('hz_get_parent_category')) {
+                                            $enq_resort = str_replace(' Accommodation', '', (string) hz_get_parent_category($wp_property_id));
+                                        } elseif (!empty($resort_name_cart)) {
+                                            $enq_resort = $resort_name_cart;
+                                        }
+                                        ?>
                                         <?php if (!$is_bedbank) : ?>
                                             <button type="button" class="enquire_btn rb-enquiry-btn">Enquire Now</button>
+                                        <?php else : ?>
+                                            <button type="button"
+                                                class="rb-enquiry-btn enq-btn-popup"
+                                                hotel-name="<?php echo esc_attr($enq_hotel_name); ?>"
+                                                hotel-id="<?php echo esc_attr($propertyId); ?>"
+                                                room-title="<?php echo esc_attr($enq_room_title); ?>"
+                                                resort-name="<?php echo esc_attr($enq_resort); ?>">Enquire</button>
                                         <?php endif; ?>
-                                        <?php $select_btn_label = $is_bedbank ? 'Select' : 'Book Now'; ?>
+                                        <?php $select_btn_label = $is_bedbank ? 'Request' : 'Book Now'; ?>
                                         <button type="button" class="rb-select-btn" data-default-label="<?php echo esc_attr($select_btn_label); ?>"><?php echo esc_html($select_btn_label); ?></button>
                                     <?php endif; ?>
                                 </div>

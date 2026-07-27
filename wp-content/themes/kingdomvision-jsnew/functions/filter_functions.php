@@ -10,14 +10,11 @@ $is_stay_user = !is_user_logged_in() || get_current_user_id() != 14 ? true : fal
 
 // $authToken = '12498|nxYGHNDbeM400rHiOftxkjGcI0wKVZ41APd22jBJfa490d93';
 
-// Prefer Trip booking API for this site (Japan Ski Experience).
-// Override in wp-config.php if needed:
-//   define('KV_BOOKING_SYSTEM_BASE', 'https://stay.japanskiexperience.com');
+// Prefer stay booking API by default. Override in wp-config.php if needed:
+//   define('KV_BOOKING_SYSTEM_BASE', 'https://trip.japanskiexperience.com');
 //   define('KV_BS_authToken', 'your-token-here');
-// $external_url = defined('KV_BOOKING_SYSTEM_BASE') ? KV_BOOKING_SYSTEM_BASE : 'https://stay.japanskiexperience.com';
-// $authToken    = defined('KV_BS_authToken') ? KV_BS_authToken : '12810|nNp9PKBDHe6e9W5AYBzVwFpONivDUIBsHpQmRCcLe4d9bfbb'; // stay.japanskiexperience.com
-$external_url = defined('KV_BOOKING_SYSTEM_BASE') ? KV_BOOKING_SYSTEM_BASE : 'https://trip.japanskiexperience.com';
-$authToken    = defined('KV_BS_authToken') ? KV_BS_authToken : '12594|V1sCeHAYmb17icD6v9JDqCrA2MpmSdJgxzFYWYMWe4de053e'; // trip.japanskiexperience.com
+// $external_url = defined('KV_BOOKING_SYSTEM_BASE') ? KV_BOOKING_SYSTEM_BASE : 'https://stay.japanskiexperience.com'; $authToken    = defined('KV_BS_authToken') ? KV_BS_authToken : '12810|nNp9PKBDHe6e9W5AYBzVwFpONivDUIBsHpQmRCcLe4d9bfbb'; // stay.japanskiexperience.com
+$external_url = 'https://trip.japanskiexperience.com'; $authToken = '12673|OVLhNTjBylikNlVwBO1idbGDcspvStZOZOAXZA5i655e0a2e'; // trip.japanskiexperience.com
 // pre( $external_url );
 
 

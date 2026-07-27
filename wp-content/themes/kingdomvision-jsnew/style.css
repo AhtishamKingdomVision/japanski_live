@@ -1463,22 +1463,30 @@ section.jumplinks .jumplink-wrapper a.jumplink-item:hover { border: 1px solid #F
 /* Select arrow — white */
 .resortFilterWrap .sb-select {    min-height: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='rgba(255,255,255,0.5)' d='M5 6L0 0h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 16px; }
 
-/* Search/Submit button */
-.resortFilterWrap .sb-submit { flex-shrink: 0; background: rgb(221, 54, 62); border: none; border-radius: 20px 60px 60px 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 28px; font-family: "Schibsted Grotesk", Arial, sans-serif; font-size: 15px; font-weight: 700; color: #fff; transition: background 0.25s, border-radius 0.4s ease; white-space: nowrap; min-width: 130px; }
+/* Search actions: Browse + Enquire */
+.resortFilterWrap .sb-actions { display: flex; flex-shrink: 0; align-items: stretch; }
+.resortFilterWrap .sb-submit { flex-shrink: 0; background: rgb(221, 54, 62); border: none; border-radius: 20px 0 0 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 20px; font-family: "Schibsted Grotesk", Arial, sans-serif; font-size: 15px; font-weight: 700; color: #fff; transition: background 0.25s, border-radius 0.4s ease; white-space: nowrap; min-width: 0; }
 .resortFilterWrap .sb-submit:hover { background: #b5293a; }
 .resortFilterWrap .search-card.expanded .sb-submit { border-radius: 0; padding: 0 24px; }
 .resortFilterWrap .sb-submit img { height: 20px; }
+.resortFilterWrap .sb-enquire { flex-shrink: 0; background: rgb(221, 54, 62); border: none; border-left: 1px solid rgba(255, 255, 255, 0.25); border-radius: 0 60px 60px 0; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0 22px; font-family: "Schibsted Grotesk", Arial, sans-serif; font-size: 15px; font-weight: 700; color: #fff; transition: background 0.25s, border-radius 0.4s ease; white-space: nowrap; }
+.resortFilterWrap .sb-enquire:hover { background: #b5293a; }
+.resortFilterWrap .search-card.expanded .sb-enquire { border-radius: 0; }
 
 header .resortFilterWrap .sb-submit,
-.mobFilterModal .mobFilterInner .resortFilterWrap .sb-submit { background: var(--button-hover-color);  }
+header .resortFilterWrap .sb-enquire,
+.mobFilterModal .mobFilterInner .resortFilterWrap .sb-submit,
+.mobFilterModal .mobFilterInner .resortFilterWrap .sb-enquire { background: var(--button-hover-color);  }
 header .resortFilterWrap .sb-submit:hover,
-.mobFilterModal .mobFilterInner .resortFilterWrap .sb-submit:hover { background: rgba(255,255,255,0.25); }
+header .resortFilterWrap .sb-enquire:hover,
+.mobFilterModal .mobFilterInner .resortFilterWrap .sb-submit:hover,
+.mobFilterModal .mobFilterInner .resortFilterWrap .sb-enquire:hover { background: rgba(255,255,255,0.25); }
 
 /* search-card needs position:relative so popover anchors to it */
 .resortFilterWrap .search-card { position: relative; }
 
 /* Guests popover — child of search-card, escapes search-row overflow:hidden */
-.resortFilterWrap .guests-popover { position: absolute; top: 77px; right: 275px; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
+.resortFilterWrap .guests-popover { position: absolute; top: 77px; right: 210px; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
 .resortFilterWrap .guests-popover.open { display: block; }
 .resortFilterWrap .g-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
 .resortFilterWrap .g-row:last-child { border-bottom: none; padding-bottom: 0; }
@@ -1676,11 +1684,12 @@ header.newHeader .resortFilterWrap .search-card { padding: 0; }
 header.newHeader .resortFilterWrap .search-card .search-row { gap: 0; }
 header.newHeader .resortFilterWrap .sb-field { padding: 0; background: none; }
 header.newHeader .resortFilterWrap .sb-input, header.newHeader .resortFilterWrap .sb-select { font-size: 13px; height: 100%; }
-header.newHeader .resortFilterWrap .sb-submit { padding: 0 18px; font-size: 13px; border-radius: 0 60px 60px 0; }
+header.newHeader .resortFilterWrap .sb-submit { padding: 0 14px; font-size: 13px; border-radius: 0; }
+header.newHeader .resortFilterWrap .sb-enquire { padding: 0 16px; font-size: 13px; border-radius: 0 60px 60px 0; }
 header.newHeader .resortFilterWrap .sb-field span.sb-guests-display.js-sb-guests-display { padding: 0 5px; }
 header.newHeader .resortFilterWrap .sb-field img { display: none; }
 header.newHeader .resortFilterWrap .sb-field::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 1px; height: 36px; background: rgba(255, 255, 255, 0.15); }
-header.newHeader .resortFilterWrap .search-card .guests-popover { right: 215px; top: 60px; }
+header.newHeader .resortFilterWrap .search-card .guests-popover { right: 200px; top: 60px; }
 
 
 .single-accommodation header.newHeader .topHeader .resortFilterWrap { opacity: 1; visibility: visible; }

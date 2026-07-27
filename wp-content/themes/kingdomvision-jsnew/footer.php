@@ -172,7 +172,9 @@ echo '<div class="mobFilterModal" id="mobFilterModal">';
   echo '</div>'; #mobFilterInner
 echo '</div>'; #mobFilterModal
 
-if( is_page( [ 'accommodation', 'hotels', 'deals', 'onsen', 'chalets', 'ski-in-ski-out' ] ) || is_singular( 'accommodation' ) ){
+// Enquiry popup — search-card Enquire + listing Enquire Now (skip bare enquire pages)
+$kv_show_enquiry_modal = ! is_page( [ 'enquire', 'get-a-quote' ] );
+if ( $kv_show_enquiry_modal && function_exists( 'get_enquiry_form_html' ) ) {
 
     echo '<div id="Enquiry-modal" class="Enquiry-modal">
         <div class="Enquiry-modal-overlay"></div>

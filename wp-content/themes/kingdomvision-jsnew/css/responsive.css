@@ -453,7 +453,9 @@ section.hero-banner-filter-result .property-grid { grid-template-columns: repeat
 .mobFilterModal .mobFilterInner .resortFilterWrap .sb-field::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 1px; height: 36px; background: rgba(255, 255, 255, 0.15); }
 .resortFilterWrap .search-card.expanded .search-row { border-radius: 20px 20px 0 0; }
 .resortFilterWrap .sb-field + .sb-field::before { left: 20px; right: 20px; top: 0; width: auto; height: 1px; transform: none; background: rgba(255, 255, 255, 0.15); }
-.resortFilterWrap .sb-submit { order: 4; border-radius: 0; padding: 16px 24px; min-width: auto; width: 100%; }
+.resortFilterWrap .sb-actions { order: 4; width: 100%; }
+.resortFilterWrap .sb-submit { border-radius: 0; padding: 16px 16px; min-width: auto; width: 50%; flex: 1; }
+.resortFilterWrap .sb-enquire { border-radius: 0; padding: 16px 16px; width: 50%; flex: 1; }
 .resortFilterWrap .search-card { border-radius: 20px; padding: 0; }
 .resortFilterWrap .search-card.expanded { border-radius: 20px; }
 .resortFilterWrap .guests-popover { right: 0; left: 0; width: auto; }
@@ -477,6 +479,8 @@ section.hero-banner-filter-result .property-grid { grid-template-columns: repeat
 .resortFilterWrap .eq-grid { grid-template-columns: 1fr 1fr; }
 .resortFilterWrap .eq-field-info { grid-column: span 2; border-right: none; }
 .resortFilterWrap .search-card.expanded .sb-submit { display: none; }
+.resortFilterWrap .search-card.expanded .sb-enquire { display: none; }
+.resortFilterWrap .search-card.expanded .sb-actions { display: none; }
 .resortFilterWrap .search-card.expanded .mobile-enquiry-btn { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 17px 24px; background: rgb(221, 54, 62); border: none; color: #fff; font-family: "Schibsted Grotesk", Arial, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; border-radius: 0 0 20px 20px; transition: background 0.25s; }
 .resortFilterWrap .search-card.expanded .mobile-enquiry-btn:hover { background: #b5293a; }
 section.benefits-section .benefits-grid { grid-template-columns: 1fr; }

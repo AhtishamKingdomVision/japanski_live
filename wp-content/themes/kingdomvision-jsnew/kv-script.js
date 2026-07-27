@@ -1725,6 +1725,36 @@ jQuery(function ($) {
             return;
         }
 
+        // Search-card Enquire: map selected resort + dates into the popup
+        if ($btn.hasClass('sb-enquire')) {
+            const $card = $btn.closest('.search-card');
+            const $resort = $card.find('.js-sb-resort').first();
+            let resortName = '';
+            if ($resort.length) {
+                const val = String($resort.val() || '').trim();
+                if (val && val.toLowerCase() !== 'all') {
+                    resortName = normalizeResortName(
+                        $resort.find('option:selected').text() || val
+                    );
+                }
+            }
+            const checkIn = $card.find('.js-sb-checkin').val() || '';
+            const checkOut = $card.find('.js-sb-checkout').val() || '';
+            const opened = openEnquiryFromTrigger($btn, {
+                resortName: resortName,
+                checkIn: checkIn,
+                checkOut: checkOut
+            });
+            // No modal on this page → same handoff as sticky CTA
+            if (!opened) {
+                if (checkIn) localStorage.setItem('sb_checkin', checkIn);
+                if (checkOut) localStorage.setItem('sb_checkout', checkOut);
+                stashEnquiryResortName(resortName);
+                window.location.href = '/enquire/';
+            }
+            return;
+        }
+
         // Single-room Enquire Now (.enq-btn-popup)
         openEnquiryFromTrigger($btn);
     });

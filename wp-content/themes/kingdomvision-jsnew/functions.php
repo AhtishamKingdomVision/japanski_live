@@ -38,7 +38,7 @@ function theme_files()
 	wp_register_style('theme-style', $style_uri, array(), $style_version);
     wp_enqueue_style('theme-style');
 
-    wp_register_style('theme-styler', THEME_URL . '/css/responsive.css', false, '0.8');
+    wp_register_style('theme-styler', THEME_URL . '/css/responsive.css', false, filemtime(get_theme_file_path('/css/responsive.css')));
     wp_enqueue_style('theme-styler');
 
     wp_register_style('font-css', THEME_URL . '/css/fonts.css', false, null);

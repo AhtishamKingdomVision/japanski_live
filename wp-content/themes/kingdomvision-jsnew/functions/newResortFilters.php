@@ -66,10 +66,18 @@ function newResortFiltersCode(){
             echo '<span class="sb-guests-display empty js-sb-guests-display">Guests</span>';
         echo '</div>';
 
-        echo '<button class="sb-submit" onclick="doSearch(this)">';
-          echo '<img src="' . get_template_directory_uri() . '/images/search-icon.png" alt="Search">
-          Browse Accommodation';
-        echo '</button>';
+        // echo '<button class="sb-submit" onclick="doSearch(this)">';
+        //   echo '<img src="' . get_template_directory_uri() . '/images/search-icon.png" alt="Search">
+        //   Browse Accommodation';
+        // echo '</button>';
+
+        echo '<div class="sb-actions">';
+          echo '<button type="button" class="sb-submit" onclick="doSearch(this)">';
+            echo '<img src="' . get_template_directory_uri() . '/images/search-icon.png" alt="Search">
+            Browse';
+          echo '</button>';
+          echo '<button type="button" class="sb-enquire enq-btn-popup" aria-label="Enquire">Enquire</button>';
+        echo '</div>';
 
       echo '</div>'; # search-row
 

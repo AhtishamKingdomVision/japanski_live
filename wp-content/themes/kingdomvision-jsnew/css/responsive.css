@@ -524,11 +524,17 @@ section.room-listing .bedroom-tabs { justify-content: center; }
 .sticky-cart-container.foo-cart a.sticky-cta-btn { border-radius: 50%; }
 .webcam-item { min-width: 100%; max-width: 100%; }
 
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf { width: 50%; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { width: 100%; border-radius: 10px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5),
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf.edit-field {
+  display: none !important;
+}
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf.gfield--width-quarter,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf.gfield--width-full { width: 50% !important; max-width: 50% !important; flex: 0 0 50% !important; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; border-radius: 10px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(2) { border-radius: 10px 0 0 10px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3) { border-radius: 0 10px 10px 0; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4) { border-radius: 10px 0 0 10px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4) { border-radius: 10px; }
 
 .acc_enquiry_form .acc_enquiry_head { padding: 20px 30px 1px; }
 .accommodation-map-dialog { height: 70vh; }

@@ -1326,7 +1326,8 @@ jQuery(function ($) {
                 resortName: ($btn && $btn.attr('resort-name')) || data.resortName || '',
                 roomName: ($btn && $btn.attr('room-title')) || data.roomName || '',
                 checkIn: data.checkIn || dates.checkIn,
-                checkOut: data.checkOut || dates.checkOut
+                checkOut: data.checkOut || dates.checkOut,
+                lockProductFields: false
             }, data));
         } catch (err) {
             console.warn('populateEnquiryModal failed', err);
@@ -1640,22 +1641,28 @@ jQuery(function ($) {
         const $scope = getModalEnquiryScope();
         if (!$scope.length) return;
 
+        // Property/room Enquire → lock resort + property. Search / general → all editable.
+        const lockProduct = !!data.lockProductFields;
         const hasProductData = !!(data.propertyName || data.resortName || data.checkIn || data.checkOut || data.roomName);
         const $propertyField = $scope.find('#input_1_39, .property_name textarea').first();
 
         if (data.propertyName) {
-            $propertyField.val(data.propertyName).prop('readonly', true).addClass('disabled');
+            $propertyField.val(data.propertyName);
+            if (lockProduct) {
+                $propertyField.prop('readonly', true).addClass('disabled');
+            } else {
+                $propertyField.prop('readonly', false).removeClass('disabled');
+            }
         } else {
             $propertyField.val('').prop('readonly', false).removeClass('disabled');
         }
 
-        const $resortField = $scope.find('#input_1_66, select[name="input_66"], .resort_name select').first();
+        const $resortField = $scope.find('.resort_name select, select[name="input_66"]').first();
         const urlResortName = getUrlResortName($resortField);
-        // Prefer URL resort when on a resort page; otherwise use the selected property resort.
-        const resortName = urlResortName || data.resortName || '';
-        // Lock whenever resort is known (from URL or selected property).
-        const lockResort = !!resortName;
-        setEnquiryResortField($resortField, resortName, lockResort);
+        // Prefer explicit trigger resort; otherwise URL resort for prefill only.
+        const resortName = data.resortName || urlResortName || '';
+        // Lock resort only for property/room Enquire flows.
+        setEnquiryResortField($resortField, resortName, lockProduct && !!resortName);
 
         const $roomField = $scope.find('#input_1_44, .room_name input').first();
         if (data.roomName) {
@@ -1680,14 +1687,17 @@ jQuery(function ($) {
             $scope.find('.enquiry_type input').attr('value', 'Product').trigger('change');
         }
 
-        // Prefill → lock BBF bar until user clicks Change.
-        // Enquire Now: resort stays locked even after unlock (dates/guests editable).
+        // Dates/guests always editable (Edit button removed). Resort/property lock only for product CTAs.
         $scope.find('.gform_wrapper.quote_form_wrapper')
-            .attr('data-bbf-unlocked', '0')
-            .attr('data-bbf-lock-resort', lockResort ? '1' : '0');
+            .attr('data-bbf-unlocked', '1')
+            .attr('data-bbf-lock-resort', (lockProduct && !!resortName) ? '1' : '0')
+            .attr('data-bbf-lock-property', (lockProduct && !!data.propertyName) ? '1' : '0');
         syncEnquiryBbfLock($scope);
-        setTimeout(function () { syncEnquiryBbfLock($scope); }, 200);
-        setTimeout(function () { syncEnquiryBbfLock($scope); }, 600);
+        if (typeof initAllBbfToggles === 'function') {
+            initAllBbfToggles();
+        }
+        setTimeout(function () { syncEnquiryBbfLock($scope); initAllBbfToggles(); }, 200);
+        setTimeout(function () { syncEnquiryBbfLock($scope); initAllBbfToggles(); }, 600);
     }
 
     $(document).on('click', '.enq_cta, .enquire_btn, .enq-btn-popup', function (e) {
@@ -1696,36 +1706,39 @@ jQuery(function ($) {
 
         const $btn = $(this);
 
-        // Listing cards
+        // Listing cards (property Enquire) → lock resort + property
         if ($btn.hasClass('enquire_btn')) {
             const $card = $btn.closest('.accom-card, .result-card');
             const propertyName = (
+                $btn.attr('hotel-name') ||
                 $btn.parents('.accom-content').find('h3').first().text() ||
                 $card.find('.accom-content h3').first().text() ||
                 ''
             ).trim();
             openEnquiryFromTrigger($btn, {
                 propertyName: propertyName,
-                resortName: $card.data('resortName') || $btn.attr('resort-name') || ''
+                resortName: $card.data('resortName') || $btn.attr('resort-name') || '',
+                lockProductFields: true
             });
             return;
         }
 
-        // Booking rate-plan enquire
+        // Booking rate-plan / room Enquire → lock resort + property
         const $ratePlanBox = $btn.closest('.rb-rateplan-box');
         if ($ratePlanBox.length) {
             const roomData = parseRoomDataFromBox($ratePlanBox);
             openEnquiryFromTrigger($btn, {
-                propertyName: roomData.propertyName || '',
-                resortName: roomData.resortName || '',
+                propertyName: roomData.propertyName || $btn.attr('hotel-name') || '',
+                resortName: roomData.resortName || $btn.attr('resort-name') || '',
                 checkIn: roomData.checkIn || '',
                 checkOut: roomData.checkOut || '',
-                roomName: roomData.roomName || ''
+                roomName: roomData.roomName || $btn.attr('room-title') || '',
+                lockProductFields: true
             });
             return;
         }
 
-        // Search-card Enquire: map selected resort + dates into the popup
+        // Search-card Enquire: prefill ok, sab editable
         if ($btn.hasClass('sb-enquire')) {
             const $card = $btn.closest('.search-card');
             const $resort = $card.find('.js-sb-resort').first();
@@ -1743,7 +1756,8 @@ jQuery(function ($) {
             const opened = openEnquiryFromTrigger($btn, {
                 resortName: resortName,
                 checkIn: checkIn,
-                checkOut: checkOut
+                checkOut: checkOut,
+                lockProductFields: false
             });
             // No modal on this page → same handoff as sticky CTA
             if (!opened) {
@@ -1755,8 +1769,8 @@ jQuery(function ($) {
             return;
         }
 
-        // Single-room Enquire Now (.enq-btn-popup)
-        openEnquiryFromTrigger($btn);
+        // Single-room Enquire Now (.enq-btn-popup) → lock resort + property
+        openEnquiryFromTrigger($btn, { lockProductFields: true });
     });
 
     // Sticky / legacy CTA → full enquire page (do not open on-page popup)
@@ -1786,19 +1800,117 @@ jQuery(function ($) {
         stashEnquiryResortName(resolvePageResortForEnquiry($btn));
     });
 
-    // Header/search resort → map into empty enquiry Resort fields (blog sidebar, etc.).
-    $(document).on('change', '.js-sb-resort', function () {
-        const resortName = ($(this).val() || '').toString().trim();
-        if (!resortName || resortName.toLowerCase() === 'all') return;
+    // Header/search/enquiry resort → keep every unlocked resort field in sync.
+    var _kvResortSyncing = false;
 
-        $('.gform_wrapper.quote_form_wrapper, .mob_quote_form1, .acc_enquiry_form').each(function () {
-            const $resortField = $(this).find('#input_1_66, select[name="input_66"], .resort_name select').first();
-            if (!$resortField.length || $resortField.val()) return;
-            setEnquiryResortField($resortField, resortName, false);
+    function matchSearchResortOptionValue($select, resortName) {
+        if (!$select || !$select.length) return '';
+        const normalized = normalizeResortName(resortName).toLowerCase();
+        if (!normalized || normalized === 'all' || normalized === 'resort') return '';
+
+        let found = '';
+        $select.find('option').each(function () {
+            const v = String(this.value || '').trim();
+            const t = String(jQuery(this).text() || '').trim();
+            if (!v || v.toLowerCase() === 'all') return;
+            if (
+                normalizeResortName(v).toLowerCase() === normalized ||
+                normalizeResortName(t).toLowerCase() === normalized
+            ) {
+                found = v;
+                return false;
+            }
         });
+        return found;
+    }
+
+    function resortValueForStorage(resortName) {
+        const raw = (resortName || '').toString().trim();
+        if (!raw || raw.toLowerCase() === 'all' || raw.toLowerCase() === 'resort') return '';
+        if (/-accommodation$/i.test(raw)) return raw;
+        const normalized = normalizeResortName(raw);
+        if (!normalized) return '';
+        return normalized.toLowerCase().replace(/\s+/g, '-') + '-accommodation';
+    }
+
+    function syncResortEverywhere(resortName, $source) {
+        if (_kvResortSyncing) return;
+        _kvResortSyncing = true;
+
+        try {
+            const raw = (resortName || '').toString().trim();
+            const isClear = !raw || raw.toLowerCase() === 'all' || raw.toLowerCase() === 'resort';
+            const storageVal = isClear ? '' : (resortValueForStorage(raw) || raw);
+
+            if (storageVal) {
+                localStorage.setItem('sb_resort', storageVal);
+            } else {
+                localStorage.removeItem('sb_resort');
+            }
+
+            // Sync all search-card resort selects (hero + header + mobile)
+            $('.js-sb-resort').each(function () {
+                const $el = $(this);
+                if ($source && $el.is($source)) return;
+
+                if (isClear) {
+                    if ($el.val()) $el.val('');
+                    return;
+                }
+
+                const matchVal = matchSearchResortOptionValue($el, raw) ||
+                    matchSearchResortOptionValue($el, storageVal);
+                if (matchVal && $el.val() !== matchVal) {
+                    $el.val(matchVal);
+                }
+            });
+
+            // Sync sidebar resort radios if present
+            $('input[name="resort"]').each(function () {
+                const $el = $(this);
+                if ($source && $el.is($source)) return;
+                if (isClear) {
+                    $el.prop('checked', false);
+                    return;
+                }
+                const elNorm = normalizeResortName($el.val()).toLowerCase();
+                const wantNorm = normalizeResortName(raw).toLowerCase();
+                $el.prop('checked', elNorm === wantNorm || $el.val() === storageVal);
+            });
+
+            // Sync enquiry forms (skip locked product CTAs)
+            $('.resort_name select, select[name="input_66"]').each(function () {
+                const $resortField = $(this);
+                if ($source && $resortField.is($source)) return;
+                if ($resortField.closest('.gform_wrapper').attr('data-bbf-lock-resort') === '1') return;
+                if ($resortField.hasClass('disabled') || $resortField.attr('aria-disabled') === 'true') return;
+
+                if (isClear) {
+                    if ($resortField.val()) {
+                        $resortField.val('').trigger('change');
+                    }
+                    return;
+                }
+
+                setEnquiryResortField($resortField, raw, false);
+            });
+        } finally {
+            _kvResortSyncing = false;
+        }
+    }
+
+    $(document).on('change', '.js-sb-resort', function () {
+        syncResortEverywhere($(this).val(), $(this));
     });
 
-    $(document).on('mousedown keydown', '.resort_name select.disabled, #input_1_66.disabled, select[name="input_66"].disabled', function (e) {
+    $(document).on('change', '.resort_name select, select[name="input_66"]', function () {
+        const $field = $(this);
+        if ($field.closest('.gform_wrapper').attr('data-bbf-lock-resort') === '1') return;
+        if ($field.hasClass('disabled') || $field.attr('aria-disabled') === 'true') return;
+        syncResortEverywhere($field.val(), $field);
+    });
+
+    $(document).on('mousedown keydown', '.resort_name select.disabled, select[name="input_66"].disabled', function (e) {
         e.preventDefault();
     });
 
@@ -1815,12 +1927,10 @@ jQuery(function ($) {
     }
 
     function getEnquiryBbfFields($wrap) {
-        const $resort = $wrap.find('.resort_name select, select[name="input_66"], #input_1_66').first();
+        // Resort select lives on .resort_name (field id may differ; do not use #input_1_66 HTML slot).
+        const $resort = $wrap.find('.resort_name select, select[name="input_66"]').first();
         const $checkIn = $wrap.find('input[name="input_5"], #input_1_5').first();
         let $checkOut = $wrap.find('input[name="input_6"], #input_1_6').first();
-        if (!$checkIn.length) {
-            // fallback calendar inputs in BBF row
-        }
         const $calInputs = $wrap.find('.gfield.bbf.calender_icon input, .calender_icon input');
         const $ci = $checkIn.length ? $checkIn : $calInputs.eq(0);
         const $co = $checkOut.length ? $checkOut : $calInputs.eq(1);
@@ -1846,47 +1956,31 @@ jQuery(function ($) {
     }
 
     function enquiryShouldLockResort($wrap) {
-        // Enquire Now modal/forms: keep resort fixed when it was prefilled.
-        if ($wrap.attr('data-bbf-lock-resort') === '1') return true;
-        if ($wrap.closest('.Enquiry-modal').length && $wrap.find('.resort_name select.disabled, #input_1_66.disabled, select[name="input_66"].disabled').length) {
-            return true;
-        }
-        return false;
+        return $wrap.attr('data-bbf-lock-resort') === '1';
     }
 
     function setEnquiryBbfLocked($wrap, locked) {
         if (!$wrap || !$wrap.length) return;
 
-        $wrap.toggleClass('bbf-fields-locked', !!locked);
+        // Edit button removed: never lock dates/guests. Only resort may stay locked for product CTAs.
+        $wrap.removeClass('bbf-fields-locked');
         const f = getEnquiryBbfFields($wrap);
         const keepResortLocked = enquiryShouldLockResort($wrap);
 
-        if (locked) {
+        if (keepResortLocked) {
             f.$resort
                 .addClass('disabled')
                 .attr('aria-disabled', 'true')
                 .attr('tabindex', '-1')
                 .prop('disabled', false);
-            f.$dates.prop('readonly', true).attr('tabindex', '-1');
-            f.$guests.attr('aria-disabled', 'true');
-            $wrap.find('.eq-guests-popover').removeClass('open');
         } else {
-            // Dates + guests editable; resort stays locked on Enquire Now forms.
-            if (keepResortLocked) {
-                f.$resort
-                    .addClass('disabled')
-                    .attr('aria-disabled', 'true')
-                    .attr('tabindex', '-1')
-                    .prop('disabled', false);
-            } else {
-                f.$resort
-                    .removeClass('disabled')
-                    .attr('aria-disabled', 'false')
-                    .attr('tabindex', '0');
-            }
-            f.$dates.prop('readonly', false).removeAttr('tabindex');
-            f.$guests.removeAttr('aria-disabled');
+            f.$resort
+                .removeClass('disabled')
+                .attr('aria-disabled', 'false')
+                .attr('tabindex', '0');
         }
+        f.$dates.prop('readonly', false).removeAttr('tabindex');
+        f.$guests.removeAttr('aria-disabled');
 
         $wrap.toggleClass('bbf-resort-locked', keepResortLocked);
     }
@@ -1896,19 +1990,9 @@ jQuery(function ($) {
             const $wrap = $(this);
             if (!$wrap.find('.gfield.bbf').length) return;
 
-            const allFilled = enquiryBbfAllFilled($wrap);
-            const manuallyUnlocked = $wrap.attr('data-bbf-unlocked') === '1';
-
-            if (!allFilled) {
-                // Koi field empty → editable, next complete fill can lock again
-                $wrap.attr('data-bbf-unlocked', '0');
-                setEnquiryBbfLocked($wrap, false);
-                refreshBbfToggleLabel($wrap);
-                return;
-            }
-
-            // Sari fields filled → readonly (unless Change clicked)
-            setEnquiryBbfLocked($wrap, !manuallyUnlocked);
+            // Always keep BBF bar editable (no Edit/Confirm gate).
+            $wrap.attr('data-bbf-unlocked', '1');
+            setEnquiryBbfLocked($wrap, false);
             refreshBbfToggleLabel($wrap);
         });
     }
@@ -1966,7 +2050,7 @@ jQuery(function ($) {
     }
 
     function getBbfToggleLink($wrap) {
-        return $wrap.find('.gfield.bbf a.bbf-edit-btn, .gfield.bbf a, .gfield a').filter(function () {
+        return $wrap.find('.gfield.bbf.edit-field a.bbf-edit-btn, .gfield.bbf.edit-field a, .gfield.bbf a.bbf-edit-btn, .gfield.bbf a, .gfield.edit-field a, .gfield a').filter(function () {
             return $(this).hasClass('bbf-edit-btn') || /edit|confirm|change|done/i.test(($(this).text() || ''));
         }).first();
     }
@@ -1980,14 +2064,15 @@ jQuery(function ($) {
     }
 
     // Edit → editable, Confirm → wapis lock
-    $(document).on('click', '.gform_wrapper.quote_form_wrapper .gfield a', function (e) {
-        const label = ($(this).text() || '').replace(/\s+/g, ' ').trim();
-        if (!/edit|confirm|change|done/i.test(label)) return;
+    $(document).on('click', '.gform_wrapper.quote_form_wrapper .gfield a, .gform_wrapper.quote_form_wrapper .gfield .bbf-edit-btn', function (e) {
+        const $link = $(this);
+        const label = ($link.text() || '').replace(/\s+/g, ' ').trim();
+        if (!$link.hasClass('bbf-edit-btn') && !/edit|confirm|change|done/i.test(label)) return;
 
         e.preventDefault();
         e.stopPropagation();
 
-        const $wrap = $(this).closest('.gform_wrapper.quote_form_wrapper');
+        const $wrap = $link.closest('.gform_wrapper.quote_form_wrapper');
         const isUnlocked = $wrap.attr('data-bbf-unlocked') === '1';
 
         if (isUnlocked) {
@@ -2003,7 +2088,7 @@ jQuery(function ($) {
         refreshBbfToggleLabel($wrap);
     });
 
-    // Block dateDropper / select while BBF bar is locked
+    // Block interaction while BBF dates were historically locked (kept for safety)
     $(document).on('mousedown focus click', '.bbf-fields-locked .gfield.bbf input, .bbf-fields-locked .gfield.bbf select', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -2011,8 +2096,16 @@ jQuery(function ($) {
         return false;
     });
 
-    // Enquire Now: resort never editable even when BBF unlocked
-    $(document).on('mousedown focus click keydown', '.gform_wrapper[data-bbf-lock-resort="1"] .resort_name select, .gform_wrapper[data-bbf-lock-resort="1"] #input_1_66, .gform_wrapper[data-bbf-lock-resort="1"] select[name="input_66"]', function (e) {
+    // Property/room Enquire: resort stays locked
+    $(document).on('mousedown focus click keydown', '.gform_wrapper[data-bbf-lock-resort="1"] .resort_name select, .gform_wrapper[data-bbf-lock-resort="1"] select[name="input_66"]', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $(this).blur();
+        return false;
+    });
+
+    // Property/room Enquire: property stays locked
+    $(document).on('mousedown focus click keydown', '.gform_wrapper[data-bbf-lock-property="1"] .property_name textarea, .gform_wrapper[data-bbf-lock-property="1"] #input_1_39', function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         $(this).blur();

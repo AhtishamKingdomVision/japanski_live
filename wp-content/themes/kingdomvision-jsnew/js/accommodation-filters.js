@@ -3812,6 +3812,20 @@ const AccommodationFilters = (function() {
                 $pop.toggleClass('open', willOpen);
                 $card.find('.sb-guests-desktop').toggleClass('active', willOpen);
 
+                // Keep sticky header above page content while expanded guests UI is open.
+                jQuery('header.newHeader').toggleClass('kv-guests-open', willOpen && $pop.closest('header').length > 0);
+
+                if (willOpen && typeof window.kvSyncAllInlineChildAges === 'function') {
+                    const kids = parseInt(localStorage.getItem('sb_children'), 10) || 0;
+                    window.kvSyncAllInlineChildAges(kids);
+                    setTimeout(function () {
+                        const ages = $pop.find('.kv-child-ages.is-open').get(0);
+                        if (ages && typeof ages.scrollIntoView === 'function') {
+                            ages.scrollIntoView({ block: 'nearest' });
+                        }
+                    }, 30);
+                }
+
             };
 
 

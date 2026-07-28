@@ -15,31 +15,10 @@ if (base_url === undefined || pathname === undefined || host === undefined || pa
 var themeUrl = kv_object.themeUrl;
 
 function triggerChildAgePopup(noOfChilds) {
-
-    jQuery('section.child_age').addClass('active');
-
-    jQuery('section.child_age input').val('');
-
-    jQuery('section.child_age .ch_inn ul li').show();
-
-    jQuery('section.child_age .ch_inn ul li').each(function (index, value) {
-
-        if ((index + 1) > noOfChilds) {
-
-            jQuery(value).hide();
-
-        } else {
-
-            var child = jQuery(value).find('select').data('child');
-
-            var saved = localStorage.getItem('sb_' + child);
-
-            if (saved) { jQuery(value).find('select').val(saved); }
-
-        }
-
-    });
-
+    // Legacy name kept for callers — ages now render inline inside the guests popover.
+    if (typeof window.kvSyncAllInlineChildAges === 'function') {
+        window.kvSyncAllInlineChildAges(noOfChilds);
+    }
 }
 
 function setCookie(e, t, n) {
@@ -289,45 +268,20 @@ jQuery(function ($) {
 
 
 
-    // Child Age Work
+    // Child Age Work — inline under Children in the same guests popover (no second popup).
     var kvChildAgeTargetScope = null;
+    var KV_CHILD_AGE_MIN = 1;
+    var KV_CHILD_AGE_MAX = 15;
 
     function kvGetEnquiryGuestScope($el) {
-        const $scope = $el.closest('.gform_wrapper, .mob_quote_form1, .Enquiry-modal-content, .acc_enquiry_form');
+        const $scope = $el.closest('.gform_wrapper, .mob_quote_form1, .Enquiry-modal-content, .acc_enquiry_form, .form_area');
         return $scope.length ? $scope : $();
-    }
-
-    function kvWriteChildAgesToScope($scope) {
-        if (!$scope || !$scope.length) return;
-        $.each($('section.child_age .ch_inn ul li:visible select'), function (index, value) {
-            let val = $(value).val();
-            let child = $(value).data('child');
-            $scope.find('.' + child + ' input').val(val);
-        });
     }
 
     function kvGetStoredChildAge(child) {
         const val = localStorage.getItem('sb_' + child);
-        return val && val !== '0' ? val : '';
-    }
-
-    function kvApplyStoredChildAgesToPopup(noOfChilds) {
-        const childCount = parseInt(noOfChilds, 10) || 0;
-
-        $('section.child_age .ch_inn ul li').each(function (index) {
-            const $item = $(this);
-            const $select = $item.find('select');
-            const child = $select.data('child');
-
-            if ((index + 1) > childCount) {
-                $item.hide();
-                $select.val('0');
-                return;
-            }
-
-            $item.show();
-            $select.val(kvGetStoredChildAge(child) || '0');
-        });
+        const n = parseInt(val, 10);
+        return !isNaN(n) && n >= KV_CHILD_AGE_MIN && n <= KV_CHILD_AGE_MAX ? String(n) : '';
     }
 
     function kvWriteStoredChildAgesToScope($scope, noOfChilds) {
@@ -344,24 +298,210 @@ jQuery(function ($) {
 
     window.kvWriteStoredChildAgesToScope = kvWriteStoredChildAgesToScope;
 
-    $(document).on('change', '.rec_children select, #input_1_10, #input_4_10', function (e) {
+    function kvEnsureChildAgesMount($pop) {
+        if (!$pop || !$pop.length) return $();
+        let $mount = $pop.find('.kv-child-ages').first();
+        if (!$mount.length) {
+            $mount = $('<div class="kv-child-ages" hidden></div>');
+            const $childrenRow = $pop.find('.g-row').has('.js-v-children, .eq-children').last();
+            if ($childrenRow.length) {
+                $childrenRow.after($mount);
+            } else {
+                $pop.append($mount);
+            }
+        }
+        if (!$pop.find('.kv-guests-done').length) {
+            $mount.after(
+                '<button type="button" class="kv-guests-done" onclick="window.kvCloseGuestsPopover(event,this)">Done</button>'
+            );
+        } else {
+            $pop.find('.kv-guests-done').attr('onclick', 'window.kvCloseGuestsPopover(event,this)');
+        }
+        if (!$pop.find('.kv-child-ages-error').length) {
+            $pop.find('.kv-guests-done').before('<div class="kv-child-ages-error">Please set an age for each child.</div>');
+        }
+        return $mount;
+    }
 
-        let noOfChilds = $(this).val();
-        kvChildAgeTargetScope = kvGetEnquiryGuestScope($(this));
+    function kvRenderInlineChildAges($pop, childCount) {
+        if (!$pop || !$pop.length) return;
+        const count = Math.max(0, Math.min(15, parseInt(childCount, 10) || 0));
+        const $mount = kvEnsureChildAgesMount($pop);
+        if (!$mount.length) return;
 
-        if (noOfChilds == '')
-            return;
+        $pop.find('.kv-child-ages-error').removeClass('is-visible');
 
-        if (noOfChilds == '0') {
-            kvWriteStoredChildAgesToScope(kvChildAgeTargetScope, 0);
+        if (count <= 0) {
+            $mount.empty().attr('hidden', true).removeClass('is-open is-many');
             return;
         }
 
-        $('section.child_age').addClass('active');
-        kvApplyStoredChildAgesToPopup(noOfChilds);
+        let html = '';
+        for (let i = 1; i <= count; i++) {
+            const key = 'child_' + i;
+            let age = parseInt(kvGetStoredChildAge(key), 10);
+            if (isNaN(age) || age < KV_CHILD_AGE_MIN) age = KV_CHILD_AGE_MIN;
+            if (age > KV_CHILD_AGE_MAX) age = KV_CHILD_AGE_MAX;
+            localStorage.setItem('sb_' + key, String(age));
 
+            const minusDisabled = age <= KV_CHILD_AGE_MIN ? ' disabled' : '';
+            const plusDisabled = age >= KV_CHILD_AGE_MAX ? ' disabled' : '';
+            // Inline onclick: guests-popover uses stopPropagation so document delegation never reaches age buttons.
+            html +=
+                '<div class="kv-child-age-row" data-child="' + key + '">' +
+                    '<span class="kv-child-age-label">Child ' + i + ' age</span>' +
+                    '<div class="g-counter">' +
+                        '<button type="button" class="g-btn js-btn-cage-minus"' + minusDisabled +
+                            ' aria-label="Decrease child ' + i + ' age"' +
+                            ' onclick="window.kvBumpChildAge(event,this,-1)">−</button>' +
+                        '<span class="g-val js-v-cage">' + age + '</span>' +
+                        '<button type="button" class="g-btn js-btn-cage-plus"' + plusDisabled +
+                            ' aria-label="Increase child ' + i + ' age"' +
+                            ' onclick="window.kvBumpChildAge(event,this,1)">+</button>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        $mount.html(html).removeAttr('hidden').addClass('is-open');
+        $mount.toggleClass('is-many', count >= 4);
+
+        // Keep expanded ages visible (header search was clipping the bottom).
+        if ($pop.hasClass('open') || $pop.hasClass('active')) {
+            setTimeout(function () {
+                const el = $mount.get(0);
+                if (el && typeof el.scrollIntoView === 'function') {
+                    el.scrollIntoView({ block: 'nearest' });
+                }
+            }, 20);
+        }
+
+        const $scope = kvGetEnquiryGuestScope($pop);
+        if ($scope.length) {
+            kvWriteStoredChildAgesToScope($scope, count);
+        } else if (typeof window.kvWriteStoredChildAgesToScope === 'function') {
+            $('.Enquiry-modal-content, .acc_enquiry_form, .form_area, .gform_wrapper.quote_form_wrapper').each(function () {
+                kvWriteStoredChildAgesToScope($(this), count);
+            });
+        }
+    }
+
+    window.kvRenderInlineChildAges = kvRenderInlineChildAges;
+
+    window.kvSyncAllInlineChildAges = function (childCount) {
+        const count = childCount != null
+            ? childCount
+            : (parseInt(localStorage.getItem('sb_children'), 10) || 0);
+
+        $('.guests-popover, .eq-guests-popover, .room-filter-guests-popover, #eq-guests-popover').each(function () {
+            kvRenderInlineChildAges($(this), count);
+        });
+    };
+
+    window.kvBumpChildAge = function (e, btn, delta) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        }
+        if (!btn || btn.disabled) return;
+
+        const $btn = $(btn);
+        const $row = $btn.closest('.kv-child-age-row');
+        const $pop = $btn.closest('.guests-popover, .eq-guests-popover, .room-filter-guests-popover, #eq-guests-popover');
+        if (!$row.length) return;
+
+        const child = $row.attr('data-child');
+        let age = parseInt($row.find('.js-v-cage').text(), 10);
+        if (isNaN(age)) age = KV_CHILD_AGE_MIN;
+
+        age += (parseInt(delta, 10) || 0);
+        if (age < KV_CHILD_AGE_MIN) age = KV_CHILD_AGE_MIN;
+        if (age > KV_CHILD_AGE_MAX) age = KV_CHILD_AGE_MAX;
+
+        localStorage.setItem('sb_' + child, String(age));
+        $row.find('.js-v-cage').text(String(age));
+        $row.find('.js-btn-cage-minus').prop('disabled', age <= KV_CHILD_AGE_MIN);
+        $row.find('.js-btn-cage-plus').prop('disabled', age >= KV_CHILD_AGE_MAX);
+        if ($pop.length) $pop.find('.kv-child-ages-error').removeClass('is-visible');
+
+        const $scope = kvGetEnquiryGuestScope($pop);
+        const children = parseInt(localStorage.getItem('sb_children'), 10) || 0;
+        if ($scope.length) {
+            kvWriteStoredChildAgesToScope($scope, children);
+        } else {
+            $('.Enquiry-modal-content, .acc_enquiry_form, .form_area, .gform_wrapper.quote_form_wrapper').each(function () {
+                kvWriteStoredChildAgesToScope($(this), children);
+            });
+        }
+    };
+
+    function kvValidateInlineChildAges($pop) {
+        const children = parseInt(localStorage.getItem('sb_children'), 10) || 0;
+        if (children <= 0) return true;
+        let ok = true;
+        $pop.find('.kv-child-age-row').each(function () {
+            const age = parseInt($(this).find('.js-v-cage').text(), 10);
+            if (isNaN(age) || age < KV_CHILD_AGE_MIN) ok = false;
+        });
+        return ok && $pop.find('.kv-child-age-row').length >= children;
+    }
+
+    // Inline onclick needed: guests-popover / room-filter popover stopPropagation
+    // so document-delegated clicks never reach .kv-guests-done.
+    window.kvCloseGuestsPopover = function (e, btn) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        }
+
+        const $btn = $(btn || (e && e.currentTarget) || null);
+        const $pop = $btn.closest(
+            '.guests-popover, .eq-guests-popover, .room-filter-guests-popover, #eq-guests-popover'
+        );
+        if (!$pop.length) return;
+
+        if (!kvValidateInlineChildAges($pop)) {
+            $pop.find('.kv-child-ages-error').addClass('is-visible');
+            return;
+        }
+
+        $pop.find('.kv-child-ages-error').removeClass('is-visible');
+        $pop.removeClass('open show active');
+        $pop.closest('.search-card').find('.sb-guests-desktop').removeClass('active');
+        $('header.newHeader').removeClass('kv-guests-open');
+    };
+
+    $(document).on('click', '.kv-guests-done', function (e) {
+        window.kvCloseGuestsPopover(e, this);
     });
 
+    // Close guests popover → drop header boost.
+    $(document).on('click', function (e) {
+        if ($(e.target).closest('.guests-popover, .sb-guests, .sb-guests-desktop').length) return;
+        $('header.newHeader').removeClass('kv-guests-open');
+    });
+
+    $(document).on('change', '.rec_children select, #input_1_10, #input_4_10', function () {
+        const noOfChilds = $(this).val();
+        kvChildAgeTargetScope = kvGetEnquiryGuestScope($(this));
+
+        if (noOfChilds === '' || noOfChilds == null) return;
+
+        if (String(noOfChilds) === '0') {
+            kvWriteStoredChildAgesToScope(kvChildAgeTargetScope, 0);
+            window.kvSyncAllInlineChildAges(0);
+            return;
+        }
+
+        // Inline ages in guests popover — do not open section.child_age.
+        window.kvSyncAllInlineChildAges(noOfChilds);
+        if (kvChildAgeTargetScope && kvChildAgeTargetScope.length) {
+            kvWriteStoredChildAgesToScope(kvChildAgeTargetScope, noOfChilds);
+        }
+    });
+
+    // Legacy age popup confirm (kept if markup still present somewhere).
     $(document).on('click', 'section.child_age .age_confirm , section.child_age .child_close', function (e) {
 
         e.preventDefault();
@@ -398,16 +538,12 @@ jQuery(function ($) {
 
             let child = $(value).data('child');
 
-            $scope.find('.' + child + ' input').val(val);
-
-            $('#gform_4 .' + child + ' input').val(val);
-
             localStorage.setItem('sb_' + child, val);
-
+            $scope.find('.' + child + ' input').val(val);
         });
 
         $('section.child_age').removeClass('active');
-
+        window.kvSyncAllInlineChildAges();
     });
 
 
@@ -4288,6 +4424,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (el.btnCM) el.btnCM.disabled = g.children <= 0;
             if (el.btnIM) el.btnIM.disabled = g.infants <= 0;
 
+            if (typeof window.kvSyncAllInlineChildAges === 'function') {
+                window.kvSyncAllInlineChildAges(g.children);
+            }
+
         }
 
 
@@ -4347,7 +4487,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     e.preventDefault();
 
-
+                    if (this.disabled) return;
+                    // Age steppers sit under Children — closest('.g-row') would hit the parent Children row.
+                    if (this.classList.contains('js-btn-cage-minus') || this.classList.contains('js-btn-cage-plus')) return;
+                    if (this.closest('.kv-child-age-row')) return;
 
                     const row = this.closest('.g-row');
 
@@ -4406,7 +4549,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         runAdjust('children', 1);
 
-                        if (g.children > 0) { triggerChildAgePopup(g.children); }
+                        if (typeof window.kvSyncAllInlineChildAges === 'function') {
+                            window.kvSyncAllInlineChildAges(g.children);
+                        }
 
                     }
 
@@ -4530,8 +4675,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.kvApplySharedGuests(g);
             }
 
-            if (type === 'children' && delta > 0 && g.children > 0) {
-                triggerChildAgePopup(g.children);
+            if (type === 'children' && typeof window.kvSyncAllInlineChildAges === 'function') {
+                window.kvSyncAllInlineChildAges(g.children);
             }
         }
 
@@ -4541,8 +4686,12 @@ document.addEventListener('DOMContentLoaded', function () {
             e.stopPropagation();
 
             if (this.disabled) return;
+            // Ignore inline child-age steppers.
+            if (this.classList.contains('js-btn-cage-minus') || this.classList.contains('js-btn-cage-plus')) return;
+            if (this.closest('.kv-child-age-row')) return;
 
             const row = this.closest('.g-row');
+            if (row && row.classList.contains('kv-child-age-row')) return;
 
             if (this.classList.contains('js-btn-adults-minus')) {
                 applyRoomFilterAdjust('adults', -1);

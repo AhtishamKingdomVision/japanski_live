@@ -458,7 +458,7 @@ section.hero-banner-filter-result .property-grid { grid-template-columns: repeat
 .resortFilterWrap .sb-enquire { border-radius: 0; padding: 16px 16px; width: 50%; flex: 1; }
 .resortFilterWrap .search-card { border-radius: 20px; padding: 0; }
 .resortFilterWrap .search-card.expanded { border-radius: 20px; }
-.resortFilterWrap .guests-popover { right: 0; left: 0; width: auto; }
+.resortFilterWrap .guests-popover { right: 0; left: 0; width: auto; max-height: min(65vh, 480px); }
 .resortFilterWrap .sb-guests-desktop { display: none; }
 .resortFilterWrap .guests-mobile-row { display: flex; width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.15); }
 .resortFilterWrap .guests-mobile-row .sb-field { flex: 1; border-radius: 0; }

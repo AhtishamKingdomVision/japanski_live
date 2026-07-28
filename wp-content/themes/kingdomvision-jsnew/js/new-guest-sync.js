@@ -126,6 +126,28 @@ jQuery(document).ready(function ($) {
 
             $pop.find('.eq-infants').closest('.g-row').hide();
         });
+
+        // Ensure inline child-age mount + Done exist on enquiry popovers.
+        $pops.each(function () {
+            const $pop = $(this);
+            if (!$pop.find('.kv-child-ages').length) {
+                const $childrenRow = $pop.find('.g-row').has('.eq-children, .js-v-children').last();
+                const $mount = $('<div class="kv-child-ages" hidden></div>');
+                if ($childrenRow.length) $childrenRow.after($mount);
+                else $pop.append($mount);
+            }
+            if (!$pop.find('.kv-guests-done').length) {
+                $pop.append(
+                    '<button type="button" class="kv-guests-done" onclick="window.kvCloseGuestsPopover(event,this)">Done</button>'
+                );
+            } else {
+                $pop.find('.kv-guests-done').attr('onclick', 'window.kvCloseGuestsPopover(event,this)');
+            }
+            if (typeof window.kvSyncAllInlineChildAges === 'function') {
+                const kids = parseInt(localStorage.getItem('sb_children'), 10) || 0;
+                window.kvRenderInlineChildAges($pop, kids);
+            }
+        });
     }
 
     function writeEnquiryGuests(guests, $triggerScope, changedType) {
@@ -136,10 +158,6 @@ jQuery(document).ready(function ($) {
             const $scope = getFormScope($pop);
             const shouldTrigger = $triggerScope && $scope.length && $scope[0] === $triggerScope[0];
             const $childrenInput = $scope.length ? $scope.find(guestMapping.children.input).first() : $();
-            const previousChildren = $childrenInput.length
-                ? (parseInt($childrenInput.val(), 10) || 0)
-                : (parseInt($pop.find('.eq-children').val(), 10) || 0);
-            const childrenIncreased = guests.children > previousChildren;
 
             $pop.find('.eq-adults').val(guests.adults);
             $pop.find('.eq-children').val(guests.children);
@@ -153,9 +171,14 @@ jQuery(document).ready(function ($) {
                 $scope.find(guestMapping.infants.input).first().val('0');
                 $scope.find('.rec_infants').closest('.gfield, .gfield_html, li, .guest_search').hide();
 
-                // Age popup only when children count increases.
-                if (shouldTrigger && changedType === 'children' && childrenIncreased && guests.children > 0) {
-                    $childrenInput.trigger('change');
+                // Age rows render inline under Children (no second popup).
+                if (shouldTrigger && changedType === 'children') {
+                    if (typeof window.kvSyncAllInlineChildAges === 'function') {
+                        window.kvSyncAllInlineChildAges(guests.children);
+                    }
+                    if (typeof window.kvWriteStoredChildAgesToScope === 'function') {
+                        window.kvWriteStoredChildAgesToScope($scope, guests.children);
+                    }
                 } else if (typeof window.kvWriteStoredChildAgesToScope === 'function') {
                     window.kvWriteStoredChildAgesToScope($scope, guests.children);
                 }
@@ -196,6 +219,10 @@ jQuery(document).ready(function ($) {
             $pop.find('.js-btn-children-minus').prop('disabled', guests.children <= 0);
         });
         $('.sv-guests').val(label).removeClass('empty');
+
+        if (typeof window.kvSyncAllInlineChildAges === 'function') {
+            window.kvSyncAllInlineChildAges(guests.children);
+        }
     }
 
     window.kvApplySharedGuests = function (state, options) {
@@ -255,6 +282,9 @@ jQuery(document).ready(function ($) {
         e.stopPropagation();
 
         if (this.disabled) return;
+        // Inline child-age steppers are handled in kv-script.js
+        if ($(this).hasClass('js-btn-cage-minus') || $(this).hasClass('js-btn-cage-plus')) return;
+        if ($(this).closest('.kv-child-age-row').length) return;
 
         const $btn = $(this);
         const $pop = getPopover($btn);

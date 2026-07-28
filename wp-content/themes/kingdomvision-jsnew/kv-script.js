@@ -2106,6 +2106,25 @@ jQuery(function ($) {
 
         const $btn = $(this);
 
+        // Sticky footer CTA → open enquiry popup (editable unless property context).
+        if ($btn.hasClass('sticky-cta-btn') && $btn.closest('.sticky-cta-container').length) {
+            const propertyName = String($btn.attr('hotel-name') || '').trim();
+            const resortName = String(
+                $btn.attr('resort-name') || resolvePageResortForEnquiry($btn) || ''
+            ).trim();
+            const opened = openEnquiryFromTrigger($btn, {
+                propertyName: propertyName,
+                resortName: resortName,
+                lockProductFields: !!propertyName
+            });
+            if (!opened) {
+                stashEnquiryResortName(resortName);
+                if (propertyName) localStorage.setItem('enquiry_hotel_name', propertyName);
+                window.location.href = '/enquire/';
+            }
+            return;
+        }
+
         // Listing cards (property Enquire) → lock resort + property
         if ($btn.hasClass('enquire_btn')) {
             const $card = $btn.closest('.accom-card, .result-card');
@@ -2173,8 +2192,11 @@ jQuery(function ($) {
         openEnquiryFromTrigger($btn, { lockProductFields: true });
     });
 
-    // Sticky / legacy CTA → full enquire page (do not open on-page popup)
+    // Legacy .enq-btn (non-sticky) → full enquire page.
     $(document).on('click', '.enq-btn', function (e) {
+        // Sticky CTA now opens popup via .enq-btn-popup — skip redirect.
+        if ($(this).hasClass('sticky-cta-btn') || $(this).hasClass('enq-btn-popup')) return;
+
         e.preventDefault();
         const $btn = $(this);
         const roomTitle = $btn.attr('room-title') || '';
@@ -2183,16 +2205,16 @@ jQuery(function ($) {
 
         if (roomTitle) localStorage.setItem('enquiry_room_title', roomTitle);
         if (hotelName) localStorage.setItem('enquiry_hotel_name', hotelName);
-        // Map resort from previous page URL when present; clear when not (no default on /enquire/).
         stashEnquiryResortName(resortName);
 
         window.location.href = '/enquire/';
     });
 
-    // Sticky CTA link (non-.enq-btn) → /enquire/: stash resort from current URL first.
+    // Sticky CTA with enquire href (legacy markup) → stash resort; popup handler owns click when enq-btn-popup present.
     $(document).on('click', 'a.sticky-cta-btn', function () {
         const $btn = $(this);
-        if ($btn.hasClass('enq-btn')) return; // handled above
+        if ($btn.hasClass('enq-btn-popup') || $btn.hasClass('enq-btn')) return;
+        if ($btn.closest('.sticky-cart-container').length) return;
 
         const href = ($btn.attr('href') || '').toString();
         if (!/\/enquire\/?/i.test(href)) return;

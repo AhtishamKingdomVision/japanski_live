@@ -1546,15 +1546,36 @@ header .resortFilterWrap .sb-enquire:hover,
 .resortFilterWrap .g-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
 .resortFilterWrap .guests-popover > .g-row:last-of-type { border-bottom: none; padding-bottom: 0; }
 
-/* Keep sticky header above page content while guests popover is open */
+/* Keep sticky header above page content while guests popover is open.
+   Parent overflow was clipping the dropdown at the menuHeader border line. */
 header.newHeader.kv-guests-open,
 header.newHeader:has(.guests-popover.open) {
   z-index: 10050;
+  overflow: visible !important;
 }
+header.newHeader.kv-guests-open .topHeader,
+header.newHeader.kv-guests-open .topHeader .container,
 header.newHeader.kv-guests-open .resortFilterWrap,
 header.newHeader.kv-guests-open .search-card,
+header.newHeader:has(.guests-popover.open) .topHeader,
+header.newHeader:has(.guests-popover.open) .topHeader .container,
 header.newHeader:has(.guests-popover.open) .resortFilterWrap,
 header.newHeader:has(.guests-popover.open) .search-card {
+  overflow: visible !important;
+}
+/* Menu bar must sit under the open guests dropdown (not cover/clip it) */
+header.newHeader.kv-guests-open .menuHeader,
+header.newHeader:has(.guests-popover.open) .menuHeader {
+  position: relative;
+  z-index: 1;
+}
+header.newHeader.kv-guests-open .topHeader,
+header.newHeader:has(.guests-popover.open) .topHeader {
+  position: relative;
+  z-index: 2;
+}
+/* Hero search card: same clip issue from section overflow:hidden */
+section.hero-banner-with-filter:has(.guests-popover.open) {
   overflow: visible !important;
 }
 
@@ -1634,6 +1655,10 @@ header.newHeader:has(.guests-popover.open) .search-card {
   font-weight: 700;
   cursor: pointer;
   text-align: center;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  box-shadow: 0 -10px 16px rgba(255, 255, 255, 0.92);
 }
 .kv-guests-done:hover { background: #c42f36; }
 .kv-child-ages-error {

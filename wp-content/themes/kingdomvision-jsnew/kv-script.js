@@ -470,6 +470,9 @@ jQuery(function ($) {
         $pop.removeClass('open show active');
         $pop.closest('.search-card').find('.sb-guests-desktop').removeClass('active');
         $('header.newHeader').removeClass('kv-guests-open');
+        if (typeof window.kvClearGuestsPopoverPin === 'function') {
+            window.kvClearGuestsPopoverPin($pop);
+        }
     };
 
     $(document).on('click', '.kv-guests-done', function (e) {

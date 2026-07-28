@@ -3797,6 +3797,54 @@ const AccommodationFilters = (function() {
 
 
 
+            window.kvClearGuestsPopoverPin = function ($pop) {
+                const $targets = $pop && $pop.length
+                    ? $pop
+                    : jQuery('.guests-popover');
+                $targets.each(function () {
+                    this.style.removeProperty('position');
+                    this.style.removeProperty('top');
+                    this.style.removeProperty('left');
+                    this.style.removeProperty('right');
+                    this.style.removeProperty('width');
+                    this.style.removeProperty('max-height');
+                    this.style.removeProperty('z-index');
+                });
+            };
+
+            // Header/topHeader overflow clips absolute popovers at the menu border —
+            // pin open header popovers to the viewport instead.
+            window.kvPinGuestsPopover = function ($pop) {
+                if (!$pop || !$pop.length) return;
+                const el = $pop.get(0);
+                if (!el) return;
+
+                if (!$pop.closest('header.newHeader').length) {
+                    window.kvClearGuestsPopoverPin($pop);
+                    return;
+                }
+
+                const $card = $pop.closest('.search-card');
+                const $anchor = $card.find('.sb-guests, .sb-guests-desktop').first();
+                const rect = ($anchor.length ? $anchor.get(0) : $card.get(0)).getBoundingClientRect();
+                const width = Math.max(280, Math.min(320, el.offsetWidth || 300));
+                let left = rect.right - width;
+                if (left < 12) left = 12;
+                if (left + width > window.innerWidth - 12) {
+                    left = Math.max(12, window.innerWidth - width - 12);
+                }
+                const top = rect.bottom + 8;
+                const maxHeight = Math.max(180, window.innerHeight - top - 16);
+
+                el.style.setProperty('position', 'fixed', 'important');
+                el.style.setProperty('top', top + 'px', 'important');
+                el.style.setProperty('left', left + 'px', 'important');
+                el.style.setProperty('right', 'auto', 'important');
+                el.style.setProperty('width', width + 'px', 'important');
+                el.style.setProperty('max-height', maxHeight + 'px', 'important');
+                el.style.setProperty('z-index', '10060', 'important');
+            };
+
             window.toggleGuests = (e, el) => {
 
                 e.stopPropagation();
@@ -3809,21 +3857,29 @@ const AccommodationFilters = (function() {
                 const $pop = $card.find('.guests-popover');
                 const willOpen = !$pop.hasClass('open');
                 jQuery('.search-card .guests-popover').removeClass('open show');
+                window.kvClearGuestsPopoverPin();
                 $pop.toggleClass('open', willOpen);
                 $card.find('.sb-guests-desktop').toggleClass('active', willOpen);
 
                 // Keep sticky header above page content while expanded guests UI is open.
                 jQuery('header.newHeader').toggleClass('kv-guests-open', willOpen && $pop.closest('header').length > 0);
 
-                if (willOpen && typeof window.kvSyncAllInlineChildAges === 'function') {
-                    const kids = parseInt(localStorage.getItem('sb_children'), 10) || 0;
-                    window.kvSyncAllInlineChildAges(kids);
-                    setTimeout(function () {
-                        const ages = $pop.find('.kv-child-ages.is-open').get(0);
-                        if (ages && typeof ages.scrollIntoView === 'function') {
-                            ages.scrollIntoView({ block: 'nearest' });
-                        }
-                    }, 30);
+                if (willOpen) {
+                    window.kvPinGuestsPopover($pop);
+                    if (typeof window.kvSyncAllInlineChildAges === 'function') {
+                        const kids = parseInt(localStorage.getItem('sb_children'), 10) || 0;
+                        window.kvSyncAllInlineChildAges(kids);
+                        setTimeout(function () {
+                            window.kvPinGuestsPopover($pop);
+                            const ages = $pop.find('.kv-child-ages.is-open').get(0);
+                            if (ages && typeof ages.scrollIntoView === 'function') {
+                                ages.scrollIntoView({ block: 'nearest' });
+                            }
+                        }, 30);
+                    }
+                } else {
+                    window.kvClearGuestsPopoverPin($pop);
+                    jQuery('header.newHeader').removeClass('kv-guests-open');
                 }
 
             };
@@ -3887,6 +3943,13 @@ const AccommodationFilters = (function() {
                 // Sync ALL search cards (hero + sticky header), not enquiry forms
                 SearchState.applyGuests(counts);
                 SearchState.save($card, counts);
+
+                const $openPop = $card.find('.guests-popover.open');
+                if ($openPop.length && typeof window.kvPinGuestsPopover === 'function') {
+                    setTimeout(function () {
+                        window.kvPinGuestsPopover($openPop);
+                    }, 20);
+                }
 
             };
 
@@ -3997,9 +4060,20 @@ const AccommodationFilters = (function() {
                     jQuery('.guests-popover').removeClass('open show');
 
                     jQuery('.sb-guests-desktop').removeClass('active');
+                    jQuery('header.newHeader').removeClass('kv-guests-open');
+                    if (typeof window.kvClearGuestsPopoverPin === 'function') {
+                        window.kvClearGuestsPopoverPin();
+                    }
 
                 }
 
+            });
+
+            jQuery(window).on('resize.kvGuestsPin', function () {
+                const $open = jQuery('header.newHeader .guests-popover.open').first();
+                if ($open.length && typeof window.kvPinGuestsPopover === 'function') {
+                    window.kvPinGuestsPopover($open);
+                }
             });
 
         },

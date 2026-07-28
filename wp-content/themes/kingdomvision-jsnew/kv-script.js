@@ -1193,9 +1193,325 @@ jQuery(function ($) {
     // Park the inactive copy on submit so validation stays on the active form.
 
     var parkedEnquiryMount = null;
+    var enquiryModalFormHtml = null;
+    var pageEnquiryFormHtml = null;
+    var enquiryModalCloseTimer = null;
+    var enquiryPageSuccessTimer = null;
+    var enquiryModalAwaitingSubmit = false;
+    var enquiryModalSuccessShown = false;
+    var enquiryPageAwaitingSubmit = false;
+    var enquiryPageSuccessShown = false;
 
     function getModalEnquiryScope() {
         return $('.Enquiry-modal-content').first();
+    }
+
+    function cacheEnquiryModalFormHtml() {
+        const $slot = $('.Enquiry-modal-form-slot').first();
+        if (!$slot.length) return;
+        // Only cache a live form (not a confirmation / success screen).
+        if (
+            $slot.find('form#gform_1, form[id^="gform_"], form.quote_form').length &&
+            !$slot.find('.gform_confirmation_message, .kv-enquiry-success').length
+        ) {
+            enquiryModalFormHtml = $slot.html();
+        }
+    }
+
+    function cachePageEnquiryFormHtml() {
+        const $mount = getPageEnquiryMount();
+        if (!$mount.length) return;
+        if (
+            $mount.find('form#gform_1, form[id^="gform_"], form[id^="parked_gform_"], form.quote_form').length &&
+            !$mount.find('.gform_confirmation_message, .gform_confirmation_wrapper').length
+        ) {
+            // Cache with real IDs (unpark briefly if needed).
+            const wasParked = $mount.hasClass('kv-enquiry-parked');
+            if (wasParked) {
+                $mount.find('[data-kv-parked-id]').each(function () {
+                    this.id = $(this).attr('data-kv-parked-id');
+                    $(this).removeAttr('data-kv-parked-id');
+                });
+                $mount.removeClass('kv-enquiry-parked');
+            }
+            pageEnquiryFormHtml = $mount.html();
+            if (wasParked || $('body').hasClass('enquire-open')) {
+                parkEnquiryFormExcept('modal');
+            }
+        }
+    }
+
+    function resetPageEnquiryForm() {
+        const $mount = getPageEnquiryMount();
+        if (!$mount.length) return;
+
+        if (pageEnquiryFormHtml) {
+            $mount.html(pageEnquiryFormHtml);
+        } else {
+            // Fallback: remove leaked confirmation markup from the page form.
+            $mount.find('.gform_confirmation_wrapper, .gform_confirmation_message, .gform_confirmation_message_1').remove();
+        }
+
+        // While popup is open, keep page copy parked so GF keeps targeting the modal.
+        if ($('body').hasClass('enquire-open') || $('.Enquiry-modal.active').length) {
+            parkEnquiryFormExcept('modal');
+        }
+    }
+
+    function resetEnquiryModalForm() {
+        const $slot = $('.Enquiry-modal-form-slot').first();
+        if (!$slot.length || !enquiryModalFormHtml) return;
+
+        $slot.html(enquiryModalFormHtml);
+        $('.Enquiry-modal').removeClass('is-success');
+        $('.Enquiry-modal-title').text('Enquire Now');
+        enquiryModalAwaitingSubmit = false;
+        enquiryModalSuccessShown = false;
+
+        try {
+            $(document).trigger('gform_post_render', [1, 0]);
+        } catch (err) { /* no-op */ }
+    }
+
+    function markEnquiryModalSubmit($form) {
+        if (!$form || !$form.length) return;
+
+        if ($form.closest('.Enquiry-modal').length) {
+            enquiryModalAwaitingSubmit = true;
+            enquiryModalSuccessShown = false;
+            enquiryPageAwaitingSubmit = false;
+            cacheEnquiryModalFormHtml();
+            bindEnquiryGformAjaxFrame();
+            return;
+        }
+
+        // Page / "Skip the searching" form submit.
+        if ($form.closest('.acc_enquiry_form, .mob_quote_form1, .load-more-enquiry-form, section.enquiry_form').length) {
+            enquiryPageAwaitingSubmit = true;
+            enquiryPageSuccessShown = false;
+            enquiryModalAwaitingSubmit = false;
+            cachePageEnquiryFormHtml();
+            bindEnquiryGformAjaxFrame();
+        }
+    }
+
+    function getPageEnquiryFormWrap() {
+        const $acc = $('.acc_enquiry_form').first();
+        if ($acc.length) return $acc;
+        const $section = $('section.enquiry_form, .full-section.enquiry_form').first();
+        if ($section.length) return $section;
+        return getPageEnquiryMount();
+    }
+
+    function handlePageEnquirySuccess(customMessage) {
+        if (enquiryPageSuccessShown) return;
+        // Modal owns success UX while popup is open.
+        if ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length) return;
+
+        enquiryPageSuccessShown = true;
+        enquiryPageAwaitingSubmit = false;
+
+        const text = customMessage || 'Thanks for contacting us! We will get in touch with you shortly.';
+        const $wrap = getPageEnquiryFormWrap();
+        if (!$wrap.length) return;
+
+        // Restore live form fields (GF replaces wrapper with confirmation).
+        resetPageEnquiryForm();
+        unparkEnquiryForm();
+
+        $wrap.find('.kv-page-enquiry-success').remove();
+        // Show thank-you ABOVE the form (above "Skip the searching" head).
+        $wrap.prepend(
+            '<div class="kv-page-enquiry-success" role="status" aria-live="polite">' +
+                '<span class="kv-page-enquiry-success__icon" aria-hidden="true">✓</span>' +
+                '<p class="kv-page-enquiry-success__text">' + text + '</p>' +
+            '</div>'
+        );
+
+        if (enquiryPageSuccessTimer) {
+            clearTimeout(enquiryPageSuccessTimer);
+        }
+        enquiryPageSuccessTimer = setTimeout(function () {
+            enquiryPageSuccessTimer = null;
+            $wrap.find('.kv-page-enquiry-success').fadeOut(250, function () {
+                $(this).remove();
+                enquiryPageSuccessShown = false;
+            });
+        }, 3500);
+    }
+
+    function enquiryModalHasValidation($root) {
+        const $scope = $root && $root.length ? $root : $('.Enquiry-modal');
+        return $scope.find(
+            '.gform_validation_error, .gform_validation_errors, .gfield_error, .validation_message, .gfield_validation_message'
+        ).length > 0;
+    }
+
+    function bindEnquiryGformAjaxFrame() {
+        const frame = document.getElementById('gform_ajax_frame_1');
+        if (!frame || frame.getAttribute('data-kv-enq-bound') === '1') return;
+        frame.setAttribute('data-kv-enq-bound', '1');
+        frame.addEventListener('load', function () {
+            if (enquiryModalSuccessShown || enquiryPageSuccessShown) return;
+            if (!enquiryModalAwaitingSubmit && !enquiryPageAwaitingSubmit) return;
+            let html = '';
+            try {
+                const doc = frame.contentDocument || (frame.contentWindow && frame.contentWindow.document);
+                html = doc && doc.body ? String(doc.body.innerHTML || '') : '';
+            } catch (err) {
+                html = '';
+            }
+            if (!html) return;
+
+            const looksValidation =
+                html.indexOf('gform_validation_error') !== -1 ||
+                html.indexOf('gform_validation_errors') !== -1 ||
+                html.indexOf('gfield_error') !== -1 ||
+                html.indexOf('validation_message') !== -1;
+
+            if (looksValidation) {
+                enquiryModalAwaitingSubmit = false;
+                enquiryPageAwaitingSubmit = false;
+                return;
+            }
+
+            // Match GF's own iframe checks (message confirmation OR page redirect script).
+            const looksSuccess =
+                html.indexOf('gform_confirmation_wrapper') !== -1 ||
+                html.indexOf('gform_confirmation_message') !== -1 ||
+                html.indexOf('gformRedirect(){') !== -1 ||
+                html.indexOf('gformRedirect() {') !== -1;
+
+            if (!looksSuccess) return;
+
+            if (
+                enquiryModalAwaitingSubmit ||
+                ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length)
+            ) {
+                handleEnquiryModalSuccess();
+            } else if (enquiryPageAwaitingSubmit) {
+                handlePageEnquirySuccess();
+            }
+        });
+    }
+
+    // GF redefines window.gformRedirect on every page-confirmation response.
+    // Intercept those redefinitions so the popup never navigates away.
+    (function patchGformRedirectForModal() {
+        var currentRedirect = null;
+
+        function wrappedRedirect() {
+            if (
+                enquiryModalAwaitingSubmit ||
+                ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length)
+            ) {
+                handleEnquiryModalSuccess();
+                return;
+            }
+            if (enquiryPageAwaitingSubmit) {
+                handlePageEnquirySuccess();
+                return;
+            }
+            if (typeof currentRedirect === 'function') {
+                return currentRedirect.apply(this, arguments);
+            }
+        }
+
+        try {
+            Object.defineProperty(window, 'gformRedirect', {
+                configurable: true,
+                enumerable: true,
+                get: function () {
+                    return wrappedRedirect;
+                },
+                set: function (fn) {
+                    currentRedirect = fn;
+                }
+            });
+        } catch (err) {
+            // Fallback if defineProperty is blocked.
+            window.gformRedirect = wrappedRedirect;
+        }
+    })();
+
+    function handleEnquiryModalSuccess(customMessage) {
+        const $modal = $('.Enquiry-modal');
+        if (!$modal.length) return;
+        if (enquiryModalSuccessShown) return;
+        // Never replace a live validation state with thank-you.
+        if (enquiryModalHasValidation($modal)) {
+            enquiryModalAwaitingSubmit = false;
+            return;
+        }
+
+        // Keep going even if active class was briefly lost during GF replace.
+        enquiryModalSuccessShown = true;
+        enquiryModalAwaitingSubmit = false;
+
+        const text = customMessage || 'Thanks for contacting us! We will get in touch with you shortly.';
+        let $slot = $modal.find('.Enquiry-modal-form-slot').first();
+        if (!$slot.length) {
+            $slot = $modal.find('.Enquiry-modal-content').first();
+        }
+
+        // Always inject our own visible success block (don't depend on GF markup location).
+        $slot.html(
+            '<div class="kv-enquiry-success" role="status" aria-live="polite">' +
+                '<div class="kv-enquiry-success__icon" aria-hidden="true">✓</div>' +
+                '<p class="kv-enquiry-success__text">' + text + '</p>' +
+            '</div>'
+        );
+
+        $modal
+            .addClass('is-success active')
+            .css({ display: 'flex', opacity: '1', visibility: 'visible' });
+        $modal.find('.Enquiry-modal-content').css({
+            display: 'block',
+            opacity: '1',
+            visibility: 'visible',
+            'z-index': '3'
+        });
+        $modal.find('.Enquiry-modal-title').text('Thank You');
+        $('body').addClass('enquire-open');
+
+        // GF often writes confirmation onto the page "Skip the searching" form
+        // (duplicate #gform_wrapper_1). Keep thank-you only in the popup.
+        resetPageEnquiryForm();
+        parkEnquiryFormExcept('modal');
+
+        if (enquiryModalCloseTimer) {
+            clearTimeout(enquiryModalCloseTimer);
+        }
+        enquiryModalCloseTimer = setTimeout(function () {
+            enquiryModalCloseTimer = null;
+            closeEnquiryModal();
+            resetEnquiryModalForm();
+        }, 3500);
+    }
+
+    function maybeHandleEnquiryModalSuccessFromDom() {
+        if (enquiryModalSuccessShown) return false;
+        if (!enquiryModalAwaitingSubmit && !$('body').hasClass('enquire-open') && !$('.Enquiry-modal.active').length) {
+            return false;
+        }
+
+        const $modal = $('.Enquiry-modal');
+        if (enquiryModalHasValidation($modal)) {
+            enquiryModalAwaitingSubmit = false;
+            return false;
+        }
+
+        // Require real GF confirmation markup only — never treat "form missing" as success
+        // (that race was replacing validation errors with a fake thank-you).
+        const hasConfirmation = $modal.find(
+            '.gform_confirmation_message, .gform_confirmation_wrapper, .gform_confirmation_message_1'
+        ).length > 0;
+
+        if (hasConfirmation) {
+            handleEnquiryModalSuccess();
+            return true;
+        }
+        return false;
     }
 
     /** Page/listing enquiry mount (anything except the modal copy). */
@@ -1262,7 +1578,6 @@ jQuery(function ($) {
     function parkActiveEnquiryForm($form) {
         if (!$form || !$form.length) return;
         if ($form.closest('.Enquiry-modal').length) {
-            lockEnquiryModalPageScroll();
             parkEnquiryFormExcept('modal');
             return;
         }
@@ -1289,26 +1604,48 @@ jQuery(function ($) {
     }
 
     function closeEnquiryModal() {
+        if (enquiryModalCloseTimer) {
+            clearTimeout(enquiryModalCloseTimer);
+            enquiryModalCloseTimer = null;
+        }
+        enquiryModalAwaitingSubmit = false;
         clearEnquiryValidationIn(getModalEnquiryScope());
+        // Wipe any confirmation that leaked onto the page form, then unpark.
+        resetPageEnquiryForm();
         unparkEnquiryForm();
-        $('.Enquiry-modal').removeClass('active').css('display', '');
+        $('.Enquiry-modal').removeClass('active is-success').css({ display: '', opacity: '', visibility: '' });
+        $('.Enquiry-modal-content').css({ display: '', opacity: '', visibility: '', 'z-index': '' });
+        $('.Enquiry-modal-title').text('Enquire Now');
         $('body').removeClass('enquire-open');
-        window.kvEnquiryModalScrollY = null;
+        // Reset success flag after close so next open works; form reset restores HTML.
+        if ($('.Enquiry-modal .kv-enquiry-success').length) {
+            resetEnquiryModalForm();
+        }
+        enquiryModalSuccessShown = false;
     }
 
     function openEnquiryModal() {
         try {
-            unparkEnquiryForm();
             clearEnquiryValidationIn(getModalEnquiryScope());
             clearEnquiryValidationIn(getPageEnquiryMount());
+            cachePageEnquiryFormHtml();
         } catch (err) { /* no-op */ }
 
         const $modal = $('.Enquiry-modal');
         if (!$modal.length) return false;
 
-        $modal.addClass('active').css('display', 'flex');
+        // Previous submit left confirmation in the slot → restore blank form first.
+        if ($modal.find('.gform_confirmation_message, .gform_confirmation_wrapper, .kv-enquiry-success').length) {
+            resetEnquiryModalForm();
+        } else {
+            cacheEnquiryModalFormHtml();
+        }
+
+        $modal.removeClass('is-success').addClass('active').css('display', 'flex');
+        $modal.find('.Enquiry-modal-title').text('Enquire Now');
         $('body').addClass('enquire-open');
-        window.kvEnquiryModalScrollY = window.scrollY || window.pageYOffset || 0;
+        // Park page form for the whole time popup is open so GF updates the modal only.
+        parkEnquiryFormExcept('modal');
         return true;
     }
 
@@ -1335,48 +1672,24 @@ jQuery(function ($) {
         return true;
     }
 
-    function lockEnquiryModalPageScroll() {
-        window.kvEnquiryModalScrollY = window.scrollY || window.pageYOffset || 0;
-    }
-
-    function restoreEnquiryModalPageScroll() {
-        if (window.kvEnquiryModalScrollY == null) return;
-        const y = window.kvEnquiryModalScrollY;
-        $('html, body').stop(true);
-        window.scrollTo(0, y);
-    }
-
-    function scrollEnquiryModalToValidation() {
-        const $content = $('.Enquiry-modal-content');
-        if (!$content.length || !$('.Enquiry-modal').hasClass('active')) return;
-
-        restoreEnquiryModalPageScroll();
-
-        const $target = $content.find(
-            '.gform_validation_errors, .validation_error, .gfield_error, .validation_message, .gfield_validation_message'
-        ).first();
-
-        if ($target.length) {
-            const nextTop = $content.scrollTop() + ($target.offset().top - $content.offset().top) - 24;
-            $content.stop(true).animate({ scrollTop: Math.max(0, nextTop) }, 250);
-        } else {
-            $content.stop(true).animate({ scrollTop: 0 }, 200);
-        }
-
-        window.setTimeout(restoreEnquiryModalPageScroll, 50);
-        window.setTimeout(restoreEnquiryModalPageScroll, 300);
-    }
-
     $(document).on(
         'submit',
-        'form#gform_1',
-        function () { parkActiveEnquiryForm($(this)); }
+        'form#gform_1, form.quote_form',
+        function () {
+            const $form = $(this);
+            markEnquiryModalSubmit($form);
+            parkActiveEnquiryForm($form);
+        }
     );
 
     $(document).on(
         'click',
-        'form#gform_1 input[type="submit"], form#gform_1 #gform_submit_button_1, form#gform_1 .gform_button',
-        function () { parkActiveEnquiryForm($(this).closest('form')); }
+        'form#gform_1 input[type="submit"], form#gform_1 #gform_submit_button_1, form#gform_1 .gform_button, form.quote_form .gform_button',
+        function () {
+            const $form = $(this).closest('form');
+            markEnquiryModalSubmit($form);
+            parkActiveEnquiryForm($form);
+        }
     );
 
     $(document).on('click', '.Enquiry-modal-close, .Enquiry-modal-overlay', function (e) {
@@ -2904,6 +3217,99 @@ jQuery(function ($) {
 
 
 
+    // Enquiry popup / page form: after successful AJAX submit.
+    // gform_confirmation_loaded only fires after a valid submit (never on validation errors).
+    $(document).on('gform_confirmation_loaded', function (event, formId) {
+        if (parseInt(formId, 10) !== 1) return;
+        if (enquiryModalSuccessShown || enquiryPageSuccessShown) return;
+        if (enquiryModalHasValidation($('.Enquiry-modal'))) {
+            enquiryModalAwaitingSubmit = false;
+            return;
+        }
+        if (
+            enquiryModalAwaitingSubmit ||
+            ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length)
+        ) {
+            handleEnquiryModalSuccess();
+            return;
+        }
+        if (
+            enquiryPageAwaitingSubmit ||
+            getPageEnquiryMount().find('.gform_confirmation_wrapper, .gform_confirmation_message').length
+        ) {
+            handlePageEnquirySuccess();
+        }
+    });
+
+    // Fallback for GF AJAX posts to the current page URL.
+    $(document).ajaxComplete(function (event, xhr, settings) {
+        if (enquiryModalSuccessShown || enquiryPageSuccessShown) return;
+
+        const wantsModal =
+            enquiryModalAwaitingSubmit ||
+            ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length);
+        const wantsPage = enquiryPageAwaitingSubmit;
+        if (!wantsModal && !wantsPage) return;
+
+        const data = settings && settings.data != null ? String(settings.data) : '';
+        const isGformPost = data.indexOf('gform_submit') !== -1 || data.indexOf('gform_submit_button_1') !== -1;
+        if (!isGformPost) return;
+
+        let body = '';
+        try { body = xhr && xhr.responseText ? String(xhr.responseText) : ''; } catch (e) { body = ''; }
+        if (!body) return;
+
+        if (
+            body.indexOf('gform_validation_errors') !== -1 ||
+            body.indexOf('gform_validation_error') !== -1 ||
+            body.indexOf('gfield_error') !== -1
+        ) {
+            enquiryModalAwaitingSubmit = false;
+            enquiryPageAwaitingSubmit = false;
+            return;
+        }
+
+        const hasConfirmation =
+            body.indexOf('gform_confirmation_message') !== -1 ||
+            body.indexOf('gform_confirmation_wrapper') !== -1 ||
+            body.indexOf('gform_confirmation_message_1') !== -1;
+
+        if (!hasConfirmation) return;
+
+        setTimeout(function () {
+            if (wantsModal) {
+                if (enquiryModalHasValidation($('.Enquiry-modal'))) {
+                    enquiryModalAwaitingSubmit = false;
+                    return;
+                }
+                handleEnquiryModalSuccess();
+                return;
+            }
+            handlePageEnquirySuccess();
+        }, 50);
+    });
+
+    // Watch modal slot mutations (GF iframe/AJAX often replaces markup without ajaxComplete).
+    (function watchEnquiryModalSlot() {
+        const slot = document.querySelector('.Enquiry-modal-form-slot');
+        if (!slot || typeof MutationObserver === 'undefined') return;
+        const observer = new MutationObserver(function () {
+            if (!enquiryModalAwaitingSubmit || enquiryModalSuccessShown) return;
+            setTimeout(function () {
+                maybeHandleEnquiryModalSuccessFromDom();
+            }, 30);
+        });
+        observer.observe(slot, { childList: true, subtree: true });
+    })();
+
+    // Cache clean copies for reset after success (modal + page "Skip the searching" form).
+    cacheEnquiryModalFormHtml();
+    cachePageEnquiryFormHtml();
+    setTimeout(cacheEnquiryModalFormHtml, 500);
+    setTimeout(cachePageEnquiryFormHtml, 500);
+    setTimeout(cacheEnquiryModalFormHtml, 1500);
+    setTimeout(cachePageEnquiryFormHtml, 1500);
+
     $(document).on('gform_post_render', function (event, formId) {
 
 
@@ -2972,24 +3378,46 @@ jQuery(function ($) {
                 window.kvInitAllBbfToggles();
             }
 
-            // Keep popup open after validation, and restore the parked (unused) form
-            // so it does not inherit validation messages from the form that was submitted.
-            if (typeof unparkEnquiryForm === 'function') {
-                unparkEnquiryForm();
-            }
-            if ($('body').hasClass('enquire-open')) {
-                $('.Enquiry-modal').addClass('active').css('display', 'flex');
-                if (typeof clearEnquiryValidationIn === 'function') {
-                    clearEnquiryValidationIn(getListingEnquiryScope());
+            // Keep popup open after validation. While popup is open, keep the page
+            // form parked so confirmation/validation never sticks under "Skip the searching".
+            if ($('body').hasClass('enquire-open') || enquiryModalAwaitingSubmit) {
+                parkEnquiryFormExcept('modal');
+                if (
+                    getPageEnquiryMount().find(
+                        '.gform_confirmation_wrapper, .gform_confirmation_message, .gform_confirmation_message_1'
+                    ).length
+                ) {
+                    resetPageEnquiryForm();
                 }
-                if (typeof scrollEnquiryModalToValidation === 'function') {
-                    scrollEnquiryModalToValidation();
+                $('.Enquiry-modal').addClass('active').css('display', 'flex');
+
+                if (!maybeHandleEnquiryModalSuccessFromDom()) {
+                    if ($('.Enquiry-modal .gform_validation_error, .Enquiry-modal .gform_validation_errors, .Enquiry-modal .gfield_error').length) {
+                        enquiryModalAwaitingSubmit = false;
+                    }
+                    cacheEnquiryModalFormHtml();
+                    if (typeof clearEnquiryValidationIn === 'function') {
+                        clearEnquiryValidationIn(getListingEnquiryScope());
+                    }
+                }
+            } else {
+                if (typeof unparkEnquiryForm === 'function') {
+                    unparkEnquiryForm();
+                }
+                if (
+                    enquiryPageAwaitingSubmit ||
+                    getPageEnquiryMount().find(
+                        '.gform_confirmation_wrapper, .gform_confirmation_message, .gform_confirmation_message_1'
+                    ).length
+                ) {
+                    handlePageEnquirySuccess();
+                } else {
+                    cacheEnquiryModalFormHtml();
+                    cachePageEnquiryFormHtml();
                 }
             }
 
         }
-
-
 
         if (formId !== 3) return;
 
@@ -3004,8 +3432,6 @@ jQuery(function ($) {
 
 
         // if( room_type !== 'bedbank' ){
-
-
 
         // If the trigger exists, validation "failed" on purpose for payment
 

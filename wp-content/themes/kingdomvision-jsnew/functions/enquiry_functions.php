@@ -57,6 +57,47 @@ define( 'FORM_1_CHILD_AGE_FIELDS', range( 51, 65 ) );
 
 add_action( 'gform_after_submission_1', 'post_to_third_party', 10, 2 );
 
+/**
+ * Enquire Now form confirmation is stored as type "page" (thank-you redirect).
+ * GF applies gform_confirmation AFTER converting page → array( 'redirect' => url ).
+ * Always return a message string so the popup can show success (never redirect).
+ */
+add_filter( 'gform_confirmation', 'kv_enquiry_force_message_confirmation', 999, 4 );
+add_filter( 'gform_confirmation_1', 'kv_enquiry_force_message_confirmation', 999, 4 );
+function kv_enquiry_force_message_confirmation( $confirmation, $form, $entry, $ajax ) {
+    $form_id = is_array( $form ) && isset( $form['id'] ) ? (int) $form['id'] : 0;
+    if ( $form_id !== 1 ) {
+        return $confirmation;
+    }
+
+    $message = 'Thanks for contacting us! We will get in touch with you shortly.';
+
+    // If GF already built a message string (non-redirect), keep its text when possible.
+    if ( is_string( $confirmation ) && $confirmation !== '' && stripos( $confirmation, 'gformRedirect' ) === false ) {
+        $stripped = trim( wp_strip_all_tags( $confirmation ) );
+        if ( $stripped !== '' ) {
+            $message = $stripped;
+        }
+    }
+
+    // Return a string so handle_confirmation never takes the redirect branch.
+    return '<div id="gform_confirmation_wrapper_1" class="gform_confirmation_wrapper">'
+        . '<div id="gform_confirmation_message_1" class="gform_confirmation_message_1 gform_confirmation_message">'
+        . esc_html( $message )
+        . '</div></div>';
+}
+
+// Stop Gravity Forms jumping/scrolling the page on enquiry confirmation / validation.
+add_filter( 'gform_confirmation_anchor', 'kv_enquiry_disable_confirmation_anchor', 10, 2 );
+add_filter( 'gform_confirmation_anchor_1', '__return_false' );
+function kv_enquiry_disable_confirmation_anchor( $anchor, $form ) {
+    $form_id = is_array( $form ) && isset( $form['id'] ) ? (int) $form['id'] : 0;
+    if ( $form_id === 1 ) {
+        return false;
+    }
+    return $anchor;
+}
+
 function post_to_third_party( $entry, $form ) {
 
     // Extract query parameters safely

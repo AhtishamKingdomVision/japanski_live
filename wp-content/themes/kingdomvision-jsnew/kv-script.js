@@ -1285,8 +1285,12 @@ jQuery(function ($) {
             return;
         }
 
-        // Page / "Skip the searching" form submit.
-        if ($form.closest('.acc_enquiry_form, .mob_quote_form1, .load-more-enquiry-form, section.enquiry_form').length) {
+        // Page / enquire / "Skip the searching" form submit.
+        if (
+            $form.closest(
+                '.acc_enquiry_form, .mob_quote_form1, .mob_quote_form, .form_area, .load-more-enquiry-form, section.enquiry_form'
+            ).length
+        ) {
             enquiryPageAwaitingSubmit = true;
             enquiryPageSuccessShown = false;
             enquiryModalAwaitingSubmit = false;
@@ -1296,17 +1300,40 @@ jQuery(function ($) {
     }
 
     function getPageEnquiryFormWrap() {
+        // /enquire/ hero form
+        const $formArea = $('.form_area .mob_quote_form').first();
+        if ($formArea.length) return $formArea;
+
         const $acc = $('.acc_enquiry_form').first();
         if ($acc.length) return $acc;
+
         const $section = $('section.enquiry_form, .full-section.enquiry_form').first();
         if ($section.length) return $section;
+
+        const $mq = $('.mob_quote_form, .mob_quote_form1').filter(function () {
+            return $(this).closest('.Enquiry-modal').length === 0;
+        }).first();
+        if ($mq.length) return $mq;
+
         return getPageEnquiryMount();
     }
 
-    function handlePageEnquirySuccess(customMessage) {
+    function handlePageEnquirySuccess(customMessage, opts) {
+        opts = opts || {};
         if (enquiryPageSuccessShown) return;
         // Modal owns success UX while popup is open.
         if ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length) return;
+
+        // Never show thank-you over a validation state (empty submit).
+        if (enquiryPageHasValidation()) {
+            enquiryPageAwaitingSubmit = false;
+            return;
+        }
+
+        // Require a real success signal — never invent thank-you from "awaiting" alone.
+        if (!opts.force && !pageHasEnquiryConfirmation()) {
+            return;
+        }
 
         enquiryPageSuccessShown = true;
         enquiryPageAwaitingSubmit = false;
@@ -1320,13 +1347,19 @@ jQuery(function ($) {
         unparkEnquiryForm();
 
         $wrap.find('.kv-page-enquiry-success').remove();
-        // Show thank-you ABOVE the form (above "Skip the searching" head).
-        $wrap.prepend(
+        const bannerHtml =
             '<div class="kv-page-enquiry-success" role="status" aria-live="polite">' +
                 '<span class="kv-page-enquiry-success__icon" aria-hidden="true">✓</span>' +
                 '<p class="kv-page-enquiry-success__text">' + text + '</p>' +
-            '</div>'
-        );
+            '</div>';
+
+        // Prefer directly above the Gravity Form (under page/GF title).
+        const $gform = $wrap.find('.gform_wrapper, form#gform_1, form.quote_form').first();
+        if ($gform.length) {
+            $gform.before(bannerHtml);
+        } else {
+            $wrap.prepend(bannerHtml);
+        }
 
         if (enquiryPageSuccessTimer) {
             clearTimeout(enquiryPageSuccessTimer);
@@ -1345,6 +1378,38 @@ jQuery(function ($) {
         return $scope.find(
             '.gform_validation_error, .gform_validation_errors, .gfield_error, .validation_message, .gfield_validation_message'
         ).length > 0;
+    }
+
+    function enquiryPageHasValidation() {
+        const $scope = getPageEnquiryFormWrap();
+        if ($scope && $scope.length) {
+            if (
+                $scope.find(
+                    '.gform_validation_error, .gform_validation_errors, .gfield_error, .validation_message, .gfield_validation_message'
+                ).length
+            ) {
+                return true;
+            }
+        }
+        return $(
+            '.form_area .gform_validation_error, .form_area .gform_validation_errors, .form_area .gfield_error, ' +
+            '.acc_enquiry_form .gform_validation_error, .acc_enquiry_form .gform_validation_errors, .acc_enquiry_form .gfield_error, ' +
+            '.mob_quote_form .gform_validation_error, .mob_quote_form .gform_validation_errors, .mob_quote_form .gfield_error'
+        ).filter(function () {
+            return $(this).closest('.Enquiry-modal').length === 0;
+        }).length > 0;
+    }
+
+    function pageHasEnquiryConfirmation() {
+        return $(
+            '.form_area .gform_confirmation_wrapper, .form_area .gform_confirmation_message, ' +
+            '.acc_enquiry_form .gform_confirmation_wrapper, .acc_enquiry_form .gform_confirmation_message, ' +
+            '.mob_quote_form .gform_confirmation_wrapper, .mob_quote_form .gform_confirmation_message, ' +
+            '.mob_quote_form1 .gform_confirmation_wrapper, .mob_quote_form1 .gform_confirmation_message, ' +
+            '#gform_confirmation_wrapper_1, .gform_confirmation_message_1'
+        ).filter(function () {
+            return $(this).closest('.Enquiry-modal').length === 0;
+        }).length > 0;
     }
 
     function bindEnquiryGformAjaxFrame() {
@@ -1390,7 +1455,7 @@ jQuery(function ($) {
             ) {
                 handleEnquiryModalSuccess();
             } else if (enquiryPageAwaitingSubmit) {
-                handlePageEnquirySuccess();
+                handlePageEnquirySuccess(null, { force: true });
             }
         });
     }
@@ -1409,7 +1474,7 @@ jQuery(function ($) {
                 return;
             }
             if (enquiryPageAwaitingSubmit) {
-                handlePageEnquirySuccess();
+                handlePageEnquirySuccess(null, { force: true });
                 return;
             }
             if (typeof currentRedirect === 'function') {
@@ -1449,29 +1514,37 @@ jQuery(function ($) {
         enquiryModalAwaitingSubmit = false;
 
         const text = customMessage || 'Thanks for contacting us! We will get in touch with you shortly.';
-        let $slot = $modal.find('.Enquiry-modal-form-slot').first();
-        if (!$slot.length) {
-            $slot = $modal.find('.Enquiry-modal-content').first();
-        }
+        const $content = $modal.find('.Enquiry-modal-content').first();
+        const $title = $modal.find('.Enquiry-modal-title').first();
 
-        // Always inject our own visible success block (don't depend on GF markup location).
-        $slot.html(
-            '<div class="kv-enquiry-success" role="status" aria-live="polite">' +
-                '<div class="kv-enquiry-success__icon" aria-hidden="true">✓</div>' +
-                '<p class="kv-enquiry-success__text">' + text + '</p>' +
-            '</div>'
-        );
+        // Restore live form (GF may have replaced it with confirmation markup).
+        resetEnquiryModalForm();
+        enquiryModalSuccessShown = true;
+        enquiryModalAwaitingSubmit = false;
+
+        // Same style as page form: banner under title, form stays visible below.
+        $content.find('.kv-page-enquiry-success, .kv-enquiry-success').remove();
+        const bannerHtml =
+            '<div class="kv-page-enquiry-success kv-enquiry-modal-success" role="status" aria-live="polite">' +
+                '<span class="kv-page-enquiry-success__icon" aria-hidden="true">✓</span>' +
+                '<p class="kv-page-enquiry-success__text">' + text + '</p>' +
+            '</div>';
+        if ($title.length) {
+            $title.after(bannerHtml);
+        } else {
+            $content.prepend(bannerHtml);
+        }
 
         $modal
             .addClass('is-success active')
             .css({ display: 'flex', opacity: '1', visibility: 'visible' });
-        $modal.find('.Enquiry-modal-content').css({
+        $content.css({
             display: 'block',
             opacity: '1',
             visibility: 'visible',
             'z-index': '3'
         });
-        $modal.find('.Enquiry-modal-title').text('Thank You');
+        $title.text('Enquire Now');
         $('body').addClass('enquire-open');
 
         // GF often writes confirmation onto the page "Skip the searching" form
@@ -1514,21 +1587,34 @@ jQuery(function ($) {
         return false;
     }
 
-    /** Page/listing enquiry mount (anything except the modal copy). */
+    /** Page/listing/enquire form mount (anything except the modal copy). */
     function getPageEnquiryMount() {
+        // /enquire/ + get-a-quote hero form (.mob_quote_form, not .mob_quote_form1)
+        const $formAreaInner = $('.form_area .mob_quote_form .mob_quote_inner, .form_area .mob_quote_inner')
+            .filter(function () {
+                return $(this).closest('.Enquiry-modal').length === 0;
+            })
+            .first();
+        if ($formAreaInner.length) return $formAreaInner;
+
         const $root = $(
             '.acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form, .full-section.enquiry_form'
         ).first();
 
         if ($root.length) {
-            if ($root.hasClass('mob_quote_form1')) return $root;
-            const $nested = $root.find('.mob_quote_form1').first();
+            if ($root.hasClass('mob_quote_form1') || $root.hasClass('mob_quote_form')) return $root;
+            const $nested = $root.find('.mob_quote_form1, .mob_quote_form .mob_quote_inner, .mob_quote_inner').first();
             if ($nested.length) return $nested;
         }
 
-        return $('.mob_quote_form1').filter(function () {
-            return $(this).closest('.Enquiry-modal').length === 0;
-        }).first();
+        const $mqInner = $('.mob_quote_form .mob_quote_inner, .mob_quote_form1')
+            .filter(function () {
+                return $(this).closest('.Enquiry-modal').length === 0;
+            })
+            .first();
+        if ($mqInner.length) return $mqInner;
+
+        return $();
     }
 
     // Back-compat alias used by gform_post_render / guest sync.
@@ -1581,7 +1667,7 @@ jQuery(function ($) {
             parkEnquiryFormExcept('modal');
             return;
         }
-        if ($form.closest('.Enquiry-modal').length === 0 && $form.closest('.mob_quote_form1, .acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form').length) {
+        if ($form.closest('.Enquiry-modal').length === 0 && $form.closest('.mob_quote_form1, .mob_quote_form, .form_area, .acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form').length) {
             parkEnquiryFormExcept('listing');
         }
     }
@@ -1613,14 +1699,13 @@ jQuery(function ($) {
         // Wipe any confirmation that leaked onto the page form, then unpark.
         resetPageEnquiryForm();
         unparkEnquiryForm();
+        $('.Enquiry-modal .kv-page-enquiry-success, .Enquiry-modal .kv-enquiry-modal-success, .Enquiry-modal .kv-enquiry-success').remove();
         $('.Enquiry-modal').removeClass('active is-success').css({ display: '', opacity: '', visibility: '' });
         $('.Enquiry-modal-content').css({ display: '', opacity: '', visibility: '', 'z-index': '' });
         $('.Enquiry-modal-title').text('Enquire Now');
         $('body').removeClass('enquire-open');
         // Reset success flag after close so next open works; form reset restores HTML.
-        if ($('.Enquiry-modal .kv-enquiry-success').length) {
-            resetEnquiryModalForm();
-        }
+        resetEnquiryModalForm();
         enquiryModalSuccessShown = false;
     }
 
@@ -1633,6 +1718,8 @@ jQuery(function ($) {
 
         const $modal = $('.Enquiry-modal');
         if (!$modal.length) return false;
+
+        $modal.find('.kv-page-enquiry-success, .kv-enquiry-modal-success, .kv-enquiry-success').remove();
 
         // Previous submit left confirmation in the slot → restore blank form first.
         if ($modal.find('.gform_confirmation_message, .gform_confirmation_wrapper, .kv-enquiry-success').length) {
@@ -3233,11 +3320,12 @@ jQuery(function ($) {
             handleEnquiryModalSuccess();
             return;
         }
-        if (
-            enquiryPageAwaitingSubmit ||
-            getPageEnquiryMount().find('.gform_confirmation_wrapper, .gform_confirmation_message').length
-        ) {
-            handlePageEnquirySuccess();
+        if (enquiryPageAwaitingSubmit || pageHasEnquiryConfirmation()) {
+            if (enquiryPageHasValidation()) {
+                enquiryPageAwaitingSubmit = false;
+                return;
+            }
+            handlePageEnquirySuccess(null, { force: true });
         }
     });
 
@@ -3285,7 +3373,11 @@ jQuery(function ($) {
                 handleEnquiryModalSuccess();
                 return;
             }
-            handlePageEnquirySuccess();
+            if (enquiryPageHasValidation()) {
+                enquiryPageAwaitingSubmit = false;
+                return;
+            }
+            handlePageEnquirySuccess(null, { force: true });
         }, 50);
     });
 
@@ -3404,16 +3496,20 @@ jQuery(function ($) {
                 if (typeof unparkEnquiryForm === 'function') {
                     unparkEnquiryForm();
                 }
-                if (
-                    enquiryPageAwaitingSubmit ||
-                    getPageEnquiryMount().find(
-                        '.gform_confirmation_wrapper, .gform_confirmation_message, .gform_confirmation_message_1'
-                    ).length
-                ) {
-                    handlePageEnquirySuccess();
-                } else {
-                    cacheEnquiryModalFormHtml();
+                // Validation re-render: clear awaiting, never show fake thank-you.
+                if (enquiryPageHasValidation()) {
+                    enquiryPageAwaitingSubmit = false;
                     cachePageEnquiryFormHtml();
+                } else if (pageHasEnquiryConfirmation()) {
+                    // Real confirmation only — do not use awaiting flag alone.
+                    handlePageEnquirySuccess(null, { force: true });
+                } else {
+                    if (enquiryPageAwaitingSubmit) {
+                        // Still waiting for iframe/confirmation; keep flag.
+                    } else {
+                        cacheEnquiryModalFormHtml();
+                        cachePageEnquiryFormHtml();
+                    }
                 }
             }
 

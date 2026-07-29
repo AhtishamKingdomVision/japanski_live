@@ -2247,6 +2247,33 @@ CART WIDGET - FOOTER TOTALS
 .room-search-popup-modal #room-filter-form-popup .g-val { font-size: 14px; font-weight: 600; color: #fff; min-width: 16px; text-align: center; }
 .room-search-popup-modal .upd-guest-btn { display: block; width: 100%; background: #e8294a; color: #fff; border: none; border-radius: 10px; padding: 13px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 14px; }
 .room-search-popup-modal .upd-guest-btn:hover { background: #c41f3a; }
+/* Change Guests popup: only the bottom Done — never the inner guests Done */
+.room-search-popup-modal .kv-guests-done { display: none !important; }
+/* Change Guests popup child ages — dark panel (do not affect search-card light gray) */
+.room-search-popup-modal .kv-child-ages,
+.room-search-popup-modal .kv-child-ages.is-open {
+  background: #12223a;
+}
+.room-search-popup-modal .kv-child-age-row + .kv-child-age-row {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+.room-search-popup-modal .kv-child-age-label {
+  color: #a0b8d0;
+}
+.room-search-popup-modal .kv-child-ages .js-btn-cage-minus,
+.room-search-popup-modal .kv-child-ages .js-btn-cage-plus {
+  background: #1a2d4a;
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+.room-search-popup-modal .kv-child-ages .js-btn-cage-minus:disabled,
+.room-search-popup-modal .kv-child-ages .js-btn-cage-plus:disabled {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.3);
+}
+.room-search-popup-modal .kv-child-ages .js-v-cage {
+  color: #fff;
+}
 
 
 .webcam-grid { display: flex; flex-wrap: wrap; gap: 30px; }

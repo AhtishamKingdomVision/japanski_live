@@ -310,6 +310,20 @@ jQuery(function ($) {
                 $pop.append($mount);
             }
         }
+
+        // Change Guests / room-filter popup already has its own Done (upd-guest-btn).
+        // Never inject the inner .kv-guests-done there.
+        const isRoomFilterPop = $pop.is('.room-filter-guests-popover') ||
+            $pop.closest('.room-search-popup-modal, #room-filter-form, #room-filter-form-popup').length > 0;
+
+        if (isRoomFilterPop) {
+            $pop.find('.kv-guests-done').remove();
+            if (!$pop.find('.kv-child-ages-error').length) {
+                $mount.after('<div class="kv-child-ages-error">Please set an age for each child.</div>');
+            }
+            return $mount;
+        }
+
         if (!$pop.find('.kv-guests-done').length) {
             $mount.after(
                 '<button type="button" class="kv-guests-done" onclick="window.kvCloseGuestsPopover(event,this)">Done</button>'

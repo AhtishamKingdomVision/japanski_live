@@ -295,7 +295,7 @@ if ( is_singular( 'accommodation' ) ) {
                     </div>
                 </div>
 
-                <button type="submit" class="upd-guest-btn">Update Guests</button>
+                <button type="submit" class="upd-guest-btn">Done</button>
             </form>
         </div>
     </div>

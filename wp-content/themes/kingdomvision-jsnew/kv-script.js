@@ -1913,15 +1913,43 @@ jQuery(function ($) {
         }
 
         const dates = enquiryDatesFromPage();
+        const propertyName = (
+            data.propertyName ||
+            ($btn && ($btn.attr('hotel-name') || $btn.attr('data-hotel-name'))) ||
+            resolvePagePropertyForEnquiry($btn) ||
+            ''
+        ).toString().trim();
+        const resortName = (
+            data.resortName ||
+            ($btn && $btn.attr('resort-name')) ||
+            resolvePageResortForEnquiry($btn) ||
+            ''
+        ).toString().trim();
+        const roomName = (
+            data.roomName ||
+            ($btn && $btn.attr('room-title')) ||
+            ''
+        ).toString().trim();
+
+        // On property single pages, lock resort + property when we know them.
+        let lockProduct = !!data.lockProductFields;
+        if (
+            typeof data.lockProductFields === 'undefined' &&
+            $('body').hasClass('single-accommodation') &&
+            propertyName
+        ) {
+            lockProduct = true;
+        }
+
         try {
-            populateEnquiryModal($.extend({
-                propertyName: ($btn && $btn.attr('hotel-name')) || data.propertyName || '',
-                resortName: ($btn && $btn.attr('resort-name')) || data.resortName || '',
-                roomName: ($btn && $btn.attr('room-title')) || data.roomName || '',
+            populateEnquiryModal($.extend({}, data, {
+                propertyName: propertyName,
+                resortName: resortName,
+                roomName: roomName,
                 checkIn: data.checkIn || dates.checkIn,
                 checkOut: data.checkOut || dates.checkOut,
-                lockProductFields: false
-            }, data));
+                lockProductFields: lockProduct
+            }));
         } catch (err) {
             console.warn('populateEnquiryModal failed', err);
         }
@@ -2164,6 +2192,39 @@ jQuery(function ($) {
         return '';
     }
 
+    /** Property title for accommodation single pages (Yuzuki, etc.). */
+    function resolvePagePropertyForEnquiry($btn) {
+        const fromAttr = (($btn && ($btn.attr('hotel-name') || $btn.attr('data-hotel-name'))) || '')
+            .toString()
+            .trim();
+        if (fromAttr) return fromAttr;
+
+        if (!$('body').hasClass('single-accommodation')) {
+            return '';
+        }
+
+        const stickyHotel = (
+            $('.sticky-cta-container a.sticky-cta-btn').attr('hotel-name') ||
+            $('.sticky-cta-container a.sticky-cta-btn').attr('data-hotel-name') ||
+            ''
+        ).toString().trim();
+        if (stickyHotel) return stickyHotel;
+
+        const fromHeading = (
+            $('h1.main-title, .form_area h1, .accSingleBannerUpdate h1, .breadcrumb-wrapper h1')
+                .first()
+                .text() || ''
+        ).replace(/\s+/g, ' ').trim();
+        if (fromHeading) return fromHeading;
+
+        const og = ($('meta[property="og:title"]').attr('content') || '').toString().trim();
+        if (og) {
+            return og.split('|')[0].split(' - ')[0].trim();
+        }
+
+        return '';
+    }
+
     function getEnquiryPrefillResort($resortField) {
         const stored = consumeStashedEnquiryResort();
         const urlResort = getUrlResortName($resortField);
@@ -2213,7 +2274,9 @@ jQuery(function ($) {
         // Property/room Enquire → lock resort + property. Search / general → all editable.
         const lockProduct = !!data.lockProductFields;
         const hasProductData = !!(data.propertyName || data.resortName || data.checkIn || data.checkOut || data.roomName);
-        const $propertyField = $scope.find('#input_1_39, .property_name textarea').first();
+        const $propertyField = $scope.find(
+            '#input_1_39, .property_name textarea, .property_name input, textarea[name="input_39"], input[name="input_39"]'
+        ).first();
 
         if (data.propertyName) {
             $propertyField.val(data.propertyName);
@@ -2222,7 +2285,7 @@ jQuery(function ($) {
             } else {
                 $propertyField.prop('readonly', false).removeClass('disabled');
             }
-        } else {
+        } else if (!$('body').hasClass('single-accommodation')) {
             $propertyField.val('').prop('readonly', false).removeClass('disabled');
         }
 
@@ -2275,9 +2338,9 @@ jQuery(function ($) {
 
         const $btn = $(this);
 
-        // Sticky footer CTA → open enquiry popup (editable unless property context).
+        // Sticky footer CTA → open enquiry popup (prefill property on accommodation singles).
         if ($btn.hasClass('sticky-cta-btn') && $btn.closest('.sticky-cta-container').length) {
-            const propertyName = String($btn.attr('hotel-name') || '').trim();
+            const propertyName = resolvePagePropertyForEnquiry($btn);
             const resortName = String(
                 $btn.attr('resort-name') || resolvePageResortForEnquiry($btn) || ''
             ).trim();
@@ -2301,6 +2364,7 @@ jQuery(function ($) {
                 $btn.attr('hotel-name') ||
                 $btn.parents('.accom-content').find('h3').first().text() ||
                 $card.find('.accom-content h3').first().text() ||
+                resolvePagePropertyForEnquiry($btn) ||
                 ''
             ).trim();
             openEnquiryFromTrigger($btn, {
@@ -2316,7 +2380,7 @@ jQuery(function ($) {
         if ($ratePlanBox.length) {
             const roomData = parseRoomDataFromBox($ratePlanBox);
             openEnquiryFromTrigger($btn, {
-                propertyName: roomData.propertyName || $btn.attr('hotel-name') || '',
+                propertyName: roomData.propertyName || $btn.attr('hotel-name') || resolvePagePropertyForEnquiry($btn) || '',
                 resortName: roomData.resortName || $btn.attr('resort-name') || '',
                 checkIn: roomData.checkIn || '',
                 checkOut: roomData.checkOut || '',
@@ -2326,7 +2390,7 @@ jQuery(function ($) {
             return;
         }
 
-        // Search-card Enquire: prefill ok, sab editable
+        // Search-card Enquire: on accommodation single → prefill + lock this property.
         if ($btn.hasClass('sb-enquire')) {
             const $card = $btn.closest('.search-card');
             const $resort = $card.find('.js-sb-resort').first();
@@ -2341,24 +2405,36 @@ jQuery(function ($) {
             }
             const checkIn = $card.find('.js-sb-checkin').val() || '';
             const checkOut = $card.find('.js-sb-checkout').val() || '';
+            const isAccSingle = $('body').hasClass('single-accommodation');
+            const propertyName = isAccSingle ? resolvePagePropertyForEnquiry($btn) : '';
+            if (!resortName && isAccSingle) {
+                resortName = resolvePageResortForEnquiry($btn);
+            }
             const opened = openEnquiryFromTrigger($btn, {
+                propertyName: propertyName,
                 resortName: resortName,
                 checkIn: checkIn,
                 checkOut: checkOut,
-                lockProductFields: false
+                lockProductFields: !!(isAccSingle && propertyName)
             });
             // No modal on this page → same handoff as sticky CTA
             if (!opened) {
                 if (checkIn) localStorage.setItem('sb_checkin', checkIn);
                 if (checkOut) localStorage.setItem('sb_checkout', checkOut);
                 stashEnquiryResortName(resortName);
+                if (propertyName) localStorage.setItem('enquiry_hotel_name', propertyName);
                 window.location.href = '/enquire/';
             }
             return;
         }
 
-        // Single-room Enquire Now (.enq-btn-popup) → lock resort + property
-        openEnquiryFromTrigger($btn, { lockProductFields: true });
+        // Single-room / generic Enquire Now (.enq-btn-popup) → lock resort + property
+        openEnquiryFromTrigger($btn, {
+            propertyName: resolvePagePropertyForEnquiry($btn),
+            resortName: resolvePageResortForEnquiry($btn),
+            roomName: $btn.attr('room-title') || '',
+            lockProductFields: true
+        });
     });
 
     // Legacy .enq-btn (non-sticky) → full enquire page.

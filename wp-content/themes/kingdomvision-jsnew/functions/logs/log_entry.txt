@@ -18609,3 +18609,73 @@ We have used your services last season and stayed at Powdersuites in Hakuba. Loo
     [submission_speeds] => {"1":[249638]}
 )
 <br></pre>
+<pre>Array
+(
+    [id] => 345
+    [status] => active
+    [form_id] => 1
+    [ip] => ::1
+    [source_url] => http://localhost/japanSki/niseko/accommodation/
+    [currency] => USD
+    [post_id] => 
+    [date_created] => 2026-07-29 10:51:41
+    [date_updated] => 2026-07-29 10:51:41
+    [is_starred] => 0
+    [is_read] => 0
+    [user_agent] => Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36
+    [payment_status] => 
+    [payment_date] => 
+    [payment_amount] => 
+    [payment_method] => 
+    [transaction_id] => 
+    [is_fulfilled] => 
+    [created_by] => 1
+    [transaction_type] => 
+    [source_id] => 30766
+    [4] => Niseko
+    [5] => 01/12/2026
+    [6] => 08/12/2026
+    [1] => 
+    [40] => Muhammad
+    [41] => test
+    [2] => ahtisham.kv@gmail.com
+    [8] => 212
+    [7] => 3
+    [10] => 2
+    [42] => 0
+    [12] => 
+    [39] => saf
+    [44] => 
+    [3] => 
+    [9] => 
+    [11] => 
+    [33] => 
+    [13] => 0
+    [32] => http://localhost/japanSki/niseko/accommodation/
+    [36] => 
+    [37] => 
+    [34] => 
+    [35] => 
+    [45] => 
+    [46] => 
+    [47] => 
+    [49] => 
+    [50] => General
+    [51] => 7
+    [52] => 10
+    [53] => 
+    [54] => 
+    [55] => 
+    [56] => 
+    [57] => 
+    [58] => 
+    [59] => 
+    [60] => 
+    [61] => 
+    [62] => 
+    [63] => 
+    [64] => 
+    [65] => 
+    [submission_speeds] => {"1":[6763]}
+)
+<br></pre>

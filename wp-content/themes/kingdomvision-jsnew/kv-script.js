@@ -1345,6 +1345,24 @@ jQuery(function ($) {
         return $('.Enquiry-modal-content').first();
     }
 
+    function stripEnquiryValidationHtml(html) {
+        if (!html) return html;
+        try {
+            const $tmp = $('<div>').html(html);
+            $tmp.find('.gform_wrapper').removeClass('gform_validation_error');
+            $tmp.find(
+                '.gform_validation_errors, .gform_validation_error, .validation_error, ' +
+                '.validation_message, .gfield_validation_message, .gform_submission_error, ' +
+                '.gform_validation_container, [id$="_validation_container"]'
+            ).remove();
+            $tmp.find('.gfield_error').removeClass('gfield_error');
+            $tmp.find('[aria-invalid="true"]').attr('aria-invalid', 'false');
+            return $tmp.html();
+        } catch (err) {
+            return html;
+        }
+    }
+
     function cacheEnquiryModalFormHtml() {
         const $slot = $('.Enquiry-modal-form-slot').first();
         if (!$slot.length) return;
@@ -1353,7 +1371,7 @@ jQuery(function ($) {
             $slot.find('form#gform_1, form[id^="gform_"], form.quote_form').length &&
             !$slot.find('.gform_confirmation_message, .kv-enquiry-success').length
         ) {
-            enquiryModalFormHtml = $slot.html();
+            enquiryModalFormHtml = stripEnquiryValidationHtml($slot.html());
         }
     }
 
@@ -1373,7 +1391,7 @@ jQuery(function ($) {
                 });
                 $mount.removeClass('kv-enquiry-parked');
             }
-            pageEnquiryFormHtml = $mount.html();
+            pageEnquiryFormHtml = stripEnquiryValidationHtml($mount.html());
             if (wasParked || $('body').hasClass('enquire-open')) {
                 parkEnquiryFormExcept('modal');
             }
@@ -1484,6 +1502,9 @@ jQuery(function ($) {
         // Restore live form fields (GF replaces wrapper with confirmation).
         resetPageEnquiryForm();
         unparkEnquiryForm();
+        // Cached HTML can still carry errors from an earlier failed submit.
+        clearEnquiryValidationIn($wrap);
+        clearEnquiryValidationIn(getPageEnquiryMount());
 
         $wrap.find('.kv-page-enquiry-success').remove();
         const bannerHtml =
@@ -1660,6 +1681,7 @@ jQuery(function ($) {
         resetEnquiryModalForm();
         enquiryModalSuccessShown = true;
         enquiryModalAwaitingSubmit = false;
+        clearEnquiryValidationIn(getModalEnquiryScope());
 
         // Same style as page form: banner under title, form stays visible below.
         $content.find('.kv-page-enquiry-success, .kv-enquiry-success').remove();
@@ -1763,12 +1785,20 @@ jQuery(function ($) {
 
     function clearEnquiryValidationIn($scope) {
         if (!$scope || !$scope.length) return;
-        const $wrapper = $scope.find('.gform_wrapper').first();
+        const $wrapper = $scope.find('.gform_wrapper').addBack('.gform_wrapper').first();
         const $target = $wrapper.length ? $wrapper : $scope;
         $target.removeClass('gform_validation_error');
-        $target.find('.gform_validation_errors, .validation_error, .validation_message, .gfield_validation_message, .gform_submission_error').remove();
+        $target.find(
+            '.gform_validation_errors, .gform_validation_error, .validation_error, ' +
+            '.validation_message, .gfield_validation_message, .gform_submission_error, ' +
+            '.gform_validation_container, [id$="_validation_container"]'
+        ).remove();
         $target.find('.gfield_error').removeClass('gfield_error');
         $target.find('[aria-invalid="true"]').attr('aria-invalid', 'false');
+        $scope.find(
+            '.gform_validation_errors, .validation_message, .gfield_validation_message, .gform_submission_error'
+        ).remove();
+        $scope.find('.gfield_error').removeClass('gfield_error');
     }
 
     function unparkEnquiryForm() {

@@ -73,10 +73,13 @@ function newResortFiltersCode(){
 
         echo '<div class="sb-actions">';
           echo '<button type="button" class="sb-submit" onclick="doSearch(this)">';
-            echo '<img src="' . get_template_directory_uri() . '/images/search-icon.png" alt="Search">
+            echo '<img src="' . get_template_directory_uri() . '/images/search-icon.png" alt="">
             Browse';
           echo '</button>';
-          echo '<button type="button" class="sb-enquire enq-btn-popup" aria-label="Enquire">Enquire</button>';
+          echo '<button type="button" class="sb-enquire enq-btn-popup" aria-label="Enquire">';
+            echo '<svg class="sb-enquire-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M20 15.5c0 .83-.67 1.5-1.5 1.5H8l-4 3V6.5C4 5.67 4.67 5 5.5 5h13c.83 0 1.5.67 1.5 1.5v9z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+            echo 'Enquire';
+          echo '</button>';
         echo '</div>';
 
       echo '</div>'; # search-row

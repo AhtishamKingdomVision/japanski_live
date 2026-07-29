@@ -1509,7 +1509,7 @@ jQuery(function ($) {
         enquiryPageSuccessShown = true;
         enquiryPageAwaitingSubmit = false;
 
-        const text = customMessage || 'Thanks for contacting us! We will get in touch with you shortly.';
+        const text = customMessage || 'Thanks for your enquiry. Our team will get back to you very soon.';
         const $wrap = getPageEnquiryFormWrap();
         if (!$wrap.length) return;
 
@@ -1687,7 +1687,7 @@ jQuery(function ($) {
         enquiryModalSuccessShown = true;
         enquiryModalAwaitingSubmit = false;
 
-        const text = customMessage || 'Thanks for contacting us! We will get in touch with you shortly.';
+        const text = customMessage || 'Thanks for your enquiry. Our team will get back to you very soon.';
         const $content = $modal.find('.Enquiry-modal-content').first();
         const $title = $modal.find('.Enquiry-modal-title').first();
 

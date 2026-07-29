@@ -2268,8 +2268,11 @@ CART WIDGET - FOOTER TOTALS
 }
 .Enquiry-modal-close { position: absolute; top: 12px; right: 15px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f2f2f2; color: #333; font-size: 18px; font-weight: bold; border-radius: 50%; cursor: pointer; text-decoration: none; transition: all 0.2s ease; }
 .Enquiry-modal-close:hover { background: #e63946; color: #ffffff; }
-.Enquiry-modal-title { margin: 0; padding: 24px 48px 0; text-align: center; color: #ffffff; font-size: 24px; font-weight: 600; }
+.Enquiry-modal-title { margin: 0; padding: 18px 48px 0; text-align: center; color: #ffffff; font-size: 24px; font-weight: 600; }
 .Enquiry-modal-content { z-index: 3; max-height: 90vh; width: calc(100% - 30px); }
+.Enquiry-modal-form-slot .gform_wrapper.quote_form_wrapper {
+  padding-top: 8px;
+}
 .Enquiry-modal .kv-enquiry-modal-success {
   margin: 16px 20px 8px;
 }

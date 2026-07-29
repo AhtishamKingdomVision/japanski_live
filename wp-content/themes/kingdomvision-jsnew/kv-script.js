@@ -2239,6 +2239,102 @@ jQuery(function ($) {
         return '';
     }
 
+    // Property slug from paths like /niseko/accommodation/yuzuki/
+    function getPropertySlugFromPath(pathname) {
+        const parts = String(pathname || '').split('/').filter(Boolean);
+        const accIdx = parts.findIndex(function (part) {
+            return String(part).toLowerCase() === 'accommodation';
+        });
+        if (accIdx < 0) return '';
+        const slug = parts[accIdx + 1] || '';
+        if (!slug || /^(page|feed|amp)$/i.test(slug)) return '';
+        return slug;
+    }
+
+    // /niseko/accommodation/ (and /page/N) — not a single property URL.
+    function isAccommodationListingPath(pathname) {
+        pathname = pathname || window.location.pathname || '';
+        const parts = String(pathname).split('/').filter(Boolean);
+        const hasAcc = parts.some(function (part) {
+            return String(part).toLowerCase() === 'accommodation';
+        });
+        if (!hasAcc) return false;
+        return !getPropertySlugFromPath(pathname);
+    }
+
+    // Survives GF ajax re-render after localStorage handoff is consumed.
+    let pageEnquiryPropertyHandoff = '';
+
+    // Page "Skip the searching" form only.
+    // Listing → never map. Single property → current page name. /enquire/ → sticky handoff only.
+    function resolveIncomingPageEnquiryProperty() {
+        if (isAccommodationListingPath()) {
+            pageEnquiryPropertyHandoff = '';
+            return '';
+        }
+
+        if ($('body').hasClass('single-accommodation')) {
+            const fromPage = resolvePagePropertyForEnquiry($());
+            if (fromPage) {
+                pageEnquiryPropertyHandoff = fromPage;
+                return fromPage;
+            }
+        }
+
+        // Other pages (e.g. /enquire/): sticky/search CTA handoff — never referrer.
+        let hotel = (localStorage.getItem('enquiry_hotel_name') || '').trim();
+        if (hotel) {
+            pageEnquiryPropertyHandoff = hotel;
+            return hotel;
+        }
+        return pageEnquiryPropertyHandoff || '';
+    }
+
+    function getPageEnquiryFormRoots() {
+        return $('.acc_enquiry_form, .form_area, section.enquiry_form, .full-section.enquiry_form, .load-more-enquiry-form')
+            .filter(function () {
+                return $(this).closest('.Enquiry-modal').length === 0;
+            });
+    }
+
+    function applyIncomingPropertyToPageEnquiryForms() {
+        // Hard guard: listing page form must stay empty for property.
+        if (isAccommodationListingPath()) {
+            return false;
+        }
+
+        const hotelName = resolveIncomingPageEnquiryProperty();
+        if (!hotelName) return false;
+
+        const $roots = getPageEnquiryFormRoots();
+        if (!$roots.length) return false;
+
+        let applied = false;
+        $roots.each(function () {
+            const $root = $(this);
+            const $propertyField = $root.find(
+                '#input_1_39, .property_name textarea, .property_name input, textarea[name="input_39"], input[name="input_39"]'
+            ).first();
+            if (!$propertyField.length) return;
+
+            const current = String($propertyField.val() || '').trim();
+            if (current) {
+                applied = true;
+                return;
+            }
+
+            $propertyField.val(hotelName).addClass('disabled');
+            applied = true;
+            $root.find('.enquiry_type input').attr('value', 'Product');
+            $propertyField.trigger('change');
+        });
+
+        if (applied) {
+            localStorage.removeItem('enquiry_hotel_name');
+        }
+        return applied;
+    }
+
     function getEnquiryPrefillResort($resortField) {
         const stored = consumeStashedEnquiryResort();
         const urlResort = getUrlResortName($resortField);
@@ -3714,6 +3810,9 @@ jQuery(function ($) {
                 }
             });
 
+            // Page form only: map property when handed off from previous page / single property.
+            applyIncomingPropertyToPageEnquiryForms();
+
             const reMinDate = localStorage.getItem('mindate') || kv_object.check_start_date;
 
             if ($(CHECKIN_SEL).length) initCheckinPickers();
@@ -4298,61 +4397,38 @@ jQuery(function ($) {
 
 
 
-    // Populate quote form with room/hotel/resort from sticky CTA handoff or referrer URL.
-
+    // Populate page quote form: single property → name; listing → no property;
+    // /enquire/ → sticky handoff. Popup modal is separate (openEnquiryFromTrigger).
     if ($('form.quote_form').length) {
-
         const roomTitle = localStorage.getItem('enquiry_room_title') ?? '';
-
-        const hotelName = localStorage.getItem('enquiry_hotel_name') ?? '';
-
-        const $resortField = $('#input_1_66, select[name="input_66"], .resort_name select').first();
+        const hotelName = resolveIncomingPageEnquiryProperty();
+        const $pageRoots = getPageEnquiryFormRoots();
+        const $resortScope = $pageRoots.first().length ? $pageRoots.first() : $(document);
+        const $resortField = $resortScope.find('#input_1_66, select[name="input_66"], .resort_name select').first();
         const resortName = getEnquiryPrefillResort($resortField);
 
-
-
         if (roomTitle) {
-
-            $('.room_name input').val(roomTitle);
-
+            $pageRoots.find('.room_name input').val(roomTitle);
         }
 
-        if (hotelName) {
-
-            $('.property_name textarea').val(hotelName);
-
-            $('.property_name textarea').addClass('disabled');
-
-        }
+        applyIncomingPropertyToPageEnquiryForms();
 
         if (resortName && $resortField.length) {
-
             setEnquiryResortField($resortField, resortName, !!(hotelName || roomTitle));
-
         }
-
-
 
         if (roomTitle || hotelName || resortName) {
-
-
-
             localStorage.removeItem('enquiry_room_title');
-
-            localStorage.removeItem('enquiry_hotel_name');
-
-
+            // enquiry_hotel_name cleared inside applyIncomingPropertyToPageEnquiryForms when applied
 
             if (roomTitle || hotelName) {
-                $('.enquiry_type input').attr('value', 'Product');
+                $pageRoots.find('.enquiry_type input').attr('value', 'Product');
             }
 
-
-
-            $('.room_name input, .property_name textarea, #input_1_66, select[name="input_66"], .resort_name select, .enquiry_type input').trigger('change');
-
+            $pageRoots.find(
+                '.room_name input, .property_name textarea, .property_name input, #input_1_66, select[name="input_66"], .resort_name select, .enquiry_type input'
+            ).trigger('change');
         }
-
     }
 
 

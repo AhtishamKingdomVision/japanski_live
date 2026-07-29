@@ -2851,13 +2851,15 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $r
 
         }
 
-        // if ($room_source === 'roomboss') {
-        //     $meta_query[] = [
-        //         'key'     => 'roomboss_room_id',
-        //         'value'   => ['', '0'],
-        //         'compare' => 'NOT IN',
-        //     ];
-        // }
+        // RoomBoss / hybrid inventory: only rooms linked to RoomBoss.
+        // BedBank-converted properties pass room_source='' and keep all rooms.
+        if ($room_source === 'roomboss') {
+            $meta_query[] = [
+                'key'     => 'roomboss_room_id',
+                'value'   => ['', '0'],
+                'compare' => 'NOT IN',
+            ];
+        }
 
         // ✅ STEP 4: Query for rooms by property_id meta
 
@@ -2885,6 +2887,17 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $r
 
             $rooms = [];
 
+        }
+
+        // Hard filter: WP meta_query NOT IN can be flaky across empty/'0'/missing values.
+        if ($room_source === 'roomboss' && !empty($rooms)) {
+            $rooms = array_values(array_filter($rooms, static function ($room) {
+                if (!is_object($room) || empty($room->ID)) {
+                    return false;
+                }
+                $rb_id = trim((string) get_post_meta($room->ID, 'roomboss_room_id', true));
+                return $rb_id !== '' && $rb_id !== '0';
+            }));
         }
 
         // Fallback: admin lists rooms by post_parent, but some BedBank-converted
@@ -2931,16 +2944,28 @@ function get_hotel_rooms($property_id, array $allowedRoomTypeIds = [], string $r
 
                 $parent_rooms = get_posts($parent_args);
                 if (is_array($parent_rooms) && !empty($parent_rooms)) {
-                    $rooms = $parent_rooms;
+                    if ($room_source === 'roomboss') {
+                        $parent_rooms = array_values(array_filter($parent_rooms, static function ($room) {
+                            if (!is_object($room) || empty($room->ID)) {
+                                return false;
+                            }
+                            $rb_id = trim((string) get_post_meta($room->ID, 'roomboss_room_id', true));
+                            return $rb_id !== '' && $rb_id !== '0';
+                        }));
+                    }
 
-                    // Backfill property_id so later AJAX/meta lookups stay consistent.
-                    foreach ($rooms as $parent_room) {
-                        if (!is_object($parent_room) || empty($parent_room->ID)) {
-                            continue;
-                        }
-                        $existing_pid = trim((string) get_post_meta($parent_room->ID, 'property_id', true));
-                        if ($existing_pid === '' || $existing_pid === '0') {
-                            update_post_meta($parent_room->ID, 'property_id', $property_id);
+                    if (!empty($parent_rooms)) {
+                        $rooms = $parent_rooms;
+
+                        // Backfill property_id so later AJAX/meta lookups stay consistent.
+                        foreach ($rooms as $parent_room) {
+                            if (!is_object($parent_room) || empty($parent_room->ID)) {
+                                continue;
+                            }
+                            $existing_pid = trim((string) get_post_meta($parent_room->ID, 'property_id', true));
+                            if ($existing_pid === '' || $existing_pid === '0') {
+                                update_post_meta($parent_room->ID, 'property_id', $property_id);
+                            }
                         }
                     }
                 }

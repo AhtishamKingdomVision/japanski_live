@@ -1427,6 +1427,10 @@ jQuery(function ($) {
         if ($('body').hasClass('enquire-open') || $('.Enquiry-modal.active').length) {
             parkEnquiryFormExcept('modal');
         }
+
+        try {
+            $(document).trigger('gform_post_render', [1, 0]);
+        } catch (err) { /* no-op */ }
     }
 
     function resetEnquiryModalForm() {
@@ -1456,10 +1460,10 @@ jQuery(function ($) {
             return;
         }
 
-        // Page / enquire / "Skip the searching" form submit.
+        // Page / enquire / "Skip the searching" / blog sidebar form submit.
         if (
             $form.closest(
-                '.acc_enquiry_form, .mob_quote_form1, .mob_quote_form, .form_area, .load-more-enquiry-form, section.enquiry_form'
+                '.acc_enquiry_form, .mob_quote_form1, .mob_quote_form, .form_area, .load-more-enquiry-form, section.enquiry_form, .kv-blog-enquiry-form'
             ).length
         ) {
             enquiryPageAwaitingSubmit = true;
@@ -1477,6 +1481,10 @@ jQuery(function ($) {
 
         const $acc = $('.acc_enquiry_form').first();
         if ($acc.length) return $acc;
+
+        // Blog single sidebar quote form
+        const $blog = $('.kv-blog-enquiry-form').first();
+        if ($blog.length) return $blog;
 
         const $section = $('section.enquiry_form, .full-section.enquiry_form').first();
         if ($section.length) return $section;
@@ -1506,12 +1514,12 @@ jQuery(function ($) {
             return;
         }
 
-        enquiryPageSuccessShown = true;
-        enquiryPageAwaitingSubmit = false;
-
         const text = customMessage || 'Thanks for your enquiry. Our team will get back to you very soon.';
         const $wrap = getPageEnquiryFormWrap();
         if (!$wrap.length) return;
+
+        enquiryPageSuccessShown = true;
+        enquiryPageAwaitingSubmit = false;
 
         // Restore live form fields (GF replaces wrapper with confirmation).
         resetPageEnquiryForm();
@@ -1532,7 +1540,7 @@ jQuery(function ($) {
 
         // Place outside the blue form box (same as /enquire/):
         // - .acc_enquiry_form: title lives outside GF → insert before whole block
-        // - .form_area / mob_quote: title is inside GF → insert before .gform_wrapper
+        // - .form_area / mob_quote / blog: title is inside GF → insert before .gform_wrapper
         let $bannerTarget;
         if ($wrap.hasClass('acc_enquiry_form') || $wrap.closest('.acc_enquiry_form').length) {
             const $acc = $wrap.hasClass('acc_enquiry_form') ? $wrap : $wrap.closest('.acc_enquiry_form');
@@ -1585,7 +1593,8 @@ jQuery(function ($) {
         return $(
             '.form_area .gform_validation_error, .form_area .gform_validation_errors, .form_area .gfield_error, ' +
             '.acc_enquiry_form .gform_validation_error, .acc_enquiry_form .gform_validation_errors, .acc_enquiry_form .gfield_error, ' +
-            '.mob_quote_form .gform_validation_error, .mob_quote_form .gform_validation_errors, .mob_quote_form .gfield_error'
+            '.mob_quote_form .gform_validation_error, .mob_quote_form .gform_validation_errors, .mob_quote_form .gfield_error, ' +
+            '.kv-blog-enquiry-form .gform_validation_error, .kv-blog-enquiry-form .gform_validation_errors, .kv-blog-enquiry-form .gfield_error'
         ).filter(function () {
             return $(this).closest('.Enquiry-modal').length === 0;
         }).length > 0;
@@ -1597,6 +1606,7 @@ jQuery(function ($) {
             '.acc_enquiry_form .gform_confirmation_wrapper, .acc_enquiry_form .gform_confirmation_message, ' +
             '.mob_quote_form .gform_confirmation_wrapper, .mob_quote_form .gform_confirmation_message, ' +
             '.mob_quote_form1 .gform_confirmation_wrapper, .mob_quote_form1 .gform_confirmation_message, ' +
+            '.kv-blog-enquiry-form .gform_confirmation_wrapper, .kv-blog-enquiry-form .gform_confirmation_message, ' +
             '#gform_confirmation_wrapper_1, .gform_confirmation_message_1'
         ).filter(function () {
             return $(this).closest('.Enquiry-modal').length === 0;
@@ -1779,7 +1789,7 @@ jQuery(function ($) {
         return false;
     }
 
-    /** Page/listing/enquire form mount (anything except the modal copy). */
+    /** Page/listing/enquire/blog form mount (anything except the modal copy). */
     function getPageEnquiryMount() {
         // /enquire/ + get-a-quote hero form (.mob_quote_form, not .mob_quote_form1)
         const $formAreaInner = $('.form_area .mob_quote_form .mob_quote_inner, .form_area .mob_quote_inner')
@@ -1788,6 +1798,10 @@ jQuery(function ($) {
             })
             .first();
         if ($formAreaInner.length) return $formAreaInner;
+
+        // Blog single sidebar form
+        const $blog = $('.kv-blog-enquiry-form').first();
+        if ($blog.length) return $blog;
 
         const $root = $(
             '.acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form, .full-section.enquiry_form'
@@ -1867,7 +1881,7 @@ jQuery(function ($) {
             parkEnquiryFormExcept('modal');
             return;
         }
-        if ($form.closest('.Enquiry-modal').length === 0 && $form.closest('.mob_quote_form1, .mob_quote_form, .form_area, .acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form').length) {
+        if ($form.closest('.Enquiry-modal').length === 0 && $form.closest('.mob_quote_form1, .mob_quote_form, .form_area, .acc_enquiry_form, .load-more-enquiry-form, section.enquiry_form, .kv-blog-enquiry-form').length) {
             parkEnquiryFormExcept('listing');
         }
     }
@@ -2308,7 +2322,7 @@ jQuery(function ($) {
     }
 
     function getPageEnquiryFormRoots() {
-        return $('.acc_enquiry_form, .form_area, section.enquiry_form, .full-section.enquiry_form, .load-more-enquiry-form')
+        return $('.acc_enquiry_form, .form_area, section.enquiry_form, .full-section.enquiry_form, .load-more-enquiry-form, .kv-blog-enquiry-form')
             .filter(function () {
                 return $(this).closest('.Enquiry-modal').length === 0;
             });

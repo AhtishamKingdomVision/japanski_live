@@ -909,8 +909,13 @@ section.room-listing .room-modal { position: fixed; top: 0; bottom: 0; left: 0; 
 section.room-listing .room-modal .room-modal-content { background: #fff; max-width: 800px; margin: 0 auto; padding: 50px; width: 100%; border-radius: 20px; position: relative; height: 600px; overflow-y: scroll; }
 section.room-listing .room-modal .room-modal-content .room-modal-gallery { display: flex; }
 section.room-listing .room-modal .room-modal-content .room-modal-gallery img { width: 250px; border-radius: 10px; margin: 0 10px; }
+/* Old:
 section.room-listing .room-modal .room-modal-content .room-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: solid 1px rgba(0, 17, 31, 0.10); }
 section.room-listing .room-modal .room-modal-content .room-modal-header h3 { color: #00111F; margin: 0; }
+*/
+section.room-listing .room-modal .room-modal-content .room-modal-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: solid 1px rgba(0, 17, 31, 0.10); }
+section.room-listing .room-modal .room-modal-content .room-modal-header h3 { color: #00111F; margin: 0; flex: 1 1 auto; min-width: 0; max-width: calc(100% - 170px); padding-right: 8px; }
+section.room-listing .room-modal .room-modal-content .room-modal-header .btn { flex-shrink: 0; white-space: nowrap; }
 
 section.room-listing .room-modal .room-modal-content .room-modal-description { padding-bottom: 20px; margin-bottom: 30px; border-bottom: solid 1px rgba(0, 17, 31, 0.10); }
 section.room-listing .room-modal .room-modal-content .room-modal-description .description-content { font-size: 14px; padding-left: 2px !important; }

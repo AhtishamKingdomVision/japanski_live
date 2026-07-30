@@ -315,7 +315,10 @@ section.room-listing .room-list .row { justify-content: center; }
 
 section.room-listing .room-modal .room-modal-content { width: 95%; padding: 50px 20px; }
 section.room-listing .room-modal .room-modal-content .room-modal-header { flex-flow: column; justify-content: center; }
+/* Old:
 section.room-listing .room-modal .room-modal-content .room-modal-header h3 { margin: 0 0 10px; }
+*/
+section.room-listing .room-modal .room-modal-content .room-modal-header h3 { margin: 0 0 10px; max-width: 100%; }
 section.room-listing .room-modal .room-modal-content .room-modal-meta .room-info { align-items: center; justify-content: flex-start; flex-flow: column; align-items: baseline; }
 
 section.room-listing .booking-wrap .rb-booking-layout .rb-left { width: 100%; }

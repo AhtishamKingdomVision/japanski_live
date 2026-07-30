@@ -267,6 +267,14 @@ p.gform_required_legend, h2.gform_submission_error.hide_summary { inset-inline-s
 .form_area .kv-page-enquiry-success {
   margin: 0 0 16px;
 }
+/* Listing/single: success banner sits above the blue .acc_enquiry_form block */
+.container > .kv-page-enquiry-success {
+  max-width: 750px;
+  margin: 50px auto 16px;
+}
+.kv-page-enquiry-success + .acc_enquiry_form {
+  margin-top: 0;
+}
 .form_area .gform_confirmation_wrapper,
 .form_area .gform_confirmation_message,
 .acc_enquiry_form .gform_confirmation_wrapper,

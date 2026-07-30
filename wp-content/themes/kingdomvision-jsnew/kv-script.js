@@ -1520,19 +1520,33 @@ jQuery(function ($) {
         clearEnquiryValidationIn($wrap);
         clearEnquiryValidationIn(getPageEnquiryMount());
 
+        // Remove any prior banner (inside wrap or sibling above it).
         $wrap.find('.kv-page-enquiry-success').remove();
+        $wrap.prev('.kv-page-enquiry-success').remove();
+
         const bannerHtml =
             '<div class="kv-page-enquiry-success" role="status" aria-live="polite">' +
                 '<span class="kv-page-enquiry-success__icon" aria-hidden="true">✓</span>' +
                 '<p class="kv-page-enquiry-success__text">' + text + '</p>' +
             '</div>';
 
-        // Prefer directly above the Gravity Form (under page/GF title).
-        const $gform = $wrap.find('.gform_wrapper, form#gform_1, form.quote_form').first();
-        if ($gform.length) {
-            $gform.before(bannerHtml);
+        // Place outside the blue form box (same as /enquire/):
+        // - .acc_enquiry_form: title lives outside GF → insert before whole block
+        // - .form_area / mob_quote: title is inside GF → insert before .gform_wrapper
+        let $bannerTarget;
+        if ($wrap.hasClass('acc_enquiry_form') || $wrap.closest('.acc_enquiry_form').length) {
+            const $acc = $wrap.hasClass('acc_enquiry_form') ? $wrap : $wrap.closest('.acc_enquiry_form');
+            $acc.before(bannerHtml);
+            $bannerTarget = $acc.prev('.kv-page-enquiry-success');
         } else {
-            $wrap.prepend(bannerHtml);
+            const $gform = $wrap.find('.gform_wrapper, form#gform_1, form.quote_form').first();
+            if ($gform.length) {
+                $gform.before(bannerHtml);
+                $bannerTarget = $gform.prev('.kv-page-enquiry-success');
+            } else {
+                $wrap.prepend(bannerHtml);
+                $bannerTarget = $wrap.find('.kv-page-enquiry-success').first();
+            }
         }
 
         if (enquiryPageSuccessTimer) {
@@ -1540,7 +1554,10 @@ jQuery(function ($) {
         }
         enquiryPageSuccessTimer = setTimeout(function () {
             enquiryPageSuccessTimer = null;
-            $wrap.find('.kv-page-enquiry-success').fadeOut(250, function () {
+            const $banner = $bannerTarget && $bannerTarget.length
+                ? $bannerTarget
+                : $('.kv-page-enquiry-success').not('.kv-enquiry-modal-success');
+            $banner.fadeOut(250, function () {
                 $(this).remove();
                 enquiryPageSuccessShown = false;
             });

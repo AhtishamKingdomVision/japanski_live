@@ -56,6 +56,7 @@ try {
     $bookingPermission = '';
     $room_rb_id = trim((string) get_post_meta($room_id, 'roomboss_room_id', true));
     $room_is_roomboss = ($room_rb_id !== '' && $room_rb_id !== '0');
+
     if (!empty($acc_id)) {
         if (function_exists('kv_property_shows_roomboss_booking_cta')) {
             $property_is_roomboss = kv_property_shows_roomboss_booking_cta($acc_id, $property_id);
@@ -104,6 +105,7 @@ try {
         if ($is_price_excluded) : ?>
             <button bookingPermission="<?php echo $bookingPermission ?>" class="btn enq-btn-popup bedbank_btn" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>">Enquire Now</button>
         <?php elseif ($is_roomboss) :
+
             if (!empty($bookingPermission)) :
                 if (strpos($bookingPermission, 'REQUEST') !== false) : ?>
                     <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>

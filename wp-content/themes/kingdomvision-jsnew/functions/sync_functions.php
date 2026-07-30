@@ -743,37 +743,281 @@ function kv_sync_log_entry( array $entry ) {
 
 }
 
-function __media_sideload_image( $file, $post_id = 0, $desc = null, $return_type = 'html' ) {
+/**
+
+ * Disable WP intermediate/scaled sizes during Booking System image sync.
+
+ * Keeps only the original/main file.
+
+ */
+
+function kv_disable_sync_image_sizes( $sizes ) {
+
+    return array();
+
+}
+
+
+
+function kv_begin_sync_image_sideload_no_sizes() {
+
+    add_filter( 'intermediate_image_sizes_advanced', 'kv_disable_sync_image_sizes', 999 );
+
+    add_filter( 'intermediate_image_sizes', 'kv_disable_sync_image_sizes', 999 );
+
+    add_filter( 'big_image_size_threshold', '__return_false', 999 );
+
+}
+
+
+
+function kv_end_sync_image_sideload_no_sizes() {
+
+    remove_filter( 'intermediate_image_sizes_advanced', 'kv_disable_sync_image_sizes', 999 );
+
+    remove_filter( 'intermediate_image_sizes', 'kv_disable_sync_image_sizes', 999 );
+
+    remove_filter( 'big_image_size_threshold', '__return_false', 999 );
+
+}
+
+
+
+/**
+
+ * Build upload filename as {booking_image_id}-{name}.{ext}
+
+ * Example: 45821-lobby.jpg
+
+ *
+
+ * @param string $url               Source image URL
+
+ * @param int    $booking_image_id  API images[].id
+
+ * @return string
+
+ */
+
+function kv_build_booking_image_filename( $url, $booking_image_id = 0 ) {
+
+    $booking_image_id = absint( $booking_image_id );
+
+    $path             = parse_url( (string) $url, PHP_URL_PATH );
+
+    $basename         = $path ? wp_basename( $path ) : '';
+
+    $name             = pathinfo( $basename, PATHINFO_FILENAME );
+
+    $ext              = strtolower( (string) pathinfo( $basename, PATHINFO_EXTENSION ) );
+
+
+
+    if ( $name === '' ) {
+
+        $name = 'image';
+
+    }
+
+
+
+    // Drop any previous id prefix: [123]name or 123-name
+
+    $name = preg_replace( '/^\[\d+\]/', '', $name );
+
+    $name = preg_replace( '/^\d+-/', '', $name );
+
+    $name = sanitize_file_name( $name );
+
+    if ( $name === '' ) {
+
+        $name = 'image';
+
+    }
+
+
+
+    if ( $ext === '' ) {
+
+        $ext = 'jpg';
+
+    }
+
+
+
+    if ( $booking_image_id > 0 ) {
+
+        return $booking_image_id . '-' . $name . '.' . $ext;
+
+    }
+
+
+
+    return $name . '.' . $ext;
+
+}
+
+
+
+/**
+
+ * Find an existing WP attachment whose basename starts with "{booking_image_id}-".
+
+ * Resync key = value before the first "-" in the filename.
+
+ *
+
+ * @param int $booking_image_id API images[].id
+
+ * @return int|null Attachment ID if found
+
+ */
+
+function kv_find_attachment_by_booking_image_id_in_filename( $booking_image_id ) {
+
+    global $wpdb;
+
+
+
+    $booking_image_id = absint( $booking_image_id );
+
+    if ( $booking_image_id < 1 ) {
+
+        return null;
+
+    }
+
+
+
+    // Match "123-image.jpg" or "2026/07/123-image.jpg" (id is the part before first "-").
+
+    $prefix     = $booking_image_id . '-';
+
+    $like_root  = $wpdb->esc_like( $prefix ) . '%';
+
+    $like_dated = '%/' . $wpdb->esc_like( $prefix ) . '%';
+
+
+
+    $attachment_id = $wpdb->get_var(
+
+        $wpdb->prepare(
+
+            "SELECT post_id FROM {$wpdb->postmeta}
+
+             WHERE meta_key = '_wp_attached_file'
+
+             AND ( meta_value LIKE %s OR meta_value LIKE %s )
+
+             ORDER BY post_id ASC
+
+             LIMIT 1",
+
+            $like_root,
+
+            $like_dated
+
+        )
+
+    );
+
+
+
+    return $attachment_id ? (int) $attachment_id : null;
+
+}
+
+
+
+function __media_sideload_image( $file, $post_id = 0, $desc = null, $return_type = 'html', $preferred_name = '' ) {
 
     if ( ! empty( $file ) ) {
 
+        require_once ABSPATH . 'wp-admin/includes/file.php';
 
+        require_once ABSPATH . 'wp-admin/includes/media.php';
 
-        $segments = explode('/', $file);
-
-        $numSegments = count($segments);
-
-        $matches = $segments[$numSegments - 1];
+        require_once ABSPATH . 'wp-admin/includes/image.php';
 
 
 
-        $file_array         = array();
+        $segments     = explode( '/', $file );
 
-        // $file_array['name'] = wp_basename( $matches[0] );
+        $numSegments  = count( $segments );
 
-        $file_array['name'] = wp_basename( $matches . '.jpg' );
+        $matches      = $segments[ $numSegments - 1 ];
 
 
+
+        $file_array = array();
+
+
+
+        if ( ! empty( $preferred_name ) ) {
+
+            $file_array['name'] = wp_basename( $preferred_name );
+
+        } else {
+
+            // $file_array['name'] = wp_basename( $matches[0] );
+
+            $file_array['name'] = wp_basename( $matches . '.jpg' );
+
+        }
+
+        cf_log( $file );
 
         // Download file to temp location.
 
         $file_array['tmp_name'] = download_url( $file );
 
+        cf_log(
 
+            'Image Sync Info [file_array] post_id=' . (int) $post_id
+
+            . ' name=' . (string) $file_array['name']
+
+            . ' url=' . (string) $file
+
+            . ' | ' . implode( ',', $file_array ),
+
+            'err_image_sync',
+
+            'txt',
+
+            false,
+
+            true
+
+        );
 
         // If error storing temporarily, return the error.
 
         if ( is_wp_error( $file_array['tmp_name'] ) ) {
+
+            if ( function_exists( 'cf_log' ) ) {
+
+                cf_log(
+
+                    'Image Sync Error [download_url] post_id=' . (int) $post_id
+
+                    . ' name=' . (string) $file_array['name']
+
+                    . ' url=' . (string) $file
+
+                    . ' | ' . $file_array['tmp_name']->get_error_message(),
+
+                    'err_image_sync',
+
+                    'txt',
+
+                    false,
+
+                    true
+
+                );
+
+            }
 
             return $file_array['tmp_name'];
 
@@ -781,9 +1025,13 @@ function __media_sideload_image( $file, $post_id = 0, $desc = null, $return_type
 
 
 
-        // Do the validation and storage stuff.
+        // Do the validation and storage stuff (original only — no WP size variants).
+
+        kv_begin_sync_image_sideload_no_sizes();
 
         $id = media_handle_sideload( $file_array, $post_id, $desc );
+
+        kv_end_sync_image_sideload_no_sizes();
 
 
 
@@ -792,6 +1040,30 @@ function __media_sideload_image( $file, $post_id = 0, $desc = null, $return_type
         if ( is_wp_error( $id ) ) {
 
             @unlink( $file_array['tmp_name'] );
+
+            if ( function_exists( 'cf_log' ) ) {
+
+                cf_log(
+
+                    'Image Sync Error [media_handle_sideload] post_id=' . (int) $post_id
+
+                    . ' name=' . (string) $file_array['name']
+
+                    . ' url=' . (string) $file
+
+                    . ' | ' . $id->get_error_message(),
+
+                    'err_image_sync',
+
+                    'txt',
+
+                    false,
+
+                    true
+
+                );
+
+            }
 
             return $id;
 
@@ -881,27 +1153,35 @@ function kv_find_attachment_by_filename($filename) {
 
 /**
 
- * Return existing attachment ID matched by filename, or sideload and return new ID.
+ * Return existing attachment ID, or sideload once and return new ID.
+
+ * Prefer Booking System image id as filename prefix, e.g. 45821-photo.jpg
+
+ * (id = value before the first "-").
 
  *
 
- * @param string $url     Image URL to sideload
+ * @param string $url               Image URL to sideload
 
- * @param int    $post_id Parent post ID for the attachment
+ * @param int    $post_id           Parent post ID for the attachment
+
+ * @param int    $booking_image_id  API images[].id
 
  * @return int|null Attachment ID on success, null on failure
 
  */
 
-function kv_sideload_or_find_image($url, $post_id) {
+function kv_sideload_or_find_image( $url, $post_id, $booking_image_id = 0 ) {
 
-    $path     = parse_url($url, PHP_URL_PATH);
+    $url              = esc_url_raw( trim( (string) $url ) );
 
-    $filename = $path ? basename($path) : '';
+    $post_id          = absint( $post_id );
+
+    $booking_image_id = absint( $booking_image_id );
 
 
 
-    if (empty($filename)) {
+    if ( $url === '' ) {
 
         return null;
 
@@ -909,33 +1189,101 @@ function kv_sideload_or_find_image($url, $post_id) {
 
 
 
-    $existing_id = kv_find_attachment_by_filename($filename);
+    // 1) Primary duplicate key: filename starts with "{booking_image_id}-".
 
-    if ($existing_id) {
+    if ( $booking_image_id > 0 ) {
 
-        return $existing_id;
+        $existing_id = kv_find_attachment_by_booking_image_id_in_filename( $booking_image_id );
 
-    }
+        if ( $existing_id ) {
 
+            return $existing_id;
 
-
-    $ext = strtolower( pathinfo($filename, PATHINFO_EXTENSION) );
-
-    if( empty($ext) ) {
-
-        $attachment_id = __media_sideload_image($url, $post_id, null, 'id');
-
-    }
-
-    else {
-
-        $attachment_id = media_sideload_image($url, $post_id, null, 'id');
+        }
 
     }
 
 
 
-    return is_wp_error($attachment_id) ? null : intval($attachment_id);
+    $path     = parse_url( $url, PHP_URL_PATH );
+
+    $filename = $path ? basename( $path ) : '';
+
+
+
+    if ( empty( $filename ) && $booking_image_id < 1 ) {
+
+        return null;
+
+    }
+
+
+
+    // 2) Fallback for older media that has no [id] in the filename yet.
+
+    if ( $booking_image_id < 1 && ! empty( $filename ) ) {
+
+        $existing_id = kv_find_attachment_by_filename( $filename );
+
+        if ( $existing_id ) {
+
+            return $existing_id;
+
+        }
+
+    }
+
+
+
+    // 3) Download original only (no -150x150 / -300x / -768x / -scaled copies).
+
+    $preferred_name = kv_build_booking_image_filename( $url, $booking_image_id );
+
+    $attachment_id  = __media_sideload_image( $url, $post_id, null, 'id', $preferred_name );
+
+
+
+    if ( is_wp_error( $attachment_id ) || ! $attachment_id ) {
+
+        if ( function_exists( 'cf_log' ) ) {
+
+            $err = is_wp_error( $attachment_id )
+
+                ? $attachment_id->get_error_message()
+
+                : 'empty attachment id';
+
+            cf_log(
+
+                'Image Sync Error [sideload_or_find] post_id=' . $post_id
+
+                . ' booking_image_id=' . $booking_image_id
+
+                . ' preferred_name=' . $preferred_name
+
+                . ' url=' . $url
+
+                . ' | ' . $err,
+
+                'err_image_sync',
+
+                'txt',
+
+                false,
+
+                true
+
+            );
+
+        }
+
+        return null;
+
+    }
+
+
+
+    return (int) $attachment_id;
 
 }
 
@@ -1077,7 +1425,7 @@ function kv_render_pending_images_gallery($urls) {
 
  *
 
- * - Checks if an image already exists in the media library by filename before sideloading.
+ * - Prefer Booking System image `id` as filename prefix, e.g. 45821-photo.jpg.
 
  * - Uploads/reuses ONLY the first valid image and sets it as the featured image.
 
@@ -1087,65 +1435,73 @@ function kv_render_pending_images_gallery($urls) {
 
  *
 
- * @param array    $images  Array of image data with 'url' key
+ * @param array  $images  Array of image data with 'id' + 'url' keys
 
- * @param int      $post_id WordPress post ID to attach images to
+ * @param int    $post_id WordPress post ID to attach images to
 
- * @param string   $type    'accommodation' or 'room'
+ * @param string $type    'accommodation' or 'room'
 
  * @return string|void Success message or void on invalid input
 
  */
 
-function hz_add_img_from_booking_sys($images, $post_id, $type) {
+function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     // ✅ STEP 1: Validate inputs and load dependencies
 
-    if (empty($images) || !is_array($images)) {
+    if ( empty( $images ) || ! is_array( $images ) ) {
 
-        return;
+        if ( function_exists( 'cf_log' ) ) {
 
-    }
+            cf_log(
 
+                'Image Sync Skip [no_images] type=' . (string) $type
 
+                . ' post_id=' . (int) $post_id
 
-    $post_id = intval($post_id);
+                . ' | No images array provided',
 
-    if ($post_id < 1) {
+                'err_image_sync',
 
-        return;
+                'txt',
 
-    }
+                false,
 
+                true
 
-
-    if (!in_array($type, ['accommodation', 'room'], true)) {
-
-        return;
-
-    }
-
-
-
-    // ✅ STEP 2: Collect and validate all image URLs upfront
-
-    $valid_urls = [];
-
-    foreach ($images as $image) {
-
-        $url = isset($image['url']) ? esc_url_raw(trim($image['url'])) : '';
-
-        if (!empty($url) && filter_var($url, FILTER_VALIDATE_URL)) {
-
-            $valid_urls[] = $url;
+            );
 
         }
 
+        return;
+
     }
 
 
 
-    if (empty($valid_urls)) {
+    $post_id = intval( $post_id );
+
+    if ( $post_id < 1 ) {
+
+        if ( function_exists( 'cf_log' ) ) {
+
+            cf_log(
+
+                'Image Sync Skip [invalid_post] type=' . (string) $type
+
+                . ' | Invalid post_id',
+
+                'err_image_sync',
+
+                'txt',
+
+                false,
+
+                true
+
+            );
+
+        }
 
         return;
 
@@ -1153,65 +1509,227 @@ function hz_add_img_from_booking_sys($images, $post_id, $type) {
 
 
 
-    // ✅ STEP 4: Sideload or find first image → set as featured
+    if ( ! in_array( $type, [ 'accommodation', 'room' ], true ) ) {
 
-    $first_url     = array_shift($valid_urls);
+        if ( function_exists( 'cf_log' ) ) {
 
-    $attachment_id = kv_sideload_or_find_image($first_url, $post_id);
+            cf_log(
 
+                'Image Sync Skip [invalid_type] type=' . (string) $type
 
+                . ' post_id=' . $post_id
 
-    if ($type === 'accommodation') {
+                . ' | Type must be accommodation or room',
 
+                'err_image_sync',
 
+                'txt',
 
-        if ($attachment_id) {
+                false,
 
-            set_post_thumbnail($post_id, $attachment_id);
+                true
+
+            );
 
         }
 
+        return;
+
+    }
 
 
-        // ✅ STEP 5: Save remaining URLs as JSON in post meta (no sideloading)
 
-        update_post_meta(
+    if ( function_exists( 'cf_log' ) ) {
 
-            $post_id,
+        cf_log(
 
-            'acco_pending_images',
+            'Image Sync Starting import type=' . $type
 
-            !empty($valid_urls) ? wp_json_encode(array_values($valid_urls)) : ''
+            . ' post_id=' . $post_id
+
+            . ' image_count=' . count( $images )
+
+            . ' first_id=' . ( isset( $images[0]['id'] ) ? absint( $images[0]['id'] ) : 0 )
+
+            . ' first_url=' . ( isset( $images[0]['url'] ) ? (string) $images[0]['url'] : '' ),
+
+            'err_image_sync',
+
+            'txt',
+
+            false,
+
+            true
 
         );
 
+    }
 
+
+
+    // ✅ STEP 2: Collect valid images (keep API id for "{id}-" filename dedupe)
+
+    $valid_images = [];
+
+    foreach ( $images as $image ) {
+
+        $url = isset( $image['url'] ) ? esc_url_raw( trim( $image['url'] ) ) : '';
+
+        if ( empty( $url ) || ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
+
+            continue;
+
+        }
+
+
+
+        $valid_images[] = [
+
+            'url' => $url,
+
+            'id'  => isset( $image['id'] ) ? absint( $image['id'] ) : 0,
+
+        ];
+
+    }
+
+
+
+    if ( empty( $valid_images ) ) {
+
+        if ( function_exists( 'cf_log' ) ) {
+
+            cf_log(
+
+                'Image Sync Skip [no_valid_urls] type=' . $type
+
+                . ' post_id=' . $post_id
+
+                . ' | No valid image URLs after validation',
+
+                'err_image_sync',
+
+                'txt',
+
+                false,
+
+                true
+
+            );
+
+        }
+
+        return;
+
+    }
+
+
+
+    // ✅ STEP 4: Sideload or find first image by "{id}-" filename prefix → set as featured
+
+    $first_image      = array_shift( $valid_images );
+
+    $first_url        = $first_image['url'];
+
+    $booking_image_id = (int) $first_image['id'];
+
+    $pending_urls     = array_values(
+
+        array_map(
+
+            static function ( $item ) {
+
+                return $item['url'];
+
+            },
+
+            $valid_images
+
+        )
+
+    );
+
+
+
+    $attachment_id = kv_sideload_or_find_image( $first_url, $post_id, $booking_image_id );
+
+
+
+    if ( $attachment_id ) {
+
+        set_post_thumbnail( $post_id, $attachment_id );
+
+        if ( function_exists( 'cf_log' ) ) {
+
+            cf_log(
+
+                'Image Sync Success [featured_set] type=' . $type
+
+                . ' post_id=' . $post_id
+
+                . ' booking_image_id=' . $booking_image_id
+
+                . ' attachment_id=' . (int) $attachment_id
+
+                . ' url=' . $first_url,
+
+                'err_image_sync',
+
+                'txt',
+
+                false,
+
+                true
+
+            );
+
+        }
 
     } else {
 
+        if ( function_exists( 'cf_log' ) ) {
 
+            cf_log(
 
-        if ($attachment_id) {
+                'Image Sync Error [featured_failed] type=' . $type
 
-            set_post_thumbnail($post_id, $attachment_id);
+                . ' post_id=' . $post_id
+
+                . ' booking_image_id=' . $booking_image_id
+
+                . ' url=' . $first_url
+
+                . ' | Featured image could not be sideloaded',
+
+                'err_image_sync',
+
+                'txt',
+
+                false,
+
+                true
+
+            );
 
         }
 
-
-
-        // ✅ STEP 5: Save remaining URLs as JSON in post meta (no sideloading)
-
-        update_post_meta(
-
-            $post_id,
-
-            'room_pending_images',
-
-            !empty($valid_urls) ? wp_json_encode(array_values($valid_urls)) : ''
-
-        );
-
     }
+
+
+
+    // ✅ STEP 5: Save remaining URLs as JSON in post meta (no sideloading)
+
+    $pending_meta_key = ( $type === 'accommodation' ) ? 'acco_pending_images' : 'room_pending_images';
+
+    update_post_meta(
+
+        $post_id,
+
+        $pending_meta_key,
+
+        ! empty( $pending_urls ) ? wp_json_encode( $pending_urls ) : ''
+
+    );
 
 
 
@@ -2294,7 +2812,6 @@ function sq_mapping_properties($properties) {
 
 
         $supplier_fields = 
-
         [
 
             'supplier_id'                         => 'id',
@@ -2566,12 +3083,6 @@ function sq_mapping_properties($properties) {
 
             wp_set_object_terms($upd_hotel_id, $resort_cat_ids, $taxonomy);
 
-            // pre($upd_hotel_id, 0);
-
-            // pre($resort_cat_ids, 0);
-
-            // pre($property, 1);
-
         }
 
 
@@ -2802,6 +3313,17 @@ function sq_mapping_properties($properties) {
 
         $room_links = '';
 
+        $rooms = get_hotel_rooms( $property_id );
+
+        if ( ! empty( $rooms['rooms'] ) ) {
+            foreach ( $rooms['rooms'] as $room ) {
+                wp_update_post( [
+                    'ID'          => $room->ID,
+                    'post_status' => 'draft',
+                ] );
+            }
+        }
+
         if (!empty($roomTypes) && is_array($roomTypes)) {
 
             foreach ($roomTypes as $key => $roomType) {
@@ -2812,6 +3334,10 @@ function sq_mapping_properties($properties) {
 
                     continue;
 
+                }
+
+                if( $property_type === 'roomboss' && ( !isset( $roomType['room_boss_room_id'] ) || empty( $roomType['room_boss_room_id'] ) || $roomType['room_boss_room_id'] == 0 ) ){
+                    continue;
                 }
 
                 // Extract room basic info
@@ -2829,7 +3355,7 @@ function sq_mapping_properties($properties) {
 
                 // Extract room configuration
 
-                $roomboss_room_id = isset( $roomType['room_boss_room_id'] ) && !empty( $roomType['room_boss_room_id'] ) ? intval($roomType['room_boss_room_id'] ) : 0;
+                $roomboss_room_id = isset( $roomType['room_boss_room_id'] ) && !empty( $roomType['room_boss_room_id'] ) ? $roomType['room_boss_room_id'] : 0;
 
                 $pricing_model = isset( $roomType['pricing_model'] ) && !empty( $roomType['pricing_model'] ) ? intval($roomType['pricing_model'] ) : 0;
 
@@ -3230,10 +3756,6 @@ function sq_mapping_properties($properties) {
         }
 
         // ✅ STEP 7n: Update accommodation with room relationships
-
-        update_field('jp_rooms_link', $room_links, $upd_hotel_id);
-
-        update_field('jp_rooms', $room_ids, $upd_hotel_id);
 
         update_option('hz_post_order', $post_order + 1, false);
 

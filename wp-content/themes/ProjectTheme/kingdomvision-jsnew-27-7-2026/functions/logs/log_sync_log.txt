@@ -1,0 +1,511 @@
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 18
+            [rate_plan_id] => 460349
+            [names] => Winter Stay
+            [client_rateplan_name] => Standard Rate
+            [descriptions] => Exclusive rates for stays 01 Dec 2026 to 30 Apr 2027. T&Cs apply.
+            [long_descriptions] => 2026 Winter Stay T&amp;Cs:- Season's minimum nights stay required.- 20% of total booking value is required upon booking (non-refundable).- 80% of total booking value is required 60 days prior to check-in, else automatic cancellation.- Additional terms may apply to your deposit at the time of booking.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [1] => Array
+        (
+            [id] => 20
+            [rate_plan_id] => 460587
+            [names] => OTA Winter Rack Rate (Room Only)
+            [client_rateplan_name] => Standard Rate
+            [descriptions] => This rate is valid for winter stays from 01 Dec 2025 to 26 Apr 2026 booked through OTA. Season's minimum nights stay required apply.
+            [long_descriptions] => Payment and cancellation policy:- 100% of total booking value is required 7 days prior to check-in.- Additional terms may apply to your deposit at the time of booking.
+            [client_description] => <p><br></p>
+            [client_long_description] => <p><br></p>
+        )
+
+    [2] => Array
+        (
+            [id] => 34
+            [rate_plan_id] => 507848
+            [names] => OTA Winter Discounted Rate (Room Only)
+            [client_rateplan_name] => Standard Rate
+            [descriptions] => This rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027 booked through OTA. Season's minimum nights stay required apply.
+            [long_descriptions] => Payment and cancellation policy:- 100% of total booking value is required 7 days prior to check-in.- Additional terms may apply to your deposit at the time of booking.
+            [client_description] => <p><br></p>
+            [client_long_description] => <p><br></p>
+        )
+
+    [3] => Array
+        (
+            [id] => 53
+            [rate_plan_id] => 531978
+            [names] => Special Winter Offer
+            [client_rateplan_name] => Discounted rate.
+            [descriptions] => Exclusive 5% offer for stays 01 Dec 2026 to 30 Apr 2027. T&Cs apply.
+            [long_descriptions] => Special Winter Offer T&amp;Cs:- Season's minimum nights stay required to be eligible for discount.- Discount applies for bookings made from 01 June 2026 onwards.- 20% of total booking value is required upon booking (non-refundable).- 80% of total booking value is required 60 days prior to check-in, else automatic cancellation.- Promotions are applied ONLY at the time the booking is made. Newly initiated promotions and updated rates cannot be retroactively applied to bookings that have already been made.- Promotions are subject to change and potential withdrawal at any time.- Codes cannot be stacked.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [4] => Array
+        (
+            [id] => 450
+            [rate_plan_id] => 548637
+            [names] => EASTER EGG: Luxe Nomad Winter Stay
+            [client_rateplan_name] => 
+            [descriptions] => Congratulations, you've found our EASTER EGG!
+
+This discounted rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027. Season's minimum nights stay required apply.
+            [long_descriptions] => Luxe Nomad Winter Stay Offer T&amp;Cs:- Season's minimum nights stay required to be eligible for discount.- Discount applies for bookings made from 01 June 2026 onwards.- 20% of total booking value is required upon booking (non-refundable).- 80% of total booking value is required 60 days prior to check-in, else automatic cancellation.- Promotions are applied ONLY at the time the booking is made. Newly initiated promotions and updated rates cannot be retroactively applied to bookings that have already been made.- Promotions are subject to change and potential withdrawal at any time.- Codes cannot be stacked.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+)
+<br></pre>
+<pre>rate_plan_rows<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>upd_field<br></pre>
+<pre>1<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 74
+            [rate_plan_id] => 504401
+            [names] => Winter Rate Plan
+            [client_rateplan_name] => Standard Rate
+            [descriptions] => Winter Rate Plan
+            [long_descriptions] =>  
+            [client_description] => <p><br></p>
+            [client_long_description] => <p><br></p>
+        )
+
+    [1] => Array
+        (
+            [id] => 79
+            [rate_plan_id] => 519449
+            [names] => Winter OTA (NOT Airbnb)
+            [client_rateplan_name] => Standard Rate
+            [descriptions] => Winter OTA (Expedia, Booking.com, Trip.com). EXCLUDING Airbnb
+            [long_descriptions] =>  
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+)
+<br></pre>
+<pre>rate_plan_rows<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>upd_field<br></pre>
+<pre>1<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 2
+            [rate_plan_id] => 455389
+            [names] => Standard Rate
+            [client_rateplan_name] => Standard Rate Client Name
+            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
+✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
+✓ High chairs and cots complimentary subject to availability
+✓ Bathroom and kitchen amenities included.
+✓ Housekeeping subject to length of stay and property.
+✓ Extra person fee subject to property
+            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
+            [client_description] => <p>Standard Rate Client Description</p>
+            [client_long_description] => <p>Standard Rate Client Long Description</p>
+        )
+
+    [1] => Array
+        (
+            [id] => 3
+            [rate_plan_id] => 468530
+            [names] => 10% direct discount 
+            [client_rateplan_name] => 10% JSE direct discount
+            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
+✓ High chairs and cots complimentary subject to availability
+✓ Bathroom and kitchen amenities included.
+✓ Housekeeping subject to length of stay and property.
+✓ Extra person fee subject to property
+            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [2] => Array
+        (
+            [id] => 4
+            [rate_plan_id] => 468590
+            [names] => Ota Rate Plan
+            [client_rateplan_name] => Standard Rate
+            [descriptions] => Ota Rate Plan
+            [long_descriptions] => Ota Rate Plan
+            [client_description] => <p><br></p>
+            [client_long_description] => 
+        )
+
+    [3] => Array
+        (
+            [id] => 471
+            [rate_plan_id] => 519044
+            [names] => Agent Standard Rate
+            [client_rateplan_name] => 
+            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
+✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
+✓ High chairs and cots complimentary subject to availability
+✓ Bathroom and kitchen amenities included.
+✓ Housekeeping subject to length of stay and property.
+✓ Extra person fee subject to property
+            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
+            [client_description] => <p>Price excludes ¥3,680 per night resort fee.</p>
+            [client_long_description] => <p><br></p>
+        )
+
+)
+<br></pre>
+<pre>rate_plan_rows<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>upd_field<br></pre>
+<pre>1<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 2
+            [rate_plan_id] => 455389
+            [names] => Standard Rate
+            [client_rateplan_name] => Standard Rate Client Name
+            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
+✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
+✓ High chairs and cots complimentary subject to availability
+✓ Bathroom and kitchen amenities included.
+✓ Housekeeping subject to length of stay and property.
+✓ Extra person fee subject to property
+            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
+            [client_description] => <p>Standard Rate Client Description</p>
+            [client_long_description] => <p>Standard Rate Client Long Description</p>
+        )
+
+    [1] => Array
+        (
+            [id] => 3
+            [rate_plan_id] => 468530
+            [names] => 10% direct discount 
+            [client_rateplan_name] => 10% JSE direct discount
+            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
+✓ High chairs and cots complimentary subject to availability
+✓ Bathroom and kitchen amenities included.
+✓ Housekeeping subject to length of stay and property.
+✓ Extra person fee subject to property
+            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [2] => Array
+        (
+            [id] => 4
+            [rate_plan_id] => 468590
+            [names] => Ota Rate Plan
+            [client_rateplan_name] => Standard Rate
+            [descriptions] => Ota Rate Plan
+            [long_descriptions] => Ota Rate Plan
+            [client_description] => <p><br></p>
+            [client_long_description] => 
+        )
+
+    [3] => Array
+        (
+            [id] => 471
+            [rate_plan_id] => 519044
+            [names] => Agent Standard Rate
+            [client_rateplan_name] => 
+            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
+✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
+✓ High chairs and cots complimentary subject to availability
+✓ Bathroom and kitchen amenities included.
+✓ Housekeeping subject to length of stay and property.
+✓ Extra person fee subject to property
+            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
+            [client_description] => <p>Price excludes ¥3,680 per night resort fee.</p>
+            [client_long_description] => <p><br></p>
+        )
+
+)
+<br></pre>
+<pre>rate_plan_rows<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>upd_field<br></pre>
+<pre>1<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 429
+            [rate_plan_id] => 552248
+            [names] => Winter 2026-2027
+            [client_rateplan_name] => 
+            [descriptions] => Price and required minimum nights of stay vary depending on dates :
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [1] => Array
+        (
+            [id] => 430
+            [rate_plan_id] => 552269
+            [names] => Winter 26-27 Repeater 
+            [client_rateplan_name] => 
+            [descriptions] => 10% discount for repeater
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [2] => Array
+        (
+            [id] => 431
+            [rate_plan_id] => 552284
+            [names] => Winter 26-27 Early Bird
+            [client_rateplan_name] => 
+            [descriptions] => Early bird discount - 10%
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [3] => Array
+        (
+            [id] => 432
+            [rate_plan_id] => 552311
+            [names] => Winter 26-27 Repeater + Early Bird
+            [client_rateplan_name] => 
+            [descriptions] => Repeater(10%) + Early bird(10%)
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [4] => Array
+        (
+            [id] => 433
+            [rate_plan_id] => 552332
+            [names] => Winter 26-27 Excellent + Early Bird
+            [client_rateplan_name] => 
+            [descriptions] => Excellent(15%) + Early bird(10%)
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [5] => Array
+        (
+            [id] => 434
+            [rate_plan_id] => 552353
+            [names] => Winter 26-27 Non-Refundable
+            [client_rateplan_name] => 
+            [descriptions] => Full amount payment is required upon reservation. 15% discount is available except December 16 - January 5.
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require full payment within 4 days once invoice is sent.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+)
+<br></pre>
+<pre>rate_plan_rows<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>upd_field<br></pre>
+<pre>1<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 429
+            [rate_plan_id] => 552248
+            [names] => Winter 2026-2027
+            [client_rateplan_name] => 
+            [descriptions] => Price and required minimum nights of stay vary depending on dates :
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [1] => Array
+        (
+            [id] => 430
+            [rate_plan_id] => 552269
+            [names] => Winter 26-27 Repeater 
+            [client_rateplan_name] => 
+            [descriptions] => 10% discount for repeater
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [2] => Array
+        (
+            [id] => 431
+            [rate_plan_id] => 552284
+            [names] => Winter 26-27 Early Bird
+            [client_rateplan_name] => 
+            [descriptions] => Early bird discount - 10%
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [3] => Array
+        (
+            [id] => 432
+            [rate_plan_id] => 552311
+            [names] => Winter 26-27 Repeater + Early Bird
+            [client_rateplan_name] => 
+            [descriptions] => Repeater(10%) + Early bird(10%)
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [4] => Array
+        (
+            [id] => 433
+            [rate_plan_id] => 552332
+            [names] => Winter 26-27 Excellent + Early Bird
+            [client_rateplan_name] => 
+            [descriptions] => Excellent(15%) + Early bird(10%)
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [5] => Array
+        (
+            [id] => 434
+            [rate_plan_id] => 552353
+            [names] => Winter 26-27 Non-Refundable
+            [client_rateplan_name] => 
+            [descriptions] => Full amount payment is required upon reservation. 15% discount is available except December 16 - January 5.
+            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require full payment within 4 days once invoice is sent.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+)
+<br></pre>
+<pre>rate_plan_rows<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>upd_field<br></pre>
+<pre>1<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+)
+<br></pre>

@@ -1,11 +1,16 @@
 <?php
 $section = [];
 
-$acc_builder = get_field('accommodation_builder', get_the_ID() );
-foreach ($acc_builder as $key => $builder_section) {
-    if( $builder_section['acf_fc_layout'] == 'nearby_location' ){
-        $section = $builder_section;
+$acc_builder = get_field('accommodation_builder', get_the_ID() ) ?? [];
+if( !empty( $acc_builder ) ){
+    foreach ($acc_builder as $key => $builder_section) {
+        if( $builder_section['acf_fc_layout'] == 'nearby_location' ){
+            $section = $builder_section;
+        }
     }
+}
+else{
+    $section = [];
 }
 
 $locations = $section['location'] ?? [];

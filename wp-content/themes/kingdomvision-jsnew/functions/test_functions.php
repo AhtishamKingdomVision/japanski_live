@@ -26,6 +26,8 @@
 
 @$_GET['kv_send_data_to_trip'] == 'yes' ? add_action('wp_head', 'kv_send_data_to_trip_func') : '';
 
+@$_GET['kv_get_rooms'] == 'yes' ? add_action('wp_head', 'kv_get_rooms_func') : '';
+
 function kv_send_data_to_trip_func(){
     // Corrected data variable structure
     $tm_data = [
@@ -71,6 +73,19 @@ function kv_send_data_to_trip_func(){
     cf_log( $resp, 'hz-webhook-response' );
 }
 
+function kv_get_rooms_func(){
+    
+    $property_id = @$_GET[ 'hz_proeprty_id' ];
+    $room_ids = [];
+
+    $properties = get_hotel_rooms( $property_id );
+    foreach ($properties['rooms'] as $key => $property) {
+        $p_id = $property->ID;
+        $room_ids[] = $p_id;
+    }
+
+    pre( $room_ids );
+}
 
 function del_reviews(){
 

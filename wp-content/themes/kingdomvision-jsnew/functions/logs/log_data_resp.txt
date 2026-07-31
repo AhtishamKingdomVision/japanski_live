@@ -57084,3 +57084,579 @@
 
 )
 <br></pre>
+<pre>Array
+(
+    [distances] => Array
+        (
+            [0] => Array
+                (
+                    [0] => 0.9
+                    [1] => 1.14
+                    [2] => 0.9
+                    [3] => 0.23
+                    [4] => 0.25
+                    [5] => 7.31
+                )
+
+        )
+
+    [destinations] => Array
+        (
+            [0] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.697835
+                            [1] => 42.861567
+                        )
+
+                    [snapped_distance] => 12.47
+                )
+
+            [1] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.701531
+                            [1] => 42.864329
+                        )
+
+                    [snapped_distance] => 11.6
+                )
+
+            [2] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.698468
+                            [1] => 42.862593
+                        )
+
+                    [snapped_distance] => 12.84
+                )
+
+            [3] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.705154
+                            [1] => 42.858884
+                        )
+
+                    [snapped_distance] => 28.44
+                )
+
+            [4] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.704289
+                            [1] => 42.858954
+                        )
+
+                    [snapped_distance] => 20.97
+                )
+
+            [5] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.746009
+                            [1] => 42.901687
+                        )
+
+                    [snapped_distance] => 19.65
+                )
+
+        )
+
+    [sources] => Array
+        (
+            [0] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.703328
+                            [1] => 42.857521
+                        )
+
+                    [snapped_distance] => 33.46
+                )
+
+        )
+
+    [metadata] => Array
+        (
+            [attribution] => openrouteservice.org | OpenStreetMap contributors
+            [service] => matrix
+            [timestamp] => 1785440688726
+            [query] => Array
+                (
+                    [locations] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 140.70291816931
+                                    [1] => 42.857538705342
+                                )
+
+                            [1] => Array
+                                (
+                                    [0] => 140.69789350178
+                                    [1] => 42.861463687949
+                                )
+
+                            [2] => Array
+                                (
+                                    [0] => 140.70152738906
+                                    [1] => 42.864433015015
+                                )
+
+                            [3] => Array
+                                (
+                                    [0] => 140.69861302734
+                                    [1] => 42.862548315928
+                                )
+
+                            [4] => Array
+                                (
+                                    [0] => 140.70487850706
+                                    [1] => 42.859040083563
+                                )
+
+                            [5] => Array
+                                (
+                                    [0] => 140.70444063962
+                                    [1] => 42.859105946843
+                                )
+
+                            [6] => Array
+                                (
+                                    [0] => 140.74576822693
+                                    [1] => 42.901695053537
+                                )
+
+                        )
+
+                    [profile] => driving-car
+                    [profileName] => driving-car
+                    [responseType] => json
+                    [sources] => Array
+                        (
+                            [0] => 0
+                        )
+
+                    [destinations] => Array
+                        (
+                            [0] => 1
+                            [1] => 2
+                            [2] => 3
+                            [3] => 4
+                            [4] => 5
+                            [5] => 6
+                        )
+
+                    [metrics] => Array
+                        (
+                            [0] => distance
+                        )
+
+                    [units] => km
+                )
+
+            [engine] => Array
+                (
+                    [version] => 9.9.0
+                    [build_date] => 2026-06-12T10:08:58Z
+                    [graph_date] => 2026-07-26T12:04:00Z
+                    [osm_date] => 2026-07-20T00:00:00Z
+                )
+
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [distances] => Array
+        (
+            [0] => Array
+                (
+                    [0] => 0.9
+                    [1] => 1.14
+                    [2] => 0.9
+                    [3] => 0.23
+                    [4] => 0.25
+                    [5] => 7.31
+                )
+
+        )
+
+    [destinations] => Array
+        (
+            [0] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.697835
+                            [1] => 42.861567
+                        )
+
+                    [snapped_distance] => 12.47
+                )
+
+            [1] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.701531
+                            [1] => 42.864329
+                        )
+
+                    [snapped_distance] => 11.6
+                )
+
+            [2] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.698468
+                            [1] => 42.862593
+                        )
+
+                    [snapped_distance] => 12.84
+                )
+
+            [3] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.705154
+                            [1] => 42.858884
+                        )
+
+                    [snapped_distance] => 28.44
+                )
+
+            [4] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.704289
+                            [1] => 42.858954
+                        )
+
+                    [snapped_distance] => 20.97
+                )
+
+            [5] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.746009
+                            [1] => 42.901687
+                        )
+
+                    [snapped_distance] => 19.65
+                )
+
+        )
+
+    [sources] => Array
+        (
+            [0] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.703328
+                            [1] => 42.857521
+                        )
+
+                    [snapped_distance] => 33.46
+                )
+
+        )
+
+    [metadata] => Array
+        (
+            [attribution] => openrouteservice.org | OpenStreetMap contributors
+            [service] => matrix
+            [timestamp] => 1785441182535
+            [query] => Array
+                (
+                    [locations] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 140.70291816931
+                                    [1] => 42.857538705342
+                                )
+
+                            [1] => Array
+                                (
+                                    [0] => 140.69789350178
+                                    [1] => 42.861463687949
+                                )
+
+                            [2] => Array
+                                (
+                                    [0] => 140.70152738906
+                                    [1] => 42.864433015015
+                                )
+
+                            [3] => Array
+                                (
+                                    [0] => 140.69861302734
+                                    [1] => 42.862548315928
+                                )
+
+                            [4] => Array
+                                (
+                                    [0] => 140.70487850706
+                                    [1] => 42.859040083563
+                                )
+
+                            [5] => Array
+                                (
+                                    [0] => 140.70444063962
+                                    [1] => 42.859105946843
+                                )
+
+                            [6] => Array
+                                (
+                                    [0] => 140.74576822693
+                                    [1] => 42.901695053537
+                                )
+
+                        )
+
+                    [profile] => driving-car
+                    [profileName] => driving-car
+                    [responseType] => json
+                    [sources] => Array
+                        (
+                            [0] => 0
+                        )
+
+                    [destinations] => Array
+                        (
+                            [0] => 1
+                            [1] => 2
+                            [2] => 3
+                            [3] => 4
+                            [4] => 5
+                            [5] => 6
+                        )
+
+                    [metrics] => Array
+                        (
+                            [0] => distance
+                        )
+
+                    [units] => km
+                )
+
+            [engine] => Array
+                (
+                    [version] => 9.9.0
+                    [build_date] => 2026-06-12T10:08:58Z
+                    [graph_date] => 2026-07-26T12:04:00Z
+                    [osm_date] => 2026-07-20T00:00:00Z
+                )
+
+        )
+
+)
+<br></pre>
+<pre>Array
+(
+    [distances] => Array
+        (
+            [0] => Array
+                (
+                    [0] => 0.9
+                    [1] => 1.14
+                    [2] => 0.9
+                    [3] => 0.23
+                    [4] => 0.25
+                    [5] => 7.31
+                )
+
+        )
+
+    [destinations] => Array
+        (
+            [0] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.697835
+                            [1] => 42.861567
+                        )
+
+                    [snapped_distance] => 12.47
+                )
+
+            [1] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.701531
+                            [1] => 42.864329
+                        )
+
+                    [snapped_distance] => 11.6
+                )
+
+            [2] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.698468
+                            [1] => 42.862593
+                        )
+
+                    [snapped_distance] => 12.84
+                )
+
+            [3] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.705154
+                            [1] => 42.858884
+                        )
+
+                    [snapped_distance] => 28.44
+                )
+
+            [4] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.704289
+                            [1] => 42.858954
+                        )
+
+                    [snapped_distance] => 20.97
+                )
+
+            [5] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.746009
+                            [1] => 42.901687
+                        )
+
+                    [snapped_distance] => 19.65
+                )
+
+        )
+
+    [sources] => Array
+        (
+            [0] => Array
+                (
+                    [location] => Array
+                        (
+                            [0] => 140.703328
+                            [1] => 42.857521
+                        )
+
+                    [snapped_distance] => 33.46
+                )
+
+        )
+
+    [metadata] => Array
+        (
+            [attribution] => openrouteservice.org | OpenStreetMap contributors
+            [service] => matrix
+            [timestamp] => 1785444446069
+            [query] => Array
+                (
+                    [locations] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 140.70291816931
+                                    [1] => 42.857538705342
+                                )
+
+                            [1] => Array
+                                (
+                                    [0] => 140.69789350178
+                                    [1] => 42.861463687949
+                                )
+
+                            [2] => Array
+                                (
+                                    [0] => 140.70152738906
+                                    [1] => 42.864433015015
+                                )
+
+                            [3] => Array
+                                (
+                                    [0] => 140.69861302734
+                                    [1] => 42.862548315928
+                                )
+
+                            [4] => Array
+                                (
+                                    [0] => 140.70487850706
+                                    [1] => 42.859040083563
+                                )
+
+                            [5] => Array
+                                (
+                                    [0] => 140.70444063962
+                                    [1] => 42.859105946843
+                                )
+
+                            [6] => Array
+                                (
+                                    [0] => 140.74576822693
+                                    [1] => 42.901695053537
+                                )
+
+                        )
+
+                    [profile] => driving-car
+                    [profileName] => driving-car
+                    [responseType] => json
+                    [sources] => Array
+                        (
+                            [0] => 0
+                        )
+
+                    [destinations] => Array
+                        (
+                            [0] => 1
+                            [1] => 2
+                            [2] => 3
+                            [3] => 4
+                            [4] => 5
+                            [5] => 6
+                        )
+
+                    [metrics] => Array
+                        (
+                            [0] => distance
+                        )
+
+                    [units] => km
+                )
+
+            [engine] => Array
+                (
+                    [version] => 9.9.0
+                    [build_date] => 2026-06-12T10:08:58Z
+                    [graph_date] => 2026-07-26T12:04:00Z
+                    [osm_date] => 2026-07-20T00:00:00Z
+                )
+
+        )
+
+)
+<br></pre>

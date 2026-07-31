@@ -115,89 +115,97 @@ $road_km = get_transient( $road_km_cache_key );
 // }
 
 echo '<section class="full-section nearby_location" '.BackgroundFromSection($section).'>';
-echo '<div class="container">';
-echo TitleFromSection($section);
+    echo '<div class="container">';
+        echo TitleFromSection($section);
 
-if (!empty($locations)) {
+        if (!empty($locations)) {
 
-    echo '<div class="nearby-wrapper">';
+            echo '<div class="nearby-wrapper">';
 
-    /* =========================
-       MAP AREA
-    ========================= */
-    echo '<div class="nearby-map-area">';
-        echo '<div id="nearby-map" class="nearby-map"></div>';
+            /* =========================
+            MAP AREA
+            ========================= */
+            echo '<div class="nearby-map-area">';
+                echo '<div id="nearby-map" class="nearby-map"></div>';
 
-            echo '
-                <div id="main-location-box" class="main-location-box">
-                    <h4>' . esc_html($main_title) . '</h4>
-                    <p>' . esc_html($main_address) . '</p>
-                </div>
-            ';
-        
-        echo '<button type="button" class="location-info-btn" id="open-location-info"> More Location Info </button>';
-    echo '</div>';
+                    echo '
+                        <div id="main-location-box" class="main-location-box">
+                            <h4>' . esc_html($main_title) . '</h4>
+                            <p>' . esc_html($main_address) . '</p>
+                        </div>
+                    ';
+                
+                echo '<button type="button" class="location-info-btn" id="open-location-info"> More Location Info </button>';
+            echo '</div>';
 
-    /* =========================
-       SIDEBAR LIST
-    ========================= */
-    echo '<div class="nearby-list-box">';
-        echo '<h3 class="nearby-title">Closest Landmarks</h3>';
-        // echo '<div class="nearby-divider"></div>';
-        echo '<ul class="nearby-list">';
+            /* =========================
+            SIDEBAR LIST
+            ========================= */
+            echo '<div class="nearby-list-box">';
+                echo '<h3 class="nearby-title">Closest Landmarks</h3>';
+                // echo '<div class="nearby-divider"></div>';
+                echo '<ul class="nearby-list">';
 
-            $mapArray = [];
+                    $mapArray = [];
 
-            foreach ($locations as $i => $loc) {
+                    foreach ($locations as $i => $loc) {
 
-                $title = $loc['title'] ?? '';
-                $lat = $loc['latitude'] ?? '';
-                $lng = $loc['longitude'] ?? '';
-                $km = is_array( $road_km ) ? ( $road_km[ $i ] ?? null ) : null;
+                        $title = $loc['title'] ?? '';
+                        $lat = $loc['latitude'] ?? '';
+                        $lng = $loc['longitude'] ?? '';
+                        $km = is_array( $road_km ) ? ( $road_km[ $i ] ?? null ) : null;
 
-                if ( $km === null ) {
-                    $km = nearby_location_distance_km( $main_lat, $main_lng, $lat, $lng );
+                        if ( $km === null ) {
+                            $km = nearby_location_distance_km( $main_lat, $main_lng, $lat, $lng );
+                        }
+
+                        echo '
+                            <li class="nearby-item" data-index="' . $i . '">
+                                <span>' . esc_html($title) . '</span>
+                                <span class="distance">' . esc_html($km) . ' km</span>
+                            </li>';
+
+                        $mapArray[] = [
+                            'title' => $title,
+                            'km'    => $km,
+                            'lat'   => $lat,
+                            'lng'   => $lng,
+                        ];
+                    }
+
+                echo '</ul>';
+            echo '</div>'; // list
+
+            echo '</div>'; // wrapper
+
+            /* =========================
+            PASS DATA TO JS
+            ========================= */
+            echo '<script>
+                var nearbyData = ' . json_encode($mapArray) . ';
+                var mainLocation = {
+                    lat: ' . floatval($main_lat) . ',
+                    lng: ' . floatval($main_lng) . ',
+                    title: "' . esc_js($main_title) . '",
+                    address: "' . esc_js($main_address) . '"
+                };
+
+                if( jQuery("ul.nearby-list li.nearby-item").length < 1 ){
+                    jQuery("section.nearby_location").hide();
                 }
-
-                echo '
-                    <li class="nearby-item" data-index="' . $i . '">
-                        <span>' . esc_html($title) . '</span>
-                        <span class="distance">' . esc_html($km) . ' km</span>
-                    </li>';
-
-                $mapArray[] = [
-                    'title' => $title,
-                    'km'    => $km,
-                    'lat'   => $lat,
-                    'lng'   => $lng,
-                ];
-            }
-
-        echo '</ul>';
-    echo '</div>'; // list
-
-    echo '</div>'; // wrapper
-
-    /* =========================
-       PASS DATA TO JS
-    ========================= */
-    echo '<script>
-        var nearbyData = ' . json_encode($mapArray) . ';
-        var mainLocation = {
-            lat: ' . floatval($main_lat) . ',
-            lng: ' . floatval($main_lng) . ',
-            title: "' . esc_js($main_title) . '",
-            address: "' . esc_js($main_address) . '"
-        };
-
-        if( jQuery("ul.nearby-list li.nearby-item").length < 1 ){
-            jQuery("section.nearby_location").hide();
+                else{
+                    jQuery("section.nearby_location").show();
+                }
+            </script>';
         }
-        else{
-            jQuery("section.nearby_location").show();
-        }
-    </script>';
-}
 
-echo '</div>';
+        $acc_details = get_field('accomodation_details');
+        $address = $acc_details['address'] ?? '';
+        if($address){
+            echo '<button type="button" class="acc-address acc-address-map-trigger" aria-haspopup="dialog" aria-controls="accommodation-map-modal">';
+                echo '<span>'. esc_html($address) .'</span>';
+            echo '</button>'; #acc-address
+        }
+    echo '</div>';
+			
 echo '</section>';

@@ -1,7 +1,7 @@
 <?php
 global $post;
 
-$acc_details = get_field('accomodation_details');
+// $acc_details = get_field('accomodation_details');
 $acc_form = $acc_details['accommodation_form'] ?? false;
 $address = $acc_details['address'] ?? '';
 $latitude = $acc_details['acc_latitude'] ?? get_field('accomodation_details_acc_latitude');
@@ -53,13 +53,39 @@ echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-sec
 
 			echo '<div class="title-wrapper">';
 				echo '<h1>'. get_the_title() .'</h1>';
+
+					$categories = wp_get_post_terms(get_the_ID(), 'accommodation-cat', ['parent' => 0]);
+					$area_field = wp_get_post_terms(get_the_ID(), 'accommodation-cat', ['parent' => $categories[0]->term_id]);
+					$area_names = wp_list_pluck( $area_field, 'name' );
+
+					$area_list = [];
+
+					if (!empty($area_names) && is_array($area_names)) {
+						$area_list = array_filter(array_map('sanitize_text_field', $area_names));
+					}
+
+
+					// Get parent term
+					if (!empty($categories) && !is_wp_error($categories)) {
+						$resort_name = str_replace(' Accommodation', '', sanitize_text_field($categories[0]->name ?? ''));
+					}
+				
+					$location_display = '';
+					if (!empty($area_list)) {
+						$location_display = implode(', ', $area_list);
+					}
+					if (!empty($resort_name)) {
+						$location_display = !empty($location_display) ? $location_display . ', ' . $resort_name : $resort_name;
+					}
+					
+				echo '<div class="base_resort acc-address-map-trigger"><h2>'. $location_display .'</h2></div>';
 			echo '</div>'; #title-wrapper
 			
-			if($address){
-				echo '<button type="button" class="acc-address acc-address-map-trigger" aria-haspopup="dialog" aria-controls="accommodation-map-modal">';
-					echo '<span>'. esc_html($address) .'</span>';
-				echo '</button>'; #acc-address
-			}
+			// if($address){
+			// 	echo '<button type="button" class="acc-address acc-address-map-trigger" aria-haspopup="dialog" aria-controls="accommodation-map-modal">';
+			// 		echo '<span>'. esc_html($address) .'</span>';
+			// 	echo '</button>'; #acc-address
+			// }
 
 			echo '<div class="acc-gallery t2">';
 			if($merged_gallary){

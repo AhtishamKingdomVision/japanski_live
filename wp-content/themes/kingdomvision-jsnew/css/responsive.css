@@ -315,10 +315,7 @@ section.room-listing .room-list .row { justify-content: center; }
 
 section.room-listing .room-modal .room-modal-content { width: 95%; padding: 50px 20px; }
 section.room-listing .room-modal .room-modal-content .room-modal-header { flex-flow: column; justify-content: center; }
-/* Old:
 section.room-listing .room-modal .room-modal-content .room-modal-header h3 { margin: 0 0 10px; }
-*/
-section.room-listing .room-modal .room-modal-content .room-modal-header h3 { margin: 0 0 10px; max-width: 100%; }
 section.room-listing .room-modal .room-modal-content .room-modal-meta .room-info { align-items: center; justify-content: flex-start; flex-flow: column; align-items: baseline; }
 
 section.room-listing .booking-wrap .rb-booking-layout .rb-left { width: 100%; }
@@ -456,12 +453,12 @@ section.hero-banner-filter-result .property-grid { grid-template-columns: repeat
 .mobFilterModal .mobFilterInner .resortFilterWrap .sb-field::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 1px; height: 36px; background: rgba(255, 255, 255, 0.15); }
 .resortFilterWrap .search-card.expanded .search-row { border-radius: 20px 20px 0 0; }
 .resortFilterWrap .sb-field + .sb-field::before { left: 20px; right: 20px; top: 0; width: auto; height: 1px; transform: none; background: rgba(255, 255, 255, 0.15); }
-.resortFilterWrap .sb-actions { order: 4; width: 100%; border-radius: 0; min-height: auto; padding: 0; gap: 0; background: transparent; }
-.resortFilterWrap .sb-submit { border-radius: 14px 0 0 14px; padding: 16px 16px; min-width: auto; width: 50%; flex: 1; }
-.resortFilterWrap .sb-enquire { border-radius: 0 14px 14px 0; padding: 16px 16px; width: 50%; flex: 1; }
+.resortFilterWrap .sb-actions { order: 4; width: 100%; }
+.resortFilterWrap .sb-submit { border-radius: 0; width: 50%; }
+.resortFilterWrap .sb-actions button.sb-enquire { border-radius: 0; width: 50%; }
 .resortFilterWrap .search-card { border-radius: 20px; padding: 0; }
 .resortFilterWrap .search-card.expanded { border-radius: 20px; }
-.resortFilterWrap .guests-popover { right: 0; left: 0; width: auto; max-height: min(65vh, 480px); }
+.resortFilterWrap .guests-popover { right: 0; left: 0; width: auto; }
 .resortFilterWrap .sb-guests-desktop { display: none; }
 .resortFilterWrap .guests-mobile-row { display: flex; width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.15); }
 .resortFilterWrap .guests-mobile-row .sb-field { flex: 1; border-radius: 0; }
@@ -482,8 +479,6 @@ section.hero-banner-filter-result .property-grid { grid-template-columns: repeat
 .resortFilterWrap .eq-grid { grid-template-columns: 1fr 1fr; }
 .resortFilterWrap .eq-field-info { grid-column: span 2; border-right: none; }
 .resortFilterWrap .search-card.expanded .sb-submit { display: none; }
-.resortFilterWrap .search-card.expanded .sb-enquire { display: none; }
-.resortFilterWrap .search-card.expanded .sb-actions { display: none; }
 .resortFilterWrap .search-card.expanded .mobile-enquiry-btn { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 17px 24px; background: rgb(221, 54, 62); border: none; color: #fff; font-family: "Schibsted Grotesk", Arial, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; border-radius: 0 0 20px 20px; transition: background 0.25s; }
 .resortFilterWrap .search-card.expanded .mobile-enquiry-btn:hover { background: #b5293a; }
 section.benefits-section .benefits-grid { grid-template-columns: 1fr; }
@@ -527,26 +522,16 @@ section.room-listing .bedroom-tabs { justify-content: center; }
 .sticky-cart-container.foo-cart a.sticky-cta-btn { border-radius: 50%; }
 .webcam-item { min-width: 100%; max-width: 100%; }
 
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5),
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf.edit-field {
-  display: none !important;
-}
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf,
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf.gfield--width-quarter,
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf.gfield--width-full { width: 50% !important; max-width: 50% !important; flex: 0 0 50% !important; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; border-radius: 10px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf { width: 50%; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { width: 100%; border-radius: 10px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(2) { border-radius: 10px 0 0 10px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3) { border-radius: 0 10px 10px 0; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4) { border-radius: 10px; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4) { border-radius: 10px; width: 100%; }
 
 .acc_enquiry_form .acc_enquiry_head { padding: 20px 30px 1px; }
 .accommodation-map-dialog { height: 70vh; }
 
 }
-
-
-
-
 
 @media only screen and (max-width:539px) {
 	section.room-listing .booking-wrap .rb-booking-layout .rb-left .rb-room-top .rb-room-img { max-width: 100%; }

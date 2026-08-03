@@ -1367,6 +1367,10 @@ jQuery(function ($) {
         if (!html) return html;
         try {
             const $tmp = $('<div>').html(html);
+            // Never cache the submit overlay — blog mount is also the loader host,
+            // so restoring cached HTML would bring "Sending…" back after success.
+            $tmp.find('.kv-enquiry-submit-loader').remove();
+            $tmp.find('.kv-enquiry-is-loading').removeClass('kv-enquiry-is-loading');
             $tmp.find('.gform_wrapper').removeClass('gform_validation_error');
             $tmp.find(
                 '.gform_validation_errors, .gform_validation_error, .validation_error, ' +
@@ -1409,7 +1413,11 @@ jQuery(function ($) {
                 });
                 $mount.removeClass('kv-enquiry-parked');
             }
-            pageEnquiryFormHtml = stripEnquiryValidationHtml($mount.html());
+            // Clone without loader — blog uses the same node as loader host.
+            const $forCache = $mount.clone(false, false);
+            $forCache.find('.kv-enquiry-submit-loader').remove();
+            $forCache.removeClass('kv-enquiry-is-loading');
+            pageEnquiryFormHtml = stripEnquiryValidationHtml($forCache.html());
             if (wasParked || $('body').hasClass('enquire-open')) {
                 parkEnquiryFormExcept('modal');
             }
@@ -1426,6 +1434,9 @@ jQuery(function ($) {
             // Fallback: remove leaked confirmation markup from the page form.
             $mount.find('.gform_confirmation_wrapper, .gform_confirmation_message, .gform_confirmation_message_1').remove();
         }
+        // Safety: never leave a stuck Sending… overlay after HTML restore (blog).
+        $mount.find('.kv-enquiry-submit-loader').remove();
+        $mount.removeClass('kv-enquiry-is-loading');
 
         // While popup is open, keep page copy parked so GF keeps targeting the modal.
         if ($('body').hasClass('enquire-open') || $('.Enquiry-modal.active').length) {
@@ -1558,9 +1569,15 @@ jQuery(function ($) {
 
     function handlePageEnquirySuccess(customMessage, opts) {
         opts = opts || {};
-        if (enquiryPageSuccessShown) return;
+        if (enquiryPageSuccessShown) {
+            hideEnquirySubmitLoader();
+            return;
+        }
         // Modal owns success UX while popup is open.
-        if ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length) return;
+        if ($('body').hasClass('enquire-open') && $('.Enquiry-modal.active').length) {
+            hideEnquirySubmitLoader();
+            return;
+        }
 
         // Never show thank-you over a validation state (empty submit).
         if (enquiryPageHasValidation()) {
@@ -1580,11 +1597,13 @@ jQuery(function ($) {
 
         enquiryPageSuccessShown = true;
         enquiryPageAwaitingSubmit = false;
-        hideEnquirySubmitLoader();
 
         // Restore live form fields (GF replaces wrapper with confirmation).
         resetPageEnquiryForm();
         unparkEnquiryForm();
+        // Hide AFTER reset — blog caches the same node as the loader host,
+        // so restoring HTML must not leave "Sending…" stuck over the thank-you.
+        hideEnquirySubmitLoader();
         // Cached HTML can still carry errors from an earlier failed submit.
         clearEnquiryValidationIn($wrap);
         clearEnquiryValidationIn(getPageEnquiryMount());

@@ -1,0 +1,55 @@
+---
+description: When user types DEALCODE, re-apply deals URL + stay-on-page resort filter fixes
+alwaysApply: true
+---
+
+# DEALCODE trigger
+
+When the user message contains **`DEALCODE`** (exact keyword), re-apply the following fixes even if they previously reverted them. Do not ask for confirmation — implement immediately.
+
+## 1) Fix `base_url` missing project folder (`/japanSki`)
+
+**File:** `wp-content/themes/kingdomvision-jsnew/kv-script.js` (top of file)
+
+Use `kv_object.homeUrl` instead of `window.location.origin` alone, so Laragon subdirectory URLs stay correct (`http://localhost/japanSki/...` not `http://localhost/...`):
+
+```js
+if (typeof base_url === 'undefined' || typeof pathname === 'undefined' || typeof host === 'undefined' || typeof pathArray === 'undefined' || typeof urlParams === 'undefined') {
+    var base_url = (typeof kv_object !== 'undefined' && kv_object.homeUrl)
+        ? String(kv_object.homeUrl).replace(/\/$/, '')
+        : window.location.origin;
+    var pathname = window.location.pathname;
+    var host = window.location.host;
+    var pathArray = window.location.pathname.split('/').filter(Boolean);
+    var urlParams = new URLSearchParams(window.location.search);
+}
+```
+
+## 2) Accommodation filters: “All resorts” redirect must include home base
+
+**File:** `wp-content/themes/kingdomvision-jsnew/js/accommodation-filters.js` (`window.doSearch` / `resortVal === 'all'` branch)
+
+- Build home from `kv_object.homeUrl` (fallback `base_url` / origin).
+- Detect all-accommodation page with `/(?:^|\/)accommodation\/?$/` (works with `/japanSki/accommodation/`).
+- Redirect to `homeBase + '/accommodation/'` (not bare `origin + '/accommodation/'`).
+
+## 3) Do not redirect from global accommodation routes to `/{resort}/accommodation/`
+
+**File:** `wp-content/themes/kingdomvision-jsnew/functions/filter_functions.php` inside `niseko_search()`
+
+When a specific resort is posted, **skip** the resort-page redirect if the referer is a **global** accommodation route (not a resort listing):
+
+- `/accommodation/`
+- `/accommodation/deals/`
+- `/{subdir}/accommodation/`
+- `/{subdir}/accommodation/deals/`
+
+Detect by finding segment `accommodation` and checking the segment **before** it is **not** one of: `niseko`, `hakuba`, `furano`, `rusutsu`.
+
+Keep redirect behavior for other pages (homepage etc.) and for wrong-resort listings (**B** still works). Stay-and-filter on `/accommodation/` and deals (**A** + deals).
+
+## Intent reminder
+
+- **A:** On `/accommodation/` (and deals), selecting a resort must **not** bounce to `/niseko/accommodation/` — filter in place.
+- **B:** From other pages with a resort selected, redirect to `/{resort}/accommodation/` still OK.
+- Wrong URL symptom: `http://localhost/accommodation/deals/` missing `japanSki` → fix via `kv_object.homeUrl` / `base_url`.

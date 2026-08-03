@@ -1369,8 +1369,9 @@ jQuery(function ($) {
             const $tmp = $('<div>').html(html);
             // Never cache the submit overlay — blog mount is also the loader host,
             // so restoring cached HTML would bring "Sending…" back after success.
-            $tmp.find('.kv-enquiry-submit-loader').remove();
-            $tmp.find('.kv-enquiry-is-loading').removeClass('kv-enquiry-is-loading');
+            $tmp.find('.kv-enquiry-submit-loader, .kv-enquiry-btn-spinner').remove();
+            $tmp.find('.kv-enquiry-is-loading, .kv-enquiry-btn-loading').removeClass('kv-enquiry-is-loading kv-enquiry-btn-loading');
+            $tmp.find('.gform_button, input[type="submit"]').prop('disabled', false).removeAttr('aria-busy');
             $tmp.find('.gform_wrapper').removeClass('gform_validation_error');
             $tmp.find(
                 '.gform_validation_errors, .gform_validation_error, .validation_error, ' +
@@ -1415,8 +1416,9 @@ jQuery(function ($) {
             }
             // Clone without loader — blog uses the same node as loader host.
             const $forCache = $mount.clone(false, false);
-            $forCache.find('.kv-enquiry-submit-loader').remove();
-            $forCache.removeClass('kv-enquiry-is-loading');
+            $forCache.find('.kv-enquiry-submit-loader, .kv-enquiry-btn-spinner').remove();
+            $forCache.find('.kv-enquiry-is-loading, .kv-enquiry-btn-loading').removeClass('kv-enquiry-is-loading kv-enquiry-btn-loading');
+            $forCache.find('.gform_button, input[type="submit"]').prop('disabled', false).removeAttr('aria-busy');
             pageEnquiryFormHtml = stripEnquiryValidationHtml($forCache.html());
             if (wasParked || $('body').hasClass('enquire-open')) {
                 parkEnquiryFormExcept('modal');
@@ -1434,9 +1436,10 @@ jQuery(function ($) {
             // Fallback: remove leaked confirmation markup from the page form.
             $mount.find('.gform_confirmation_wrapper, .gform_confirmation_message, .gform_confirmation_message_1').remove();
         }
-        // Safety: never leave a stuck Sending… overlay after HTML restore (blog).
-        $mount.find('.kv-enquiry-submit-loader').remove();
-        $mount.removeClass('kv-enquiry-is-loading');
+        // Safety: never leave a stuck Sending… state after HTML restore (blog).
+        $mount.find('.kv-enquiry-submit-loader, .kv-enquiry-btn-spinner').remove();
+        $mount.find('.kv-enquiry-is-loading, .kv-enquiry-btn-loading').removeClass('kv-enquiry-is-loading kv-enquiry-btn-loading');
+        $mount.find('.gform_button, input[type="submit"]').prop('disabled', false).removeAttr('aria-busy');
 
         // While popup is open, keep page copy parked so GF keeps targeting the modal.
         if ($('body').hasClass('enquire-open') || $('.Enquiry-modal.active').length) {
@@ -1463,17 +1466,24 @@ jQuery(function ($) {
         } catch (err) { /* no-op */ }
     }
 
-    function getEnquiryLoaderHost($form) {
-        if ($form && $form.length && $form.closest('.Enquiry-modal').length) {
-            return $('.Enquiry-modal-content').first();
-        }
-        // Prefer outer mounts so GF AJAX replace of .gform_wrapper does not wipe the loader.
-        const $wrap = getPageEnquiryFormWrap();
-        if ($wrap && $wrap.length) return $wrap;
+    function getEnquirySubmitButton($form) {
         if ($form && $form.length) {
-            return $form.closest(
-                '.acc_enquiry_form, .mob_quote_form1, .mob_quote_form, .kv-blog-enquiry-form, .form_area, section.enquiry_form, .gform_wrapper'
-            );
+            const $btn = $form.find(
+                '#gform_submit_button_1, .gform_button, input[type="submit"], button[type="submit"]'
+            ).first();
+            if ($btn.length) return $btn;
+        }
+        if ($('body').hasClass('enquire-open')) {
+            const $modalBtn = $('.Enquiry-modal').find(
+                '#gform_submit_button_1, .gform_button, input[type="submit"], button[type="submit"]'
+            ).first();
+            if ($modalBtn.length) return $modalBtn;
+        }
+        const $page = getPageEnquiryFormWrap();
+        if ($page && $page.length) {
+            return $page.find(
+                '#gform_submit_button_1, .gform_button, input[type="submit"], button[type="submit"]'
+            ).first();
         }
         return $();
     }
@@ -1481,11 +1491,32 @@ jQuery(function ($) {
     function ensureEnquirySubmitLoaderStyles() {
         if (document.getElementById('kv-enquiry-submit-loader-styles')) return;
         const css =
-            '.kv-enquiry-is-loading{position:relative!important}' +
-            '.kv-enquiry-submit-loader{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,40,80,.78);border-radius:inherit;backdrop-filter:blur(1px)}' +
-            '.Enquiry-modal-content>.kv-enquiry-submit-loader{border-radius:20px}' +
-            '.kv-enquiry-submit-loader__spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;border-radius:50%;animation:kvEnquirySubmitSpin .75s linear infinite}' +
-            '.kv-enquiry-submit-loader__text{color:#fff;font-size:14px;font-weight:600;letter-spacing:.02em}' +
+            '.gform_wrapper .gform_footer .gform_button.kv-enquiry-btn-loading,' +
+            '.gform_wrapper .gform-footer .gform_button.kv-enquiry-btn-loading,' +
+            'input.gform_button.kv-enquiry-btn-loading,' +
+            'button.gform_button.kv-enquiry-btn-loading{' +
+                'position:relative!important;' +
+                'pointer-events:none!important;' +
+                'opacity:.9!important;' +
+                'cursor:wait!important;' +
+            '}' +
+            'button.gform_button.kv-enquiry-btn-loading{' +
+                'color:transparent!important;' +
+            '}' +
+            '.kv-enquiry-btn-spinner{' +
+                'position:absolute;' +
+                'left:50%;' +
+                'top:50%;' +
+                'width:20px;' +
+                'height:20px;' +
+                'margin:-10px 0 0 -10px;' +
+                'border:2px solid rgba(255,255,255,.28);' +
+                'border-top-color:#fff;' +
+                'border-radius:50%;' +
+                'animation:kvEnquirySubmitSpin .7s linear infinite;' +
+                'pointer-events:none;' +
+                'z-index:2;' +
+            '}' +
             '@keyframes kvEnquirySubmitSpin{to{transform:rotate(360deg)}}';
         const style = document.createElement('style');
         style.id = 'kv-enquiry-submit-loader-styles';
@@ -1494,24 +1525,50 @@ jQuery(function ($) {
     }
 
     function showEnquirySubmitLoader($form) {
-        const $host = getEnquiryLoaderHost($form);
-        if (!$host.length) return;
+        const $btn = getEnquirySubmitButton($form);
+        if (!$btn.length) return;
 
         ensureEnquirySubmitLoaderStyles();
         hideEnquirySubmitLoader();
-        if (window.getComputedStyle($host[0]).position === 'static') {
-            $host.css('position', 'relative');
+
+        const label = $btn.is('input')
+            ? String($btn.val() || '')
+            : String($btn.text() || '');
+        $btn
+            .data('kv-enq-btn-label', label)
+            .attr('aria-busy', 'true')
+            .addClass('kv-enquiry-btn-loading')
+            .prop('disabled', true);
+
+        if ($btn.is('input')) {
+            // <input> can't host a spinner child — use "Sending…" label on the button.
+            $btn.val('Sending…');
+        } else {
+            $btn.html(
+                '<span class="kv-enquiry-btn-spinner" aria-hidden="true"></span>'
+            );
         }
-        $host.addClass('kv-enquiry-is-loading');
-        $host.append(
-            '<div class="kv-enquiry-submit-loader" role="status" aria-live="polite" aria-busy="true">' +
-                '<div class="kv-enquiry-submit-loader__spinner" aria-hidden="true"></div>' +
-                '<span class="kv-enquiry-submit-loader__text">Sending…</span>' +
-            '</div>'
-        );
     }
 
     function hideEnquirySubmitLoader() {
+        $('.kv-enquiry-btn-spinner').remove();
+        $('.kv-enquiry-btn-loading').each(function () {
+            const $btn = $(this);
+            const label = $btn.data('kv-enq-btn-label');
+            $btn
+                .removeClass('kv-enquiry-btn-loading')
+                .removeAttr('aria-busy')
+                .prop('disabled', false);
+            if (typeof label !== 'undefined' && label !== null && label !== '') {
+                if ($btn.is('input')) {
+                    $btn.val(label);
+                } else {
+                    $btn.text(label);
+                }
+            }
+            $btn.removeData('kv-enq-btn-label');
+        });
+        // Legacy full-form overlay cleanup (older sessions / cached HTML).
         $('.kv-enquiry-submit-loader').remove();
         $('.kv-enquiry-is-loading').removeClass('kv-enquiry-is-loading');
     }

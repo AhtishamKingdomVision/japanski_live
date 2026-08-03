@@ -2420,29 +2420,64 @@ jQuery(function ($) {
         }
 
         const hotelName = resolveIncomingPageEnquiryProperty();
-        if (!hotelName) return false;
-
+        const isAccSingle = $('body').hasClass('single-accommodation');
         const $roots = getPageEnquiryFormRoots();
         if (!$roots.length) return false;
 
         let applied = false;
         $roots.each(function () {
             const $root = $(this);
+            const $formWrap = $root.find('.gform_wrapper.quote_form_wrapper, .gform_wrapper').first();
+
             const $propertyField = $root.find(
                 '#input_1_39, .property_name textarea, .property_name input, textarea[name="input_39"], input[name="input_39"]'
             ).first();
-            if (!$propertyField.length) return;
+            const $resortField = $root.find(
+                '#input_1_66, select[name="input_66"], .resort_name select'
+            ).first();
 
-            const current = String($propertyField.val() || '').trim();
-            if (current) {
-                applied = true;
-                return;
+            // —— Property name ——
+            if ($propertyField.length) {
+                let propertyVal = String($propertyField.val() || '').trim();
+                if (!propertyVal && hotelName) {
+                    $propertyField.val(hotelName);
+                    propertyVal = hotelName;
+                    $root.find('.enquiry_type input').attr('value', 'Product');
+                    $propertyField.trigger('change');
+                }
+                // On property singles (or when handoff mapped a name), lock the field.
+                if (propertyVal && (isAccSingle || !!hotelName)) {
+                    $propertyField.prop('readonly', true).addClass('disabled');
+                    if ($formWrap.length) {
+                        $formWrap.attr('data-bbf-lock-property', '1');
+                    }
+                    applied = true;
+                }
             }
 
-            $propertyField.val(hotelName).addClass('disabled');
-            applied = true;
-            $root.find('.enquiry_type input').attr('value', 'Product');
-            $propertyField.trigger('change');
+            // —— Resort ——
+            if ($resortField.length) {
+                const urlResort = getUrlResortName($resortField) || '';
+                const pageResort = isAccSingle
+                    ? (resolvePageResortForEnquiry($()) || urlResort)
+                    : urlResort;
+                const currentResort = String($resortField.val() || '').trim();
+                const resortToUse = currentResort || pageResort || '';
+                // Lock when this is a property page or a /{resort}/accommodation URL.
+                const shouldLockResort = !!(resortToUse && (isAccSingle || urlResort));
+
+                if (resortToUse) {
+                    setEnquiryResortField($resortField, resortToUse, shouldLockResort);
+                    if ($formWrap.length) {
+                        $formWrap.attr('data-bbf-lock-resort', shouldLockResort ? '1' : '0');
+                    }
+                    applied = true;
+                }
+            }
+
+            if ($formWrap.length && typeof syncEnquiryBbfLock === 'function') {
+                syncEnquiryBbfLock($formWrap);
+            }
         });
 
         if (applied) {
@@ -3935,20 +3970,40 @@ jQuery(function ($) {
 
             $(CHECKOUT_SEL).prop('disabled', false);
 
-            // Prefill Resort only from URL / sticky handoff / referrer — never sb_resort default.
-            // Direct /enquire/ with no prior resort page → leave unselected.
+            // Prefill + lock Resort / Property on mapped product pages (e.g. /niseko/accommodation/aya-niseko/).
             $('.mob_quote_form1, .gform_wrapper.quote_form_wrapper, .acc_enquiry_form').each(function () {
-                const $resortField = $(this).find('#input_1_66, select[name="input_66"], .resort_name select').first();
-                if (!$resortField.length || $resortField.val()) return;
+                const $scope = $(this);
+                if ($scope.closest('.Enquiry-modal').length) return;
 
-                const resortName = getEnquiryPrefillResort($resortField);
-                if (resortName) {
-                    const lockFromUrl = !!(getUrlResortName($resortField) || getReferrerResortName($resortField));
-                    setEnquiryResortField($resortField, resortName, lockFromUrl);
+                const $resortField = $scope.find('#input_1_66, select[name="input_66"], .resort_name select').first();
+                if (!$resortField.length) return;
+
+                const isAccSingle = $('body').hasClass('single-accommodation');
+                const urlResort = getUrlResortName($resortField) || '';
+                const pageResort = isAccSingle
+                    ? (resolvePageResortForEnquiry($()) || urlResort)
+                    : '';
+                const currentVal = String($resortField.val() || '').trim();
+
+                if (!currentVal) {
+                    const resortName = pageResort || getEnquiryPrefillResort($resortField);
+                    if (resortName) {
+                        const lockFromUrl = !!(isAccSingle || urlResort || getReferrerResortName($resortField));
+                        setEnquiryResortField($resortField, resortName, lockFromUrl);
+                        if (lockFromUrl) {
+                            $scope.find('.gform_wrapper').addBack('.gform_wrapper').first()
+                                .attr('data-bbf-lock-resort', '1');
+                        }
+                    }
+                } else if (isAccSingle || urlResort) {
+                    // Value already mapped — still disable on property / resort-accommodation pages.
+                    setEnquiryResortField($resortField, currentVal, true);
+                    $scope.find('.gform_wrapper').addBack('.gform_wrapper').first()
+                        .attr('data-bbf-lock-resort', '1');
                 }
             });
 
-            // Page form only: map property when handed off from previous page / single property.
+            // Page form only: map + lock property (and resort) on single property pages.
             applyIncomingPropertyToPageEnquiryForms();
 
             const reMinDate = localStorage.getItem('mindate') || kv_object.check_start_date;

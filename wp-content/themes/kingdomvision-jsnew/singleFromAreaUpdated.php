@@ -1,7 +1,7 @@
 <?php
 global $post;
 
-// $acc_details = get_field('accomodation_details');
+$acc_details = get_field('accomodation_details');
 $acc_form = $acc_details['accommodation_form'] ?? false;
 $address = $acc_details['address'] ?? '';
 $latitude = $acc_details['acc_latitude'] ?? get_field('accomodation_details_acc_latitude');
@@ -72,7 +72,7 @@ echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-sec
 				
 					$location_display = '';
 					if (!empty($area_list)) {
-						$location_display = implode(', ', $area_list);
+						$location_display = $area_list[0];
 					}
 					if (!empty($resort_name)) {
 						$location_display = !empty($location_display) ? $location_display . ', ' . $resort_name : $resort_name;

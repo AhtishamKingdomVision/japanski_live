@@ -150,7 +150,8 @@ jQuery(function ($) {
     if (is_listing_page() && is_single_acc()) {
 
         var resort = pathArray[0].charAt(0).toUpperCase() + pathArray[0].slice(1);
-
+        console.log( 'resort' );
+        console.log( resort );
         $('.mob_quote_inner').find('#input_1_66, select[name="input_66"], .resort_name select').val(resort);
 
     }
@@ -2485,6 +2486,13 @@ jQuery(function ($) {
             const resortName = String(
                 $btn.attr('resort-name') || resolvePageResortForEnquiry($btn) || ''
             ).trim();
+
+            console.log( 'resortName' );
+            console.log( resortName );
+
+            console.log( 'resolvePageResortForEnquiry' );
+            console.log( resolvePageResortForEnquiry );
+
             const opened = openEnquiryFromTrigger($btn, {
                 propertyName: propertyName,
                 resortName: resortName,
@@ -4261,6 +4269,26 @@ jQuery(function ($) {
 
 
     let heroCard = null;
+
+      function kvUpdateStickyCtaActive() {
+        const $cta = jQuery('.sticky-cta-container');
+        if (!$cta.length) return;
+
+        const filter_section = jQuery('section.hero-banner-with-filter');
+        const topHeader = jQuery('.topHeader');
+        const filter_height = filter_section.length > 0 ? filter_section.outerHeight() : 0;
+        const topHeader_height = topHeader.length > 0 ? topHeader.outerHeight() : 0;
+        const scroll_top = jQuery(window).scrollTop();
+
+        // where-to-stay / guide pages often have no hero filter → show as soon as user scrolls a bit,
+        // or immediately when threshold is 0.
+        const threshold = Math.max(0, filter_height - topHeader_height);
+        $cta.toggleClass('active', scroll_top >= threshold);
+    }
+
+    // Sticky CTA active class — always (including /where-to-stay/ where shouldAddClasses is true).
+    jQuery(window).on('scroll.kvStickyCta', kvUpdateStickyCtaActive);
+    kvUpdateStickyCtaActive();
 
 
 

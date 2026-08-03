@@ -203,7 +203,7 @@ echo '<section class="full-section nearby_location" '.BackgroundFromSection($sec
         $address = $acc_details['address'] ?? '';
         if($address){
             echo '<button type="button" class="acc-address acc-address-map-trigger" aria-haspopup="dialog" aria-controls="accommodation-map-modal">';
-                echo '<span>'. esc_html($address) .'</span>';
+                echo '<span><img class="address_pointer" src="'.get_template_directory_uri(). '/images/add-pointer.svg'.'">' . esc_html($address) .'</span>';
             echo '</button>'; #acc-address
         }
     echo '</div>';

@@ -125,10 +125,12 @@ $matched_cta = null;
 
 if ($sticky_ctas) {
     $current_pt = get_post_type();
+    $request_uri = isset($_SERVER['REQUEST_URI']) ? strtolower((string) $_SERVER['REQUEST_URI']) : '';
+    $is_where_to_stay = (strpos($request_uri, '/where-to-stay') !== false);
     foreach ($sticky_ctas as $row) {
         if (isset($row['post_type']) && $row['post_type'] === $current_pt) {
-            // If post type is 'page', apply specific conditions: front page or accommodation path
-            if ($current_pt !== 'page' || is_accommodation() || is_front_page()) {
+            // page: front, accommodation listing/detail paths, or where-to-stay guides
+            if ($current_pt !== 'page' || is_accommodation() || is_front_page() || $is_where_to_stay) {
                 $matched_cta = $row['footer_cta_link'];
                 break;
             }

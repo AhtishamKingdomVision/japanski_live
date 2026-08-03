@@ -1449,6 +1449,59 @@ jQuery(function ($) {
         } catch (err) { /* no-op */ }
     }
 
+    function getEnquiryLoaderHost($form) {
+        if ($form && $form.length && $form.closest('.Enquiry-modal').length) {
+            return $('.Enquiry-modal-content').first();
+        }
+        // Prefer outer mounts so GF AJAX replace of .gform_wrapper does not wipe the loader.
+        const $wrap = getPageEnquiryFormWrap();
+        if ($wrap && $wrap.length) return $wrap;
+        if ($form && $form.length) {
+            return $form.closest(
+                '.acc_enquiry_form, .mob_quote_form1, .mob_quote_form, .kv-blog-enquiry-form, .form_area, section.enquiry_form, .gform_wrapper'
+            );
+        }
+        return $();
+    }
+
+    function ensureEnquirySubmitLoaderStyles() {
+        if (document.getElementById('kv-enquiry-submit-loader-styles')) return;
+        const css =
+            '.kv-enquiry-is-loading{position:relative!important}' +
+            '.kv-enquiry-submit-loader{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,40,80,.78);border-radius:inherit;backdrop-filter:blur(1px)}' +
+            '.Enquiry-modal-content>.kv-enquiry-submit-loader{border-radius:20px}' +
+            '.kv-enquiry-submit-loader__spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;border-radius:50%;animation:kvEnquirySubmitSpin .75s linear infinite}' +
+            '.kv-enquiry-submit-loader__text{color:#fff;font-size:14px;font-weight:600;letter-spacing:.02em}' +
+            '@keyframes kvEnquirySubmitSpin{to{transform:rotate(360deg)}}';
+        const style = document.createElement('style');
+        style.id = 'kv-enquiry-submit-loader-styles';
+        style.textContent = css;
+        document.head.appendChild(style);
+    }
+
+    function showEnquirySubmitLoader($form) {
+        const $host = getEnquiryLoaderHost($form);
+        if (!$host.length) return;
+
+        ensureEnquirySubmitLoaderStyles();
+        hideEnquirySubmitLoader();
+        if (window.getComputedStyle($host[0]).position === 'static') {
+            $host.css('position', 'relative');
+        }
+        $host.addClass('kv-enquiry-is-loading');
+        $host.append(
+            '<div class="kv-enquiry-submit-loader" role="status" aria-live="polite" aria-busy="true">' +
+                '<div class="kv-enquiry-submit-loader__spinner" aria-hidden="true"></div>' +
+                '<span class="kv-enquiry-submit-loader__text">Sending…</span>' +
+            '</div>'
+        );
+    }
+
+    function hideEnquirySubmitLoader() {
+        $('.kv-enquiry-submit-loader').remove();
+        $('.kv-enquiry-is-loading').removeClass('kv-enquiry-is-loading');
+    }
+
     function markEnquiryModalSubmit($form) {
         if (!$form || !$form.length) return;
 
@@ -1456,6 +1509,7 @@ jQuery(function ($) {
             enquiryModalAwaitingSubmit = true;
             enquiryModalSuccessShown = false;
             enquiryPageAwaitingSubmit = false;
+            showEnquirySubmitLoader($form);
             cacheEnquiryModalFormHtml();
             bindEnquiryGformAjaxFrame();
             return;
@@ -1470,6 +1524,7 @@ jQuery(function ($) {
             enquiryPageAwaitingSubmit = true;
             enquiryPageSuccessShown = false;
             enquiryModalAwaitingSubmit = false;
+            showEnquirySubmitLoader($form);
             cachePageEnquiryFormHtml();
             bindEnquiryGformAjaxFrame();
         }
@@ -1507,6 +1562,7 @@ jQuery(function ($) {
         // Never show thank-you over a validation state (empty submit).
         if (enquiryPageHasValidation()) {
             enquiryPageAwaitingSubmit = false;
+            hideEnquirySubmitLoader();
             return;
         }
 
@@ -1521,6 +1577,7 @@ jQuery(function ($) {
 
         enquiryPageSuccessShown = true;
         enquiryPageAwaitingSubmit = false;
+        hideEnquirySubmitLoader();
 
         // Restore live form fields (GF replaces wrapper with confirmation).
         resetPageEnquiryForm();
@@ -1639,6 +1696,7 @@ jQuery(function ($) {
             if (looksValidation) {
                 enquiryModalAwaitingSubmit = false;
                 enquiryPageAwaitingSubmit = false;
+                hideEnquirySubmitLoader();
                 return;
             }
 
@@ -1708,12 +1766,14 @@ jQuery(function ($) {
         // Never replace a live validation state with thank-you.
         if (enquiryModalHasValidation($modal)) {
             enquiryModalAwaitingSubmit = false;
+            hideEnquirySubmitLoader();
             return;
         }
 
         // Keep going even if active class was briefly lost during GF replace.
         enquiryModalSuccessShown = true;
         enquiryModalAwaitingSubmit = false;
+        hideEnquirySubmitLoader();
 
         const text = customMessage || 'Thanks for your enquiry. Our team will get back to you very soon.';
         const $content = $modal.find('.Enquiry-modal-content').first();
@@ -1774,6 +1834,7 @@ jQuery(function ($) {
         const $modal = $('.Enquiry-modal');
         if (enquiryModalHasValidation($modal)) {
             enquiryModalAwaitingSubmit = false;
+            hideEnquirySubmitLoader();
             return false;
         }
 
@@ -1910,6 +1971,7 @@ jQuery(function ($) {
             enquiryModalCloseTimer = null;
         }
         enquiryModalAwaitingSubmit = false;
+        hideEnquirySubmitLoader();
         clearEnquiryValidationIn(getModalEnquiryScope());
         // Wipe any confirmation that leaked onto the page form, then unpark.
         resetPageEnquiryForm();
@@ -3727,6 +3789,7 @@ jQuery(function ($) {
         if (enquiryModalSuccessShown || enquiryPageSuccessShown) return;
         if (enquiryModalHasValidation($('.Enquiry-modal'))) {
             enquiryModalAwaitingSubmit = false;
+            hideEnquirySubmitLoader();
             return;
         }
         if (
@@ -3739,6 +3802,7 @@ jQuery(function ($) {
         if (enquiryPageAwaitingSubmit || pageHasEnquiryConfirmation()) {
             if (enquiryPageHasValidation()) {
                 enquiryPageAwaitingSubmit = false;
+                hideEnquirySubmitLoader();
                 return;
             }
             handlePageEnquirySuccess(null, { force: true });
@@ -3770,6 +3834,7 @@ jQuery(function ($) {
         ) {
             enquiryModalAwaitingSubmit = false;
             enquiryPageAwaitingSubmit = false;
+            hideEnquirySubmitLoader();
             return;
         }
 
@@ -3784,6 +3849,7 @@ jQuery(function ($) {
             if (wantsModal) {
                 if (enquiryModalHasValidation($('.Enquiry-modal'))) {
                     enquiryModalAwaitingSubmit = false;
+                    hideEnquirySubmitLoader();
                     return;
                 }
                 handleEnquiryModalSuccess();
@@ -3791,6 +3857,7 @@ jQuery(function ($) {
             }
             if (enquiryPageHasValidation()) {
                 enquiryPageAwaitingSubmit = false;
+                hideEnquirySubmitLoader();
                 return;
             }
             handlePageEnquirySuccess(null, { force: true });
@@ -3905,6 +3972,7 @@ jQuery(function ($) {
                 if (!maybeHandleEnquiryModalSuccessFromDom()) {
                     if ($('.Enquiry-modal .gform_validation_error, .Enquiry-modal .gform_validation_errors, .Enquiry-modal .gfield_error').length) {
                         enquiryModalAwaitingSubmit = false;
+                        hideEnquirySubmitLoader();
                     }
                     cacheEnquiryModalFormHtml();
                     if (typeof clearEnquiryValidationIn === 'function') {
@@ -3918,6 +3986,7 @@ jQuery(function ($) {
                 // Validation re-render: clear awaiting, never show fake thank-you.
                 if (enquiryPageHasValidation()) {
                     enquiryPageAwaitingSubmit = false;
+                    hideEnquirySubmitLoader();
                     cachePageEnquiryFormHtml();
                 } else if (pageHasEnquiryConfirmation()) {
                     // Real confirmation only — do not use awaiting flag alone.

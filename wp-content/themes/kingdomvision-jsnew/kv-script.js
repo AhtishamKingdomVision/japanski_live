@@ -145,18 +145,21 @@ jQuery(function ($) {
 
     });
 
+    // if (is_listing_page() || is_single_acc()) {
+
+    //     console.log( 'pathArray' );
+    //     console.log( pathArray );
+    //     var resort = pathArray[0].charAt(0).toUpperCase() + pathArray[0].slice(1);
+    //     console.log( 'resort' );
+    //     console.log( resort );
+    //     $('.mob_quote_inner').find('#input_1_66, select[name="input_66"], .resort_name select').eq(0).val(resort);
+    //     console.log( 'resort_name select' );        
+    //     console.log( $('.mob_quote_inner').find('#input_1_66, select[name="input_66"], .resort_name select').eq(0) );        
+    //     console.log( 'resort_name select value' );        
+    //     console.log( $('.mob_quote_inner').find('#input_1_66, select[name="input_66"], .resort_name select').eq(0).val() );        
 
 
-    if (is_listing_page() && is_single_acc()) {
-
-        var resort = pathArray[0].charAt(0).toUpperCase() + pathArray[0].slice(1);
-        console.log( 'resort' );
-        console.log( resort );
-        $('.mob_quote_inner').find('#input_1_66, select[name="input_66"], .resort_name select').val(resort);
-
-    }
-
-
+    // }
 
     console.log('script loaded');
 
@@ -2541,19 +2544,29 @@ jQuery(function ($) {
         e.stopPropagation();
 
         const $btn = $(this);
+        console.log( 'Enquire trigger clicked', $btn );
 
+        let Enquiry_modal = $( '.Enquiry-modal' ),
+            form = Enquiry_modal.find( '.quote_form' ),
+            resort_field = form.find( '#input_1_66, select[name="input_66"], .resort_name select' ).eq(0);
+
+        console.log( 'pathArray' );
+        console.log( pathArray );
+        var resort = pathArray[0].charAt(0).toUpperCase() + pathArray[0].slice(1);
+        console.log( 'resort' );
+        console.log( resort );
+        resort_field.val(resort);
+        console.log( 'resort_name select' );        
+        console.log( resort_field );        
+        console.log( 'resort_name select value' );        
+        console.log( resort_field.val() );  
+        
         // Sticky footer CTA → open enquiry popup (prefill property on accommodation singles).
-        if ($btn.hasClass('sticky-cta-btn') && $btn.closest('.sticky-cta-container').length) {
+        if ($btn.hasClass('sticky-cta-btn') && $btn.closest('.sticky-cta-container').length ) {
             const propertyName = resolvePagePropertyForEnquiry($btn);
             const resortName = String(
                 $btn.attr('resort-name') || resolvePageResortForEnquiry($btn) || ''
             ).trim();
-
-            console.log( 'resortName' );
-            console.log( resortName );
-
-            console.log( 'resolvePageResortForEnquiry' );
-            console.log( resolvePageResortForEnquiry );
 
             const opened = openEnquiryFromTrigger($btn, {
                 propertyName: propertyName,

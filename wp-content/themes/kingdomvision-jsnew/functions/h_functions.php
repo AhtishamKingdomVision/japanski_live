@@ -8142,13 +8142,18 @@ function get_enquiry_form_html( $form_shortcode = '[gravityform id="1" title="tr
 }
 
 function get_acc_enquiry_form($title = 'Skip the searching', $description = 'Tell us a little more and our local experts will recommend the best available options.'){
-    $heading = '<h3>' . esc_html($title) . '</h3>';
+    $heading = '<h3 style="margin:0;line-height:1.2;">' . esc_html($title) . '</h3>';
     $description_html = $description !== ''
-            ? '<p class="acc_enquiry_desc">' . esc_html($description) . '</p>'
+            ? '<p class="acc_enquiry_desc" style="margin:8px 0 0;">' . esc_html($description) . '</p>'
             : '';
 
     return '<div class="acc_enquiry_form">
-        <div class="acc_enquiry_head">
+        <style>
+            .acc_enquiry_form .acc_enquiry_head{padding:16px 150px 0!important;}
+            .acc_enquiry_form .mob_quote_inner .gform_wrapper.quote_form_wrapper{padding-top:8px!important;}
+            @media (max-width:991px){.acc_enquiry_form .acc_enquiry_head{padding:16px 30px 0!important;}}
+        </style>
+        <div class="acc_enquiry_head" style="text-align:center;background:#004080;padding:16px 150px 0;border-radius:20px 20px 0 0;">
             ' . $heading . '
             ' . $description_html . '
         </div>

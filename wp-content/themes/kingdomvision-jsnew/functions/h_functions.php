@@ -6642,7 +6642,7 @@ function singleResortFilter_func($atts){
                             </div>
 
                             <div class="kv-child-ages" hidden></div>
-                            <!-- <button type="button" class="kv-guests-done" onclick="window.kvCloseGuestsPopover(event,this)">Done</button> -->
+                            <button type="button" class="kv-guests-done" onclick="window.kvCloseGuestsPopover(event,this)">Done</button>
                         </div>
 
                     </div>

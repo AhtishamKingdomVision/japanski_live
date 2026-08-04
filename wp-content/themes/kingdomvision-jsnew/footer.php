@@ -294,6 +294,7 @@ if ( is_singular( 'accommodation' ) ) {
                             </div>
                         </div>
 
+                        <div class="kv-child-ages" hidden></div>
                     </div>
                 </div>
 

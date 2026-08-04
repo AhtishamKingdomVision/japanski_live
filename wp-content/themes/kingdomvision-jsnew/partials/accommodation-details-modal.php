@@ -125,8 +125,17 @@ try {
                 if (empty($facility_name)) {
                     continue;
                 }
+                $facility_icon = get_field('acc_facility_icon', 'property_ammenites_' . $facility->term_id);
+                if (is_string($facility_icon) && strtolower(trim($facility_icon)) === 'none') {
+                    $facility_icon = '';
+                }
             ?>
-                <li><?php echo esc_html($facility_name); ?></li>
+                <li>
+                    <?php if (!empty($facility_icon)) : ?>
+                        <span class="icon"><?php echo $facility_icon; ?></span>
+                    <?php endif; ?>
+                    <span class="text"><?php echo esc_html($facility_name); ?></span>
+                </li>
             <?php endforeach; ?>
         </ul>
     </div>

@@ -1978,3 +1978,10 @@ section.form_area.accSingleBannerUpdate .left-side .title-wrapper { align-items:
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort { display: inline-flex; align-items: center; gap: 8px; margin: 0; }
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort .address_pointer { width: 18px; height: auto; flex-shrink: 0; }
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort h2 { margin: 0; padding: 0; font-size: 20px; font-weight: 500; line-height: 1.2; color: #fff; }
+
+/* Room modal facilities: show amenity icons */
+section.room-listing .room-modal .room-modal-content .room-features .features-list { display: flex; padding: 0; margin: 0; flex-wrap: wrap; gap: 13px; list-style: none; }
+section.room-listing .room-modal .room-modal-content .room-features .features-list li { color: #00111F; font-size: 14px; font-weight: 500; width: 32%; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+section.room-listing .room-modal .room-modal-content .room-features .features-list li span.icon { display: inline-flex; flex-shrink: 0; width: 22px; height: 22px; align-items: center; justify-content: center; }
+section.room-listing .room-modal .room-modal-content .room-features .features-list li span.icon img { width: 22px; height: 22px; object-fit: contain; display: block; }
+section.room-listing .room-modal .room-modal-content .room-features .features-list li span.text { line-height: 1.3; }

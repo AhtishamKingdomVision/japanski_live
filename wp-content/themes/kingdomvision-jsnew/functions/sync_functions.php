@@ -1569,6 +1569,7 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     // ✅ STEP 2: Collect valid images (keep API id for "{id}-" filename dedupe)
 
+    $first_image      = [];
     $valid_images = [];
 
     foreach ( $images as $image ) {
@@ -1581,19 +1582,18 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
         }
 
+        if ( $image['is_main'] ) {
 
+            $first_image = $image;
 
-        $valid_images[] = [
+        }
 
-            'url' => $url,
+        else{
 
-            'id'  => isset( $image['id'] ) ? absint( $image['id'] ) : 0,
-
-        ];
+            $valid_images[$image['sort_order']] = $image;
+        }
 
     }
-
-
 
     if ( empty( $valid_images ) ) {
 
@@ -1649,11 +1649,7 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     );
 
-
-
     $attachment_id = kv_sideload_or_find_image( $first_url, $post_id, $booking_image_id );
-
-
 
     if ( $attachment_id ) {
 
@@ -2888,8 +2884,6 @@ function sq_mapping_properties($properties) {
 
         ];
 
-
-
         $supplier = isset($detail['supplier']) && is_array($detail['supplier']) ? $detail['supplier'] : [];
 
         if (!empty($supplier)) {
@@ -2973,7 +2967,96 @@ function sq_mapping_properties($properties) {
 
        /* if not empty property_type add it in term "property_types" */
 
-       if( !empty($property_types) ){
+        
+        $landmarks = ( ! empty( $property['landmarks'] ) && is_array( $property['landmarks'] ) ) ? $property['landmarks'] : [];
+
+        if ( ! empty( $landmarks ) ) {
+
+            $location_rows = [];
+
+            foreach ( $landmarks as $landmark ) {
+
+                if ( ! is_array( $landmark ) ) {
+                    continue;
+                }
+
+                $name = trim( (string) ( $landmark['name'] ?? '' ) );
+                $lat  = trim( (string) ( $landmark['latitude'] ?? '' ) );
+                $lng  = trim( (string) ( $landmark['longitude'] ?? '' ) );
+
+                if ( $name === '' && $lat === '' && $lng === '' ) {
+                    continue;
+                }
+
+                // Resolve the accommodation-cat term matching the landmark's resort_area
+                // and store its term ID in the "base_area" sub-field.
+                $resort_area = trim( (string) ( $landmark['resort_area'] ?? '' ) );
+
+                $base_area = 0;
+
+                cf_log( 'area name', 'base_area' );
+                cf_log( $resort_area, 'base_area' );
+                if ( $resort_area !== '' ) {
+                    
+                    $base_term = get_term_by( 'slug', sanitize_title( $resort_area ), 'accommodation-cat' );
+                    cf_log( 'base_term', 'base_area' );
+                    cf_log( $base_term, 'base_area' );
+                    
+                    if ( ! $base_term || is_wp_error( $base_term ) ) {
+                        $base_term = get_term_by( 'name', $resort_area, 'accommodation-cat' );
+                        cf_log( 'base_term 1', 'base_area' );
+                        cf_log( $base_term, 'base_area' );
+                    }
+                        
+                    if ( $base_term && ! is_wp_error( $base_term ) ) {
+                        $base_area = intval( $base_term->term_id );
+                        cf_log( 'base_area', 'base_area' );
+                        cf_log( $base_area, 'base_area' );
+                    }
+                }
+
+                $location_rows[] = [
+                    'title'     => $name,
+                    'latitude'  => $lat,
+                    'longitude' => $lng,
+                    'base_area' => $base_area,
+                ];
+
+                cf_log( 'location_rows', 'base_area' );
+                cf_log( $location_rows, 'base_area' );
+            }
+
+            $acc_builder = get_field( 'field_6a4bff743e17c', $upd_hotel_id );
+
+            if ( is_array( $acc_builder ) && ! empty( $acc_builder ) ) {
+
+                $found = false;
+
+                foreach ( $acc_builder as $builder_key => $builder_section ) {
+
+                    if ( ! is_array( $builder_section ) || ( $builder_section['acf_fc_layout'] ?? '' ) !== 'nearby_location' ) {
+                        continue;
+                    }
+
+                    // Wipe previous rows then set the fresh API rows (removes stale data).
+                    $acc_builder[ $builder_key ]['location'] = $location_rows;
+
+                    $found = true;
+                }
+
+                cf_log( 'acc_builder', 'base_area' );
+                cf_log( $acc_builder, 'base_area' );
+
+                // Update via the accommodation post-type field KEY (field_6a4bff743e17c)
+                // rather than the name, so ACF resolves the correct field group
+                // (the options page registers another "accommodation_builder" field).
+                if ( $found ) {
+                    update_field( 'field_6a4bff743e17c', $acc_builder, $upd_hotel_id );
+                }
+            }
+        }
+
+        if( !empty($property_types) ){
 
             $property_type_ids = [];
 
@@ -3759,7 +3842,9 @@ function sq_mapping_properties($properties) {
 
         update_option('hz_post_order', $post_order + 1, false);
 
-
+        // ✅ STEP 7o: Populate the "location" repeater (Nearby Location) from API landmarks.
+        // Only runs when the API returns landmarks — the repeater is wiped and
+        // re-filled so stale rows are removed, and is left untouched otherwise.
 
         // ✅ STEP 7j: Add accommodation images and update metadata
         // pre( $upd_room_id, 1 );

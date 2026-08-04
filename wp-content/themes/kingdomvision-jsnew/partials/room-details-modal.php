@@ -41,7 +41,10 @@ try {
     $bedrooms = intval(get_field('room_bedroom', $room_id) ?? 0);
     $bathrooms = intval(get_field('room_bathroom', $room_id) ?? 0);
     $size = sanitize_text_field(get_field('room_size', $room_id) ?? '');
-    $features = get_field('room_features', $room_id);
+    $features = get_the_terms($room_id, 'room_facilities');
+    if (is_wp_error($features) || empty($features)) {
+        $features = [];
+    }
     $room_desc = empty( get_field( 'client_description', $room_id ) ) ? get_field( 'room_desc', $room_id ) : get_field( 'client_description', $room_id );
     $bedding_options = get_the_terms( $room_id, 'bedding_options' );
     $occupency_options = get_the_terms( $room_id, 'room_occupencies' );
@@ -56,7 +59,6 @@ try {
     $bookingPermission = '';
     $room_rb_id = trim((string) get_post_meta($room_id, 'roomboss_room_id', true));
     $room_is_roomboss = ($room_rb_id !== '' && $room_rb_id !== '0');
-
     if (!empty($acc_id)) {
         if (function_exists('kv_property_shows_roomboss_booking_cta')) {
             $property_is_roomboss = kv_property_shows_roomboss_booking_cta($acc_id, $property_id);
@@ -73,6 +75,12 @@ try {
     // ✅ STEP 5: Get and validate room gallery
     $gallery = kv_get_meta_images_gallery( $room_id, 'room_pending_images');
     $gallery = (!empty($gallery) && is_array($gallery)) ? $gallery : [];
+
+    // Add featured image to gallery if available
+    $featured_image = get_the_post_thumbnail_url($room_id, 'large');
+    if ($featured_image) {
+        array_unshift($gallery, $featured_image);
+    }
 
     // ✅ STEP 6: Validate features array
     if (!empty($features) && !is_array($features)) {
@@ -105,7 +113,6 @@ try {
         if ($is_price_excluded) : ?>
             <button bookingPermission="<?php echo $bookingPermission ?>" class="btn enq-btn-popup bedbank_btn" hotel-name="<?php echo esc_attr(get_the_title($acc_id)); ?>" hotel-id="<?php echo esc_attr($property_id); ?>" room-title="<?php echo esc_attr(get_the_title($room_id)); ?>" resort-name="<?php echo esc_attr($resort_name); ?>">Enquire Now</button>
         <?php elseif ($is_roomboss) :
-
             if (!empty($bookingPermission)) :
                 if (strpos($bookingPermission, 'REQUEST') !== false) : ?>
                     <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
@@ -176,18 +183,25 @@ try {
     <div class="room-features">
         <div class="meta-title">Room Features</div>
         <ul class="features-list">
-            <?php foreach ($features as $feature) : 
+            <?php foreach ($features as $feature) :
                 // ✅ Validate feature data
-                if (!is_array($feature) || empty($feature['title'])) {
+                if (!is_object($feature) || empty($feature->name)) {
                     continue;
                 }
-                
-                $feature_title = sanitize_text_field($feature['title']);
+
+                $feature_title = sanitize_text_field($feature->name);
                 if (empty($feature_title)) {
                     continue;
                 }
+
+                $feature_icon = function_exists('get_field') ? get_field('field_6a0c86ac337bc', 'room_facilities_' . $feature->term_id) : '';
             ?>
-                <li><?php echo esc_html($feature_title); ?></li>
+                <li>
+                    <?php if (!empty($feature_icon)) : ?>
+                        <?php echo ($feature_icon); ?>
+                    <?php endif; ?>
+                    <?php echo esc_html($feature_title); ?>
+                </li>
             <?php endforeach; ?>
         </ul>
     </div>

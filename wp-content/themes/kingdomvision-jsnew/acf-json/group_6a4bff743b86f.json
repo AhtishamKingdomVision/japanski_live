@@ -401,11 +401,11 @@
                             "rows_per_page": 20,
                             "sub_fields": [
                                 {
-                                    "key": "field_6a4bff74a6f01",
-                                    "label": "Title",
-                                    "name": "title",
+                                    "key": "field_6a4bff74a6f41",
+                                    "label": "Base Area",
+                                    "name": "base_area",
                                     "aria-label": "",
-                                    "type": "text",
+                                    "type": "taxonomy",
                                     "instructions": "",
                                     "required": 0,
                                     "conditional_logic": 0,
@@ -414,18 +414,23 @@
                                         "class": "",
                                         "id": ""
                                     },
-                                    "default_value": "",
-                                    "maxlength": "",
+                                    "taxonomy": "accommodation-cat",
+                                    "add_term": 0,
+                                    "save_terms": 0,
+                                    "load_terms": 0,
+                                    "return_format": "id",
+                                    "field_type": "select",
+                                    "allow_null": 0,
                                     "allow_in_bindings": 0,
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": "",
+                                    "bidirectional": 0,
+                                    "multiple": 0,
+                                    "bidirectional_target": [],
                                     "parent_repeater": "field_6a4bff7450a44"
                                 },
                                 {
-                                    "key": "field_6a4bff74a6f41",
-                                    "label": "K\/M",
-                                    "name": "km",
+                                    "key": "field_6a4bff74a6f01",
+                                    "label": "Title",
+                                    "name": "title",
                                     "aria-label": "",
                                     "type": "text",
                                     "instructions": "",
@@ -521,5 +526,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1783366096
+    "modified": 1785846315
 }

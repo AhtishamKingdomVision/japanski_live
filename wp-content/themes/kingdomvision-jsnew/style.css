@@ -166,6 +166,10 @@ footer.footer_main .copyright { padding: 50px 0 50px; border-top: solid 1px #334
 .ff_content_image { background: #00274e; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; padding: 15px 31px; display: flex; justify-content: center; align-items: center; font-size: 14px; }
 .ff_content_image .ff_content { padding: 12px; }
 .ff_content_image .ff_image img { width: 97.413px; height: 44px; aspect-ratio: 97.41 / 44.00; }
+
+.kv-page-enquiry-success { max-width: 750px; margin: 50px auto auto; background: #1f7a4d; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 5px; gap: 10px; }
+.kv-page-enquiry-success p.kv-page-enquiry-success__text { margin: 0; }
+
 .acc_enquiry_form { max-width: 750px; margin: 50px auto auto; }
 .acc_enquiry_form .acc_enquiry_head { text-align: center; background: #004080; padding: 20px 150px 1px; border-radius: 20px 20px 0 0; }
 .acc_enquiry_form .mob_quote_inner .gform_wrapper.quote_form_wrapper { padding-top: 15px; border-radius: 0 0 20px 20px; }
@@ -628,6 +632,7 @@ section.nearby_location { border-top: 1px solid rgba(255, 255, 255, 0.20); }
 .nearby-item span.distance { font-size: 14px; color: #fff; opacity: 0.6; }
 .nearby-item:hover, .nearby-item.active { background: rgba(255, 255, 255, 0.18); }
 .nearby-item.hide { display: none; }
+.nearby-item .base_area { margin-right: 62px; }
 .accordion-content .ch-item { position: relative; margin-bottom: 10px; }
 .accordion-content .ch-item label { padding-left: 36px; margin: 0; position: relative; font-weight: 500; font-size: 16px; cursor: pointer; }
 .accordion-content .ch-item input { display: none; }
@@ -751,9 +756,10 @@ section.room-listing .room-modal { position: fixed; top: 0; bottom: 0; left: 0; 
 section.room-listing .room-modal .room-modal-content { background: #fff; max-width: 800px; margin: 0 auto; padding: 50px; width: 100%; border-radius: 20px; position: relative; height: 600px; overflow-y: scroll; }
 section.room-listing .room-modal .room-modal-content .room-modal-gallery { display: flex; }
 section.room-listing .room-modal .room-modal-content .room-modal-gallery img { width: 250px; border-radius: 10px; margin: 0 10px; }
-section.room-listing .room-modal .room-modal-content .room-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: solid 1px rgba(0, 17, 31, 0.10); }
-section.room-listing .room-modal .room-modal-content .room-modal-header h3 { color: #00111F; margin: 0; }
-section.room-listing .room-modal .room-modal-content .room-modal-header button.btn { width: 200px; }
+section.room-listing .room-modal .room-modal-content .room-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: solid 1px rgba(0, 17, 31, 0.10); gap: 20px; }
+section.room-listing .room-modal .room-modal-content .room-modal-header h3 { color: #00111F; margin: 0; width: 70%; }
+section.room-listing .room-modal .room-modal-content .room-modal-header .action_btn_container { width: 30%; }
+section.room-listing .room-modal .room-modal-content .room-modal-header .action_btn_container button.btn { width: 100%; padding: 12px 0; }
 section.room-listing .room-modal .room-modal-content .room-modal-description { padding-bottom: 20px; margin-bottom: 30px; border-bottom: solid 1px rgba(0, 17, 31, 0.10); }
 section.room-listing .room-modal .room-modal-content .room-modal-description .description-content { font-size: 14px; padding-left: 2px !important; }
 section.room-listing .room-modal .room-modal-content .room-modal-meta { margin: 20px 0; padding-bottom: 20px; border-bottom: solid 1px rgba(0, 17, 31, 0.10); }
@@ -1577,6 +1583,8 @@ section.category-tabs.removeTabs .tabsWrapper .tabs-menu { display: none; }
 section.form_area.accSingleBannerUpdate .left-side { width: 100%; }
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper { width: 100%; display: flex; align-items: center; gap: 20px; }
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper h1 { font-weight: 700; }
+section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort.acc-address-map-trigger { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort.acc-address-map-trigger h2 { margin: 0; }
 section.form_area.accSingleBannerUpdate .accGallerySlider { width: 100%; display: flex; }
 section.form_area.accSingleBannerUpdate .accGallerySlider button.slick-arrow { position: absolute; top: 50%; transform: translateY(-50%); padding: 13px; z-index: 1; background: rgba(255, 255, 255, 0.8); left: 10px; }
 section.form_area.accSingleBannerUpdate .accGallerySlider button.slick-next { right: 10px; left: auto; }
@@ -1897,16 +1905,16 @@ CART WIDGET - FOOTER TOTALS
 .Enquiry-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; align-items: center; justify-content: center; }
 .Enquiry-modal.active { display: flex; }
 .Enquiry-modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px); }
-
 /* .Enquiry-modal-content {position: relative; background: #004080; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; overflow-x: hidden; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); z-index: 1; animation: EnquiryModalFadeIn 0.3s ease; border-radius: 20px;} */
 .Enquiry-modal-content { position: relative; background: #004080; border-radius: 12px; max-width: 700px; width: 100%; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); z-index: 1; animation: EnquiryModalFadeIn 0.3s ease; border-radius: 20px; }
+.Enquiry-modal-close { position: absolute; top: 12px; right: 15px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f2f2f2; color: #333; font-size: 18px; font-weight: bold; border-radius: 50%; cursor: pointer; text-decoration: none; transition: all 0.2s ease; }
+.Enquiry-modal-close:hover { background: #e63946; color: #ffffff; }
+.Enquiry-modal-title { margin: 0; padding: 24px 48px 0; text-align: center; color: #ffffff; font-size: 24px; font-weight: 600; }
+.Enquiry-modal-content .kv-page-enquiry-success { max-width: 640px; }
 @keyframes EnquiryModalFadeIn {
 	from { opacity: 0; transform: translateY(-20px) scale(0.97); }
 	to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.Enquiry-modal-close { position: absolute; top: 12px; right: 15px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f2f2f2; color: #333; font-size: 18px; font-weight: bold; border-radius: 50%; cursor: pointer; text-decoration: none; transition: all 0.2s ease; }
-.Enquiry-modal-close:hover { background: #e63946; color: #ffffff; }
-.Enquiry-modal-title { margin: 0; padding: 24px 48px 0; text-align: center; color: #ffffff; font-size: 24px; font-weight: 600; }
 
 
 section.enquiry_form { padding: 20px 0 70px; }
@@ -1954,6 +1962,7 @@ section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf input { font-size: 12px; padding: 0 0 0 30px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf .guest_input span { font-size: 12px; padding: 0 0 0 30px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a { font-size: 12px; }
+section.form_area .container .fa_right p.kv-page-enquiry-success__text{font-size: 14px;}
 
 section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf { width: 50%; }
 section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { width: 100%; border-radius: 10px; }
@@ -1968,10 +1977,10 @@ section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wra
 .accommodation-map-close { padding: 0; position: absolute; top: 12px; right: 12px; z-index: 2; width: 36px; height: 36px; border: none; border-radius: 50%; background: #fff; color: #222; font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); transition: background 0.2s ease, transform 0.2s ease; }
 .accommodation-map-close:hover { color: #222; background: #f2f2f2; transform: scale(1.05); }
 .accommodation-map-frame { width: 100%; height: 100%; border: 0; display: block; }
-@keyframes accommodationMapFadeIn {
-	from { opacity: 0; transform: translateY(10px) scale(0.98); }
-	to { opacity: 1; transform: translateY(0) scale(1); }
-}
+
+/* Dark child-age panel only inside Change Guests popup — not search/enquiry filters */ 
+.room-search-popup-modal .kv-child-ages, .room-search-popup-modal .kv-child-ages.is-open { background: #12223a; } .room-search-popup-modal .kv-child-age-row + .kv-child-age-row { border-top-color: rgba(255, 255, 255, 0.08); } .room-search-popup-modal .kv-child-age-label { color: #a0b8d0; } .room-search-popup-modal .kv-child-ages .js-v-cage { color: #fff; } .room-search-popup-modal .kv-child-age-row .g-btn, .room-search-popup-modal .kv-child-ages .js-btn-cage-minus, .room-search-popup-modal .kv-child-ages .js-btn-cage-plus { background: #1a2d4a; border-color: rgba(255, 255, 255, 0.25); color: #fff; } .room-search-popup-modal .kv-child-ages .js-btn-cage-minus:disabled, .room-search-popup-modal .kv-child-ages .js-btn-cage-plus:disabled { opacity: 0.3; border-color: rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.4); }
+
 /* Acc single banner: align location with title */
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper { align-items: center; }
 /* section.form_area.accSingleBannerUpdate .left-side .title-wrapper h1 { margin: 0; line-height: 1.15; } */
@@ -1979,9 +1988,20 @@ section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort {
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort .address_pointer { width: 18px; height: auto; flex-shrink: 0; }
 section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort h2 { margin: 0; padding: 0; font-size: 20px; font-weight: 500; line-height: 1.2; color: #fff; }
 
+@keyframes accommodationMapFadeIn {
+	from { opacity: 0; transform: translateY(10px) scale(0.98); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 /* Room modal facilities: show amenity icons */
 section.room-listing .room-modal .room-modal-content .room-features .features-list { display: flex; padding: 0; margin: 0; flex-wrap: wrap; gap: 13px; list-style: none; }
 section.room-listing .room-modal .room-modal-content .room-features .features-list li { color: #00111F; font-size: 14px; font-weight: 500; width: 32%; display: flex; align-items: center; gap: 8px; text-decoration: none; }
 section.room-listing .room-modal .room-modal-content .room-features .features-list li span.icon { display: inline-flex; flex-shrink: 0; width: 22px; height: 22px; align-items: center; justify-content: center; }
 section.room-listing .room-modal .room-modal-content .room-features .features-list li span.icon img { width: 22px; height: 22px; object-fit: contain; display: block; }
 section.room-listing .room-modal .room-modal-content .room-features .features-list li span.text { line-height: 1.3; }
+
+/* Closest Landmarks: area after comma as badge */
+.nearby-item .nearby-label { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.nearby-item .nearby-label .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; font-size: 12px; font-weight: 600; line-height: 1.3; white-space: nowrap; }
+
+

@@ -473,32 +473,19 @@ function kv_accommodation()
 
 
     register_taxonomy(
-
         'accommodation-cat',
-
         'accommodation',
-
         array(
-
-            'label' => __('Accommodation Categories'),
-
+            'label'             => __('Accommodation Categories'),
             'show_admin_column' => true,
-
-            'rewrite' => array(
-
+            'show_in_rest'      => true, // CRITICAL FIX: Enables REST API support for Gutenberg/ACF
+            'hierarchical'      => true,
+            'rewrite'           => array(
                 'slug'       => 'accommodation-cat',
-
                 'with_front' => false,
-
             ),
-
-            'hierarchical' => true,
-
         )
-
     );
-
-
 
     if ( !taxonomy_exists('property_ammenites') ){
 
@@ -656,21 +643,15 @@ function hz_update_acc_link($permalink, $post)
 
     $terms = wp_get_post_terms($post->ID, 'accommodation-cat', array('parent' => 0));
 
-
-
     if (empty($terms) || is_wp_error($terms)) {
 
         return $permalink;
 
     }
 
-
-
     // Take first term (or apply your own priority logic)
 
     $term_slug = $terms[0]->slug;
-
-
 
     // Remove "-accommodation"
 
@@ -682,11 +663,48 @@ function hz_update_acc_link($permalink, $post)
 
 }
 
+add_action('template_redirect', 'hz_validate_accommodation_location');
 
+function hz_validate_accommodation_location() {
+
+    if (!is_singular('accommodation')) {
+        return;
+    }
+
+    global $post, $wp_query;
+
+    // Get only parent accommodation categories
+    $terms = wp_get_post_terms($post->ID, 'accommodation-cat', array(
+        'parent' => 0,
+    ));
+
+    if (empty($terms) || is_wp_error($terms)) {
+        return;
+    }
+
+    $correct_location = str_replace('-accommodation', '', $terms[0]->slug);
+
+    // URL structure: /location/accommodation/post-slug/
+    $requested_location = get_query_var('location');
+
+    // If you don't have a rewrite tag, get it from the URL instead
+    if (empty($requested_location)) {
+        $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        $parts = explode('/', $path);
+
+        $requested_location = $parts[0] ?? '';
+    }
+
+    if ($requested_location !== $correct_location) {
+        $wp_query->set_404();
+        status_header(404);
+        nocache_headers();
+        include get_404_template();
+        exit;
+    }
+}
 
 // add_action('init', 'hz_accommodation_rewrite_rules');
-
-
 
 function hz_accommodation_rewrite_rules()
 
@@ -3955,7 +3973,7 @@ function hz_make_acf_readonly_fields($field) {
 
         'acc_max_child_age', 'acc_deposit_amount', 'acc_supplier_deposit', 'acc_property_type',
 
-        'acc_supplier_commission', 'rate_plan'
+        'acc_supplier_commission', 'rate_plan', 'base_area'
 
     ];
 
@@ -5318,7 +5336,7 @@ function hz_display_accommodation_sync_notice() {
 
                                 setTimeout(function() {
 
-                                    location.href = location.href.split('?')[0] + '?post_type=accommodation&post_status=draft';
+                                    location.href = location.href.split('?')[0] + '?post_type=accommodation&all_posts=1';
 
                                 }, 2500);
 
@@ -8140,6 +8158,23 @@ function get_enquiry_form_html( $form_shortcode = '[gravityform id="1" title="tr
             </div>
         </div>';
 }
+
+// function get_acc_enquiry_form($title = 'Skip the searching', $description = 'Tell us a little more and our local experts will recommend the best available options.'){
+//     $heading = '<h3>' . esc_html($title) . '</h3>';
+//     $description_html = $description !== ''
+//             ? '<p class="acc_enquiry_desc">' . esc_html($description) . '</p>'
+//             : '';
+
+//     return '<div class="acc_enquiry_form">
+//         <div class="acc_enquiry_head">
+//             ' . $heading . '
+//             ' . $description_html . '
+//         </div>
+//         <div class="acc_enquiry_form_slot">
+//             ' . get_enquiry_form_html('[gravityform id="1" title="false" ajax="true"]') . '
+//         </div>
+//     </div>';
+// }
 
 function get_acc_enquiry_form($title = 'Skip the searching', $description = 'Tell us a little more and our local experts will recommend the best available options.'){
     $heading = '<h3 style="margin:0;line-height:1.2;">' . esc_html($title) . '</h3>';

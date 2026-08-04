@@ -153,15 +153,22 @@ echo '<section class="full-section nearby_location" '.BackgroundFromSection($sec
                         $title = $loc['title'] ?? '';
                         $lat = $loc['latitude'] ?? '';
                         $lng = $loc['longitude'] ?? '';
+                        $base_area = $loc['base_area'] ?? '';
                         $km = is_array( $road_km ) ? ( $road_km[ $i ] ?? null ) : null;
 
                         if ( $km === null ) {
                             $km = nearby_location_distance_km( $main_lat, $main_lng, $lat, $lng );
                         }
+                        if( !empty( $base_area ) ){
+                            $term = get_term( $base_area, 'accommodation-cat' );
+                            $term_name = $term ? $term->name : '';
+                        }
+
+                        $area_text = !empty( $base_area ) ? esc_html($title) . ' , '.esc_html($term_name) : esc_html($title);
 
                         echo '
                             <li class="nearby-item" data-index="' . $i . '">
-                                <span>' . esc_html($title) . '</span>
+                                <span>' . $area_text . '</span>
                                 <span class="distance">' . esc_html($km) . ' km</span>
                             </li>';
 

@@ -409,14 +409,25 @@ $resort_name_cart = '';
 
 if (!empty($wp_property_id)) {
 
+    // Prefer parent resort (Niseko/Hakuba/…) — child areas (Hirafu, etc.) are not GF resort options.
+    if (function_exists('hz_get_parent_category')) {
+        $parent_resort = hz_get_parent_category($wp_property_id);
+        if (!empty($parent_resort)) {
+            $resort_name_cart = str_replace(' Accommodation', '', sanitize_text_field($parent_resort));
+        }
+    }
 
-    $resort_terms = get_the_terms($wp_property_id, 'accommodation-cat');
+    if ($resort_name_cart === '') {
+        $resort_terms = get_the_terms($wp_property_id, 'accommodation-cat');
 
-
-    if ($resort_terms && !is_wp_error($resort_terms)) {
-
-
-        $resort_name_cart = str_replace(' Accommodation', '', sanitize_text_field($resort_terms[0]->name ?? ''));
+        if ($resort_terms && !is_wp_error($resort_terms)) {
+            foreach ($resort_terms as $term) {
+                if ((int) ($term->parent ?? 0) === 0) {
+                    $resort_name_cart = str_replace(' Accommodation', '', sanitize_text_field($term->name ?? ''));
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -1755,6 +1766,9 @@ if (!empty($wp_property_id)) {
                                         if (!empty($wp_property_id) && function_exists('hz_get_parent_category')) {
                                             $enq_resort = str_replace(' Accommodation', '', (string) hz_get_parent_category($wp_property_id));
                                         }
+                                        if ($enq_resort === '' && !empty($resort_name_cart)) {
+                                            $enq_resort = $resort_name_cart;
+                                        }
                                         ?>
                                         <button type="button"
                                             class="btn enquire_btn rb-enquiry-btn enq-btn-popup bedbank_btn"
@@ -1769,6 +1783,9 @@ if (!empty($wp_property_id)) {
                                         $enq_resort = '';
                                         if (!empty($wp_property_id) && function_exists('hz_get_parent_category')) {
                                             $enq_resort = str_replace(' Accommodation', '', (string) hz_get_parent_category($wp_property_id));
+                                        }
+                                        if ($enq_resort === '' && !empty($resort_name_cart)) {
+                                            $enq_resort = $resort_name_cart;
                                         } elseif (!empty($resort_name_cart)) {
                                             $enq_resort = $resort_name_cart;
                                         }

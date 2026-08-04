@@ -2565,22 +2565,28 @@ jQuery(function ($) {
         }
 
         const options = getResortOptions($resortField);
-        const match = matchResortOption(options, resortName);
+        let match = matchResortOption(options, resortName);
+
+        // Child area names (Hirafu, etc.) are not GF resort options — fall back to URL resort.
+        if (!match) {
+            const fromPath = getResortNameFromPath(window.location.pathname, options);
+            match = fromPath ? matchResortOption(options, fromPath) : null;
+        }
 
         if (match) {
             $resortField.val(match.rawValue || match.value);
-        } else if (normalizeResortName(resortName)) {
-            $resortField.val(normalizeResortName(resortName));
         } else {
+            // Never write a non-option value — select would render blank.
             $resortField.val('');
         }
 
         // Lock when resort is known (URL page or selected property). Keep value submittable.
+        const locked = !!isLocked && !!String($resortField.val() || '').trim();
         $resortField
-            .toggleClass('disabled', !!isLocked)
+            .toggleClass('disabled', locked)
             .prop('disabled', false)
-            .attr('aria-disabled', isLocked ? 'true' : 'false')
-            .attr('tabindex', isLocked ? '-1' : '0')
+            .attr('aria-disabled', locked ? 'true' : 'false')
+            .attr('tabindex', locked ? '-1' : '0')
             .trigger('change');
     }
 
@@ -2655,23 +2661,7 @@ jQuery(function ($) {
         e.stopPropagation();
 
         const $btn = $(this);
-        console.log( 'Enquire trigger clicked', $btn );
 
-        let Enquiry_modal = $( '.Enquiry-modal' ),
-            form = Enquiry_modal.find( '.quote_form' ),
-            resort_field = form.find( '#input_1_66, select[name="input_66"], .resort_name select' ).eq(0);
-
-        console.log( 'pathArray' );
-        console.log( pathArray );
-        var resort = pathArray[0].charAt(0).toUpperCase() + pathArray[0].slice(1);
-        console.log( 'resort' );
-        console.log( resort );
-        resort_field.val(resort);
-        console.log( 'resort_name select' );        
-        console.log( resort_field );        
-        console.log( 'resort_name select value' );        
-        console.log( resort_field.val() );  
-        
         // Sticky footer CTA → open enquiry popup (prefill property on accommodation singles).
         if ($btn.hasClass('sticky-cta-btn') && $btn.closest('.sticky-cta-container').length ) {
             const propertyName = resolvePagePropertyForEnquiry($btn);
@@ -2693,7 +2683,7 @@ jQuery(function ($) {
         }
 
         // Listing cards (property Enquire) → lock resort + property
-        if ($btn.hasClass('enquire_btn')) {
+        if ($btn.hasClass('enquire_btn') && !$btn.closest('.rb-rateplan-box').length) {
             const $card = $btn.closest('.accom-card, .result-card');
             const propertyName = (
                 $btn.attr('hotel-name') ||
@@ -2704,7 +2694,7 @@ jQuery(function ($) {
             ).trim();
             openEnquiryFromTrigger($btn, {
                 propertyName: propertyName,
-                resortName: $card.data('resortName') || $btn.attr('resort-name') || '',
+                resortName: $card.data('resortName') || $btn.attr('resort-name') || resolvePageResortForEnquiry($btn) || '',
                 lockProductFields: true
             });
             return;
@@ -2716,7 +2706,7 @@ jQuery(function ($) {
             const roomData = parseRoomDataFromBox($ratePlanBox);
             openEnquiryFromTrigger($btn, {
                 propertyName: roomData.propertyName || $btn.attr('hotel-name') || resolvePagePropertyForEnquiry($btn) || '',
-                resortName: roomData.resortName || $btn.attr('resort-name') || '',
+                resortName: roomData.resortName || $btn.attr('resort-name') || resolvePageResortForEnquiry($btn) || '',
                 checkIn: roomData.checkIn || '',
                 checkOut: roomData.checkOut || '',
                 roomName: roomData.roomName || $btn.attr('room-title') || '',

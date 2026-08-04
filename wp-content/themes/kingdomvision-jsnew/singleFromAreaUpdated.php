@@ -78,7 +78,7 @@ echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-sec
 						$location_display = !empty($location_display) ? $location_display . ', ' . $resort_name : $resort_name;
 					}
 					
-				echo '<div class="base_resort acc-address-map-trigger"><h2>'. $location_display .'</h2></div>';
+				echo '<div class="base_resort acc-address-map-trigger"><img class="address_pointer" src="' . esc_url(get_template_directory_uri() . '/images/add-pointer.svg') . '" alt=""><h2>'. $location_display .'</h2></div>';
 			echo '</div>'; #title-wrapper
 			
 			// if($address){

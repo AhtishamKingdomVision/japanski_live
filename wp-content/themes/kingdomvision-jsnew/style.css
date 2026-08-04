@@ -1972,3 +1972,9 @@ section.single_main .sm_inner .sm_right .sm_sticky .gform_wrapper.quote_form_wra
 	from { opacity: 0; transform: translateY(10px) scale(0.98); }
 	to { opacity: 1; transform: translateY(0) scale(1); }
 }
+/* Acc single banner: align location with title */
+section.form_area.accSingleBannerUpdate .left-side .title-wrapper { align-items: center; }
+/* section.form_area.accSingleBannerUpdate .left-side .title-wrapper h1 { margin: 0; line-height: 1.15; } */
+section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort { display: inline-flex; align-items: center; gap: 8px; margin: 0; }
+section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort .address_pointer { width: 18px; height: auto; flex-shrink: 0; }
+section.form_area.accSingleBannerUpdate .left-side .title-wrapper .base_resort h2 { margin: 0; padding: 0; font-size: 20px; font-weight: 500; line-height: 1.2; color: #fff; }

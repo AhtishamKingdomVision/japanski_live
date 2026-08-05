@@ -1146,7 +1146,7 @@ const AccommodationFilters = (function() {
 
                     if (res.success && res.data) {
 
-                        if (res.data.redirect) {
+                        if (res.data.redirect && localStorage.redirect !== undefined ) {
 
                             window.location.href = res.data.redirect;
 
@@ -1154,15 +1154,11 @@ const AccommodationFilters = (function() {
 
                         }
 
-
-
                         if (filterData.checkin !== '' && filterData.checkout !== '') {
 
                             jQuery('.result-message').text('Showing accommodation matching your search');
 
                         }
-
-
 
                         Search.handleSuccess(res.data, append, page, context);
 

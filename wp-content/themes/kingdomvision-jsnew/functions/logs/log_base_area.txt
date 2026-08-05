@@ -674,3 +674,510 @@
 
 )
 <br></pre>
+<pre>area name<br></pre>
+<pre>Niseko Hirafu<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 462
+    [name] => Niseko Hirafu
+    [slug] => niseko_hirafu
+    [term_group] => 0
+    [term_taxonomy_id] => 462
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 154
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>462<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Niseko Hirafu<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 462
+    [name] => Niseko Hirafu
+    [slug] => niseko_hirafu
+    [term_group] => 0
+    [term_taxonomy_id] => 462
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 154
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>462<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+    [1] => Array
+        (
+            [title] => Hirafu Welcome Centre
+            [latitude] => 42.8625483
+            [longitude] => 140.698613
+            [base_area] => 462
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Hirafu Village<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 468
+    [name] => Hirafu Village
+    [slug] => hirafu_village
+    [term_group] => 0
+    [term_taxonomy_id] => 468
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 128
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>468<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+    [1] => Array
+        (
+            [title] => Hirafu Welcome Centre
+            [latitude] => 42.8625483
+            [longitude] => 140.698613
+            [base_area] => 462
+        )
+
+    [2] => Array
+        (
+            [title] => Ace Gondola
+            [latitude] => 42.8614637
+            [longitude] => 140.6978935
+            [base_area] => 468
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => King Gondola
+                            [latitude] => 42.8644333
+                            [longitude] => 140.701525
+                            [base_area] => 462
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hirafu Welcome Centre
+                            [latitude] => 42.8625483
+                            [longitude] => 140.698613
+                            [base_area] => 462
+                        )
+
+                    [2] => Array
+                        (
+                            [title] => Ace Gondola
+                            [latitude] => 42.8614637
+                            [longitude] => 140.6978935
+                            [base_area] => 468
+                        )
+
+                )
+
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Niseko Hirafu<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 462
+    [name] => Niseko Hirafu
+    [slug] => niseko_hirafu
+    [term_group] => 0
+    [term_taxonomy_id] => 462
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 154
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>462<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Niseko Hirafu<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 462
+    [name] => Niseko Hirafu
+    [slug] => niseko_hirafu
+    [term_group] => 0
+    [term_taxonomy_id] => 462
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 154
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>462<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+    [1] => Array
+        (
+            [title] => Hirafu Welcome Centre
+            [latitude] => 42.8625483
+            [longitude] => 140.698613
+            [base_area] => 462
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Hirafu Village<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 468
+    [name] => Hirafu Village
+    [slug] => hirafu_village
+    [term_group] => 0
+    [term_taxonomy_id] => 468
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 128
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>468<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+    [1] => Array
+        (
+            [title] => Hirafu Welcome Centre
+            [latitude] => 42.8625483
+            [longitude] => 140.698613
+            [base_area] => 462
+        )
+
+    [2] => Array
+        (
+            [title] => Ace Gondola
+            [latitude] => 42.8614637
+            [longitude] => 140.6978935
+            [base_area] => 468
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => King Gondola
+                            [latitude] => 42.8644333
+                            [longitude] => 140.701525
+                            [base_area] => 462
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hirafu Welcome Centre
+                            [latitude] => 42.8625483
+                            [longitude] => 140.698613
+                            [base_area] => 462
+                        )
+
+                    [2] => Array
+                        (
+                            [title] => Ace Gondola
+                            [latitude] => 42.8614637
+                            [longitude] => 140.6978935
+                            [base_area] => 468
+                        )
+
+                )
+
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Niseko Hirafu<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 462
+    [name] => Niseko Hirafu
+    [slug] => niseko_hirafu
+    [term_group] => 0
+    [term_taxonomy_id] => 462
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 154
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>462<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Niseko Hirafu<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 462
+    [name] => Niseko Hirafu
+    [slug] => niseko_hirafu
+    [term_group] => 0
+    [term_taxonomy_id] => 462
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 154
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>462<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+    [1] => Array
+        (
+            [title] => Hirafu Welcome Centre
+            [latitude] => 42.8625483
+            [longitude] => 140.698613
+            [base_area] => 462
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Hirafu Village<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 468
+    [name] => Hirafu Village
+    [slug] => hirafu_village
+    [term_group] => 0
+    [term_taxonomy_id] => 468
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 9
+    [count] => 128
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>468<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => King Gondola
+            [latitude] => 42.8644333
+            [longitude] => 140.701525
+            [base_area] => 462
+        )
+
+    [1] => Array
+        (
+            [title] => Hirafu Welcome Centre
+            [latitude] => 42.8625483
+            [longitude] => 140.698613
+            [base_area] => 462
+        )
+
+    [2] => Array
+        (
+            [title] => Ace Gondola
+            [latitude] => 42.8614637
+            [longitude] => 140.6978935
+            [base_area] => 468
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => King Gondola
+                            [latitude] => 42.8644333
+                            [longitude] => 140.701525
+                            [base_area] => 462
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hirafu Welcome Centre
+                            [latitude] => 42.8625483
+                            [longitude] => 140.698613
+                            [base_area] => 462
+                        )
+
+                    [2] => Array
+                        (
+                            [title] => Ace Gondola
+                            [latitude] => 42.8614637
+                            [longitude] => 140.6978935
+                            [base_area] => 468
+                        )
+
+                )
+
+        )
+
+)
+<br></pre>

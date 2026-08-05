@@ -28620,3 +28620,74 @@ We have used your services last season and stayed at Powdersuites in Hakuba. Loo
     [submission_speeds] => {"1":[9582]}
 )
 <br></pre>
+<pre>Array
+(
+    [id] => 667
+    [status] => active
+    [form_id] => 1
+    [ip] => 111.92.137.94
+    [source_url] => https://staging15.japanskiexperience.com/hakuba/accommodation/solar-chalets/
+    [currency] => USD
+    [post_id] => 
+    [date_created] => 2026-08-05 09:56:17
+    [date_updated] => 2026-08-05 09:56:17
+    [is_starred] => 0
+    [is_read] => 0
+    [user_agent] => Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36
+    [payment_status] => 
+    [payment_date] => 
+    [payment_amount] => 
+    [payment_method] => 
+    [transaction_id] => 
+    [is_fulfilled] => 
+    [created_by] => 1
+    [transaction_type] => 
+    [source_id] => 76432
+    [66] => Hakuba
+    [5] => 01/12/2026
+    [6] => 06/12/2026
+    [1] => 
+    [40] => test
+    [41] => test123
+    [2] => test@ak.com
+    [71] => Premium
+    [8] => 151
+    [7] => 1
+    [10] => 0
+    [42] => 0
+    [12] => 
+    [39] => Solar Chalets
+    [44] => 3 Bedroom Chalet
+    [3] => 
+    [9] => 
+    [11] => 
+    [33] => 
+    [13] => 1
+    [32] => https://staging15.japanskiexperience.com/?s=solar+chalet
+    [36] => 
+    [37] => 
+    [34] => 
+    [35] => 
+    [45] => 
+    [46] => 
+    [47] => 
+    [49] => 
+    [50] => Product
+    [51] => 
+    [52] => 
+    [53] => 
+    [54] => 
+    [55] => 
+    [56] => 
+    [57] => 
+    [58] => 
+    [59] => 
+    [60] => 
+    [61] => 
+    [62] => 
+    [63] => 
+    [64] => 
+    [65] => 
+    [submission_speeds] => {"1":[35911]}
+)
+<br></pre>

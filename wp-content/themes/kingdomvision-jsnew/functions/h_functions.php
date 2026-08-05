@@ -5805,6 +5805,11 @@ function hz_sync_single_accommodation($post_id) {
 
         if (empty($hotel_id)) {
 
+            wp_update_post( [
+                'ID'          => $post_id,
+                'post_status' => 'draft',
+            ] );
+
             return [
 
                 'success' => false,
@@ -5818,6 +5823,18 @@ function hz_sync_single_accommodation($post_id) {
         // Fetch property data from Booking System API
 
         $property_data = hz_fetch_property_from_api($hotel_id);
+
+        
+        if( $property_data['remove_from_website']  ){
+            
+            return [
+
+                'success' => true,
+
+                'message' => 'Property is marked for removal from website',
+
+            ];
+        }
 
         // pre($hotel_id, 0);
 

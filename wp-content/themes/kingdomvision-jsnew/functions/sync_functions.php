@@ -2396,6 +2396,29 @@ function sq_mapping_properties($properties) {
 
         }
 
+        
+        $remove_from_website = $property['remove_from_website'];
+
+        if ( $remove_from_website ) {
+
+            kv_sync_log_entry([
+
+                'property_id'   => $property_id,
+
+                'property_name' => $property['name'] ?? 'unknown',
+
+                'status'        => 'remove_from_website',
+
+                'error'         => 'Property is marked for removal from website',
+
+                'timestamp'     => current_time('Y-m-d H:i:s'),
+
+            ]);
+
+            continue;
+
+        }
+
         $hotelid = get_post_id_by_typeId($property_id, 'accommodation');
 
         $property_type =  strtolower(trim((string) ($property['property_type'] ?? '')));

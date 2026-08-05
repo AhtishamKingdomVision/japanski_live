@@ -3853,6 +3853,8 @@ const AccommodationFilters = (function() {
                 const $pop = $card.find('.guests-popover');
                 const willOpen = !$pop.hasClass('open');
                 jQuery('.search-card .guests-popover').removeClass('open show');
+                // Close room "Check Rates" guests so sync/render cannot scroll the page down to it.
+                jQuery('.room-filter-guests-popover').removeClass('active open show');
                 window.kvClearGuestsPopoverPin();
                 $pop.toggleClass('open', willOpen);
                 $card.find('.sb-guests-desktop').toggleClass('active', willOpen);
@@ -3867,10 +3869,6 @@ const AccommodationFilters = (function() {
                         window.kvSyncAllInlineChildAges(kids);
                         setTimeout(function () {
                             window.kvPinGuestsPopover($pop);
-                            const ages = $pop.find('.kv-child-ages.is-open').get(0);
-                            if (ages && typeof ages.scrollIntoView === 'function') {
-                                ages.scrollIntoView({ block: 'nearest' });
-                            }
                         }, 30);
                     }
                 } else {

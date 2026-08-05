@@ -2005,3 +2005,64 @@ section.room-listing .room-modal .room-modal-content .room-features .features-li
 .nearby-item .nearby-label .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; font-size: 12px; font-weight: 600; line-height: 1.3; white-space: nowrap; }
 
 
+
+/* Guests popover: stop clipping into the next section (hero reviews / header border) */
+section.hero-banner-with-filter:has(.guests-popover.open),
+section.hero-banner-with-filter:has(.guests-popover.show) {
+	overflow: visible;
+	z-index: 30;
+}
+section.hero-banner-with-filter .resortFilterWrap {
+	position: relative;
+	z-index: 5;
+}
+section.hero-banner-with-filter .resortFilterWrap:has(.guests-popover.open),
+section.hero-banner-with-filter .resortFilterWrap:has(.guests-popover.show),
+.resortFilterWrap .search-card:has(.guests-popover.open),
+.resortFilterWrap .search-card:has(.guests-popover.show) {
+	overflow: visible !important;
+	z-index: 40;
+}
+.resortFilterWrap .guests-popover.open,
+.resortFilterWrap .guests-popover.show {
+	z-index: 10060;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	max-height: min(70vh, 520px);
+}
+
+/* Header search guests popover - parent overflow was cutting at menuHeader */
+header.newHeader.kv-guests-open,
+header.newHeader:has(.guests-popover.open),
+header.newHeader:has(.guests-popover.show) {
+	z-index: 10050;
+	overflow: visible !important;
+}
+header.newHeader.kv-guests-open .topHeader,
+header.newHeader.kv-guests-open .container,
+header.newHeader.kv-guests-open .resortFilterWrap,
+header.newHeader.kv-guests-open .search-card,
+header.newHeader:has(.guests-popover.open) .topHeader,
+header.newHeader:has(.guests-popover.open) .container,
+header.newHeader:has(.guests-popover.open) .resortFilterWrap,
+header.newHeader:has(.guests-popover.open) .search-card,
+header.newHeader:has(.guests-popover.show) .topHeader,
+header.newHeader:has(.guests-popover.show) .container,
+header.newHeader:has(.guests-popover.show) .resortFilterWrap,
+header.newHeader:has(.guests-popover.show) .search-card {
+	overflow: visible !important;
+}
+
+/* Done was position:sticky so it floated over child-age rows / the form */
+.kv-guests-done {
+	position: static;
+	bottom: auto;
+	z-index: auto;
+	box-shadow: none;
+}
+.room-filter-guests-popover .kv-guests-done,
+.guests-popover .kv-guests-done,
+.eq-guests-popover .kv-guests-done {
+	position: static;
+	margin-top: 14px;
+}

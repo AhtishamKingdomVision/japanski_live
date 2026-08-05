@@ -384,15 +384,9 @@ jQuery(function ($) {
         $mount.html(html).removeAttr('hidden').addClass('is-open');
         $mount.toggleClass('is-many', count >= 4);
 
-        // Keep expanded ages visible (header search was clipping the bottom).
-        if ($pop.hasClass('open') || $pop.hasClass('active')) {
-            setTimeout(function () {
-                const el = $mount.get(0);
-                if (el && typeof el.scrollIntoView === 'function') {
-                    el.scrollIntoView({ block: 'nearest' });
-                }
-            }, 20);
-        }
+        // Do NOT scrollIntoView here — kvSyncAllInlineChildAges updates every
+        // popover (header + room Check Rates). Scrolling an off-screen/active
+        // room popover jumps the page when opening the header guests UI.
 
         const $scope = kvGetEnquiryGuestScope($pop);
         if ($scope.length) {
@@ -5173,9 +5167,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const $form = jQuery(this).closest('form');
             const $popover = $form.find('.room-filter-guests-popover');
+            const willOpen = !$popover.hasClass('active');
 
-            jQuery('.room-filter-guests-popover').not($popover).removeClass('active');
-            $popover.toggleClass('active');
+            jQuery('.room-filter-guests-popover').removeClass('active open show');
+            // Close header/hero search guests so only one guests UI is open.
+            jQuery('.search-card .guests-popover').removeClass('open show');
+            jQuery('.search-card .sb-guests-desktop').removeClass('active');
+            jQuery('header.newHeader').removeClass('kv-guests-open');
+            if (typeof window.kvClearGuestsPopoverPin === 'function') {
+                window.kvClearGuestsPopoverPin();
+            }
+
+            $popover.toggleClass('active', willOpen);
         });
 
         jQuery(document).off('click.kvRoomGuestsStop', '.room-filter-guests-popover');

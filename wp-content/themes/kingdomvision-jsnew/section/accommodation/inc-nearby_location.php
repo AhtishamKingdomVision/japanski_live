@@ -159,16 +159,21 @@ echo '<section class="full-section nearby_location" '.BackgroundFromSection($sec
                         if ( $km === null ) {
                             $km = nearby_location_distance_km( $main_lat, $main_lng, $lat, $lng );
                         }
-                        if( !empty( $base_area ) ){
+
+                        $term_name = '';
+                        if ( ! empty( $base_area ) ) {
                             $term = get_term( $base_area, 'accommodation-cat' );
-                            $term_name = $term ? $term->name : '';
+                            $term_name = ( $term && ! is_wp_error( $term ) ) ? $term->name : '';
                         }
 
-                        $area_text = !empty( $base_area ) ? esc_html($title) . ' , '.esc_html($term_name) : esc_html($title);
+                        $title_html = esc_html( $title );
+                        if ( $term_name !== '' ) {
+                            $title_html .= ' <span class="badge">' . esc_html( $term_name ) . '</span>';
+                        }
 
                         echo '
                             <li class="nearby-item" data-index="' . $i . '">
-                                <span>' . $area_text . '</span>
+                                <span class="nearby-label">' . $title_html . '</span>
                                 <span class="distance">' . esc_html($km) . ' km</span>
                             </li>';
 

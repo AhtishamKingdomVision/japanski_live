@@ -1271,9 +1271,8 @@ jQuery(function ($) {
 
 
     if ($(window).width() <= 767) {
-
-        $('.mob_quote_form').appendTo('.content-wrapper');
-
+        // Keep enquire landing forms in place; only move popup-style quote forms.
+        $('.mob_quote_form').not('.is-inline').appendTo('.content-wrapper');
     }
 
 

@@ -179,7 +179,7 @@ echo '<div class="mobFilterModal" id="mobFilterModal">';
 echo '</div>'; #mobFilterModal
 
 // Enquiry popup — search-card Enquire + listing Enquire Now (skip bare enquire pages)
-$kv_show_enquiry_modal = ! is_page( [ 'enquire', 'get-a-quote' ] );
+$kv_show_enquiry_modal = ! is_page( [ 'enquire', 'get-a-quote', 'get-expert-recommendations' ] );
 if ( $kv_show_enquiry_modal && function_exists( 'get_enquiry_form_html' ) ) {
 
     echo '<div id="Enquiry-modal" class="Enquiry-modal">

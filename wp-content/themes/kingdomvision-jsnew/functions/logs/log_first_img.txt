@@ -24458,3 +24458,1029 @@
 
 )
 <br></pre>
+<pre>Room images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 3002
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 3002
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>first_url<br></pre>
+<pre>https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg<br></pre>
+<pre>valid_images<br></pre>
+<pre>Array
+(
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>attachment_id<br></pre>
+<pre>357209<br></pre>
+<pre>Room images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 12082
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 12082
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>first_url<br></pre>
+<pre>https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png<br></pre>
+<pre>valid_images<br></pre>
+<pre>Array
+(
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>Room images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 3002
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 3002
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>first_url<br></pre>
+<pre>https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg<br></pre>
+<pre>valid_images<br></pre>
+<pre>Array
+(
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>attachment_id<br></pre>
+<pre>357209<br></pre>
+<pre>Room images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 12082
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 12082
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>first_url<br></pre>
+<pre>https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png<br></pre>
+<pre>valid_images<br></pre>
+<pre>Array
+(
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>Room images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 3002
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 3002
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>first_url<br></pre>
+<pre>https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-bedroom-2.jpg<br></pre>
+<pre>valid_images<br></pre>
+<pre>Array
+(
+    [1] => Array
+        (
+            [id] => 3011
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-living-1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 3012
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/SUKH-Hakuba-lounge.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+)
+<br></pre>
+<pre>attachment_id<br></pre>
+<pre>357209<br></pre>
+<pre>Room images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 12082
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>images<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 12082
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png
+            [source] => uploaded room image
+            [is_main] => 1
+            [sort_order] => 0
+        )
+
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>
+<pre>first_url<br></pre>
+<pre>https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20838283c5-4b4f-49ef-8e0d-a55c20b3921f.png<br></pre>
+<pre>valid_images<br></pre>
+<pre>Array
+(
+    [1] => Array
+        (
+            [id] => 12080
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%20eea9ea77-f809-434a-aa80-508797d9c8d1.jpg
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 1
+        )
+
+    [2] => Array
+        (
+            [id] => 12088
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20c3e333a6-12a3-4dae-aa83-d85c350f702d.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 2
+        )
+
+    [3] => Array
+        (
+            [id] => 12079
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4BR%201ff3f159-22ab-46b9-ae69-b9e10a270902.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 3
+        )
+
+    [4] => Array
+        (
+            [id] => 12078
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BRd8437dee-2669-49b3-88da-d473373e40b6.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 4
+        )
+
+    [5] => Array
+        (
+            [id] => 12086
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/4%20BR%20627b9c6e-4e15-41a5-af24-181c090e3f73.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 5
+        )
+
+    [6] => Array
+        (
+            [id] => 14840
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.13.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 6
+        )
+
+    [7] => Array
+        (
+            [id] => 14841
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.37.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 7
+        )
+
+    [8] => Array
+        (
+            [id] => 14842
+            [url] => https://trip.japanskiexperience.com/storage/photos/1/SUKH/Screenshot%202026-06-03%20at%2021.55.58.png
+            [source] => uploaded room image
+            [is_main] => 
+            [sort_order] => 8
+        )
+
+)
+<br></pre>

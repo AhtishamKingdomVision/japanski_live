@@ -34,11 +34,18 @@ if ($overlay_opacity !== '') {
 
 $about_page = get_field( 'about_page', 'options' );
 $enquire_page = get_field( 'enquire_page', 'options' );
+if ( ! is_array( $enquire_page ) ) {
+    $enquire_page = $enquire_page ? [ $enquire_page ] : [];
+}
+
+// Enquire / quote landing pages: show Gravity Form inline on mobile (no Enquire Now toggle).
+$is_enquire_form_page = in_array( get_the_ID(), array_map( 'intval', $enquire_page ), true )
+    || is_page( [ 'enquire', 'get-a-quote', 'get-expert-recommendations' ] );
 
 if( intval( $form ) == 1 && $bg_image):?>
 
 <section
-    class="form_area full-section" 
+    class="form_area full-section<?php echo $is_enquire_form_page ? ' form_area--inline-enquire' : ''; ?>" 
     role="region"
     id="form_area_section"
     aria-labelledby="section-heading"
@@ -52,7 +59,7 @@ if( intval( $form ) == 1 && $bg_image):?>
     <div class="container">
 
         <div class="fa_left">
-            <?php if( get_the_ID() != $about_page && !in_array( get_the_ID(), $enquire_page ) ): ?>
+            <?php if( get_the_ID() != $about_page && ! $is_enquire_form_page ): ?>
                 <a class="btn desktop-none quote_toggle" href="javascript:void();">Get a Quote</a>
             <?php endif;
             echo do_shortcode('[company_rating]');
@@ -99,10 +106,14 @@ if( intval( $form ) == 1 && $bg_image):?>
     
         <?php if($form == true){?>
             <div class="fa_right">
-                <a class="btn desktop-none quote_toggle" href="javascript:void();"><?php echo in_array( get_the_ID(), $enquire_page ) ? 'Enquire Now' : 'Get a Quote'; ?></a>
-                <div class="mob_quote_form">
+                <?php if ( ! $is_enquire_form_page ) : ?>
+                <a class="btn desktop-none quote_toggle" href="javascript:void();">Get a Quote</a>
+                <?php endif; ?>
+                <div class="mob_quote_form<?php echo $is_enquire_form_page ? ' is-inline' : ''; ?>">
                     <div class="mob_quote_inner">
+                        <?php if ( ! $is_enquire_form_page ) : ?>
                         <a class="btn desktop-none close_mob_quote_form" href="javascript:void();"><i class="fa-solid fa-x"></i></a>
+                        <?php endif; ?>
                         <?php  echo is_page( 346033 ) ? do_shortcode('[gravityform id="5" title="true" ajax="true"]') : do_shortcode('[gravityform id="1" title="true" ajax="true"]'); ?>
                     </div>
                 </div>

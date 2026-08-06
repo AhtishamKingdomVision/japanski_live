@@ -173,6 +173,36 @@ section.form_area .container .fa_right { width: 100%; }
 .mob_quote_form a.btn.close_mob_quote_form { position: absolute; top: -30px; left: 0; right: 0; margin: auto; width: 90px; height: 40px; border-radius: 15px; font-size: 14px; display: flex; align-items: center; justify-content: center; }
 body.quote-open { overflow-y: auto; }
 
+/* Enquire / get-expert-recommendations: form inline on mobile (no Enquire Now toggle) */
+section.form_area.form_area--inline-enquire .fa_right > a.quote_toggle { display: none !important; }
+section.form_area.form_area--inline-enquire .mob_quote_form,
+.mob_quote_form.is-inline {
+	position: static;
+	inset: auto;
+	z-index: auto;
+	display: block;
+	background: transparent;
+	opacity: 1;
+	visibility: visible;
+	transition: none;
+}
+section.form_area.form_area--inline-enquire .mob_quote_form .mob_quote_inner,
+.mob_quote_form.is-inline .mob_quote_inner {
+	transform: none;
+	max-height: none;
+	width: 100%;
+}
+section.form_area.form_area--inline-enquire .mob_quote_form .gform_wrapper,
+.mob_quote_form.is-inline .gform_wrapper {
+	display: block;
+	max-height: none;
+	overflow: visible;
+}
+section.form_area.form_area--inline-enquire .mob_quote_form a.close_mob_quote_form,
+.mob_quote_form.is-inline a.close_mob_quote_form {
+	display: none !important;
+}
+
 section.form_area .container .fa_right .gform_wrapper { margin-top: 32px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield--width-half { width: 100%; }
 section.form_area .container .ff_content_image { background: transparent; padding: 0; }

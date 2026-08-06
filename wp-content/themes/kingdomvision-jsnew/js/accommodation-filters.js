@@ -113,6 +113,32 @@ const AccommodationFilters = (function() {
 
     };
 
+    /** True for /accommodation/ and /accommodation/deals/ — not /niseko/accommodation/ etc. */
+    function isGlobalAccommodationPage(path) {
+        const parts = String(path || window.location.pathname || '').split('/').filter(Boolean);
+        const accIdx = parts.indexOf('accommodation');
+        if (accIdx === -1) return false;
+        const known = ['niseko', 'hakuba', 'furano', 'rusutsu'];
+        const before = accIdx > 0 ? String(parts[accIdx - 1]).toLowerCase() : '';
+        return accIdx === 0 || known.indexOf(before) === -1;
+    }
+
+    /** Apply All Resorts to selects + radios (sidebar uses value=""). */
+    function applyAllResortsSelection() {
+        jQuery(CONFIG.selectors.resort + ', input[name="resort"]').each(function() {
+            const $el = jQuery(this);
+            if ($el.is(':radio')) {
+                $el.prop('checked', $el.val() === '' || $el.val() === 'all');
+            } else if ($el.is('select')) {
+                if ($el.find('option[value="all"]').length) {
+                    $el.val('all');
+                } else {
+                    $el.val('');
+                }
+            }
+        });
+    }
+
     
 
     // ============================================================================
@@ -641,7 +667,7 @@ const AccommodationFilters = (function() {
 
 
 
-                if (resort) {
+                if (resort && resort !== 'all') {
 
                     // Persist the selected resort so pages without a resort URL
                     // (e.g. /get-expert-recommendations/) can prefill the enquiry Resort field.
@@ -723,18 +749,33 @@ const AccommodationFilters = (function() {
 
 
 
-                if (resort) {
+                // Global /accommodation/: never restore a specific resort from localStorage
+                // (e.g. landed here via All Resorts from /niseko/accommodation/).
+                if (isGlobalAccommodationPage()) {
+                    localStorage.removeItem(CONFIG.storage.resort);
+                    applyAllResortsSelection();
+                } else if (resort && resort !== 'all') {
 
                     jQuery(CONFIG.selectors.resort).each(function() {
 
-                        if (!jQuery(this).val()) {
+                        const $el = jQuery(this);
 
-                            jQuery(this).val(resort);
+                        // Do not rewrite empty-value "All Resorts" radios to a resort slug
+                        if ($el.is(':radio')) {
+                            if ($el.val() === resort || $el.val() === resort.replace(/-accommodation$/, '')) {
+                                $el.prop('checked', true);
+                            }
+                            return;
+                        }
 
+                        if (!$el.val()) {
+                            $el.val(resort);
                         }
 
                     });
 
+                } else if (resort === 'all') {
+                    applyAllResortsSelection();
                 }
 
 
@@ -1127,11 +1168,8 @@ const AccommodationFilters = (function() {
 
 
                     jQuery('.sb-submit img').attr(
-
                         'src',
-
-                        base_url + '/wp-content/themes/kingdomvision-jsnew/images/loader-circle.gif'
-
+                        (typeof themeUrl !== 'undefined' ? themeUrl : (kv_object && kv_object.themeUrl ? kv_object.themeUrl : '')) + '/images/loader-circle.gif'
                     );
 
 
@@ -1146,7 +1184,7 @@ const AccommodationFilters = (function() {
 
                     if (res.success && res.data) {
 
-                        if (res.data.redirect && localStorage.redirect !== undefined ) {
+                        if (res.data.redirect) {
 
                             window.location.href = res.data.redirect;
 
@@ -1231,11 +1269,8 @@ const AccommodationFilters = (function() {
 
 
                     jQuery('.sb-submit img').attr(
-
                         'src',
-
-                        base_url + '/wp-content/themes/kingdomvision-jsnew/images/search-icon.png'
-
+                        (typeof themeUrl !== 'undefined' ? themeUrl : (kv_object && kv_object.themeUrl ? kv_object.themeUrl : '')) + '/images/search-icon.png'
                     );
 
 
@@ -2962,25 +2997,23 @@ const AccommodationFilters = (function() {
 
             // This ensures header search and sidebar filters stay consistent
 
-            jQuery(CONFIG.selectors.resort + ', input[name="resort"]').each(function() {
+            if (resortSlug === 'all' || resortVal === '') {
+                applyAllResortsSelection();
+            } else {
+                jQuery(CONFIG.selectors.resort + ', input[name="resort"]').each(function() {
 
-                const $el = jQuery(this);
+                    const $el = jQuery(this);
+                    const short = resortSlug.replace(/-accommodation$/, '');
 
-                if ($el.is(':radio')) {
+                    if ($el.is(':radio')) {
+                        const v = ($el.val() || '').toLowerCase();
+                        $el.prop('checked', v === resortSlug || v === short);
+                    } else {
+                        $el.val(resortVal);
+                    }
 
-                    // Check the radio button if its value matches the selected resort
-
-                    $el.prop('checked', $el.val() === resortVal);
-
-                } else {
-
-                    // Update dropdown value
-
-                    $el.val(resortVal);
-
-                }
-
-            });
+                });
+            }
 
 
 
@@ -3757,15 +3790,22 @@ const AccommodationFilters = (function() {
 
                 if (resortVal === 'all') {
 
-                    const onAccom = /^\/accommodation\/?$/.test(window.location.pathname);
+                    // Clear stored resort so /accommodation/ does not re-apply Niseko/etc.
+                    localStorage.removeItem(CONFIG.storage.resort);
 
-                    if (!onAccom) {
+                    var homeBase = (typeof kv_object !== 'undefined' && kv_object.homeUrl)
+                        ? String(kv_object.homeUrl).replace(/\/$/, '')
+                        : (typeof base_url !== 'undefined' ? base_url : window.location.origin);
 
-                        window.location.href = base_url + '/accommodation/';
+                    if (!isGlobalAccommodationPage()) {
+
+                        window.location.href = homeBase + '/accommodation/';
 
                         return;
 
                     }
+
+                    applyAllResortsSelection();
 
                 }
 
@@ -3777,7 +3817,7 @@ const AccommodationFilters = (function() {
 
                 if( single_form.length == 1 ){
 
-                    jQuery( '.sb-submit img' ).attr('src', base_url+'/wp-content/themes/kingdomvision-jsnew/images/loader-circle.gif');
+                    jQuery( '.sb-submit img' ).attr('src', (typeof themeUrl !== 'undefined' ? themeUrl : (kv_object && kv_object.themeUrl ? kv_object.themeUrl : '')) + '/images/loader-circle.gif');
 
                     jQuery( '.sb-submit' ).attr('disabled', true);
 

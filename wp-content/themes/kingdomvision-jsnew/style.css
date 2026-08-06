@@ -1345,7 +1345,7 @@ header .resortFilterWrap .sb-enquire:hover,
 .resortFilterWrap .search-card { position: relative; }
 
 /* Guests popover — child of search-card, escapes search-row overflow:hidden */
-.resortFilterWrap .guests-popover { position: absolute; top: 77px; right: 275px; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
+.resortFilterWrap .guests-popover { position: absolute; top: 77px; right: 170px; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
 .resortFilterWrap .guests-popover.open { display: block; }
 .resortFilterWrap .g-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
 .resortFilterWrap .g-row:last-child { border-bottom: none; padding-bottom: 0; }
@@ -2006,11 +2006,11 @@ section.room-listing .room-modal .room-modal-content .room-features .features-li
 
 
 
-/* Guests popover: stop clipping into the next section (hero reviews / header border) */
+/* Guests popover: stop clipping into the next section (hero reviews / header border).
+   Do NOT raise the whole hero z-index ? that covers the fixed transparent header. */
 section.hero-banner-with-filter:has(.guests-popover.open),
 section.hero-banner-with-filter:has(.guests-popover.show) {
 	overflow: visible;
-	z-index: 30;
 }
 section.hero-banner-with-filter .resortFilterWrap {
 	position: relative;
@@ -2021,11 +2021,10 @@ section.hero-banner-with-filter .resortFilterWrap:has(.guests-popover.show),
 .resortFilterWrap .search-card:has(.guests-popover.open),
 .resortFilterWrap .search-card:has(.guests-popover.show) {
 	overflow: visible !important;
-	z-index: 40;
 }
 .resortFilterWrap .guests-popover.open,
 .resortFilterWrap .guests-popover.show {
-	z-index: 10060;
+	z-index: 999;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 	max-height: min(70vh, 520px);

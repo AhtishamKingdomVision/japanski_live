@@ -2227,7 +2227,7 @@ jQuery(function ($) {
     }
 
     // Resolve a resort name from any pathname (current page or document.referrer).
-    // Supports /hakuba/accommodation/, /hakuba-accommodation/, and /hakuba/...
+    // Supports /hakuba/accommodation/, /japanSki/hakuba/where-to-stay/, /hakuba-accommodation/.
     // Plain /accommodation/ or /enquire/ → empty (no default).
     function getResortNameFromPath(pathname, options) {
         options = options || [];
@@ -2243,22 +2243,42 @@ jQuery(function ($) {
             return '';
         }
 
+        const skip = {
+            accommodation: 1,
+            enquire: 1,
+            'get-a-quote': 1,
+            'where-to-stay': 1,
+            'things-to-do': 1,
+            'resort-services': 1,
+            restaurants: 1,
+            maps: 1,
+            webcams: 1,
+            about: 1,
+            booking: 1,
+            blog: 1,
+            page: 1,
+            feed: 1,
+            amp: 1,
+            deals: 1,
+            offers: 1
+        };
+
+        // Prefer segment immediately before /accommodation/ when present
+        // (/japanSki/hakuba/accommodation/ → hakuba; /japanSki/accommodation/ → none).
         const accommodationIndex = pathParts.findIndex(function (part) {
             return part === 'accommodation' || part.endsWith('-accommodation');
         });
 
         if (accommodationIndex !== -1) {
-            // Exact "/accommodation/" root listing — no resort in URL
             if (pathParts[accommodationIndex] === 'accommodation') {
                 const previous = accommodationIndex > 0 ? pathParts[accommodationIndex - 1] : '';
-                if (!previous) {
+                if (!previous || skip[previous]) {
                     return '';
                 }
                 const match = matchResortOption(options, previous);
                 return match ? (match.rawValue || match.value || match.text) : '';
             }
 
-            // /hakuba-accommodation/...
             if (pathParts[accommodationIndex].endsWith('-accommodation')) {
                 const slugResort = pathParts[accommodationIndex].replace(/-accommodation$/, '');
                 const match = matchResortOption(options, slugResort);
@@ -2266,13 +2286,22 @@ jQuery(function ($) {
             }
         }
 
-        // /niseko/ or /niseko/things-to-do/ — first segment matched against resort options
-        const first = pathParts[0];
-        const matchFirst = matchResortOption(options, first);
-        return matchFirst ? (matchFirst.rawValue || matchFirst.value || matchFirst.text) : '';
+        // /hakuba/where-to-stay/ or /japanSki/hakuba/... — any segment that matches a resort
+        for (let i = 0; i < pathParts.length; i++) {
+            const part = pathParts[i];
+            if (skip[part] || part.endsWith('-accommodation')) {
+                continue;
+            }
+            const match = matchResortOption(options, part);
+            if (match) {
+                return match.rawValue || match.value || match.text;
+            }
+        }
+
+        return '';
     }
 
-    // Only treat URLs like /hakuba/accommodation/ as a locked resort page.
+    // Resort from URL: /hakuba/accommodation/, /hakuba/where-to-stay/, /japanSki/hakuba/...
     // Plain /accommodation/ must NOT lock the Resort field.
     function getUrlResortName($resortField) {
         const options = getResortOptions($resortField);
@@ -2612,8 +2641,9 @@ jQuery(function ($) {
         const urlResortName = getUrlResortName($resortField);
         // Prefer explicit trigger resort; otherwise URL resort for prefill only.
         const resortName = data.resortName || urlResortName || '';
-        // Lock resort only for property/room Enquire flows.
-        setEnquiryResortField($resortField, resortName, lockProduct && !!resortName);
+        // Lock when URL already has a resort (/hakuba/where-to-stay/) or property/room Enquire.
+        const lockResort = !!(urlResortName || (lockProduct && resortName));
+        setEnquiryResortField($resortField, resortName, lockResort);
 
         const $roomField = $scope.find('#input_1_44, .room_name input').first();
         if (data.roomName) {
@@ -2638,10 +2668,10 @@ jQuery(function ($) {
             $scope.find('.enquiry_type input').attr('value', 'Product').trigger('change');
         }
 
-        // Dates/guests always editable (Edit button removed). Resort/property lock only for product CTAs.
+        // Dates/guests always editable (Edit button removed). Resort locks for URL resort or product CTAs.
         $scope.find('.gform_wrapper.quote_form_wrapper')
             .attr('data-bbf-unlocked', '1')
-            .attr('data-bbf-lock-resort', (lockProduct && !!resortName) ? '1' : '0')
+            .attr('data-bbf-lock-resort', lockResort ? '1' : '0')
             .attr('data-bbf-lock-property', (lockProduct && !!data.propertyName) ? '1' : '0');
         syncEnquiryBbfLock($scope);
         if (typeof initAllBbfToggles === 'function') {
@@ -2667,7 +2697,7 @@ jQuery(function ($) {
             const opened = openEnquiryFromTrigger($btn, {
                 propertyName: propertyName,
                 resortName: resortName,
-                lockProductFields: !!propertyName
+                lockProductFields: !!propertyName || !!resortName
             });
             if (!opened) {
                 stashEnquiryResortName(resortName);
@@ -2727,7 +2757,7 @@ jQuery(function ($) {
             const checkOut = $card.find('.js-sb-checkout').val() || '';
             const isAccSingle = $('body').hasClass('single-accommodation');
             const propertyName = isAccSingle ? resolvePagePropertyForEnquiry($btn) : '';
-            if (!resortName && isAccSingle) {
+            if (!resortName) {
                 resortName = resolvePageResortForEnquiry($btn);
             }
             const opened = openEnquiryFromTrigger($btn, {
@@ -2735,7 +2765,7 @@ jQuery(function ($) {
                 resortName: resortName,
                 checkIn: checkIn,
                 checkOut: checkOut,
-                lockProductFields: !!(isAccSingle && propertyName)
+                lockProductFields: !!(isAccSingle && propertyName) || !!resortName
             });
             // No modal on this page → same handoff as sticky CTA
             if (!opened) {

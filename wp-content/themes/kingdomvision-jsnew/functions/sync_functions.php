@@ -1569,8 +1569,11 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     // ✅ STEP 2: Collect valid images (keep API id for "{id}-" filename dedupe)
 
-    $first_image      = [];
+    $first_image  = [];
     $valid_images = [];
+
+    cf_log( 'images', 'first_img' );
+    cf_log( $images, 'first_img' );
 
     foreach ( $images as $image ) {
 
@@ -1627,7 +1630,7 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     // ✅ STEP 4: Sideload or find first image by "{id}-" filename prefix → set as featured
 
-    $first_image      = array_shift( $valid_images );
+    // $first_image      = array_shift( $valid_images );
 
     $first_url        = $first_image['url'];
 
@@ -1649,7 +1652,16 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     );
 
+    cf_log( 'first_url', 'first_img' );
+    cf_log( $first_url, 'first_img' );
+
+    cf_log( 'valid_images', 'first_img' );
+    cf_log( $valid_images, 'first_img' );
+    
     $attachment_id = kv_sideload_or_find_image( $first_url, $post_id, $booking_image_id );
+
+    cf_log( 'attachment_id', 'first_img' );
+    cf_log( $attachment_id, 'first_img' );
 
     if ( $attachment_id ) {
 
@@ -3840,6 +3852,9 @@ function sq_mapping_properties($properties) {
 
                 $room_imgs = $roomType['images'] ?? [];
 
+                cf_log( 'Room images', 'first_img' );
+                cf_log( $room_imgs, 'first_img' );
+
                 hz_add_img_from_booking_sys($room_imgs, $upd_room_id, 'room');
 
 
@@ -3870,7 +3885,12 @@ function sq_mapping_properties($properties) {
         // re-filled so stale rows are removed, and is left untouched otherwise.
 
         // ✅ STEP 7j: Add accommodation images and update metadata
+        cf_log( 'Property name', 'first_img' );
+        cf_log( $property['name'], 'first_img' );
         // pre( $upd_room_id, 1 );
+        cf_log( 'Property images', 'first_img' );
+        cf_log( $property['images'], 'first_img' );
+
         hz_add_img_from_booking_sys(@$property['images'], $upd_hotel_id, 'accommodation');
 
         // Log successful sync (the wrapper above logs 'created' vs 'updated'

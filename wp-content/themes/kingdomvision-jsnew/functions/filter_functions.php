@@ -14,7 +14,7 @@ $is_stay_user = !is_user_logged_in() || get_current_user_id() != 14 ? true : fal
 //   define('KV_BOOKING_SYSTEM_BASE', 'https://trip.japanskiexperience.com');
 //   define('KV_BS_authToken', 'your-token-here');
 // $external_url = 'https://stay.japanskiexperience.com'; $authToken = '12810|nNp9PKBDHe6e9W5AYBzVwFpONivDUIBsHpQmRCcLe4d9bfbb'; // stay.japanskiexperience.com
-$external_url = 'https://trip.japanskiexperience.com'; $authToken = '12673|OVLhNTjBylikNlVwBO1idbGDcspvStZOZOAXZA5i655e0a2e'; // trip.japanskiexperience.com
+$external_url = 'https://stay.japanskiexperience.com'; $authToken = '14446|VMXiqD3Mza7EPqrnlLyqQBbOt1FlIrsH1K5CiUvX7fe8b686'; // trip.japanskiexperience.com
 // pre( $external_url );
 
 

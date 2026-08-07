@@ -1324,14 +1324,14 @@ section.jumplinks .jumplink-wrapper a.jumplink-item.active, section.jumplinks .j
 .resortFilterWrap .sb-actions button.sb-enquire { border-radius: 0 60px 60px 0; }
 
 .resortFilterWrap .sb-submit,
-.resortFilterWrap .sb-enquire { flex-shrink: 0; background: rgb(221, 54, 62); border: none; border-radius: 20px 0 0 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 18px 28px; font-family: "Schibsted Grotesk", Arial, sans-serif; font-size: 15px; font-weight: 700; color: #fff; transition: background 0.25s, border-radius 0.4s ease; white-space: nowrap; line-height: 20px; position: relative; }
-.resortFilterWrap .sb-submit:after { content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 1px; height: 36px; background: rgba(255, 255, 255, .15); }
+.resortFilterWrap .sb-enquire { flex-shrink: 0; background: rgb(221, 54, 62); border: none; border-radius: 20px 0 0 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 18px 28px; font-family: "Schibsted Grotesk", Arial, sans-serif; font-size: 15px; font-weight: 700; color: #fff; transition: background 0.25s, border-radius 0.4s ease; white-space: nowrap; line-height: 22px; position: relative; }
+.resortFilterWrap .sb-submit:after { content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 1px; height: 36px; background: #113360; }
 
 .resortFilterWrap .sb-submit:hover,
 .resortFilterWrap .sb-enquire:hover { background: #b5293a; }
 
 .resortFilterWrap .search-card.expanded .sb-submit { border-radius: 0; padding: 0 24px; }
-.resortFilterWrap .sb-submit img { height: 20px; }
+.resortFilterWrap .sb-submit img { height: 18px; }
 
 header .resortFilterWrap .sb-submit,
 header .resortFilterWrap .sb-enquire,
@@ -1345,7 +1345,7 @@ header .resortFilterWrap .sb-enquire:hover,
 .resortFilterWrap .search-card { position: relative; }
 
 /* Guests popover — child of search-card, escapes search-row overflow:hidden */
-.resortFilterWrap .guests-popover { position: absolute; top: 77px; right: 275px; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
+.resortFilterWrap .guests-popover { position: absolute; top: 77px; right: 170px; background: #fff; border-radius: 15px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25); z-index: 999; width: 260px; display: none; }
 .resortFilterWrap .guests-popover.open { display: block; }
 .resortFilterWrap .g-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
 .resortFilterWrap .g-row:last-child { border-bottom: none; padding-bottom: 0; }

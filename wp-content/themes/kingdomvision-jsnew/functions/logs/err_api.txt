@@ -11,3 +11,11 @@
 <pre>API returned HTTP 429 -- -- -- 2026-07-16 18:28:37<br></pre>
 <pre>API returned HTTP 500 -- -- -- 2026-07-20 11:35:59<br></pre>
 <pre>API returned HTTP 429 -- -- -- 2026-07-21 10:13:31<br></pre>
+<pre>API returned HTTP 500 -- -- -- 2026-07-30 03:27:30<br></pre>
+<pre>API returned HTTP 500 -- -- -- 2026-07-30 14:44:45<br></pre>
+<pre>API returned HTTP 500 -- -- -- 2026-08-02 14:32:25<br></pre>
+<pre>API returned HTTP 500 -- -- -- 2026-08-03 21:46:55<br></pre>
+<pre>API returned HTTP 500 -- -- -- 2026-08-04 01:24:49<br></pre>
+<pre>Invalid JSON in API response -- -- -- 2026-08-05 13:49:59<br></pre>
+<pre>API returned HTTP 500 -- -- -- 2026-08-06 15:43:37<br></pre>
+<pre>API returned HTTP 500 -- -- -- 2026-08-06 19:48:02<br></pre>

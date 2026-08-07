@@ -203,11 +203,7 @@ echo '<div class="content-wrapper full-section accommodation '.esc_attr($header_
                             }
                             echo '</ul>';
                         }
-                        // Wrapper so page enquiry JS can restore the form after AJAX success
-                        // (same pattern as .form_area / .acc_enquiry_form — without it GF leaves confirmation only).
-                        echo '<div class="kv-blog-enquiry-form">';
-                            echo do_shortcode('[gravityform id="1" title="true" ajax="true"]');
-                        echo '</div>';
+                        echo do_shortcode('[gravityform id="1" title="true"]');
                         if ($ff_image && $ff_content) {
                             echo '<div class="ff_content_image">';
                                 echo '<div class="ff_image">';

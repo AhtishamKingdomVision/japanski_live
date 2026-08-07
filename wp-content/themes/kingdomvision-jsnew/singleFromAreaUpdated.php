@@ -21,7 +21,12 @@ if( ( isset( $acc_ext_gallary ) && is_array( $acc_ext_gallary ) ) ){
 	}
 else{
 	$merged_gallary = !empty( $acco_image_gallery ) ? $acco_image_gallery : [];
+}
 
+$fea_image = get_the_post_thumbnail_url( $post->ID );
+if( $fea_image && !empty($fea_image) ){
+
+	$merged_gallary = array( $fea_image, ...$merged_gallary );
 }
 // @$_GET['gall'] == 'yes' ? pre($merged_gallary) : '';
 $bg_color   = $acc_details['bg_color'] ?? '#01111f';

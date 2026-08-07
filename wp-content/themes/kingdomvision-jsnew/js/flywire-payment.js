@@ -637,7 +637,7 @@ const FlywirePaymentManager = (() => {
                 setTimeout(() => reject(new Error('Quotation API timeout')), 30000)
             );
 
-            const fetchPromise = fetch('https://trip.japanskiexperience.com/api/quotations/wp-store', {
+            const fetchPromise = fetch('https://stay.japanskiexperience.com/api/quotations/wp-store', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

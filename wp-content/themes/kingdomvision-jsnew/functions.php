@@ -38,7 +38,7 @@ function theme_files()
 	wp_register_style('theme-style', $style_uri, array(), $style_version);
     wp_enqueue_style('theme-style');
 
-    wp_register_style('theme-styler', THEME_URL . '/css/responsive.css', false, filemtime(get_theme_file_path('/css/responsive.css')));
+    wp_register_style('theme-styler', THEME_URL . '/css/responsive.css', false, '0.8');
     wp_enqueue_style('theme-styler');
 
     wp_register_style('font-css', THEME_URL . '/css/fonts.css', false, null);
@@ -788,3 +788,19 @@ add_filter('wp_resource_hints', function($urls, $relation_type) {
 }, 10, 2);
 
 add_filter('oembed_response_data', function($data) { unset($data['author_name'], $data['author_url']); return $data; });
+
+//Custom Blog Post Breadcrumb
+add_filter( 'wpseo_breadcrumb_links', function( $links ) {
+    if ( is_singular( 'post' ) ) {
+        $blog_page_id = get_page_by_path( 'blog' );
+        $blog_page_id = $blog_page_id ? $blog_page_id->ID : 0;
+        if ( $blog_page_id ) {
+            $blog_crumb = array(
+                'url'  => get_permalink( $blog_page_id ),
+                'text' => get_the_title( $blog_page_id ),
+            );
+            array_splice( $links, 1, 0, array( $blog_crumb ) );
+        }
+    }
+    return $links;
+});

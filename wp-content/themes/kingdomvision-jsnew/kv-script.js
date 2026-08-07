@@ -2237,8 +2237,8 @@ jQuery(function ($) {
             return '';
         }
 
-        // Never treat the enquire page itself as a resort source.
-        if (pathParts[0] === 'enquire' || pathParts[0] === 'get-a-quote') {
+        // Never treat the enquire landing page itself as a resort source.
+        if (pathParts[0] === 'enquire' || pathParts[0] === 'get-a-quote' || pathParts[0] === 'get-expert-recommendations') {
             return '';
         }
 
@@ -2246,6 +2246,7 @@ jQuery(function ($) {
             accommodation: 1,
             enquire: 1,
             'get-a-quote': 1,
+            'get-expert-recommendations': 1,
             'where-to-stay': 1,
             'things-to-do': 1,
             'resort-services': 1,
@@ -2365,7 +2366,66 @@ jQuery(function ($) {
 
     function isBareEnquirePage() {
         const parts = window.location.pathname.toLowerCase().split('/').filter(Boolean);
-        return parts[0] === 'enquire' || parts[0] === 'get-a-quote';
+        const known = ['enquire', 'get-a-quote', 'get-expert-recommendations'];
+        return parts.some(function (p) { return known.indexOf(p) !== -1; })
+            || $('section.form_area.form_area--inline-enquire, .mob_quote_form.is-inline').length > 0;
+    }
+
+    /** On enquire landing pages the modal is omitted — scroll/focus the page form instead of redirecting. */
+    function focusPageEnquiryForm(data) {
+        data = data || {};
+        const $target = $(
+            '#form_area_section, section.form_area.form_area--inline-enquire, .mob_quote_form.is-inline, section.form_area .gform_wrapper'
+        ).first();
+        if (!$target.length) return false;
+
+        const $scope = $target.closest('section.form_area, .mob_quote_form, .fa_right').length
+            ? $target.closest('section.form_area, .mob_quote_form, .fa_right')
+            : $target;
+        const $resortField = $scope.find('.resort_name select, select[name="input_66"]').first();
+        const resortName = (data.resortName || '').toString().trim();
+        if ($resortField.length && resortName) {
+            setEnquiryResortField($resortField, resortName, !!data.lockResort);
+            $resortField.closest('.gform_wrapper')
+                .attr('data-bbf-lock-resort', data.lockResort ? '1' : '0');
+            if (typeof syncEnquiryBbfLock === 'function') {
+                syncEnquiryBbfLock($resortField.closest('.gform_wrapper'));
+            }
+        }
+
+        if (data.checkIn) {
+            const checkInDmy = convertYMDToDMY(data.checkIn);
+            $scope.find('#input_1_5, input[name="input_5"]').first().val(checkInDmy).trigger('change');
+        }
+        if (data.checkOut) {
+            const checkOutDmy = convertYMDToDMY(data.checkOut);
+            $scope.find('#input_1_6, input[name="input_6"]').first().val(checkOutDmy).prop('disabled', false).trigger('change');
+        }
+
+        const headerH = $('header').outerHeight() || 0;
+        const top = ($target.offset() && $target.offset().top) || 0;
+        $('html, body').animate({ scrollTop: Math.max(0, top - headerH - 12) }, 400);
+        return true;
+    }
+
+    /** Always open the same Enquiry popup; redirect only if modal markup is missing. */
+    function enquireModalOrFallback($btn, data) {
+        data = data || {};
+        const opened = openEnquiryFromTrigger($btn, data);
+        if (opened) return true;
+
+        const resortName = (data.resortName || '').toString().trim();
+        const propertyName = (data.propertyName || '').toString().trim();
+        if (data.checkIn) localStorage.setItem('sb_checkin', data.checkIn);
+        if (data.checkOut) localStorage.setItem('sb_checkout', data.checkOut);
+        stashEnquiryResortName(resortName);
+        if (propertyName) localStorage.setItem('enquiry_hotel_name', propertyName);
+
+        const homeBase = (typeof kv_object !== 'undefined' && kv_object.homeUrl)
+            ? String(kv_object.homeUrl).replace(/\/$/, '')
+            : (typeof base_url !== 'undefined' ? base_url : window.location.origin);
+        window.location.href = homeBase + '/enquire/';
+        return false;
     }
 
     function hasSameOriginReferrer() {
@@ -2640,8 +2700,10 @@ jQuery(function ($) {
         const urlResortName = getUrlResortName($resortField);
         // Prefer explicit trigger resort; otherwise URL resort for prefill only.
         const resortName = data.resortName || urlResortName || '';
-        // Lock when URL already has a resort (/hakuba/where-to-stay/) or property/room Enquire.
-        const lockResort = !!(urlResortName || (lockProduct && resortName));
+        // Lock only for URL resort pages OR property/room Enquire — never lock just because
+        // a previous-page search resort was prefilled (blog / general CTAs must stay editable).
+        const hasProductContext = !!(data.propertyName || data.roomName);
+        const lockResort = !!(urlResortName || (lockProduct && resortName && hasProductContext));
         setEnquiryResortField($resortField, resortName, lockResort);
 
         const $roomField = $scope.find('#input_1_44, .room_name input').first();
@@ -2693,16 +2755,12 @@ jQuery(function ($) {
                 $btn.attr('resort-name') || resolvePageResortForEnquiry($btn) || ''
             ).trim();
 
-            const opened = openEnquiryFromTrigger($btn, {
+            enquireModalOrFallback($btn, {
                 propertyName: propertyName,
                 resortName: resortName,
-                lockProductFields: !!propertyName || !!resortName
+                // Prefill resort OK; lock only when this is a property page CTA.
+                lockProductFields: !!propertyName
             });
-            if (!opened) {
-                stashEnquiryResortName(resortName);
-                if (propertyName) localStorage.setItem('enquiry_hotel_name', propertyName);
-                window.location.href = '/enquire/';
-            }
             return;
         }
 
@@ -2759,34 +2817,29 @@ jQuery(function ($) {
             if (!resortName) {
                 resortName = resolvePageResortForEnquiry($btn);
             }
-            const opened = openEnquiryFromTrigger($btn, {
+            enquireModalOrFallback($btn, {
                 propertyName: propertyName,
                 resortName: resortName,
                 checkIn: checkIn,
                 checkOut: checkOut,
-                lockProductFields: !!(isAccSingle && propertyName) || !!resortName
+                // URL resort still locks via populateEnquiryModal; search resort alone does not.
+                lockProductFields: !!(isAccSingle && propertyName)
             });
-            // No modal on this page → same handoff as sticky CTA
-            if (!opened) {
-                if (checkIn) localStorage.setItem('sb_checkin', checkIn);
-                if (checkOut) localStorage.setItem('sb_checkout', checkOut);
-                stashEnquiryResortName(resortName);
-                if (propertyName) localStorage.setItem('enquiry_hotel_name', propertyName);
-                window.location.href = '/enquire/';
-            }
             return;
         }
 
-        // Single-room / generic Enquire Now (.enq-btn-popup) → lock resort + property
-        openEnquiryFromTrigger($btn, {
-            propertyName: resolvePagePropertyForEnquiry($btn),
+        // Single-room / generic Enquire Now (.enq-btn-popup) → lock only for property/room.
+        const genericProperty = resolvePagePropertyForEnquiry($btn);
+        const genericRoom = ($btn.attr('room-title') || '').toString().trim();
+        enquireModalOrFallback($btn, {
+            propertyName: genericProperty,
             resortName: resolvePageResortForEnquiry($btn),
-            roomName: $btn.attr('room-title') || '',
-            lockProductFields: true
+            roomName: genericRoom,
+            lockProductFields: !!(genericProperty || genericRoom)
         });
     });
 
-    // Legacy .enq-btn (non-sticky) → full enquire page.
+    // Legacy .enq-btn (non-sticky) → full enquire page (or scroll if already there).
     $(document).on('click', '.enq-btn', function (e) {
         // Sticky CTA now opens popup via .enq-btn-popup — skip redirect.
         if ($(this).hasClass('sticky-cta-btn') || $(this).hasClass('enq-btn-popup')) return;
@@ -2797,11 +2850,12 @@ jQuery(function ($) {
         const hotelName = $btn.attr('hotel-name') || '';
         const resortName = resolvePageResortForEnquiry($btn);
 
-        if (roomTitle) localStorage.setItem('enquiry_room_title', roomTitle);
-        if (hotelName) localStorage.setItem('enquiry_hotel_name', hotelName);
-        stashEnquiryResortName(resortName);
-
-        window.location.href = '/enquire/';
+        enquireModalOrFallback($btn, {
+            propertyName: hotelName || resolvePagePropertyForEnquiry($btn) || '',
+            resortName: resortName,
+            roomName: roomTitle,
+            lockProductFields: !!(hotelName || roomTitle)
+        });
     });
 
     // Sticky CTA with enquire href (legacy markup) → stash resort; popup handler owns click when enq-btn-popup present.

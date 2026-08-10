@@ -2820,11 +2820,29 @@ jQuery(function ($) {
         setTimeout(function () { syncEnquiryBbfLock($scope); initAllBbfToggles(); }, 600);
     }
 
+    // Real page links navigate; empty / # / javascript: open the enquiry popup.
+    function kvEnquiryTriggerShouldNavigate($el) {
+        if (!$el || !$el.length || !$el.is('a')) return false;
+        // Sticky footer enquire CTA always opens popup.
+        if ($el.hasClass('sticky-cta-btn') && $el.closest('.sticky-cta-container').length) {
+            return false;
+        }
+        const href = String($el.attr('href') || '').trim();
+        if (!href) return false;
+        const lower = href.toLowerCase();
+        if (lower === '#' || lower.indexOf('javascript:') === 0) return false;
+        return true;
+    }
+
     $(document).on('click', '.enq_cta, .enquire_btn, .enq-btn-popup', function (e) {
+        const $btn = $(this);
+
+        if (kvEnquiryTriggerShouldNavigate($btn)) {
+            return; // allow browser to follow real href
+        }
+
         e.preventDefault();
         e.stopPropagation();
-
-        const $btn = $(this);
 
         // Sticky footer CTA → open enquiry popup (prefill property on accommodation singles).
         if ($btn.hasClass('sticky-cta-btn') && $btn.closest('.sticky-cta-container').length ) {

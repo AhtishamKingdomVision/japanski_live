@@ -33,8 +33,9 @@ echo '<section ' . SectionAttributes($section, 'full-section content-with-video'
 				    echo '<div class="buttons">';
 				    foreach($buttons as $row){
 				        $btn = $row['button'] ?? [];
-				        if(!empty($btn['url']) && !empty($btn['title'])){
-				            echo '<a href="'. esc_url($btn['url']) .'" class="btn" target="'. esc_attr($btn['target'] ?? '_self') .'">'
+				        if(!empty($btn['title'])){
+				            $btn_url = !empty($btn['url']) ? $btn['url'] : '#';
+				            echo '<a href="'. esc_url($btn_url) .'" class="btn enq-btn-popup" target="'. esc_attr($btn['target'] ?? '_self') .'">'
 				                    . esc_html($btn['title']) .
 				                 '</a>';
 				        }

@@ -1357,15 +1357,72 @@ jQuery(function ($) {
         return $('.Enquiry-modal-content').first();
     }
 
+    function isEnquiryLoadingLabel(label) {
+        const t = String(label || '')
+            .replace(/\u2026/g, '...')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .toLowerCase();
+        return (
+            t === '' ||
+            t === 'sending...' ||
+            t === 'sending' ||
+            t === 'please wait...' ||
+            t === 'please wait'
+        );
+    }
+
+    function getCleanEnquirySubmitLabel($btn) {
+        if (!$btn || !$btn.length) return 'Get a Quote';
+        const stored =
+            $btn.data('kv-enq-btn-label') ||
+            $btn.data('original-text') ||
+            $btn.attr('data-kv-enq-btn-label') ||
+            '';
+        if (stored && !isEnquiryLoadingLabel(stored)) {
+            return String(stored).trim();
+        }
+        const current = $btn.is('input')
+            ? String($btn.val() || '')
+            : String($btn.text() || '');
+        if (!isEnquiryLoadingLabel(current)) {
+            return current.trim();
+        }
+        return 'Get a Quote';
+    }
+
+    // Clear loader UI + restore a real submit label (never leave "Sending…").
+    function normalizeEnquirySubmitButtons($root) {
+        const $scope = $root && $root.length ? $root : $(document);
+        $scope.find('.kv-enquiry-submit-loader, .kv-enquiry-btn-spinner').remove();
+        $scope
+            .find(
+                '.gform_button, input[type="submit"], button[type="submit"], #gform_submit_button_1'
+            )
+            .add($scope.filter('.gform_button, input[type="submit"], button[type="submit"]'))
+            .each(function () {
+                const $btn = $(this);
+                const label = getCleanEnquirySubmitLabel($btn);
+                $btn
+                    .removeClass('kv-enquiry-btn-loading button-loading kv-enquiry-is-loading')
+                    .removeAttr('aria-busy')
+                    .prop('disabled', false)
+                    .removeData('kv-enq-btn-label');
+                if ($btn.is('input')) {
+                    $btn.val(label);
+                } else {
+                    $btn.text(label);
+                }
+            });
+        $scope.find('.kv-enquiry-is-loading').removeClass('kv-enquiry-is-loading');
+    }
+
     function stripEnquiryValidationHtml(html) {
         if (!html) return html;
         try {
             const $tmp = $('<div>').html(html);
-            // Never cache the submit overlay — blog mount is also the loader host,
-            // so restoring cached HTML would bring "Sending…" back after success.
-            $tmp.find('.kv-enquiry-submit-loader, .kv-enquiry-btn-spinner').remove();
-            $tmp.find('.kv-enquiry-is-loading, .kv-enquiry-btn-loading').removeClass('kv-enquiry-is-loading kv-enquiry-btn-loading');
-            $tmp.find('.gform_button, input[type="submit"]').prop('disabled', false).removeAttr('aria-busy');
+            // Never cache the submit overlay / "Sending…" label — restore would stick.
+            normalizeEnquirySubmitButtons($tmp);
             $tmp.find('.gform_wrapper').removeClass('gform_validation_error');
             $tmp.find(
                 '.gform_validation_errors, .gform_validation_error, .validation_error, ' +
@@ -1383,6 +1440,13 @@ jQuery(function ($) {
     function cacheEnquiryModalFormHtml() {
         const $slot = $('.Enquiry-modal-form-slot').first();
         if (!$slot.length) return;
+        // Do not overwrite a clean cache while the submit loader is showing.
+        if (
+            enquiryModalAwaitingSubmit ||
+            $slot.find('.kv-enquiry-btn-loading').length
+        ) {
+            return;
+        }
         // Only cache a live form (not a confirmation / success screen).
         if (
             $slot.find('form#gform_1, form[id^="gform_"], form.quote_form').length &&
@@ -1395,6 +1459,13 @@ jQuery(function ($) {
     function cachePageEnquiryFormHtml() {
         const $mount = getPageEnquiryMount();
         if (!$mount.length) return;
+        // Do not overwrite a clean cache while the submit loader is showing.
+        if (
+            enquiryPageAwaitingSubmit ||
+            $mount.find('.kv-enquiry-btn-loading').length
+        ) {
+            return;
+        }
         if (
             $mount.find('form#gform_1, form[id^="gform_"], form[id^="parked_gform_"], form.quote_form').length &&
             !$mount.find('.gform_confirmation_message, .gform_confirmation_wrapper').length
@@ -1410,9 +1481,7 @@ jQuery(function ($) {
             }
             // Clone without loader — blog uses the same node as loader host.
             const $forCache = $mount.clone(false, false);
-            $forCache.find('.kv-enquiry-submit-loader, .kv-enquiry-btn-spinner').remove();
-            $forCache.find('.kv-enquiry-is-loading, .kv-enquiry-btn-loading').removeClass('kv-enquiry-is-loading kv-enquiry-btn-loading');
-            $forCache.find('.gform_button, input[type="submit"]').prop('disabled', false).removeAttr('aria-busy');
+            normalizeEnquirySubmitButtons($forCache);
             pageEnquiryFormHtml = stripEnquiryValidationHtml($forCache.html());
             if (wasParked || $('body').hasClass('enquire-open')) {
                 parkEnquiryFormExcept('modal');
@@ -1430,10 +1499,8 @@ jQuery(function ($) {
             // Fallback: remove leaked confirmation markup from the page form.
             $mount.find('.gform_confirmation_wrapper, .gform_confirmation_message, .gform_confirmation_message_1').remove();
         }
-        // Safety: never leave a stuck Sending… state after HTML restore (blog).
-        $mount.find('.kv-enquiry-submit-loader, .kv-enquiry-btn-spinner').remove();
-        $mount.find('.kv-enquiry-is-loading, .kv-enquiry-btn-loading').removeClass('kv-enquiry-is-loading kv-enquiry-btn-loading');
-        $mount.find('.gform_button, input[type="submit"]').prop('disabled', false).removeAttr('aria-busy');
+        // Safety: never leave a stuck Sending… state after HTML restore.
+        normalizeEnquirySubmitButtons($mount);
 
         // While popup is open, keep page copy parked so GF keeps targeting the modal.
         if ($('body').hasClass('enquire-open') || $('.Enquiry-modal.active').length) {
@@ -1450,6 +1517,7 @@ jQuery(function ($) {
         if (!$slot.length || !enquiryModalFormHtml) return;
 
         $slot.html(enquiryModalFormHtml);
+        normalizeEnquirySubmitButtons($slot);
         $('.Enquiry-modal').removeClass('is-success');
         $('.Enquiry-modal-title').text('Enquire Now');
         enquiryModalAwaitingSubmit = false;
@@ -1525,9 +1593,8 @@ jQuery(function ($) {
         ensureEnquirySubmitLoaderStyles();
         hideEnquirySubmitLoader();
 
-        const label = $btn.is('input')
-            ? String($btn.val() || '')
-            : String($btn.text() || '');
+        // Never store "Sending…" as the restore label (stuck state / double submit).
+        const label = getCleanEnquirySubmitLabel($btn);
         $btn
             .data('kv-enq-btn-label', label)
             .attr('aria-busy', 'true')
@@ -1545,23 +1612,26 @@ jQuery(function ($) {
     }
 
     function hideEnquirySubmitLoader() {
+        // Prefer restoring buttons that still have the loading class…
         $('.kv-enquiry-btn-spinner').remove();
         $('.kv-enquiry-btn-loading').each(function () {
             const $btn = $(this);
-            const label = $btn.data('kv-enq-btn-label');
+            const label = getCleanEnquirySubmitLabel($btn);
             $btn
-                .removeClass('kv-enquiry-btn-loading')
+                .removeClass('kv-enquiry-btn-loading button-loading')
                 .removeAttr('aria-busy')
                 .prop('disabled', false);
-            if (typeof label !== 'undefined' && label !== null && label !== '') {
-                if ($btn.is('input')) {
-                    $btn.val(label);
-                } else {
-                    $btn.text(label);
-                }
+            if ($btn.is('input')) {
+                $btn.val(label);
+            } else {
+                $btn.text(label);
             }
             $btn.removeData('kv-enq-btn-label');
         });
+        // …and also fix any submit stuck on "Sending…" without the class (restored cache).
+        normalizeEnquirySubmitButtons(
+            $('.Enquiry-modal, .form_area, .acc_enquiry_form, .mob_quote_form, .mob_quote_form1, .kv-blog-enquiry-form, section.enquiry_form')
+        );
         // Legacy full-form overlay cleanup (older sessions / cached HTML).
         $('.kv-enquiry-submit-loader').remove();
         $('.kv-enquiry-is-loading').removeClass('kv-enquiry-is-loading');
@@ -1571,11 +1641,14 @@ jQuery(function ($) {
         if (!$form || !$form.length) return;
 
         if ($form.closest('.Enquiry-modal').length) {
+            // Cache a clean copy BEFORE the loader mutates the button label.
+            if (!enquiryModalFormHtml) {
+                cacheEnquiryModalFormHtml();
+            }
             enquiryModalAwaitingSubmit = true;
             enquiryModalSuccessShown = false;
             enquiryPageAwaitingSubmit = false;
             showEnquirySubmitLoader($form);
-            cacheEnquiryModalFormHtml();
             bindEnquiryGformAjaxFrame();
             return;
         }
@@ -1586,11 +1659,13 @@ jQuery(function ($) {
                 '.acc_enquiry_form, .mob_quote_form1, .mob_quote_form, .form_area, .load-more-enquiry-form, section.enquiry_form, .kv-blog-enquiry-form'
             ).length
         ) {
+            if (!pageEnquiryFormHtml) {
+                cachePageEnquiryFormHtml();
+            }
             enquiryPageAwaitingSubmit = true;
             enquiryPageSuccessShown = false;
             enquiryModalAwaitingSubmit = false;
             showEnquirySubmitLoader($form);
-            cachePageEnquiryFormHtml();
             bindEnquiryGformAjaxFrame();
         }
     }
@@ -1644,7 +1719,11 @@ jQuery(function ($) {
 
         const text = customMessage || 'Thanks for your enquiry. Our team will get back to you very soon.';
         const $wrap = getPageEnquiryFormWrap();
-        if (!$wrap.length) return;
+        if (!$wrap.length) {
+            enquiryPageAwaitingSubmit = false;
+            hideEnquirySubmitLoader();
+            return;
+        }
 
         enquiryPageSuccessShown = true;
         enquiryPageAwaitingSubmit = false;
@@ -1655,6 +1734,8 @@ jQuery(function ($) {
         // Hide AFTER reset — blog caches the same node as the loader host,
         // so restoring HTML must not leave "Sending…" stuck over the thank-you.
         hideEnquirySubmitLoader();
+        normalizeEnquirySubmitButtons($wrap);
+        normalizeEnquirySubmitButtons(getPageEnquiryMount());
         // Cached HTML can still carry errors from an earlier failed submit.
         clearEnquiryValidationIn($wrap);
         clearEnquiryValidationIn(getPageEnquiryMount());
@@ -1691,16 +1772,11 @@ jQuery(function ($) {
         if (enquiryPageSuccessTimer) {
             clearTimeout(enquiryPageSuccessTimer);
         }
+        // Show thank-you briefly, then hard-reload so the form is fresh for another enquiry.
         enquiryPageSuccessTimer = setTimeout(function () {
             enquiryPageSuccessTimer = null;
-            const $banner = $bannerTarget && $bannerTarget.length
-                ? $bannerTarget
-                : $('.kv-page-enquiry-success').not('.kv-enquiry-modal-success');
-            $banner.fadeOut(250, function () {
-                $(this).remove();
-                enquiryPageSuccessShown = false;
-            });
-        }, 3500);
+            window.location.reload();
+        }, 2000);
     }
 
     function enquiryModalHasValidation($root) {
@@ -1856,6 +1932,8 @@ jQuery(function ($) {
         resetEnquiryModalForm();
         enquiryModalSuccessShown = true;
         enquiryModalAwaitingSubmit = false;
+        hideEnquirySubmitLoader();
+        normalizeEnquirySubmitButtons($modal);
         clearEnquiryValidationIn(getModalEnquiryScope());
 
         // Same style as page form: banner under title, form stays visible below.

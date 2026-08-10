@@ -503253,3 +503253,639 @@
 
 )
 <br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 6
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 6
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+    [1] => Array
+        (
+            [title] => Hakuba47 Ski Resort
+            [latitude] => 36.6854245
+            [longitude] => 137.828947
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => #00111f
+            [padding_top] => 80
+            [padding_bottom] => 80
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 419
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hakuba47 Ski Resort
+                            [latitude] => 36.6854245
+                            [longitude] => 137.828947
+                            [base_area] => 419
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Wadano no Mori<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 417
+    [name] => Wadano no Mori
+    [slug] => wadano_no_mori
+    [term_group] => 0
+    [term_taxonomy_id] => 417
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 4
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>417<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Sakka Kitaone Quad Lift
+            [latitude] => 36.7105359
+            [longitude] => 137.8310002
+            [base_area] => 417
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Wadano no Mori<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 417
+    [name] => Wadano no Mori
+    [slug] => wadano_no_mori
+    [term_group] => 0
+    [term_taxonomy_id] => 417
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 4
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>417<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Sakka Kitaone Quad Lift
+            [latitude] => 36.7105359
+            [longitude] => 137.8310002
+            [base_area] => 417
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 417
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Wadano no Mori<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 417
+    [name] => Wadano no Mori
+    [slug] => wadano_no_mori
+    [term_group] => 0
+    [term_taxonomy_id] => 417
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 4
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>417<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Sakka Kitaone Quad Lift
+            [latitude] => 36.7105359
+            [longitude] => 137.8310002
+            [base_area] => 417
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 417
+        )
+
+    [2] => Array
+        (
+            [title] => Mominoki Onsen
+            [latitude] => 36.7069837
+            [longitude] => 137.8367087
+            [base_area] => 417
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Wadano no Mori<br></pre>
+<pre>base_term<br></pre>
+<pre><br></pre>
+<pre>base_term 1<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 417
+    [name] => Wadano no Mori
+    [slug] => wadano_no_mori
+    [term_group] => 0
+    [term_taxonomy_id] => 417
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 4
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>417<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Sakka Kitaone Quad Lift
+            [latitude] => 36.7105359
+            [longitude] => 137.8310002
+            [base_area] => 417
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 417
+        )
+
+    [2] => Array
+        (
+            [title] => Mominoki Onsen
+            [latitude] => 36.7069837
+            [longitude] => 137.8367087
+            [base_area] => 417
+        )
+
+    [3] => Array
+        (
+            [title] => Hakuba Tokyu Hotel Onsen
+            [latitude] => 36.7061041
+            [longitude] => 137.839288
+            [base_area] => 417
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Sakka Kitaone Quad Lift
+                            [latitude] => 36.7105359
+                            [longitude] => 137.8310002
+                            [base_area] => 417
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 417
+                        )
+
+                    [2] => Array
+                        (
+                            [title] => Mominoki Onsen
+                            [latitude] => 36.7069837
+                            [longitude] => 137.8367087
+                            [base_area] => 417
+                        )
+
+                    [3] => Array
+                        (
+                            [title] => Hakuba Tokyu Hotel Onsen
+                            [latitude] => 36.7061041
+                            [longitude] => 137.839288
+                            [base_area] => 417
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Norikura<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 423
+    [name] => Norikura
+    [slug] => norikura
+    [term_group] => 0
+    [term_taxonomy_id] => 423
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 0
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>423<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Norikura Ski Resort
+            [latitude] => 36.7659783
+            [longitude] => 137.8742987
+            [base_area] => 423
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Norikura<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 423
+    [name] => Norikura
+    [slug] => norikura
+    [term_group] => 0
+    [term_taxonomy_id] => 423
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 0
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>423<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Norikura Ski Resort
+            [latitude] => 36.7659783
+            [longitude] => 137.8742987
+            [base_area] => 423
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 423
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Norikura Ski Resort
+                            [latitude] => 36.7659783
+                            [longitude] => 137.8742987
+                            [base_area] => 423
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 423
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 7
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 7
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+    [1] => Array
+        (
+            [title] => Hakuba47 Ski Resort
+            [latitude] => 36.6854245
+            [longitude] => 137.828947
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => #00111f
+            [padding_top] => 80
+            [padding_bottom] => 80
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 419
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hakuba47 Ski Resort
+                            [latitude] => 36.6854245
+                            [longitude] => 137.828947
+                            [base_area] => 419
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>

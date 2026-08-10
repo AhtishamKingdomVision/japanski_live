@@ -161654,3 +161654,661 @@
 
 )
 <br></pre>
+<pre>area name<br></pre>
+<pre>Echoland<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 418
+    [name] => Echoland
+    [slug] => echoland
+    [term_group] => 0
+    [term_taxonomy_id] => 418
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 7
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>418<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo One Nakiyama #3 Lift
+            [latitude] => 36.6983026
+            [longitude] => 137.8386944
+            [base_area] => 418
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Echoland<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 418
+    [name] => Echoland
+    [slug] => echoland
+    [term_group] => 0
+    [term_taxonomy_id] => 418
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 7
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>418<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo One Nakiyama #3 Lift
+            [latitude] => 36.6983026
+            [longitude] => 137.8386944
+            [base_area] => 418
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 418
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Happo One Nakiyama #3 Lift
+                            [latitude] => 36.6983026
+                            [longitude] => 137.8386944
+                            [base_area] => 418
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 418
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 4
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 4
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+    [1] => Array
+        (
+            [title] => Hakuba47 Ski Resort
+            [latitude] => 36.6854245
+            [longitude] => 137.828947
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 419
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hakuba47 Ski Resort
+                            [latitude] => 36.6854245
+                            [longitude] => 137.828947
+                            [base_area] => 419
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => #00111f
+            [padding_top] => 80
+            [padding_bottom] => 80
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 419
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hakuba47 Ski Resort
+                            [latitude] => 36.6854245
+                            [longitude] => 137.828947
+                            [base_area] => 419
+                        )
+
+                )
+
+        )
+
+    [5] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Happo One Village<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 514
+    [name] => Happo One Village
+    [slug] => happo-one-village
+    [term_group] => 0
+    [term_taxonomy_id] => 514
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 5
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>514<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Gondola Station
+            [latitude] => 36.7019294
+            [longitude] => 137.8374747
+            [base_area] => 514
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Happo One Village<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 514
+    [name] => Happo One Village
+    [slug] => happo-one-village
+    [term_group] => 0
+    [term_taxonomy_id] => 514
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 5
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>514<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Gondola Station
+            [latitude] => 36.7019294
+            [longitude] => 137.8374747
+            [base_area] => 514
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 514
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Happo One Village<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 514
+    [name] => Happo One Village
+    [slug] => happo-one-village
+    [term_group] => 0
+    [term_taxonomy_id] => 514
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 5
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>514<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Gondola Station
+            [latitude] => 36.7019294
+            [longitude] => 137.8374747
+            [base_area] => 514
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 514
+        )
+
+    [2] => Array
+        (
+            [title] => Rhythm Happo
+            [latitude] => 36.7009944
+            [longitude] => 137.8424635
+            [base_area] => 514
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Happo One Village<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 514
+    [name] => Happo One Village
+    [slug] => happo-one-village
+    [term_group] => 0
+    [term_taxonomy_id] => 514
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 5
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>514<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Gondola Station
+            [latitude] => 36.7019294
+            [longitude] => 137.8374747
+            [base_area] => 514
+        )
+
+    [1] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 514
+        )
+
+    [2] => Array
+        (
+            [title] => Rhythm Happo
+            [latitude] => 36.7009944
+            [longitude] => 137.8424635
+            [base_area] => 514
+        )
+
+    [3] => Array
+        (
+            [title] => Happo no Yu Onsen
+            [latitude] => 36.7008081
+            [longitude] => 137.8460155
+            [base_area] => 514
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => 
+            [padding_top] => 30
+            [padding_bottom] => 30
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Happo Gondola Station
+                            [latitude] => 36.7019294
+                            [longitude] => 137.8374747
+                            [base_area] => 514
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 514
+                        )
+
+                    [2] => Array
+                        (
+                            [title] => Rhythm Happo
+                            [latitude] => 36.7009944
+                            [longitude] => 137.8424635
+                            [base_area] => 514
+                        )
+
+                    [3] => Array
+                        (
+                            [title] => Happo no Yu Onsen
+                            [latitude] => 36.7008081
+                            [longitude] => 137.8460155
+                            [base_area] => 514
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 5
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>area name<br></pre>
+<pre>Misorano<br></pre>
+<pre>base_term<br></pre>
+<pre>WP_Term Object
+(
+    [term_id] => 419
+    [name] => Misorano
+    [slug] => misorano
+    [term_group] => 0
+    [term_taxonomy_id] => 419
+    [taxonomy] => accommodation-cat
+    [description] => 
+    [parent] => 12
+    [count] => 5
+    [filter] => raw
+)
+<br></pre>
+<pre>base_area<br></pre>
+<pre>419<br></pre>
+<pre>location_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [title] => Happo Bus Terminal
+            [latitude] => 36.7014375
+            [longitude] => 137.845754
+            [base_area] => 419
+        )
+
+    [1] => Array
+        (
+            [title] => Hakuba47 Ski Resort
+            [latitude] => 36.6854245
+            [longitude] => 137.828947
+            [base_area] => 419
+        )
+
+)
+<br></pre>
+<pre>acc_builder<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [acf_fc_layout] => text_editor
+        )
+
+    [1] => Array
+        (
+            [acf_fc_layout] => about_accomodation
+        )
+
+    [2] => Array
+        (
+            [acf_fc_layout] => product_review
+        )
+
+    [3] => Array
+        (
+            [acf_fc_layout] => nearby_location
+            [bg_options] => color
+            [bg_image] => 
+            [bg_color] => #00111f
+            [padding_top] => 80
+            [padding_bottom] => 80
+            [location] => Array
+                (
+                    [0] => Array
+                        (
+                            [title] => Happo Bus Terminal
+                            [latitude] => 36.7014375
+                            [longitude] => 137.845754
+                            [base_area] => 419
+                        )
+
+                    [1] => Array
+                        (
+                            [title] => Hakuba47 Ski Resort
+                            [latitude] => 36.6854245
+                            [longitude] => 137.828947
+                            [base_area] => 419
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [acf_fc_layout] => accordion
+        )
+
+)
+<br></pre>

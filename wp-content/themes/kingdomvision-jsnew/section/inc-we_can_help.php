@@ -49,7 +49,7 @@ echo '<section '.SectionAttributes($section, 'full-section we-can-help').' '.Bac
 				        	$buttonUrl = $button['url'];
 				        	$buttonTitle = $button['title'];
 				        	$buttonTarget = $button['target'] ? $button['target'] : '_self';
-				        	echo '<a href="'.esc_url($buttonUrl).'" target="'.esc_attr($buttonTarget).'" class="btn btn-primary enq-btn-popup">'.esc_html($buttonTitle).'</a>';
+				        	echo '<a href="'.esc_url($buttonUrl).'" target="'.esc_attr($buttonTarget).'" class="btn btn-primary">'.esc_html($buttonTitle).'</a>';
 				        }
 				    echo '</div>';
 				}

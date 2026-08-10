@@ -1,0 +1,411 @@
+0000.001 (0) Opened log file at time: Mon, 10 Aug 2026 09:50:15 +0000 on http://localhost/japanSki
+0000.006 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 7.0.1 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 113.2M | 122M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.010 (0) Free space on disk containing Updraft's temporary directory: 291772.3 MB
+0000.068 (0) Tasks: Backup files: 1 (schedule: daily) Backup DB:  (schedule: daily)
+0000.070 (0) Processed schedules. Combining jobs from identical schedules. Tasks now: Backup files: 1 Backup DB: 1
+0000.102 (0) Requesting semaphore lock (fd) (apparently via scheduler: last_scheduled_action_called_at=1786096977, seconds_ago=258438)
+0000.111 (0) Set semaphore last lock (fd) time to 2026-08-10 09:50:15
+0000.113 (0) Semaphore lock (fd) complete
+0000.123 (0) Backup run: resumption=0, nonce=4e2ea9717ea2, file_nonce=4e2ea9717ea2 begun at=1786355415 (0s ago), job type=backup
+0000.127 (0) Scheduling a resumption (1) after 300 seconds (1786355715) in case this run gets aborted
+0000.169 (0) Checking if we have a zip executable available
+0000.175 (0) Creation of backups of directories: beginning
+0000.182 (0) No backup of plugins: excluded by user's options
+0000.184 (0) No backup of themes: excluded by user's options
+0000.187 (0) No backup of uploads: excluded by user's options
+0000.189 (0) No backup of mu-plugins: excluded by user's options
+0000.195 (0) No backup of others: excluded by user's options
+0000.205 (0) Saving backup status to database (elements: 0)
+0000.267 (0) Beginning creation of database dump (WordPress DB)
+0000.270 (0) SQL compatibility mode is: NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+0000.318 (0) Table wp_options: Total expected rows (approximate): 1213
+0000.474 (0) Table wp_options: Rows added in this batch (next record: 1351206): 1209 (uncompressed bytes in this segment=7251634) in 0.17 seconds
+0000.492 (0) Table wp_options: finishing file(s) (2, 763 KB)
+0000.503 (0) Table wp_users: Total expected rows (via COUNT): 14
+0000.505 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0000.511 (0) Table wp_users: Rows added in this batch (next record: 14): 14 (uncompressed bytes in this segment=3871) in 0.01 seconds
+0000.523 (0) Table wp_users: finishing file(s) (2, 1.6 KB)
+0000.549 (0) Table wp_usermeta: Total expected rows (approximate): 2629
+0000.593 (0) Table wp_usermeta: Rows added in this batch (next record: 2797): 2629 (uncompressed bytes in this segment=395923) in 0.06 seconds
+0000.609 (0) Table wp_usermeta: finishing file(s) (2, 39.6 KB)
+0000.630 (0) Table wp_actionscheduler_actions: Total expected rows (via COUNT): 584
+0000.652 (0) Table wp_actionscheduler_actions: Rows added in this batch (next record: 113416): 584 (uncompressed bytes in this segment=180290) in 0.03 seconds
+0000.667 (0) Table wp_actionscheduler_actions: finishing file(s) (2, 13.8 KB)
+0000.676 (0) Table wp_actionscheduler_claims: Total expected rows (via COUNT): 15
+0000.678 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0000.683 (0) Table wp_actionscheduler_claims: Rows added in this batch (next record: 40481): 15 (uncompressed bytes in this segment=1158) in 0.01 seconds
+0000.694 (0) Table wp_actionscheduler_claims: finishing file(s) (2, 0.6 KB)
+0000.702 (0) Table wp_actionscheduler_groups: Total expected rows (via COUNT): 7
+0000.705 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0000.707 (0) Table wp_actionscheduler_groups: Rows added in this batch (next record: 7): 7 (uncompressed bytes in this segment=872) in 0.01 seconds
+0000.718 (0) Table wp_actionscheduler_groups: finishing file(s) (2, 0.5 KB)
+0000.728 (0) Table wp_actionscheduler_logs: Total expected rows (approximate): 1694
+0000.775 (0) Table wp_actionscheduler_logs: Rows added in this batch (next record: 335870): 1694 (uncompressed bytes in this segment=161581) in 0.05 seconds
+0000.787 (0) Table wp_actionscheduler_logs: finishing file(s) (2, 15.9 KB)
+0000.806 (0) Table wp_commentmeta: Total expected rows (via COUNT): 2
+0000.809 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0000.814 (0) Table wp_commentmeta: Rows added in this batch (next record: 2): 2 (uncompressed bytes in this segment=859) in 0.01 seconds
+0000.828 (0) Table wp_commentmeta: finishing file(s) (2, 0.5 KB)
+0000.845 (0) Table wp_comments: Total expected rows (via COUNT): 1
+0000.849 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0000.852 (0) Table wp_comments: Rows added in this batch (next record: 2): 1 (uncompressed bytes in this segment=2470) in 0.01 seconds
+0000.863 (0) Table wp_comments: finishing file(s) (2, 0.9 KB)
+0000.876 (0) Table wp_links: Total expected rows (via COUNT): 0
+0000.881 (0) Table wp_links: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1496) in 0.01 seconds
+0000.893 (0) Table wp_links: finishing file(s) (2, 0.5 KB)
+0010.022 (0) Table wp_postmeta: Total expected rows (approximate): 1461425
+0010.027 (0) [Warning] Table wp_postmeta has very many rows (1461425) - we hope your web hosting company gives you enough resources to dump out that table in the backup. If not, you will need to either remove data from this table, or contact your hosting company to request more resources.
+0015.773 (0) Table wp_postmeta: Rows added in this batch (next record: 931157): 384000 (uncompressed bytes in this segment=38181285) in 14.87 seconds
+0015.788 (0) Table wp_postmeta: Total expected rows (via COUNT): 1461425
+0015.790 (0) [Warning] Table wp_postmeta has very many rows (1461425) - we hope your web hosting company gives you enough resources to dump out that table in the backup. If not, you will need to either remove data from this table, or contact your hosting company to request more resources.
+0022.404 (0) Table wp_postmeta: Rows added in this batch (next record: 2301834): 384000 (uncompressed bytes in this segment=44803664) in 6.62 seconds
+0022.420 (0) Table wp_postmeta: Total expected rows (via COUNT): 1461425
+0022.422 (0) [Warning] Table wp_postmeta has very many rows (1461425) - we hope your web hosting company gives you enough resources to dump out that table in the backup. If not, you will need to either remove data from this table, or contact your hosting company to request more resources.
+0027.709 (0) Table wp_postmeta: Rows added in this batch (next record: 2973333): 384000 (uncompressed bytes in this segment=40377442) in 5.29 seconds
+0027.727 (0) Table wp_postmeta: Total expected rows (via COUNT): 1461425
+0027.730 (0) [Warning] Table wp_postmeta has very many rows (1461425) - we hope your web hosting company gives you enough resources to dump out that table in the backup. If not, you will need to either remove data from this table, or contact your hosting company to request more resources.
+0032.666 (0) Table wp_postmeta: Rows added in this batch (next record: 3298862): 309425 (uncompressed bytes in this segment=39339584) in 4.94 seconds
+0032.684 (0) Table wp_postmeta: finishing file(s) (5, 20993.9 KB)
+0033.039 (0) Table wp_posts: Total expected rows (approximate): 44466
+0037.083 (0) Table wp_posts: Rows added in this batch (next record: 357299): 44466 (uncompressed bytes in this segment=34038800) in 4.39 seconds
+0037.099 (0) Table wp_posts: finishing file(s) (2, 3782.6 KB)
+0037.109 (0) Table wp_term_relationships: Total expected rows (approximate): 36894
+0037.559 (0) Table wp_term_relationships: Rows added in this batch (next record: 100000): 36894 (uncompressed bytes in this segment=668070) in 0.45 seconds
+0037.579 (0) Table wp_term_relationships: finishing file(s) (2, 109.7 KB)
+0037.717 (0) Table wp_term_taxonomy: Total expected rows (via COUNT): 934
+0037.756 (0) Table wp_term_taxonomy: Rows added in this batch (next record: 1537): 934 (uncompressed bytes in this segment=67216) in 0.11 seconds
+0037.835 (0) Table wp_term_taxonomy: finishing file(s) (2, 11.3 KB)
+0037.873 (0) Table wp_termmeta: Total expected rows (via COUNT): 631
+0037.875 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0037.899 (0) Table wp_termmeta: Rows added in this batch (next record: 1267): 631 (uncompressed bytes in this segment=39197) in 0.04 seconds
+0037.917 (0) Table wp_termmeta: finishing file(s) (2, 5.3 KB)
+0037.936 (0) Table wp_terms: Total expected rows (via COUNT): 934
+0037.961 (0) Table wp_terms: Rows added in this batch (next record: 1537): 934 (uncompressed bytes in this segment=69860) in 0.03 seconds
+0037.975 (0) Table wp_terms: finishing file(s) (2, 14.2 KB)
+0038.090 (0) Table wp_wpr_above_the_fold: Total expected rows (via COUNT): 0
+0038.093 (0) Table wp_wpr_above_the_fold: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1206) in 0.07 seconds
+0038.110 (0) Table wp_wpr_above_the_fold: finishing file(s) (2, 0.5 KB)
+0038.145 (0) Table wp_wpr_lazy_render_content: Total expected rows (via COUNT): 0
+0038.148 (0) Table wp_wpr_lazy_render_content: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1215) in 0.02 seconds
+0038.164 (0) Table wp_wpr_lazy_render_content: finishing file(s) (2, 0.5 KB)
+0038.253 (0) Table wp_wpr_performance_monitoring: Total expected rows (via COUNT): 1
+0038.256 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.262 (0) Table wp_wpr_performance_monitoring: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=3319) in 0.04 seconds
+0038.277 (0) Table wp_wpr_performance_monitoring: finishing file(s) (2, 1.2 KB)
+0038.292 (0) Table wp_wpr_preconnect_external_domains: Total expected rows (via COUNT): 0
+0038.297 (0) Table wp_wpr_preconnect_external_domains: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1256) in 0.01 seconds
+0038.312 (0) Table wp_wpr_preconnect_external_domains: finishing file(s) (2, 0.5 KB)
+0038.328 (0) Table wp_wpr_preload_fonts: Total expected rows (via COUNT): 0
+0038.331 (0) Table wp_wpr_preload_fonts: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1170) in 0.01 seconds
+0038.346 (0) Table wp_wpr_preload_fonts: finishing file(s) (2, 0.5 KB)
+0038.357 (0) Table wp_wpr_rocket_cache: Total expected rows (approximate): 1069
+0038.377 (0) Table wp_wpr_rocket_cache: Rows added in this batch (next record: 5990): 1069 (uncompressed bytes in this segment=154378) in 0.02 seconds
+0038.391 (0) Table wp_wpr_rocket_cache: finishing file(s) (2, 16.1 KB)
+0038.401 (0) Table wp_wpr_rocket_cdn: Total expected rows (via COUNT): 0
+0038.404 (0) Table wp_wpr_rocket_cdn: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=856) in 0.01 seconds
+0038.416 (0) Table wp_wpr_rocket_cdn: finishing file(s) (2, 0.4 KB)
+0038.446 (0) Table wp_wpr_rucss_used_css: Total expected rows (via COUNT): 257
+0038.448 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.462 (0) Table wp_wpr_rucss_used_css: Rows added in this batch (next record: 1465): 257 (uncompressed bytes in this segment=72900) in 0.04 seconds
+0038.478 (0) Table wp_wpr_rucss_used_css: finishing file(s) (2, 11.9 KB)
+0038.515 (0) Table wp_duplicator_activity_logs: Total expected rows (via COUNT): 7
+0038.517 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.523 (0) Table wp_duplicator_activity_logs: Rows added in this batch (next record: 7): 7 (uncompressed bytes in this segment=10192) in 0.04 seconds
+0038.538 (0) Table wp_duplicator_activity_logs: finishing file(s) (2, 1.6 KB)
+0038.573 (0) Table wp_duplicator_backups: Total expected rows (via COUNT): 1
+0038.576 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.581 (0) Table wp_duplicator_backups: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=169725) in 0.04 seconds
+0038.599 (0) Table wp_duplicator_backups: finishing file(s) (2, 9.9 KB)
+0038.633 (0) Table wp_duplicator_entities: Total expected rows (via COUNT): 8
+0038.635 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.639 (0) Table wp_duplicator_entities: Rows added in this batch (next record: 8): 8 (uncompressed bytes in this segment=10501) in 0.03 seconds
+0038.654 (0) Table wp_duplicator_entities: finishing file(s) (2, 3.5 KB)
+0038.680 (0) Table wp_flywire_accommodations: Total expected rows (via COUNT): 33
+0038.682 (0) Table is relatively small; fetch_rows will thus be: 50 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.688 (0) Table wp_flywire_accommodations: Rows added in this batch (next record: 33): 33 (uncompressed bytes in this segment=4750) in 0.03 seconds
+0038.701 (0) Table wp_flywire_accommodations: finishing file(s) (2, 1.5 KB)
+0038.723 (0) Table wp_flywire_customers: Total expected rows (via COUNT): 166
+0038.725 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.735 (0) Table wp_flywire_customers: Rows added in this batch (next record: 166): 166 (uncompressed bytes in this segment=29044) in 0.03 seconds
+0038.748 (0) Table wp_flywire_customers: finishing file(s) (2, 4.6 KB)
+0038.773 (0) Table wp_flywire_payments: Total expected rows (via COUNT): 165
+0038.776 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.782 (0) Table wp_flywire_payments: Rows added in this batch (next record: 166): 165 (uncompressed bytes in this segment=21178) in 0.03 seconds
+0038.796 (0) Table wp_flywire_payments: finishing file(s) (2, 3.7 KB)
+0038.837 (0) Table wp_flywire_rooms: Total expected rows (via COUNT): 176
+0038.840 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.847 (0) Table wp_flywire_rooms: Rows added in this batch (next record: 176): 176 (uncompressed bytes in this segment=37931) in 0.03 seconds
+0038.863 (0) Table wp_flywire_rooms: finishing file(s) (2, 5 KB)
+0038.904 (0) Table wp_flywire_transaction_items: Total expected rows (via COUNT): 175
+0038.906 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.915 (0) Table wp_flywire_transaction_items: Rows added in this batch (next record: 176): 175 (uncompressed bytes in this segment=28252) in 0.04 seconds
+0038.928 (0) Table wp_flywire_transaction_items: finishing file(s) (2, 4.8 KB)
+0038.971 (0) Table wp_flywire_transactions: Total expected rows (via COUNT): 165
+0038.974 (0) Table is relatively small; fetch_rows will thus be: 250 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0038.982 (0) Table wp_flywire_transactions: Rows added in this batch (next record: 166): 165 (uncompressed bytes in this segment=57693) in 0.05 seconds
+0038.997 (0) Table wp_flywire_transactions: finishing file(s) (2, 7.7 KB)
+0039.012 (0) Table wp_gf_draft_submissions: Total expected rows (approximate): 0
+0039.018 (0) Table wp_gf_draft_submissions: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=957) in 0.01 seconds
+0039.031 (0) Table wp_gf_draft_submissions: finishing file(s) (2, 0.4 KB)
+0039.044 (0) Table wp_gf_entry: Total expected rows (via COUNT): 341
+0039.046 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0039.066 (0) Table wp_gf_entry: Rows added in this batch (next record: 345): 341 (uncompressed bytes in this segment=117148) in 0.02 seconds
+0039.079 (0) Table wp_gf_entry: finishing file(s) (2, 11.1 KB)
+0039.140 (0) Table wp_gf_entry_meta: Total expected rows (approximate): 5356
+0039.303 (0) Table wp_gf_entry_meta: Rows added in this batch (next record: 5901): 5356 (uncompressed bytes in this segment=225919) in 0.21 seconds
+0039.320 (0) Table wp_gf_entry_meta: finishing file(s) (2, 47 KB)
+0039.341 (0) Table wp_gf_entry_notes: Total expected rows (via COUNT): 253
+0039.343 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0039.363 (0) Table wp_gf_entry_notes: Rows added in this batch (next record: 254): 253 (uncompressed bytes in this segment=49336) in 0.03 seconds
+0039.384 (0) Table wp_gf_entry_notes: finishing file(s) (2, 3.9 KB)
+0039.396 (0) Table wp_gf_form: Total expected rows (via COUNT): 5
+0039.398 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0039.403 (0) Table wp_gf_form: Rows added in this batch (next record: 5): 5 (uncompressed bytes in this segment=1003) in 0.01 seconds
+0039.416 (0) Table wp_gf_form: finishing file(s) (2, 0.6 KB)
+0039.431 (0) Table wp_gf_form_meta: Total expected rows (via COUNT): 5
+0039.433 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0039.441 (0) Table wp_gf_form_meta: Rows added in this batch (next record: 5): 5 (uncompressed bytes in this segment=257281) in 0.02 seconds
+0039.465 (0) Table wp_gf_form_meta: finishing file(s) (2, 18.6 KB)
+0039.485 (0) Table wp_gf_form_revisions: Total expected rows (via COUNT): 1
+0039.487 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0039.491 (0) Table wp_gf_form_revisions: Rows added in this batch (next record: 1): 1 (uncompressed bytes in this segment=26978) in 0.01 seconds
+0039.506 (0) Table wp_gf_form_revisions: finishing file(s) (2, 4.4 KB)
+0039.528 (0) Table wp_gf_form_view: Total expected rows (via COUNT): 493
+0039.531 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0039.543 (0) Table wp_gf_form_view: Rows added in this batch (next record: 493): 493 (uncompressed bytes in this segment=21257) in 0.02 seconds
+0039.559 (0) Table wp_gf_form_view: finishing file(s) (2, 5.6 KB)
+0039.612 (0) Table wp_gf_rest_api_keys: Total expected rows (via COUNT): 0
+0039.617 (0) Table wp_gf_rest_api_keys: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1146) in 0.05 seconds
+0039.658 (0) Table wp_gf_rest_api_keys: finishing file(s) (2, 0.5 KB)
+0039.921 (0) Table wp_pmxi_files: Total expected rows (via COUNT): 7
+0039.925 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0039.930 (0) Table wp_pmxi_files: Rows added in this batch (next record: 13): 7 (uncompressed bytes in this segment=1957) in 0.26 seconds
+0039.943 (0) Table wp_pmxi_files: finishing file(s) (2, 0.8 KB)
+0039.986 (0) Table wp_pmxi_geocoding: Total expected rows (via COUNT): 0
+0039.992 (0) Table wp_pmxi_geocoding: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=917) in 0.04 seconds
+0040.005 (0) Table wp_pmxi_geocoding: finishing file(s) (2, 0.5 KB)
+0040.020 (0) Table wp_pmxi_hash: Total expected rows (approximate): 2475
+0040.073 (0) Table wp_pmxi_hash: Rows added in this batch (next record: 3000): 2475 (uncompressed bytes in this segment=139879) in 0.06 seconds
+0040.086 (0) Table wp_pmxi_hash: finishing file(s) (2, 58.4 KB)
+0040.116 (0) Table wp_pmxi_history: Total expected rows (via COUNT): 6
+0040.119 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0040.125 (0) Table wp_pmxi_history: Rows added in this batch (next record: 6): 6 (uncompressed bytes in this segment=1421) in 0.03 seconds
+0040.143 (0) Table wp_pmxi_history: finishing file(s) (2, 0.6 KB)
+0040.157 (0) Table wp_pmxi_images: Total expected rows (approximate): 4320
+0040.233 (0) Table wp_pmxi_images: Rows added in this batch (next record: 4649): 4365 (uncompressed bytes in this segment=466314) in 0.08 seconds
+0040.247 (0) Table wp_pmxi_images: finishing file(s) (2, 75.3 KB)
+0040.514 (0) Table wp_pmxi_imports: Total expected rows (via COUNT): 7
+0040.516 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0040.523 (0) Table wp_pmxi_imports: Rows added in this batch (next record: 7): 7 (uncompressed bytes in this segment=73859) in 0.27 seconds
+0040.538 (0) Table wp_pmxi_imports: finishing file(s) (2, 6 KB)
+0040.574 (0) Table wp_pmxi_posts: Total expected rows (via COUNT): 306
+0040.576 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0040.588 (0) Table wp_pmxi_posts: Rows added in this batch (next record: 2475): 306 (uncompressed bytes in this segment=26131) in 0.04 seconds
+0040.603 (0) Table wp_pmxi_posts: finishing file(s) (2, 6.9 KB)
+0040.638 (0) Table wp_pmxi_templates: Total expected rows (via COUNT): 0
+0040.642 (0) Table wp_pmxi_templates: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=1080) in 0.03 seconds
+0040.657 (0) Table wp_pmxi_templates: finishing file(s) (2, 0.4 KB)
+0040.708 (0) Table wp_post_smtp_logmeta: Total expected rows (via COUNT): 0
+0040.713 (0) Table wp_post_smtp_logmeta: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=625) in 0.05 seconds
+0040.727 (0) Table wp_post_smtp_logmeta: finishing file(s) (2, 0.3 KB)
+0040.914 (0) Table wp_post_smtp_logs: Total expected rows (via COUNT): 250
+0040.917 (0) Table is relatively small; fetch_rows will thus be: 500 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0040.951 (0) Table wp_post_smtp_logs: Rows added in this batch (next record: 258): 250 (uncompressed bytes in this segment=1197943) in 0.22 seconds
+0040.967 (0) Table wp_post_smtp_logs: finishing file(s) (2, 43.9 KB)
+0041.023 (0) Table wp_sg_ai_log_events: Total expected rows (via COUNT): 0
+0041.029 (0) Table wp_sg_ai_log_events: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=628) in 0.05 seconds
+0041.041 (0) Table wp_sg_ai_log_events: finishing file(s) (2, 0.4 KB)
+0041.052 (0) Table wp_sgs_log_events: Total expected rows (approximate): 1608
+0041.109 (0) Table wp_sgs_log_events: Rows added in this batch (next record: 61349): 2021 (uncompressed bytes in this segment=341385) in 0.06 seconds
+0041.123 (0) Table wp_sgs_log_events: finishing file(s) (2, 26.3 KB)
+0041.137 (0) Table wp_sgs_log_visitors: Total expected rows (via COUNT): 7
+0041.140 (0) Table is relatively small; fetch_rows will thus be: 20 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0041.147 (0) Table wp_sgs_log_visitors: Rows added in this batch (next record: 13728): 7 (uncompressed bytes in this segment=1063) in 0.02 seconds
+0041.159 (0) Table wp_sgs_log_visitors: finishing file(s) (2, 0.6 KB)
+0041.195 (0) Table wp_wp_phpmyadmin_extension__errors_log: Total expected rows (via COUNT): 0
+0041.200 (0) Table wp_wp_phpmyadmin_extension__errors_log: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=872) in 0.03 seconds
+0041.214 (0) Table wp_wp_phpmyadmin_extension__errors_log: finishing file(s) (2, 0.4 KB)
+0041.244 (0) Table wp_wpfm_backup: Total expected rows (via COUNT): 0
+0041.248 (0) Table wp_wpfm_backup: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=554) in 0.03 seconds
+0041.260 (0) Table wp_wpfm_backup: finishing file(s) (2, 0.3 KB)
+0041.274 (0) Table wp_yoast_expiring_store: Total expected rows (approximate): 0
+0041.293 (0) Table wp_yoast_expiring_store: Rows added in this batch (next record: 0): 0 (uncompressed bytes in this segment=512) in 0.02 seconds
+0041.306 (0) Table wp_yoast_expiring_store: finishing file(s) (2, 0.3 KB)
+0041.325 (0) Table wp_yoast_indexable: Total expected rows (approximate): 4586
+0041.615 (0) Table wp_yoast_indexable: Rows added in this batch (next record: 4376): 4337 (uncompressed bytes in this segment=3259829) in 0.30 seconds
+0041.629 (0) Table wp_yoast_indexable: finishing file(s) (2, 348.4 KB)
+0041.639 (0) Table wp_yoast_indexable_hierarchy: Total expected rows (approximate): 4357
+0041.675 (0) Table wp_yoast_indexable_hierarchy: Rows added in this batch (next record: 5000): 4356 (uncompressed bytes in this segment=81982) in 0.04 seconds
+0041.688 (0) Table wp_yoast_indexable_hierarchy: finishing file(s) (2, 12.9 KB)
+0041.716 (0) Table wp_yoast_migrations: Total expected rows (via COUNT): 28
+0041.719 (0) Table is relatively small; fetch_rows will thus be: 50 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0041.724 (0) Table wp_yoast_migrations: Rows added in this batch (next record: 28): 28 (uncompressed bytes in this segment=1342) in 0.03 seconds
+0041.736 (0) Table wp_yoast_migrations: finishing file(s) (2, 0.7 KB)
+0041.774 (0) Table wp_yoast_primary_term: Total expected rows (via COUNT): 80
+0041.778 (0) Table is relatively small; fetch_rows will thus be: 100 (allow_further_reductions=1, is_first_fetch=1, known_bigger_than_table=1)
+0041.783 (0) Table wp_yoast_primary_term: Rows added in this batch (next record: 82): 80 (uncompressed bytes in this segment=7825) in 0.04 seconds
+0041.797 (0) Table wp_yoast_primary_term: finishing file(s) (2, 1.5 KB)
+0041.811 (0) Table wp_yoast_prominent_words: Total expected rows (approximate): 2943
+0041.863 (0) Table wp_yoast_prominent_words: Rows added in this batch (next record: 2943): 2943 (uncompressed bytes in this segment=89065) in 0.06 seconds
+0041.876 (0) Table wp_yoast_prominent_words: finishing file(s) (2, 20.8 KB)
+0041.923 (0) Table wp_yoast_seo_links: Total expected rows (via COUNT): 782
+0041.944 (0) Table wp_yoast_seo_links: Rows added in this batch (next record: 798): 782 (uncompressed bytes in this segment=94779) in 0.06 seconds
+0041.957 (0) Table wp_yoast_seo_links: finishing file(s) (2, 15.8 KB)
+0042.003 (0) Table wp_yoast_test_helper_log: Total expected rows (via COUNT): 0
+0042.006 (0) Table wp_yoast_test_helper_log: Rows added in this batch (next record: -1): 0 (uncompressed bytes in this segment=807) in 0.04 seconds
+0042.028 (0) Table wp_yoast_test_helper_log: finishing file(s) (2, 0.4 KB)
+0042.032 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_options.table.tmpr1351207.gz (1/65/fopen): adding to final database dump
+0042.061 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_options.table.gz (2/65/fopen): adding to final database dump
+0042.064 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_users.table.tmpr15.gz (3/65/fopen): adding to final database dump
+0042.066 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_users.table.gz (4/65/fopen): adding to final database dump
+0042.069 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_usermeta.table.tmpr2798.gz (5/65/fopen): adding to final database dump
+0042.073 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_usermeta.table.gz (6/65/fopen): adding to final database dump
+0042.075 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_actions.table.tmpr113417.gz (7/65/fopen): adding to final database dump
+0042.078 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_actions.table.gz (8/65/fopen): adding to final database dump
+0042.081 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_claims.table.tmpr40482.gz (9/65/fopen): adding to final database dump
+0042.083 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_claims.table.gz (10/65/fopen): adding to final database dump
+0042.086 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_groups.table.tmpr8.gz (11/65/fopen): adding to final database dump
+0042.089 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_groups.table.gz (12/65/fopen): adding to final database dump
+0042.091 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_logs.table.tmpr335871.gz (13/65/fopen): adding to final database dump
+0042.094 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_actionscheduler_logs.table.gz (14/65/fopen): adding to final database dump
+0042.096 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_commentmeta.table.tmpr3.gz (15/65/fopen): adding to final database dump
+0042.099 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_commentmeta.table.gz (16/65/fopen): adding to final database dump
+0042.102 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_comments.table.tmpr3.gz (17/65/fopen): adding to final database dump
+0042.104 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_comments.table.gz (18/65/fopen): adding to final database dump
+0042.107 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_links.table.tmpr0.gz (19/65/fopen): adding to final database dump
+0042.110 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_links.table.gz (20/65/fopen): adding to final database dump
+0042.112 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_postmeta.table.tmpr931157.gz (21/65/fopen): adding to final database dump
+0042.280 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_postmeta.table.tmpr2301834.gz (22/65/fopen): adding to final database dump
+0042.731 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_postmeta.table.tmpr2973333.gz (23/65/fopen): adding to final database dump
+0043.528 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_postmeta.table.tmpr3298863.gz (24/65/fopen): adding to final database dump
+0044.334 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_postmeta.table.gz (25/65/fopen): adding to final database dump
+0044.338 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_posts.table.tmpr357300.gz (26/65/fopen): adding to final database dump
+0045.006 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_posts.table.gz (27/65/fopen): adding to final database dump
+0045.011 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_term_relationships.table.tmpr100001.gz (28/65/fopen): adding to final database dump
+0045.038 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_term_relationships.table.gz (29/65/fopen): adding to final database dump
+0045.042 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_term_taxonomy.table.tmpr1538.gz (30/65/fopen): adding to final database dump
+0045.047 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_term_taxonomy.table.gz (31/65/fopen): adding to final database dump
+0045.051 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_termmeta.table.tmpr1268.gz (32/65/fopen): adding to final database dump
+0045.056 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_termmeta.table.gz (33/65/fopen): adding to final database dump
+0045.059 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_terms.table.tmpr1538.gz (34/65/fopen): adding to final database dump
+0045.064 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_terms.table.gz (35/65/fopen): adding to final database dump
+0045.067 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_above_the_fold.table.tmpr0.gz (36/65/fopen): adding to final database dump
+0045.071 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_above_the_fold.table.gz (37/65/fopen): adding to final database dump
+0045.074 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_lazy_render_content.table.tmpr0.gz (38/65/fopen): adding to final database dump
+0045.078 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_lazy_render_content.table.gz (39/65/fopen): adding to final database dump
+0045.090 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_performance_monitoring.table.tmpr2.gz (40/65/fopen): adding to final database dump
+0045.094 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_performance_monitoring.table.gz (41/65/fopen): adding to final database dump
+0045.098 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_preconnect_external_domains.table.tmpr0.gz (42/65/fopen): adding to final database dump
+0045.102 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_preconnect_external_domains.table.gz (43/65/fopen): adding to final database dump
+0045.105 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_preload_fonts.table.tmpr0.gz (44/65/fopen): adding to final database dump
+0045.108 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_preload_fonts.table.gz (45/65/fopen): adding to final database dump
+0045.112 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_rocket_cache.table.tmpr5991.gz (46/65/fopen): adding to final database dump
+0045.118 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_rocket_cache.table.gz (47/65/fopen): adding to final database dump
+0045.122 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_rocket_cdn.table.tmpr0.gz (48/65/fopen): adding to final database dump
+0045.126 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_rocket_cdn.table.gz (49/65/fopen): adding to final database dump
+0045.130 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_rucss_used_css.table.tmpr1466.gz (50/65/fopen): adding to final database dump
+0045.135 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpr_rucss_used_css.table.gz (51/65/fopen): adding to final database dump
+0045.138 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_duplicator_activity_logs.table.tmpr8.gz (52/65/fopen): adding to final database dump
+0045.143 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_duplicator_activity_logs.table.gz (53/65/fopen): adding to final database dump
+0045.146 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_duplicator_backups.table.tmpr2.gz (54/65/fopen): adding to final database dump
+0045.150 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_duplicator_backups.table.gz (55/65/fopen): adding to final database dump
+0045.180 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_duplicator_entities.table.tmpr9.gz (56/65/fopen): adding to final database dump
+0045.184 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_duplicator_entities.table.gz (57/65/fopen): adding to final database dump
+0045.188 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_accommodations.table.tmpr34.gz (58/65/fopen): adding to final database dump
+0045.192 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_accommodations.table.gz (59/65/fopen): adding to final database dump
+0045.197 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_customers.table.tmpr167.gz (60/65/fopen): adding to final database dump
+0045.201 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_customers.table.gz (61/65/fopen): adding to final database dump
+0045.204 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_payments.table.tmpr167.gz (62/65/fopen): adding to final database dump
+0045.209 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_payments.table.gz (63/65/fopen): adding to final database dump
+0045.213 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_rooms.table.tmpr177.gz (64/65/fopen): adding to final database dump
+0045.217 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_rooms.table.gz (65/65/fopen): adding to final database dump
+0045.221 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_transaction_items.table.tmpr177.gz (66/65/fopen): adding to final database dump
+0045.226 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_transaction_items.table.gz (67/65/fopen): adding to final database dump
+0045.230 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_transactions.table.tmpr167.gz (68/65/fopen): adding to final database dump
+0045.235 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_flywire_transactions.table.gz (69/65/fopen): adding to final database dump
+0045.239 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_draft_submissions.table.tmpr1.gz (70/65/fopen): adding to final database dump
+0045.243 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_draft_submissions.table.gz (71/65/fopen): adding to final database dump
+0045.246 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_entry.table.tmpr346.gz (72/65/fopen): adding to final database dump
+0045.251 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_entry.table.gz (73/65/fopen): adding to final database dump
+0045.263 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_entry_meta.table.tmpr5902.gz (74/65/fopen): adding to final database dump
+0045.305 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_entry_meta.table.gz (75/65/fopen): adding to final database dump
+0045.310 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_entry_notes.table.tmpr255.gz (76/65/fopen): adding to final database dump
+0045.315 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_entry_notes.table.gz (77/65/fopen): adding to final database dump
+0045.318 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form.table.tmpr6.gz (78/65/fopen): adding to final database dump
+0045.322 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form.table.gz (79/65/fopen): adding to final database dump
+0045.325 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form_meta.table.tmpr6.gz (80/65/fopen): adding to final database dump
+0045.331 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form_meta.table.gz (81/65/fopen): adding to final database dump
+0045.335 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form_revisions.table.tmpr2.gz (82/65/fopen): adding to final database dump
+0045.339 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form_revisions.table.gz (83/65/fopen): adding to final database dump
+0045.343 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form_view.table.tmpr494.gz (84/65/fopen): adding to final database dump
+0045.348 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_form_view.table.gz (85/65/fopen): adding to final database dump
+0045.351 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_rest_api_keys.table.tmpr0.gz (86/65/fopen): adding to final database dump
+0045.355 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_gf_rest_api_keys.table.gz (87/65/fopen): adding to final database dump
+0045.359 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_files.table.tmpr14.gz (88/65/fopen): adding to final database dump
+0045.366 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_files.table.gz (89/65/fopen): adding to final database dump
+0045.376 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_geocoding.table.tmpr0.gz (90/65/fopen): adding to final database dump
+0045.380 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_geocoding.table.gz (91/65/fopen): adding to final database dump
+0045.383 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_hash.table.tmpr3001.gz (92/65/fopen): adding to final database dump
+0045.402 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_hash.table.gz (93/65/fopen): adding to final database dump
+0045.406 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_history.table.tmpr7.gz (94/65/fopen): adding to final database dump
+0045.411 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_history.table.gz (95/65/fopen): adding to final database dump
+0045.415 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_images.table.tmpr4650.gz (96/65/fopen): adding to final database dump
+0045.425 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_images.table.gz (97/65/fopen): adding to final database dump
+0045.430 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_imports.table.tmpr8.gz (98/65/fopen): adding to final database dump
+0045.434 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_imports.table.gz (99/65/fopen): adding to final database dump
+0045.443 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_posts.table.tmpr2476.gz (100/65/fopen): adding to final database dump
+0045.447 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_posts.table.gz (101/65/fopen): adding to final database dump
+0045.452 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_templates.table.tmpr0.gz (102/65/fopen): adding to final database dump
+0045.456 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_pmxi_templates.table.gz (103/65/fopen): adding to final database dump
+0045.461 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_post_smtp_logmeta.table.tmpr0.gz (104/65/fopen): adding to final database dump
+0045.465 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_post_smtp_logmeta.table.gz (105/65/fopen): adding to final database dump
+0045.468 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_post_smtp_logs.table.tmpr259.gz (106/65/fopen): adding to final database dump
+0045.478 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_post_smtp_logs.table.gz (107/65/fopen): adding to final database dump
+0045.482 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_sg_ai_log_events.table.tmpr0.gz (108/65/fopen): adding to final database dump
+0045.485 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_sg_ai_log_events.table.gz (109/65/fopen): adding to final database dump
+0045.488 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_sgs_log_events.table.tmpr61350.gz (110/65/fopen): adding to final database dump
+0045.493 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_sgs_log_events.table.gz (111/65/fopen): adding to final database dump
+0045.497 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_sgs_log_visitors.table.tmpr13729.gz (112/65/fopen): adding to final database dump
+0045.501 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_sgs_log_visitors.table.gz (113/65/fopen): adding to final database dump
+0045.505 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wp_phpmyadmin_extension__errors_log.table.tmpr0.gz (114/65/fopen): adding to final database dump
+0045.510 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wp_phpmyadmin_extension__errors_log.table.gz (115/65/fopen): adding to final database dump
+0045.514 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpfm_backup.table.tmpr0.gz (116/65/fopen): adding to final database dump
+0045.517 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_wpfm_backup.table.gz (117/65/fopen): adding to final database dump
+0045.521 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_expiring_store.table.tmpr1.gz (118/65/fopen): adding to final database dump
+0045.525 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_expiring_store.table.gz (119/65/fopen): adding to final database dump
+0045.529 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_indexable.table.tmpr4377.gz (120/65/fopen): adding to final database dump
+0045.578 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_indexable.table.gz (121/65/fopen): adding to final database dump
+0045.583 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_indexable_hierarchy.table.tmpr5001.gz (122/65/fopen): adding to final database dump
+0045.587 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_indexable_hierarchy.table.gz (123/65/fopen): adding to final database dump
+0045.591 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_migrations.table.tmpr29.gz (124/65/fopen): adding to final database dump
+0045.595 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_migrations.table.gz (125/65/fopen): adding to final database dump
+0045.599 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_primary_term.table.tmpr83.gz (126/65/fopen): adding to final database dump
+0045.604 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_primary_term.table.gz (127/65/fopen): adding to final database dump
+0045.608 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_prominent_words.table.tmpr2944.gz (128/65/fopen): adding to final database dump
+0045.615 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_prominent_words.table.gz (129/65/fopen): adding to final database dump
+0045.620 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_seo_links.table.tmpr799.gz (130/65/fopen): adding to final database dump
+0045.626 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_seo_links.table.gz (131/65/fopen): adding to final database dump
+0045.629 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_test_helper_log.table.tmpr0.gz (132/65/fopen): adding to final database dump
+0045.633 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db-table-wp_yoast_test_helper_log.table.gz (133/65/fopen): adding to final database dump
+0045.667 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db.gz: finished writing out complete database file (26541.1 KB)
+0046.574 (0) Total database tables backed up: 65 (backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db.gz, size: 27178201, sha1: 56dd3233255efbccae05de07d4fd081911430516, sha256: 6d6ce656f8b8fbe5e19f9e87cdf6d59a9e21e022711888fbca9f3a9289f54dc0)
+0046.589 (0) backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db.gz: db: This file has not yet been successfully uploaded: will queue
+0046.591 (0) Saving backup history. Total backup size: 25.9 MB
+0046.598 (0) Requesting upload of the files that have not yet been successfully uploaded (1)
+0046.605 (0) Cloud backup selection (1/1): none with instance (1/1) (last)
+0046.607 (0) No remote despatch: user chose no remote backup service
+0046.609 (0) Recording as successfully uploaded: backup_2026-08-10-0950_Japan_Ski_Experience_4e2ea9717ea2-db.gz
+0046.615 (0) Prune old backups from local store: nothing to do, since the user disabled local deletion and we are using local backups
+0046.617 (0) Resume backup (4e2ea9717ea2, 0): finish run
+0046.624 (0) Decremented the semaphore (fd) by 1
+0046.628 (0) Semaphore (fd) unlocked
+0046.630 (0) There were no errors in the uploads, so the 'resume' event (1) is being unscheduled
+0046.639 (0) No email will/can be sent - the user has not configured an email address.
+0046.641 (0) The backup succeeded and is now complete
+0000.000 (1) Opened log file at time: Mon, 10 Aug 2026 10:00:52 +0000 on http://localhost/japanSki
+0000.004 (1) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.26.5 WP: 7.0.1 PHP: 8.2.1 (apache2handler, Windows NT DESKTOP-674VC53 10.0 build 19045 (Windows 10) AMD64) MySQL: 8.0.30 (max packet size=536870912) WPLANG: en_US Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.1 safe_mode: 0 max_execution_time: 900 memory_limit: 1024M (used: 111M | 132M) multisite: N openssl: OpenSSL 3.0.7 1 Nov 2022 mcrypt: N LANG:  WP Proxy: disabled ZipArchive::addFile: Y
+0000.007 (1) Free space on disk containing Updraft's temporary directory: 291791.4 MB
+0000.041 (1) Requesting backup semaphore lock (udp_backupjob_4e2ea9717ea2)
+0000.046 (1) [Debug] Lock option (updraft_lock_udp_backupjob_4e2ea9717ea2, wp_options) was created in the database
+0000.047 (1) [Info] Lock (updraft_lock_udp_backupjob_4e2ea9717ea2, wp_options) acquired after initialising the database
+0000.049 (1) This backup task (4e2ea9717ea2) is either complete or began over 2 days ago: ending (1786356052.0096, ) (existing jobdata keys: )

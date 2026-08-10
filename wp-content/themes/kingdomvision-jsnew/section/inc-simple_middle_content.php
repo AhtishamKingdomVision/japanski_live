@@ -30,14 +30,14 @@
 
 				    if (!empty($buttons['button'])) {
 				        $btn = $buttons['button'];
-				        echo '<a href="' . esc_url($btn['url']) . '" class="btn enq-btn-popup" target="' . esc_attr($btn['target']) . '">'
+				        echo '<a href="' . esc_url($btn['url']) . '" class="btn" target="' . esc_attr($btn['target']) . '">'
 				                . esc_html($btn['title']) .
 				             '</a>';
 				    }
 
 				    if (!empty($buttons['button_2'])) {
 				        $btn2 = $buttons['button_2'];
-				        echo '<a href="' . esc_url($btn2['url']) . '" class="btn btn2 enq-btn-popup" target="' . esc_attr($btn2['target']) . '">'
+				        echo '<a href="' . esc_url($btn2['url']) . '" class="btn btn2" target="' . esc_attr($btn2['target']) . '">'
 				                . esc_html($btn2['title']) .
 				             '</a>';
 				    }

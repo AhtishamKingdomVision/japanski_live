@@ -24,7 +24,7 @@ if( !empty( $gallery ) ){
 					    $link_url = $button['url'];
 					    $link_title = $button['title'];
 					    $link_target = $button['target'] ? $button['target'] : '_self';
-					    echo '<a class="btn enq-btn-popup" href="'.$link_url.'" target="'.$link_target.'">'.$link_title.'</a>';
+					    echo '<a class="btn" href="'.$link_url.'" target="'.$link_target.'">'.$link_title.'</a>';
 					endif;
 				echo '</div>'; //iwg_content
 			echo '</div>'; //iwg_cover

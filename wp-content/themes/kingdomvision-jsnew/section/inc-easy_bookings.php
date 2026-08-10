@@ -36,7 +36,7 @@ echo '<section ' . SectionAttributes($section, 'full-section easy-bookings') . '
 		            echo '</ul>';
 		        }
 		        if($button){
-		            echo '<a href="'. esc_url($button['url']) .'" class="btn enq-btn-popup">'. esc_html($button['title']) .'</a>';
+		            echo '<a href="'. esc_url($button['url']) .'" class="btn">'. esc_html($button['title']) .'</a>';
 		        }
 		        if($end_text){
 		            echo '<div class="end-text">'. esc_html($end_text) .'</div>';

@@ -36,7 +36,7 @@ function hz_js_to_enque()
 
     // Date Dropper
 
-    wp_register_script('datedropper_en', get_template_directory_uri() . '/js/datedropper.min.js', array('jquery', 'kv-script'), '1.0', true);
+    wp_register_script('datedropper_en', get_template_directory_uri() . '/js/datedropper.min.js', array('jquery'), '1.0', true);
 
     wp_enqueue_script('datedropper_en');
 

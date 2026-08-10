@@ -2742,31 +2742,11 @@ jQuery(function ($) {
         setTimeout(function () { syncEnquiryBbfLock($scope); initAllBbfToggles(); }, 600);
     }
 
-    // Real page links (e.g. /hakuba/accommodation/echoland/) must navigate.
-    // Only empty / # / javascript: hrefs (or non-anchor buttons) open the enquiry popup.
-    function kvEnquiryTriggerShouldNavigate($el) {
-        if (!$el || !$el.length || !$el.is('a')) return false;
-        // Sticky footer enquire CTA always opens popup (even if href was set).
-        if ($el.hasClass('sticky-cta-btn') && $el.closest('.sticky-cta-container').length) {
-            return false;
-        }
-        const href = String($el.attr('href') || '').trim();
-        if (!href) return false;
-        const lower = href.toLowerCase();
-        // Bare # / void → treat as enquire trigger; real URLs and #section scroll navigate.
-        if (lower === '#' || lower.indexOf('javascript:') === 0) return false;
-        return true;
-    }
-
     $(document).on('click', '.enq_cta, .enquire_btn, .enq-btn-popup', function (e) {
-        const $btn = $(this);
-
-        if (kvEnquiryTriggerShouldNavigate($btn)) {
-            return; // allow browser to follow href
-        }
-
         e.preventDefault();
         e.stopPropagation();
+
+        const $btn = $(this);
 
         // Sticky footer CTA → open enquiry popup (prefill property on accommodation singles).
         if ($btn.hasClass('sticky-cta-btn') && $btn.closest('.sticky-cta-container').length ) {
@@ -5299,275 +5279,301 @@ document.addEventListener('DOMContentLoaded', function () {
         updateRoomFilterUI(readGuestState());
     })();
 
+    try {
 
-
-    /* =========================
-  
-       LEAFLET MAP SCRIPT
-  
-  ========================= */
-
-
-
-    if (typeof nearbyData === "undefined" || nearbyData.length === 0) return;
-
-
-
-    /* =========================
-
-       INIT MAP
-
+        /* =========================
+    
+        LEAFLET MAP SCRIPT
+    
     ========================= */
 
-    const map = L.map('nearby-map').setView(
+        console.log("window.mainLocation:", window.mainLocation);
+        console.log("window.nearbyData:", window.nearbyData);
+        console.log("mainLocation:", typeof mainLocation);
+        console.log("nearbyData:", typeof nearbyData);
 
-        [mainLocation.lat, mainLocation.lng],
+        console.log("Passed map data check");
+        
+        const _nearbyData = (typeof nearbyData !== "undefined") ? nearbyData : (window.nearbyData || []);
+        const _mainLocation = (typeof mainLocation !== "undefined") ? mainLocation : window.mainLocation;
 
-        15
+        if (
+            !_nearbyData ||
+            _nearbyData.length === 0 ||
+            !_mainLocation ||
+            typeof _mainLocation.lat === "undefined" ||
+            !document.getElementById("nearby-map")
+        ) {
+            console.log("Guard failed");
+            return;
+        }
 
-    );
+        console.log("Creating Leaflet map...");
 
 
+        if (!_nearbyData || _nearbyData.length === 0 || !_mainLocation || typeof _mainLocation.lat === "undefined" || !document.getElementById('nearby-map')) return;
 
-    // L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        /* =========================
 
-    //     attribution: ''
+        INIT MAP
 
-    // }).addTo(map);
+        ========================= */
 
+        const map = L.map('nearby-map').setView(
 
+            [_mainLocation.lat, _mainLocation.lng],
 
-    // L.tileLayer('https://stadiamaps.com/{z}/{x}/{y}{r}.png', {
+            15
 
-    //     attribution: ''
+        );
 
-    // }).addTo(map);
+        console.log("Leaflet map created");
 
+        console.log( 'typeof L' );
+        console.log( typeof L );
 
+        // L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
 
-    const stadiaKey = "c417ca3b-5448-48cd-b861-22d28bc5fc27";
+        //     attribution: ''
 
+        // }).addTo(map);
 
 
-    L.tileLayer(`https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png?api_key=${stadiaKey}`, {
 
-        attribution: '&copy; OpenStreetMap contributors &copy; Stadia Maps',
+        // L.tileLayer('https://stadiamaps.com/{z}/{x}/{y}{r}.png', {
 
-        maxZoom: 20
+        //     attribution: ''
 
-    }).addTo(map);
+        // }).addTo(map);
 
 
 
-    // L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        const stadiaKey = "c417ca3b-5448-48cd-b861-22d28bc5fc27";
 
-    //     attribution: ''
 
-    // }).addTo(map);
 
+        L.tileLayer(`https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png?api_key=${stadiaKey}`, {
 
+            attribution: '&copy; OpenStreetMap contributors &copy; Stadia Maps',
 
-    /* =========================
+            maxZoom: 20
 
-       ICONS
+        }).addTo(map);
 
-    ========================= */
 
-    const greenIcon = L.icon({
 
-        iconUrl: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
+        // L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
 
-        iconSize: [40, 40]
+        //     attribution: ''
 
-    });
+        // }).addTo(map);
 
 
 
-    const redIcon = L.icon({
+        /* =========================
 
-        iconUrl: themeUrl + "/images/icons/placeholder.png",
+        ICONS
 
-        iconSize: [32, 32]
+        ========================= */
 
-    });
+        const greenIcon = L.icon({
 
+            iconUrl: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
 
-
-    /* =========================
-
-       MAIN MARKER
-
-    ========================= */
-
-    const mainMarker = L.marker(
-
-        [mainLocation.lat, mainLocation.lng],
-
-        { icon: greenIcon }
-
-    ).addTo(map);
-
-
-
-    const mainPopup = `
-
-        <div style="padding:10px; font-size:14px;">
-
-            <strong>${mainLocation.title}</strong><br>
-
-            ${mainLocation.address}
-
-        </div>
-
-    `;
-
-
-
-    mainMarker.bindPopup(mainPopup).openPopup();
-
-
-
-    /* =========================
-
-       NEARBY MARKERS
-
-    ========================= */
-
-    const markers = [];
-
-
-
-    nearbyData.forEach((item, index) => {
-
-
-
-        const lat = parseFloat(item.lat);
-
-        const lng = parseFloat(item.lng);
-
-
-
-        const marker = L.marker([lat, lng], { icon: redIcon })
-
-            .addTo(map)
-
-            .bindPopup(`
-
-                <div style="font-size:14px;">
-
-                    <strong>${item.title}</strong><br>
-
-                    ${item.km} km away
-
-                </div>
-
-            `);
-
-
-
-        markers.push(marker);
-
-
-
-        marker.on("click", function () {
-
-            marker.openPopup();
-
-            map.setView([lat, lng], 16);
-
-            highlightItem(index);
+            iconSize: [40, 40]
 
         });
 
-    });
 
 
+        const redIcon = L.icon({
 
-    var items = kv_object.loc_items ? kv_object.loc_items : [];
+            iconUrl: themeUrl + "/images/icons/placeholder.png",
 
-    hide_landmark_items(items);
-
-
-
-    /* =========================
-
-       AUTO FIT ALL MARKERS
-
-    ========================= */
-
-    const group = new L.featureGroup(markers.concat([mainMarker]));
-
-    map.fitBounds(group.getBounds().pad(0.2));
-
-
-
-    /* =========================
-
-       SIDEBAR CLICK
-
-    ========================= */
-
-    document.querySelectorAll(".nearby-item").forEach((el) => {
-
-        el.addEventListener("click", function () {
-
-            const i = this.dataset.index;
-
-            markers[i].fire("click");
+            iconSize: [32, 32]
 
         });
 
-    });
+
+
+        /* =========================
+
+        MAIN MARKER
+
+        ========================= */
+
+        const mainMarker = L.marker(
+
+            [_mainLocation.lat, _mainLocation.lng],
+
+            { icon: greenIcon }
+
+        ).addTo(map);
 
 
 
-    /* =========================
+        const mainPopup = `
 
-       HIGHLIGHT ACTIVE ITEM
+            <div style="padding:10px; font-size:14px;">
 
-    ========================= */
+                <strong>${_mainLocation.title}</strong><br>
 
-    function highlightItem(index) {
+                ${_mainLocation.address}
 
-        document.querySelectorAll(".nearby-item").forEach(el => el.classList.remove("active"));
+            </div>
 
-
-
-        const current = document.querySelector('.nearby-item[data-index="' + index + '"]');
+        `;
 
 
 
-        if (current) {
+        mainMarker.bindPopup(mainPopup).openPopup();
 
-            current.classList.add("active");
 
-            // current.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        /* =========================
+
+        NEARBY MARKERS
+
+        ========================= */
+
+        const markers = [];
+
+
+
+        _nearbyData.forEach((item, index) => {
+
+
+
+            const lat = parseFloat(item.lat);
+
+            const lng = parseFloat(item.lng);
+
+
+
+            const marker = L.marker([lat, lng], { icon: redIcon })
+
+                .addTo(map)
+
+                .bindPopup(`
+
+                    <div style="font-size:14px;">
+
+                        <strong>${item.title}</strong><br>
+
+                        ${item.km} km away
+
+                    </div>
+
+                `);
+
+
+
+            markers.push(marker);
+
+
+
+            marker.on("click", function () {
+
+                marker.openPopup();
+
+                map.setView([lat, lng], 16);
+
+                highlightItem(index);
+
+            });
+
+        });
+
+
+
+        var items = kv_object.loc_items ? kv_object.loc_items : [];
+
+        hide_landmark_items(items);
+
+
+
+        /* =========================
+
+        AUTO FIT ALL MARKERS
+
+        ========================= */
+
+        const group = new L.featureGroup(markers.concat([mainMarker]));
+
+        map.fitBounds(group.getBounds().pad(0.2));
+
+
+
+        /* =========================
+
+        SIDEBAR CLICK
+
+        ========================= */
+
+        document.querySelectorAll(".nearby-item").forEach((el) => {
+
+            el.addEventListener("click", function () {
+
+                const i = this.dataset.index;
+
+                markers[i].fire("click");
+
+            });
+
+        });
+
+
+
+        /* =========================
+
+        HIGHLIGHT ACTIVE ITEM
+
+        ========================= */
+
+        function highlightItem(index) {
+
+            document.querySelectorAll(".nearby-item").forEach(el => el.classList.remove("active"));
+
+
+
+            const current = document.querySelector('.nearby-item[data-index="' + index + '"]');
+
+
+
+            if (current) {
+
+                current.classList.add("active");
+
+                // current.scrollIntoView({ behavior: "smooth", block: "center" });
+
+            }
+
+        }
+
+
+
+        function hide_landmark_items(items = []) {
+
+            document.querySelectorAll(".nearby-item").forEach(el => {
+
+                /* if item value is in the items array add class hide to item */
+
+                const title = el.querySelector('span').innerText.trim();
+
+                if (items.includes(title)) {
+
+                    el.classList.add("hide");
+
+                }
+
+            });
 
         }
 
     }
-
-
-
-    function hide_landmark_items(items = []) {
-
-        document.querySelectorAll(".nearby-item").forEach(el => {
-
-            /* if item value is in the items array add class hide to item */
-
-            const title = el.querySelector('span').innerText.trim();
-
-            if (items.includes(title)) {
-
-                el.classList.add("hide");
-
-            }
-
-        });
-
+    catch (e) {
+        console.error("Nearby map error:", e);
     }
-
-
 
 });
 

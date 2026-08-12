@@ -203,7 +203,9 @@ echo '<div class="content-wrapper full-section accommodation '.esc_attr($header_
                             }
                             echo '</ul>';
                         }
-                        echo do_shortcode('[gravityform id="1" title="true"]');
+                        echo '<div class="kv-blog-enquiry-form">';
+                            echo do_shortcode('[gravityform id="1" title="true" ajax="true"]');
+                        echo '</div>';
                         if ($ff_image && $ff_content) {
                             echo '<div class="ff_content_image">';
                                 echo '<div class="ff_image">';

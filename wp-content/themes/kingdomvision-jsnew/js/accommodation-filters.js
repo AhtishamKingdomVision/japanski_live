@@ -3895,6 +3895,8 @@ const AccommodationFilters = (function() {
                 jQuery('.search-card .guests-popover').removeClass('open show');
                 // Close room "Check Rates" guests so sync/render cannot scroll the page down to it.
                 jQuery('.room-filter-guests-popover').removeClass('active open show');
+                // Close enquiry "Get a Quote" guests (stopPropagation would skip its outside-click closer).
+                jQuery('.eq-guests-popover, #eq-guests-popover').removeClass('open show active');
                 window.kvClearGuestsPopoverPin();
                 $pop.toggleClass('open', willOpen);
                 $card.find('.sb-guests-desktop').toggleClass('active', willOpen);

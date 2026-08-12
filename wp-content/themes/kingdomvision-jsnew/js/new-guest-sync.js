@@ -416,6 +416,14 @@ jQuery(document).ready(function ($) {
             $popover = $(this).parent().find('.eq-guests-popover').first();
         }
 
+        // Close header / room guests so only one guests UI is open.
+        $('.guests-popover, .room-filter-guests-popover').removeClass('open show active');
+        $('.sb-guests-desktop').removeClass('active');
+        $('header.newHeader').removeClass('kv-guests-open');
+        if (typeof window.kvClearGuestsPopoverPin === 'function') {
+            window.kvClearGuestsPopoverPin();
+        }
+
         $('.eq-guests-popover').not($popover).removeClass('open');
         $popover.addClass('open');
     });

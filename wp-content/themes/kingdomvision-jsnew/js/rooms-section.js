@@ -592,7 +592,27 @@
 
             const originalText = $btn.text();
 
-
+            // Prefer API room id so booking UI can scroll to the clicked room (not first card).
+            const $card = $btn.closest('.room-card, .room_details, .rb-rateplan-box');
+            const roomId = String(
+                $btn.attr('data-room-id') ||
+                $card.attr('actual_room_id') ||
+                $card.data('room-id') ||
+                ''
+            ).trim();
+            const roomTitle = String(
+                $btn.attr('room-title') ||
+                $card.find('.room-title').text() ||
+                ''
+            ).trim();
+            if (roomId) {
+                localStorage.setItem('sel_room_id', roomId);
+            } else {
+                localStorage.removeItem('sel_room_id');
+            }
+            if (roomTitle) {
+                localStorage.setItem('sel_room', roomTitle);
+            }
 
             const payload = {
 
@@ -769,36 +789,61 @@
 
                             $('.booking-wrap').hide().html(resp.data.html).fadeIn(200, function() {
 
-                                if( localStorage.sel_room !== undefined ){
+                                const selectedRoomId = String(localStorage.getItem('sel_room_id') || '').trim();
+                                const selectedRoomTitle = String(localStorage.getItem('sel_room') || '').trim();
+                                let $targetRoom = $();
 
-                                    let room_title = localStorage.sel_room,
+                                function normalizeRoomLabel(value) {
+                                    return String(value || '')
+                                        .replace(/&amp;/gi, '&')
+                                        .replace(/&#8211;|&ndash;|–|—/g, '-')
+                                        .replace(/\s+/g, ' ')
+                                        .trim()
+                                        .toLowerCase();
+                                }
 
-                                        room = $('.rb-room-meta .rb-room-title').filter(function() {
+                                // 1) Prefer stable room id match (fixes Chatrium title mismatch).
+                                if (selectedRoomId) {
+                                    $targetRoom = $('.rb-room-card').filter(function() {
+                                        const $card = $(this);
+                                        const ids = [
+                                            String($card.attr('data-room-id') || ''),
+                                            String($card.attr('data-room-type-id') || ''),
+                                            String($card.find('[data-room-id]').first().attr('data-room-id') || ''),
+                                            String($card.find('[data-room-type-id]').first().attr('data-room-type-id') || '')
+                                        ];
+                                        return ids.indexOf(selectedRoomId) !== -1;
+                                    }).first();
 
-                                            return $(this).text().trim().toLowerCase() === room_title.trim().toLowerCase();
-
-                                        });
-
-
-
-                                    if( room.length < 1){
-
-                                        room = $('.rb-room-card').eq(0);
-
+                                    if (!$targetRoom.length) {
+                                        $targetRoom = $(
+                                            '.rb-rateplan-box[data-room-type-id="' + selectedRoomId + '"], ' +
+                                            '.rb-rateplan-box[data-room-id="' + selectedRoomId + '"]'
+                                        ).first().closest('.rb-room-card');
                                     }
+                                }
 
+                                // 2) Fallback: normalized title match (dashes / whitespace).
+                                if (!$targetRoom.length && selectedRoomTitle) {
+                                    const want = normalizeRoomLabel(selectedRoomTitle);
+                                    $targetRoom = $('.rb-room-meta .rb-room-title').filter(function() {
+                                        return normalizeRoomLabel($(this).text()) === want;
+                                    }).first().closest('.rb-room-card');
+                                }
 
+                                // 3) Last resort: booking wrap (do NOT jump to wrong first room).
+                                if (!$targetRoom.length) {
+                                    $targetRoom = $('.booking-wrap');
+                                }
 
-                                    const header_height = $('header').outerHeight() || 0;
+                                const header_height = $('header').outerHeight() || 0;
+                                localStorage.removeItem('sel_room');
+                                localStorage.removeItem('sel_room_id');
 
-                                    localStorage.removeItem('sel_room');
-
+                                if ($targetRoom.length && $targetRoom.offset()) {
                                     $('html, body').animate({
-
-                                        scrollTop: (room.offset().top - header_height)
-
+                                        scrollTop: ($targetRoom.offset().top - header_height)
                                     }, 400);
-
                                 }
 
                             });
@@ -2429,7 +2474,20 @@
 
                 room_title = room_details.find( '.room-title' );
 
-            localStorage.setItem( 'sel_room', room_title.text() );
+            const $btn = $(this);
+            const $card = $btn.closest('.room-card');
+            const roomId = String(
+                $btn.attr('data-room-id') ||
+                $card.attr('actual_room_id') ||
+                ''
+            ).trim();
+
+            if (room_title.length) {
+                localStorage.setItem( 'sel_room', room_title.text() );
+            }
+            if (roomId) {
+                localStorage.setItem('sel_room_id', roomId);
+            }
 
         });
 

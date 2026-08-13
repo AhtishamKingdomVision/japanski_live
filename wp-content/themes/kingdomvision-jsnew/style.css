@@ -2066,3 +2066,37 @@ header.newHeader:has(.guests-popover.show) .search-card {
 	position: static;
 	margin-top: 14px;
 }
+
+/* Enquiry / Get a Quote submit — full width after GF plugin update */
+.gform_wrapper .gform-footer.gform_footer input,
+.gform_wrapper .gform-footer.gform_footer button,
+.gform_wrapper .gform-footer.gform_footer .gform_button,
+.gform_wrapper .gform_footer input[type="submit"],
+.gform_wrapper .gform_footer button[type="submit"],
+.gform_wrapper .gform_footer .gform_button,
+.Enquiry-modal .gform_wrapper .gform_footer input,
+.Enquiry-modal .gform_wrapper .gform_footer button,
+.Enquiry-modal .gform_wrapper .gform_footer .gform_button,
+.acc_enquiry_form .gform_wrapper .gform_footer input,
+.acc_enquiry_form .gform_wrapper .gform_footer button,
+.acc_enquiry_form .gform_wrapper .gform_footer .gform_button {
+	background: var(--button-color) !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	display: block !important;
+	border-radius: 999px !important;
+	height: 50px !important;
+	line-height: 50px !important;
+	padding: 0 !important;
+	font-size: 16px !important;
+	margin: 0 !important;
+	box-sizing: border-box !important;
+}
+
+.gform_wrapper.quote_form_wrapper .gform-footer.gform_footer input:hover,
+.gform_wrapper.quote_form_wrapper .gform-footer.gform_footer button:hover,
+.gform_wrapper.quote_form_wrapper .gform_footer .gform_button:hover,
+.gform_wrapper.quote_form_wrapper .gform_footer input[type="submit"]:hover,
+.gform_wrapper.quote_form_wrapper .gform_footer button[type="submit"]:hover {
+	background: var(--button-hover-color) !important;
+}

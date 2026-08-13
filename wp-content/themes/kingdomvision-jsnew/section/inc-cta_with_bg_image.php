@@ -48,7 +48,7 @@ echo '<div class="container">';
             $link_target = !empty($button['target']) ? $button['target'] : '_self';
 
             if ($link_url && $link_title) {
-                echo '<a class="btn enq-btn-popup" href="' . esc_url($link_url) . '" target="' . esc_attr($link_target) . '">'
+                echo '<a class="btn" href="' . esc_url($link_url) . '" target="' . esc_attr($link_target) . '">'
                     . esc_html($link_title) .
                 '</a>';
             }

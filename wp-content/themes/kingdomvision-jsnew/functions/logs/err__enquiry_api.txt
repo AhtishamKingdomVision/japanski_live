@@ -36,3 +36,9 @@
 <pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-03 12:00:21<br></pre>
 <pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 56: Recv failure: Connection reset by peer -- -- -- 2026-08-03 12:04:13<br></pre>
 <pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 56: Recv failure: Connection reset by peer -- -- -- 2026-08-03 12:04:13<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15003 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:05:19<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15003 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:05:19<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:06:48<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:06:48<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 14:43:56<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 14:43:56<br></pre>

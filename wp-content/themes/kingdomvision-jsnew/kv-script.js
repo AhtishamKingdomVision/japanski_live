@@ -222,8 +222,6 @@ jQuery(function ($) {
 
     }
 
-
-
     if ((localStorage.pathname !== undefined && localStorage.pathname == pathname) && (isMobile && localStorage.iscart)) {
 
         setTimeout(() => {
@@ -235,8 +233,6 @@ jQuery(function ($) {
         }, 2100);
 
     }
-
-
 
     $(document).on('click', '.sticky-cart-container a', function (e) {
 
@@ -2663,13 +2659,16 @@ jQuery(function ($) {
                     $root.find('.enquiry_type input').attr('value', 'Product');
                     $propertyField.trigger('change');
                 }
-                // On property singles (or when handoff mapped a name), lock the field.
+                // On property singles (or when handoff mapped a name), mark as applied but
+                // keep the field editable on single accommodation pages (client request, mirrors Resort).
                 if (propertyVal && (isAccSingle || !!hotelName)) {
-                    $propertyField.prop('readonly', true).addClass('disabled');
-                    if ($formWrap.length) {
-                        $formWrap.attr('data-bbf-lock-property', '1');
-                    }
                     applied = true;
+                    if (!isAccSingle) {
+                        $propertyField.prop('readonly', true).addClass('disabled');
+                        if ($formWrap.length) {
+                            $formWrap.attr('data-bbf-lock-property', '1');
+                        }
+                    }
                 }
             }
 
@@ -2681,8 +2680,8 @@ jQuery(function ($) {
                     : urlResort;
                 const currentResort = String($resortField.val() || '').trim();
                 const resortToUse = currentResort || pageResort || '';
-                // Lock when this is a property page or a /{resort}/accommodation URL.
-                const shouldLockResort = !!(resortToUse && (isAccSingle || urlResort));
+                // Prefill on property pages but keep Resort editable there (client request).
+                const shouldLockResort = !!(resortToUse && !isAccSingle && urlResort);
 
                 if (resortToUse) {
                     setEnquiryResortField($resortField, resortToUse, shouldLockResort);
@@ -2757,6 +2756,10 @@ jQuery(function ($) {
         if (!$scope.length) return;
 
         // Property/room Enquire → lock resort + property. Search / general → all editable.
+        // Property/room Enquire → lock resort + property. Search / general → all editable.
+        // Accommodation listing pages stay open — never lock.
+        const isListingPage = isAccommodationListingPath();
+        const isAccSingle = $('body').hasClass('single-accommodation');
         const lockProduct = !!data.lockProductFields;
         const hasProductData = !!(data.propertyName || data.resortName || data.checkIn || data.checkOut || data.roomName);
         const $propertyField = $scope.find(
@@ -2765,12 +2768,12 @@ jQuery(function ($) {
 
         if (data.propertyName) {
             $propertyField.val(data.propertyName);
-            if (lockProduct) {
+            if (lockProduct && !isListingPage && !isAccSingle) {
                 $propertyField.prop('readonly', true).addClass('disabled');
             } else {
                 $propertyField.prop('readonly', false).removeClass('disabled');
             }
-        } else if (!$('body').hasClass('single-accommodation')) {
+        } else if (!isAccSingle) {
             $propertyField.val('').prop('readonly', false).removeClass('disabled');
         }
 
@@ -2778,10 +2781,9 @@ jQuery(function ($) {
         const urlResortName = getUrlResortName($resortField);
         // Prefer explicit trigger resort; otherwise URL resort for prefill only.
         const resortName = data.resortName || urlResortName || '';
-        // Lock only for URL resort pages OR property/room Enquire — never lock just because
-        // a previous-page search resort was prefilled (blog / general CTAs must stay editable).
+        // Prefill on single property pages but keep Resort editable there too (client request).
         const hasProductContext = !!(data.propertyName || data.roomName);
-        const lockResort = !!(urlResortName || (lockProduct && resortName && hasProductContext));
+        const lockResort = !!(!isListingPage && !isAccSingle && (urlResortName || (lockProduct && resortName && hasProductContext)));
         setEnquiryResortField($resortField, resortName, lockResort);
 
         const $roomField = $scope.find('#input_1_44, .room_name input').first();
@@ -2811,7 +2813,7 @@ jQuery(function ($) {
         $scope.find('.gform_wrapper.quote_form_wrapper')
             .attr('data-bbf-unlocked', '1')
             .attr('data-bbf-lock-resort', lockResort ? '1' : '0')
-            .attr('data-bbf-lock-property', (lockProduct && !!data.propertyName) ? '1' : '0');
+            .attr('data-bbf-lock-property', (lockProduct && !isListingPage && !isAccSingle && !!data.propertyName) ? '1' : '0');
         syncEnquiryBbfLock($scope);
         if (typeof initAllBbfToggles === 'function') {
             initAllBbfToggles();
@@ -4209,15 +4211,16 @@ jQuery(function ($) {
                 if (!currentVal) {
                     const resortName = pageResort || getEnquiryPrefillResort($resortField);
                     if (resortName) {
-                        const lockFromUrl = !!(isAccSingle || urlResort || getReferrerResortName($resortField));
+                        // Accommodation listing & single property pages stay open — lock elsewhere.
+                        const lockFromUrl = !isAccommodationListingPath() && !isAccSingle && !!(urlResort || getReferrerResortName($resortField));
                         setEnquiryResortField($resortField, resortName, lockFromUrl);
                         if (lockFromUrl) {
                             $scope.find('.gform_wrapper').addBack('.gform_wrapper').first()
                                 .attr('data-bbf-lock-resort', '1');
                         }
                     }
-                } else if (isAccSingle || urlResort) {
-                    // Value already mapped — still disable on property / resort-accommodation pages.
+                } else if (!isAccommodationListingPath() && !isAccSingle && urlResort) {
+                    // Value already mapped — still disable on resort-accommodation pages.
                     setEnquiryResortField($resortField, currentVal, true);
                     $scope.find('.gform_wrapper').addBack('.gform_wrapper').first()
                         .attr('data-bbf-lock-resort', '1');
@@ -4651,11 +4654,22 @@ jQuery(function ($) {
         const $cta = jQuery('.sticky-cta-container');
         if (!$cta.length) return;
 
-        const filter_section = jQuery('section.hero-banner-with-filter');
         const topHeader = jQuery('.topHeader');
-        const filter_height = filter_section.length > 0 ? filter_section.outerHeight() : 0;
         const topHeader_height = topHeader.length > 0 ? topHeader.outerHeight() : 0;
         const scroll_top = jQuery(window).scrollTop();
+
+        // Client request: on mobile, only show the sticky CTA after the user has scrolled
+        // past the form_area section. Pages without a form_area keep the existing behavior
+        // below (button stays visible / follows the hero-filter threshold as before).
+        const $formArea = jQuery('section.form_area');
+        if (window.matchMedia('(max-width: 768px)').matches && $formArea.length) {
+            const form_area_threshold = $formArea.offset().top + $formArea.outerHeight() - topHeader_height;
+            $cta.toggleClass('active', scroll_top >= form_area_threshold);
+            return;
+        }
+
+        const filter_section = jQuery('section.hero-banner-with-filter');
+        const filter_height = filter_section.length > 0 ? filter_section.outerHeight() : 0;
 
         // where-to-stay / guide pages often have no hero filter → show as soon as user scrolls a bit,
         // or immediately when threshold is 0.
@@ -4689,23 +4703,9 @@ jQuery(function ($) {
 
             jQuery('header , .mobPopWrapper').toggleClass('showHeadarFilter', jQuery(window).scrollTop() > threshold);
 
-
-
-            let filter_section = jQuery('section.hero-banner-with-filter'),
-
-                topHeader = jQuery('topHeader'),
-
-                filter_height = filter_section.length > 0 ? filter_section.outerHeight() : 0,
-
-                topHeader_height = topHeader.length > 0 ? topHeader.outerHeight() : 0,
-
-                scroll_top = jQuery(window).scrollTop();
-
-
-
-            jQuery('.sticky-cta-container').toggleClass('active', scroll_top >= (filter_height - topHeader_height));
-
-
+            // .sticky-cta-container's active class is handled by kvUpdateStickyCtaActive() above,
+            // which already runs on every scroll event — this duplicate (and buggy: `jQuery('topHeader')`
+            // is missing the dot) toggle was overriding it. Removed.
 
         });
 

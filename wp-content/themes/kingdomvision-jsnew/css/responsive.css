@@ -150,7 +150,7 @@ h2 { font-size: 32px; }
 h3 { font-size: 24px; }
 body.is-open { overflow: hidden; }
 body.home .content-wrapper.transparent > section:first-child { padding-top: 100px !important; padding-bottom: 64px !important; }
-.content-wrapper.transparent > section:first-child { padding-top: 150px !important; padding-bottom: 15px !important; }
+.content-wrapper.transparent > section:first-child { padding-top: 110px !important; padding-bottom: 15px !important; }
 section.teams a.btn { position: static; margin-bottom: 32px; }
 ul.slick-dots { display: flex; align-items: center; padding: 0; margin: 20px 0 0; justify-content: center; }
 ul.slick-dots li { list-style: none; margin-right: 12px; line-height: 0; }
@@ -160,7 +160,13 @@ ul.slick-dots li button { width: 8px; height: 8px; border-radius: 4px; backgroun
 ul.slick-dots li button:hover { background: #ffffff; }
 section.form_area .container { flex-wrap: wrap; }
 section.form_area .container .fa_left { width: 100%; }
-section.form_area .container .fa_left h1 { margin: 20px 0; }
+section.form_area .container .fa_left h1 { margin: 0 0 10px 0; }
+section.form_area .container .fa_left .ratingarea { margin: 0 0 10px 0; font-size: 26px; }
+section.form_area .container .fa_left p { font-size: 16px; line-height: 20px; }
+section.form_area .container .fa_left ul.bullet-points { margin: 10px 0 0 0; }
+section.form_area .container .fa_left ul.bullet-points li { padding: 3px 0px 2px 26px; }
+section.form_area .container .fa_left ul.bullet-points li:before { width: 16px; height: 16px; }
+section.form_area .container .fa_right .gform_wrapper { margin-top: 0px; }
 section.form_area .container .fa_right { width: 100%; }
 
 /* ================= POPUP PARENT ================= */
@@ -203,10 +209,8 @@ section.form_area.form_area--inline-enquire .mob_quote_form a.close_mob_quote_fo
 	display: none !important;
 }
 
-section.form_area .container .fa_right .gform_wrapper { margin-top: 32px; }
 section.form_area .container .fa_right .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield--width-half { width: 100%; }
-section.form_area .container .ff_content_image { display: block; text-align: center; }
-.ff_content_image .ff_image img { margin: 0 auto; }
+section.form_area .container .ff_content_image { background: transparent; padding: 0; }
 section.titles_with_icons ul.title-icon-list { flex-wrap: wrap; align-items: self-start; }
 section.titles_with_icons ul.title-icon-list li.title-icon-item { width: 50%; text-align: center; margin-bottom: 40px; }
 section.titles_with_icons { padding-bottom: 0 !important; }
@@ -534,6 +538,7 @@ body.error404 .gdl-page-404 .message-box-wrapper .message-box-title span { font-
 .expert-recommendation-cta > div { display: block !important; text-align: center; }
 .expert-recommendation-cta > div p.expert-cta-content { margin-bottom: 30px !important; }
 /* .strong-recommendation-cta.stronger-message { max-height: 100% !important; margin-bottom: 0 !important; padding: 5px !important; } */
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield select { font-size: 12px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.calender_icon input { font-size: 14px; }
 .mobPopWrapper .accReviewWrapper { left: -15px; width: 90%; }
 .mobPopWrapper .accReviewWrapper .ratingarea { justify-content: center; }
@@ -564,10 +569,10 @@ section.room-listing .bedroom-tabs { justify-content: center; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield:nth-child(10) { order: 8; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield:nth-child(16) { order: 9; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.gfield_visibility_hidden { order: 10; }
-
-
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(3):after,
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4):after{display: none;}
 .acc_enquiry_form .acc_enquiry_head { padding: 20px 30px 1px; }
-.accommodation-map-dialog { height: 80vh; }
+.accommodation-map-dialog { height: 70vh; }
 
 }
 

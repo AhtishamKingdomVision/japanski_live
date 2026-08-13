@@ -460,39 +460,68 @@
 
 
 
-        setTimeout(() => {
+        // Client request: the room cart / rate plans must NOT auto-load on page visit.
+        // Saved dates still pre-fill the filter form, but the user has to click "Check Rates"
+        // to load the booking UI. Initial state: room list visible, booking wrap hidden.
 
-            // Initial UI state check
+        setTimeout(function() {
 
-            const uiState = rb_storage.get('rb_ui_state');
+            $('.booking-wrap').hide();
 
-            if (uiState === 'booking') {
+            $('.room-list').show();
 
-                if( $('#room-filter-form').length > 0 && $('#sc-check-in').val().length > 0 && $('#sc-check-out').val().length > 0 ){
+            // Silent background refresh only: the WP-rendered room-card names can be
+            // stale vs RoomBoss's live ClientRoomName until the next sync. This mirrors
+            // that part of the old auto-submit without opening the booking UI.
+            if ($('#room-filter-form').length > 0 && $('#sc-check-in').val().length > 0 && $('#sc-check-out').val().length > 0) {
 
-                    $('#room-filter-form').trigger('submit');
+                const $silentForm = $('#room-filter-form');
+                const silent_property_id = $silentForm.attr('property-id');
+                const silent_acc_id = $silentForm.attr('acc-id') || acc_id;
+                const silent_checkin = $('#sc-check-in').val().trim();
+                const silent_checkout = $('#sc-check-out').val().trim();
 
-                    // rb_render_booking_from_storage();
+                // Must match room_filter_submit_func's context write — .book-btn's click
+                // handler reads bookingContext.checkin unconditionally once rates_checked
+                // is true, and throws on null if this isn't set.
+                rb_storage.setJSON('rb_booking_context', {
+                    checkin: silent_checkin,
+                    checkout: silent_checkout,
+                    property_id: silent_property_id,
+                    adults: parseInt(rb_storage.get('sb_adults'), 10) || 2,
+                    children: parseInt(rb_storage.get('sb_children'), 10) || 0,
+                    infants: 0
+                });
 
-                }
-
-            } else {
-
-                // If no dates are pre-filled and not in booking state, show the room list.
-
-                // This handles the case where rooms-section.php used to call show_booking_ui() unconditionally.
-
-                if( $('#room-filter-form').length > 0 && $('#sc-check-in').val().length > 0 && $('#sc-check-out').val().length > 0 ){
-
-                    $('#room-filter-form').trigger('submit');
-
-                    // show_booking_ui();
-
-                }
+                $.ajax({
+                    url: kv_object.ajaxurl + '?v=' + new Date().getTime(),
+                    method: 'POST',
+                    data: {
+                        action: 'niseko_search_roomboss_single',
+                        checkin: silent_checkin,
+                        checkout: silent_checkout,
+                        property_id: silent_property_id,
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            rb_storage.set(silent_acc_id + '_rates_checked', 'true');
+                            $('#room-results').html(res.data.html);
+                            updateBedroomTabs(res.data.available_bedroom_types);
+                            $('.book-btn').prop('disabled', false).removeClass('disabled');
+                            $('.units_avl').text(res.data.count);
+                            const searchCount = parseInt(res.data.count, 10) || 0;
+                            if (searchCount > 0) {
+                                $('.total_units').each(function() {
+                                    if ((parseInt($(this).text(), 10) || 0) < 1) {
+                                        $(this).text(searchCount);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
 
             }
-
-            
 
         }, 500);
 

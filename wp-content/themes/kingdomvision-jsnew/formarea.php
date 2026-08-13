@@ -38,9 +38,9 @@ if ( ! is_array( $enquire_page ) ) {
     $enquire_page = $enquire_page ? [ $enquire_page ] : [];
 }
 
-// Enquire / quote landing pages: show Gravity Form inline on mobile (no Enquire Now toggle).
-$is_enquire_form_page = in_array( get_the_ID(), array_map( 'intval', $enquire_page ), true )
-    || is_page( [ 'enquire', 'get-a-quote', 'get-expert-recommendations' ] );
+// Client request: show the Gravity Form inline on mobile everywhere this section is
+// embedded (no popup / Enquire Now toggle), not just on the designated enquire pages.
+$is_enquire_form_page = true;
 
 if( intval( $form ) == 1 && $bg_image):?>
 

@@ -1930,7 +1930,7 @@ body.single-accommodation #cta_with_bg_image0 { display: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child { border-radius: 10px 0 0 10px; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4){ border-radius: 0 10px 10px 0; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5) { display: none; border-radius: 0 10px 10px 0; padding: 6px 8px; box-sizing: border-box; overflow: hidden; }
-.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:after { background: #1f3656; width: 1px; height: 30px; position: absolute; right: 0; top: 50%; transform: translateY(-50%); content: ""; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:after { background: rgba(255, 255, 255, 0.15); width: 1px; height: 30px; position: absolute; right: 0; top: 50%; transform: translateY(-50%); content: ""; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:before { pointer-events: none; position: absolute; left: 20px; font: 15px FontAwesome; top: 50%; transform: translateY(-50%); color: #bfcfdf; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:first-child:before { content: "\f3c5"; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(2):before { content: "\f073"; }
@@ -1938,6 +1938,7 @@ body.single-accommodation #cta_with_bg_image0 { display: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4):before { content: "\f007"; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5):before,
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(5):after { display: none; content: none; }
+.gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf:nth-child(4):after { display: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a { padding: 15px 0; color: #bfcfdf; font-size: 14px; display: flex; gap: 10px; align-items: center; background: none; border: none; border-radius: 0; box-shadow: none; margin: 0; text-decoration: none; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a.bbf-edit-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; max-width: 100%; box-sizing: border-box; padding: 8px 10px; margin: 0; min-height: 34px; border-radius: 8px; background: rgba(255, 255, 255, 0.1) !important; border: none !important; box-shadow: none !important; color: #fff !important; font-size: 12px; font-weight: 600; line-height: 1; white-space: nowrap; cursor: pointer; transition: background 0.2s ease; }
 .gform_wrapper.quote_form_wrapper .gform_body .gform_fields .gfield.bbf a.bbf-edit-btn:hover,

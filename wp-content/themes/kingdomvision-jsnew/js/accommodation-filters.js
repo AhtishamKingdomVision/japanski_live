@@ -3712,13 +3712,15 @@ const AccommodationFilters = (function() {
 
                 }
 
-                localStorage.setItem('red_list', 'true');
+                localStorage.setItem( 'red_list', 'true' );
                 
                 var header_height = jQuery('header').outerHeight() || 0;
 
+                var element = jQuery('#accom-search-form').length > 0 ? jQuery('#accom-search-form') : jQuery('.rooms-wrap');
+
                 jQuery( 'html, body' ).animate({
 
-                    scrollTop: (jQuery('#accom-search-form').offset().top - header_height) 
+                    scrollTop: (element.offset().top - header_height)
 
                 }, 1000);
 
@@ -3782,7 +3784,19 @@ const AccommodationFilters = (function() {
 
                 localStorage.setItem(CONFIG.storage.hotelSearch, 'true');
 
+                var element = jQuery('#accom-search-form').length > 0 ? jQuery('#accom-search-form') : jQuery('.rooms-wrap');
 
+                var header_height = jQuery('header').outerHeight() || 0;
+
+                if (element.length) {
+
+                    jQuery( 'html, body' ).animate({
+
+                        scrollTop: (element.offset().top - header_height)
+
+                    }, 1000);
+
+                }
 
                 const resortVal = (jQuery(el).closest('.search-row').find(CONFIG.selectors.resort).val()
 
@@ -3895,8 +3909,10 @@ const AccommodationFilters = (function() {
                 jQuery('.search-card .guests-popover').removeClass('open show');
                 // Close room "Check Rates" guests so sync/render cannot scroll the page down to it.
                 jQuery('.room-filter-guests-popover').removeClass('active open show');
+
                 // Close enquiry "Get a Quote" guests (stopPropagation would skip its outside-click closer).
                 jQuery('.eq-guests-popover, #eq-guests-popover').removeClass('open show active');
+                
                 window.kvClearGuestsPopoverPin();
                 $pop.toggleClass('open', willOpen);
                 $card.find('.sb-guests-desktop').toggleClass('active', willOpen);

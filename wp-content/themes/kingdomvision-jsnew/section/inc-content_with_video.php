@@ -42,6 +42,20 @@ echo '<section ' . SectionAttributes($section, 'full-section content-with-video'
 				    }
 				    echo '</div>';
 				}
+
+				// if(!empty($buttons) && is_array($buttons)){
+				//     echo '<div class="buttons">';
+				//     foreach($buttons as $row){
+				//         $btn = $row['button'] ?? [];
+				//         if(!empty($btn['url']) && !empty($btn['title'])){
+				//             echo '<a href="'. esc_url($btn['url']) .'" class="btn" target="'. esc_attr($btn['target'] ?? '_self') .'">'
+				//                     . esc_html($btn['title']) .
+				//                  '</a>';
+				//         }
+				//     }
+				//     echo '</div>';
+				// }
+				
 			echo '</div>'; // cwv-left end
 
 

@@ -72,7 +72,12 @@ function kv_sync_enqueue_assets( $hook ) {
         'isResumable' => $is_resumable,
         'resumePage'  => $resume_page,
         'resumeTotal' => $resume_total,
-        'timeoutMs'   => 300000, // 5 minutes — heavy property mapping can exceed 3 minutes
+        'timeoutMs'   => 900000, // 15 minutes — must comfortably exceed the worst-case single
+                                  // chunk (large properties with many rooms/images can take
+                                  // several minutes even with per-image download timeouts).
+                                  // A client timeout shorter than actual processing time causes
+                                  // the browser to retry a chunk that's still legitimately
+                                  // working, racing a duplicate attempt against the original.
         'maxRetries'  => 2, // quick retries, then skip page and retry failed pages at the end
         'i18n'        => [
             'syncing'    => __( 'Syncing…', 'kv' ),
@@ -94,6 +99,42 @@ function kv_sync_enqueue_assets( $hook ) {
             'resumeHint' => __( 'Use Resume Sync to continue.', 'kv' ),
         ],
     ] );
+}
+
+/**
+ * Split a log error message into its first line + total line count in one pass,
+ * so the logs table can show a short preview with a "+N more" link to the full text.
+ */
+function kv_sync_split_log_error( $msg ) {
+    $msg   = (string) $msg;
+    $lines = preg_split( '/\r\n|\r|\n/', $msg );
+    return [
+        'first' => isset( $lines[0] ) ? trim( $lines[0] ) : '',
+        'count' => count( $lines ),
+    ];
+}
+
+/**
+ * Write full exception detail (message, class, file/line, stack trace) to the
+ * dedicated bulk-sync log, so a crash tells us exactly where it happened
+ * instead of just a bare message.
+ */
+function kv_sync_log_exception( $label, Throwable $e ) {
+    $detail = sprintf(
+        "%s: %s\nException: %s\nFile: %s:%d\nTrace:\n%s",
+        $label,
+        $e->getMessage(),
+        get_class( $e ),
+        $e->getFile(),
+        $e->getLine(),
+        $e->getTraceAsString()
+    );
+
+    if ( function_exists( 'kv_sync_write_log' ) ) {
+        kv_sync_write_log( $detail );
+    } else {
+        error_log( $detail );
+    }
 }
 
 /* ──────────────────────────────────────────────
@@ -280,6 +321,55 @@ function kv_sync_render_admin_page() {
             </section>
         </div>
 
+        <!-- ── Background Image Queue ── -->
+        <section class="kv-sync-panel kv-sync-panel--image-queue">
+            <div class="kv-sync-panel__head">
+                <h2 class="kv-sync-panel__title"><?php esc_html_e( 'Background Image Queue', 'kv' ); ?></h2>
+                <p class="kv-sync-panel__sub">
+                    <?php esc_html_e( 'Featured images are downloaded here in the background — not during sync — so large properties can never time out the sync request itself.', 'kv' ); ?>
+                </p>
+            </div>
+
+            <div class="kv-sync-cards kv-sync-cards--queue">
+                <div class="kv-sync-card">
+                    <span class="kv-sync-card__label"><?php esc_html_e( 'Pending' ); ?></span>
+                    <span class="kv-sync-card__value kv-color-blue" id="kv-queue-pending">–</span>
+                </div>
+                <div class="kv-sync-card">
+                    <span class="kv-sync-card__label"><?php esc_html_e( 'Processing' ); ?></span>
+                    <span class="kv-sync-card__value kv-color-yellow" id="kv-queue-processing">–</span>
+                </div>
+                <div class="kv-sync-card">
+                    <span class="kv-sync-card__label"><?php esc_html_e( 'Done' ); ?></span>
+                    <span class="kv-sync-card__value kv-color-green" id="kv-queue-done">–</span>
+                </div>
+                <div class="kv-sync-card">
+                    <span class="kv-sync-card__label"><?php esc_html_e( 'Failed' ); ?></span>
+                    <span class="kv-sync-card__value kv-color-red" id="kv-queue-failed">–</span>
+                </div>
+            </div>
+
+            <p class="kv-sync-panel__sub">
+                <?php esc_html_e( 'To keep this draining automatically, add a real server cron job (not WordPress\'s own pseudo-cron) that hits this URL every minute:', 'kv' ); ?>
+            </p>
+            <p>
+                <code id="kv-queue-cron-url" style="user-select:all;word-break:break-all;">
+                    <?php echo esc_html( rest_url( 'kv/v1/process-image-queue' ) . '?secret=' . get_option( 'kv_image_queue_cron_secret' ) ); ?>
+                </code>
+            </p>
+            <p class="kv-sync-panel__sub">
+                <?php esc_html_e( 'Example cron command (every minute):', 'kv' ); ?>
+                <code>curl -s "<?php echo esc_html( rest_url( 'kv/v1/process-image-queue' ) . '?secret=' . get_option( 'kv_image_queue_cron_secret' ) ); ?>" &gt;/dev/null 2&gt;&amp;1</code>
+            </p>
+
+            <div class="kv-sync-actions">
+                <button type="button" class="button button-secondary" id="kv-queue-process-now">
+                    <?php esc_html_e( 'Process Now', 'kv' ); ?>
+                </button>
+            </div>
+            <p class="kv-sync-status" id="kv-queue-status"></p>
+        </section>
+
         <!-- ── Sync Logs ── -->
         <section class="kv-sync-panel kv-sync-panel--logs">
             <div class="kv-sync-panel__head kv-sync-panel__head--row">
@@ -309,19 +399,25 @@ function kv_sync_render_admin_page() {
                 <?php endif; ?>
             </div>
 
-            <?php if ( ! empty( $sync_logs ) ) : ?>
-                <div class="kv-sync-logs-scroll">
-                    <table class="kv-sync-logs-table">
-                        <thead>
-                            <tr>
-                                <th><?php esc_html_e( 'Timestamp' ); ?></th>
-                                <th><?php esc_html_e( 'Property ID' ); ?></th>
-                                <th><?php esc_html_e( 'Property Name' ); ?></th>
-                                <th><?php esc_html_e( 'Status' ); ?></th>
-                                <th><?php esc_html_e( 'Error / Notes' ); ?></th>
+            <div class="kv-sync-logs-scroll">
+                <table class="kv-sync-logs-table">
+                    <thead>
+                        <tr>
+                            <th><?php esc_html_e( 'Timestamp' ); ?></th>
+                            <th><?php esc_html_e( 'Property ID' ); ?></th>
+                            <th><?php esc_html_e( 'Property Name' ); ?></th>
+                            <th><?php esc_html_e( 'Status' ); ?></th>
+                            <th><?php esc_html_e( 'Error / Notes' ); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody id="kv-sync-logs-tbody">
+                        <?php if ( empty( $sync_logs ) ) : ?>
+                            <tr class="kv-sync-logs-table__empty-row">
+                                <td colspan="5" class="kv-sync-logs-table__empty">
+                                    <?php esc_html_e( 'No sync logs yet. Run a sync to generate activity here.' ); ?>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
+                        <?php else : ?>
                             <?php foreach ( $sync_logs as $log ) :
                                 $status = $log['status'] ?? 'unknown';
                                 $badge  = 'kv-sync-badge--muted';
@@ -332,6 +428,10 @@ function kv_sync_render_admin_page() {
                                 } elseif ( $status === 'processing' ) {
                                     $badge = 'kv-sync-badge--processing';
                                 }
+                                $error_text = (string) ( $log['error'] ?? '' );
+                                $split      = kv_sync_split_log_error( $error_text );
+                                $first_line = $split['first'];
+                                $more_lines = $split['count'] - 1;
                             ?>
                                 <tr>
                                     <td class="kv-sync-logs-table__mono"><?php echo esc_html( $log['timestamp'] ?? '–' ); ?></td>
@@ -342,16 +442,34 @@ function kv_sync_render_admin_page() {
                                             <?php echo esc_html( ucfirst( $status ) ); ?>
                                         </span>
                                     </td>
-                                    <td class="kv-sync-logs-table__notes"><?php echo esc_html( $log['error'] ?: '–' ); ?></td>
+                                    <td class="kv-sync-logs-table__notes<?php echo ( $first_line !== '' ) ? ' kv-sync-logs-table__notes--link' : ''; ?>"<?php echo ( $first_line !== '' ) ? ' data-error="' . esc_attr( $error_text ) . '"' : ''; ?>>
+                                        <?php if ( $first_line !== '' ) : ?>
+                                            <?php echo esc_html( $first_line ); ?>
+                                            <?php if ( $more_lines > 0 ) : ?>
+                                                <span class="kv-sync-logs-table__more">+<?php echo esc_html( $more_lines ); ?> more</span>
+                                            <?php endif; ?>
+                                        <?php else : ?>
+                                            <?php esc_html_e( '–' ); ?>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else : ?>
-                <p class="kv-sync-empty"><?php esc_html_e( 'No sync logs yet. Run a sync to generate activity here.' ); ?></p>
-            <?php endif; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </section>
+
+        <!-- ── Full-log message popup ── -->
+        <div class="kv-sync-modal" id="kv-sync-modal" hidden>
+            <div class="kv-sync-modal__overlay" data-kv-modal-close></div>
+            <div class="kv-sync-modal__box" role="dialog" aria-modal="true" aria-labelledby="kv-sync-modal-title">
+                <button type="button" class="kv-sync-modal__close" data-kv-modal-close aria-label="<?php esc_attr_e( 'Close' ); ?>">&times;</button>
+                <h2 class="kv-sync-modal__title" id="kv-sync-modal-title"></h2>
+                <p class="kv-sync-modal__meta" id="kv-sync-modal-meta"></p>
+                <pre class="kv-sync-modal__body" id="kv-sync-modal-body"></pre>
+            </div>
+        </div>
     </div>
     <?php
 }
@@ -432,7 +550,7 @@ function kv_ajax_sync_start() {
             'phase'       => 'main',
         ] );
     } catch ( Throwable $e ) {
-        error_log( 'kv_ajax_sync_start error: ' . $e->getMessage() );
+        kv_sync_log_exception( 'kv_ajax_sync_start error', $e );
         wp_send_json_error( [ 'message' => 'Server error: ' . $e->getMessage() ] );
     }
 }
@@ -500,7 +618,7 @@ function kv_ajax_sync_resume() {
             'failed_count' => count( $failed ),
         ] );
     } catch ( Throwable $e ) {
-        error_log( 'kv_ajax_sync_resume error: ' . $e->getMessage() );
+        kv_sync_log_exception( 'kv_ajax_sync_resume error', $e );
         wp_send_json_error( [ 'message' => 'Server error: ' . $e->getMessage() ] );
     }
 }
@@ -532,7 +650,98 @@ function kv_ajax_sync_stop() {
             'failed_count' => count( kv_sync_get_failed_pages() ),
         ] );
     } catch ( Throwable $e ) {
-        error_log( 'kv_ajax_sync_stop error: ' . $e->getMessage() );
+        kv_sync_log_exception( 'kv_ajax_sync_stop error', $e );
+        wp_send_json_error( [ 'message' => 'Server error: ' . $e->getMessage() ] );
+    }
+}
+
+/* ──────────────────────────────────────────────
+ * 4d. AJAX: poll the live sync log (rendered every few seconds)
+ * ────────────────────────────────────────────── */
+
+add_action( 'wp_ajax_kv_sync_log_poll', 'kv_ajax_sync_log_poll' );
+function kv_ajax_sync_log_poll() {
+    try {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
+        }
+
+        check_ajax_referer( 'kv_sync_nonce', 'nonce' );
+
+        $logs = get_option( 'kv_sync_logs', [] );
+        if ( ! is_array( $logs ) ) {
+            $logs = [];
+        }
+
+        $logs = array_values( array_filter( $logs, static function ( $log ) {
+            $status = strtolower( (string) ( $log['status'] ?? '' ) );
+            return in_array( $status, [ 'success', 'failed', 'processing' ], true );
+        } ) );
+        $logs = array_reverse( $logs );
+
+        /* Keep the payload small — send only what the table needs. */
+        $entries = array_map( static function ( $log ) {
+            return [
+                'timestamp'     => (string) ( $log['timestamp'] ?? '–' ),
+                'property_id'   => (string) ( $log['property_id'] ?? '–' ),
+                'property_name' => (string) ( $log['property_name'] ?? '–' ),
+                'status'        => strtolower( (string) ( $log['status'] ?? 'unknown' ) ),
+                'error'         => (string) ( $log['error'] ?? '' ),
+            ];
+        }, array_slice( $logs, 0, 250 ) );
+
+        wp_send_json_success( [
+            'entries'      => $entries,
+            'in_progress'  => (bool) get_option( 'kv_sync_in_progress', false ),
+            'failed_count' => count( kv_sync_get_failed_pages() ),
+            'page'         => intval( get_option( 'hz_page', 1 ) ),
+            'total_pages'  => intval( get_option( 'hz_total_pages', 1 ) ),
+        ] );
+    } catch ( Throwable $e ) {
+        kv_sync_log_exception( 'kv_ajax_sync_log_poll error', $e );
+        wp_send_json_error( [ 'message' => 'Server error: ' . $e->getMessage() ] );
+    }
+}
+
+/* ──────────────────────────────────────────────
+ * 4e. AJAX: log a client-observed failure (504 / timeout / network) that the
+ * server-side request never lived long enough to log itself — e.g. Cloudflare
+ * returning its own 504 page before kv_ajax_sync_chunk ever finishes running.
+ * Best-effort: if the browser is genuinely offline this call will also fail
+ * to reach the server, which is an inherent limit, not a bug.
+ * ────────────────────────────────────────────── */
+
+add_action( 'wp_ajax_kv_sync_log_client_error', 'kv_ajax_sync_log_client_error' );
+function kv_ajax_sync_log_client_error() {
+    try {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
+        }
+
+        check_ajax_referer( 'kv_sync_nonce', 'nonce' );
+
+        $error_type = sanitize_text_field( wp_unslash( $_POST['error_type'] ?? 'other' ) );
+        $message    = sanitize_text_field( wp_unslash( $_POST['message'] ?? '' ) );
+        $phase      = sanitize_text_field( wp_unslash( $_POST['phase'] ?? '' ) );
+        $page       = intval( $_POST['page'] ?? 0 );
+
+        if ( function_exists( 'kv_sync_log_entry' ) ) {
+            kv_sync_log_entry( [
+                'property_id'   => 'page-' . $page,
+                'property_name' => 'Client-side ' . strtoupper( $error_type ) . ( $phase ? ' (' . $phase . ' phase)' : '' ),
+                'status'        => 'failed',
+                'error'         => sprintf(
+                    'Browser received a %s error on this request and is retrying in 5 minutes. %s',
+                    $error_type,
+                    $message ? '(' . $message . ')' : ''
+                ),
+                'timestamp'     => current_time( 'Y-m-d H:i:s' ),
+            ] );
+        }
+
+        wp_send_json_success();
+    } catch ( Throwable $e ) {
+        kv_sync_log_exception( 'kv_ajax_sync_log_client_error error', $e );
         wp_send_json_error( [ 'message' => 'Server error: ' . $e->getMessage() ] );
     }
 }
@@ -584,7 +793,10 @@ function kv_ajax_sync_chunk() {
             delete_transient( $lock_key );
         }
 
-        set_transient( $lock_key, $run_id, 10 * MINUTE_IN_SECONDS );
+        // Must exceed kvSync.timeoutMs (client AJAX timeout) with real margin — otherwise
+        // a client retry after its own timeout can arrive just as this lock expires and
+        // slip through as a duplicate attempt instead of being told "still busy".
+        set_transient( $lock_key, $run_id, 20 * MINUTE_IN_SECONDS );
         $got_lock = true;
 
         if ( ! kv_sync_is_active_run( $run_id ) ) {
@@ -638,6 +850,7 @@ function kv_ajax_sync_chunk() {
                 delete_transient( $lock_key );
                 wp_send_json_error( [
                     'message'      => $processed->get_error_message(),
+                    'error_type'   => $processed->get_error_data()['error_type'] ?? 'other',
                     'phase'        => 'catchup',
                     'page'         => $catchup_page,
                     'total_pages'  => $total_pages,
@@ -657,6 +870,7 @@ function kv_ajax_sync_chunk() {
             }
 
             delete_transient( $lock_key );
+            $catchup_avg = kv_sync_get_avg_property_seconds();
             wp_send_json_success( array_merge( $processed, [
                 'done'         => $done,
                 'phase'        => 'catchup',
@@ -666,6 +880,7 @@ function kv_ajax_sync_chunk() {
                 'failed_count' => count( $failed_left ),
                 'skipped'      => false,
                 'partial'      => false,
+                'eta_seconds'  => ( $done || $catchup_avg === null ) ? 0 : ( $catchup_avg * count( $failed_left ) * $chunk_size ),
             ] ) );
         }
 
@@ -680,6 +895,7 @@ function kv_ajax_sync_chunk() {
             delete_transient( $lock_key );
             wp_send_json_error( [
                 'message'      => $processed->get_error_message(),
+                'error_type'   => $processed->get_error_data()['error_type'] ?? 'other',
                 'phase'        => 'main',
                 'page'         => $page_num,
                 'total_pages'  => intval( get_option( 'hz_total_pages', $total_pages ) ),
@@ -723,12 +939,13 @@ function kv_ajax_sync_chunk() {
             'failed_count' => count( $failed ),
             'skipped'      => false,
             'partial'      => false,
+            'eta_seconds'  => $done ? 0 : kv_sync_estimate_remaining_seconds( $next_page, $total_pages, $chunk_size ),
         ] ) );
     } catch ( Throwable $e ) {
         if ( $got_lock ) {
             delete_transient( $lock_key );
         }
-        error_log( 'kv_ajax_sync_chunk error: ' . $e->getMessage() );
+        kv_sync_log_exception( 'kv_ajax_sync_chunk error', $e );
         wp_send_json_error( [ 'message' => 'Server error: ' . $e->getMessage() ] );
     }
 }
@@ -754,6 +971,7 @@ function kv_ajax_sync_skip() {
         $page_num    = intval( get_option( 'hz_page', 1 ) );
         $total_pages = max( 1, intval( get_option( 'hz_total_pages', 1 ) ) );
         $phase       = (string) get_option( 'kv_sync_phase', 'main' );
+        $chunk_size  = max( 1, min( 5, intval( get_option( 'kv_sync_chunk_size', 3 ) ) ) );
 
         if ( $phase === 'catchup' ) {
             /* During catchup, drop current failed head and continue */
@@ -781,6 +999,7 @@ function kv_ajax_sync_skip() {
                 $partial = true;
             }
 
+            $skip_catchup_avg = kv_sync_get_avg_property_seconds();
             wp_send_json_success( [
                 'done'         => $done,
                 'phase'        => $done ? 'done' : 'catchup',
@@ -793,6 +1012,7 @@ function kv_ajax_sync_skip() {
                 'updated'      => intval( get_option( $done ? 'kv_sync_last_updated' : 'kv_sync_session_updated', 0 ) ),
                 'total'        => intval( get_option( 'kv_sync_total_properties', 0 ) ),
                 'last_sync'    => get_option( 'kv_sync_last_run', '' ),
+                'eta_seconds'  => ( $done || $skip_catchup_avg === null ) ? 0 : ( $skip_catchup_avg * count( $failed_left ) * $chunk_size ),
             ] );
         }
 
@@ -840,9 +1060,10 @@ function kv_ajax_sync_skip() {
             'updated'      => intval( get_option( 'kv_sync_session_updated', 0 ) ),
             'total'        => intval( get_option( 'kv_sync_total_properties', 0 ) ),
             'last_sync'    => get_option( 'kv_sync_last_run', '' ),
+            'eta_seconds'  => $done ? 0 : kv_sync_estimate_remaining_seconds( $next_page, $total_pages, $chunk_size ),
         ] );
     } catch ( Throwable $e ) {
-        error_log( 'kv_ajax_sync_skip error: ' . $e->getMessage() );
+        kv_sync_log_exception( 'kv_ajax_sync_skip error', $e );
         wp_send_json_error( [ 'message' => 'Server error: ' . $e->getMessage() ] );
     }
 }
@@ -889,6 +1110,170 @@ function kv_sync_done_payload( $page, $total_pages, $partial ) {
     ];
 }
 
+/* ──────────────────────────────────────────────
+ * Timing model — how long a property takes to sync scales with its room
+ * and image count. We record (rooms, images, seconds) samples as each
+ * property finishes, fit a simple linear model, and use it to flag
+ * unusually slow properties and estimate how long the next one will take.
+ * ────────────────────────────────────────────── */
+
+function kv_sync_record_timing_sample( $rooms, $images, $seconds ) {
+    $rooms   = max( 0, intval( $rooms ) );
+    $images  = max( 0, intval( $images ) );
+    $seconds = max( 0.0, (float) $seconds );
+
+    $samples = get_option( 'kv_sync_timing_samples', [] );
+    if ( ! is_array( $samples ) ) {
+        $samples = [];
+    }
+    $samples[] = [ 'rooms' => $rooms, 'images' => $images, 'seconds' => $seconds ];
+
+    /* Bounded ring buffer — keep the model responsive to current server conditions */
+    if ( count( $samples ) > 200 ) {
+        $samples = array_slice( $samples, -200 );
+    }
+
+    update_option( 'kv_sync_timing_samples', $samples, false );
+}
+
+/**
+ * Fit `seconds = a*images + b*rooms + c` via least squares over recent samples.
+ * Falls back to a flat per-unit estimate when there isn't enough data yet,
+ * or the sample set is too degenerate (e.g. every property has 0 rooms) to solve.
+ *
+ * @return array{a: float, b: float, c: float, samples: int}
+ */
+function kv_sync_get_timing_model() {
+    $samples = get_option( 'kv_sync_timing_samples', [] );
+    if ( ! is_array( $samples ) ) {
+        $samples = [];
+    }
+
+    $n = count( $samples );
+    $fallback = [ 'a' => 2.0, 'b' => 6.0, 'c' => 0.0, 'samples' => $n ];
+
+    if ( $n < 5 ) {
+        return $fallback;
+    }
+
+    $sum_xx = 0.0; $sum_xy = 0.0; $sum_xz = 0.0;
+    $sum_yy = 0.0; $sum_yz = 0.0;
+    $sum_x  = 0.0; $sum_y  = 0.0; $sum_z  = 0.0;
+
+    foreach ( $samples as $s ) {
+        $x = (float) ( $s['images'] ?? 0 );
+        $y = (float) ( $s['rooms'] ?? 0 );
+        $z = (float) ( $s['seconds'] ?? 0 );
+
+        $sum_xx += $x * $x;
+        $sum_xy += $x * $y;
+        $sum_xz += $x * $z;
+        $sum_yy += $y * $y;
+        $sum_yz += $y * $z;
+        $sum_x  += $x;
+        $sum_y  += $y;
+        $sum_z  += $z;
+    }
+
+    /* Normal equations for least-squares fit of seconds = a*images + b*rooms + c:
+     * [ sum_xx  sum_xy  sum_x ] [a]   [sum_xz]
+     * [ sum_xy  sum_yy  sum_y ] [b] = [sum_yz]
+     * [ sum_x   sum_y   n     ] [c]   [sum_z ]
+     */
+    $solved = kv_sync_solve_3x3( [
+        [ $sum_xx, $sum_xy, $sum_x, $sum_xz ],
+        [ $sum_xy, $sum_yy, $sum_y, $sum_yz ],
+        [ $sum_x,  $sum_y,  $n,     $sum_z  ],
+    ] );
+
+    if ( $solved === null ) {
+        return $fallback;
+    }
+
+    return [
+        'a'       => max( 0.0, $solved[0] ),
+        'b'       => max( 0.0, $solved[1] ),
+        'c'       => max( 0.0, $solved[2] ),
+        'samples' => $n,
+    ];
+}
+
+/**
+ * Gaussian elimination with partial pivoting for a 3x4 augmented matrix.
+ * Returns [x, y, z] or null if the system is singular/degenerate.
+ */
+function kv_sync_solve_3x3( $m ) {
+    for ( $col = 0; $col < 3; $col++ ) {
+        $pivot_row = $col;
+        for ( $row = $col + 1; $row < 3; $row++ ) {
+            if ( abs( $m[ $row ][ $col ] ) > abs( $m[ $pivot_row ][ $col ] ) ) {
+                $pivot_row = $row;
+            }
+        }
+        if ( abs( $m[ $pivot_row ][ $col ] ) < 1e-9 ) {
+            return null;
+        }
+        if ( $pivot_row !== $col ) {
+            $tmp             = $m[ $col ];
+            $m[ $col ]       = $m[ $pivot_row ];
+            $m[ $pivot_row ] = $tmp;
+        }
+
+        for ( $row = 0; $row < 3; $row++ ) {
+            if ( $row === $col ) {
+                continue;
+            }
+            $factor = $m[ $row ][ $col ] / $m[ $col ][ $col ];
+            for ( $c2 = $col; $c2 < 4; $c2++ ) {
+                $m[ $row ][ $c2 ] -= $factor * $m[ $col ][ $c2 ];
+            }
+        }
+    }
+
+    return [
+        $m[0][3] / $m[0][0],
+        $m[1][3] / $m[1][1],
+        $m[2][3] / $m[2][2],
+    ];
+}
+
+function kv_sync_predict_property_seconds( $rooms, $images ) {
+    $model = kv_sync_get_timing_model();
+    return ( $model['a'] * max( 0, intval( $images ) ) ) + ( $model['b'] * max( 0, intval( $rooms ) ) ) + $model['c'];
+}
+
+/**
+ * Rough "time remaining" for the rest of the sync. We don't know the room/image
+ * count of properties we haven't fetched yet, so this uses the plain average
+ * seconds-per-property from recent samples rather than the regression model.
+ */
+function kv_sync_get_avg_property_seconds() {
+    $samples = get_option( 'kv_sync_timing_samples', [] );
+    if ( ! is_array( $samples ) || empty( $samples ) ) {
+        return null;
+    }
+
+    $recent = array_slice( $samples, -50 );
+    $sum    = 0.0;
+    foreach ( $recent as $s ) {
+        $sum += (float) ( $s['seconds'] ?? 0 );
+    }
+
+    return $sum / count( $recent );
+}
+
+function kv_sync_estimate_remaining_seconds( $page_num, $total_pages, $chunk_size ) {
+    $avg_seconds = kv_sync_get_avg_property_seconds();
+    if ( $avg_seconds === null ) {
+        return null;
+    }
+
+    $pages_left = max( 0, intval( $total_pages ) - intval( $page_num ) + 1 );
+    $properties_left = $pages_left * max( 1, intval( $chunk_size ) );
+
+    return $avg_seconds * $properties_left;
+}
+
 /**
  * Fetch + map a single API page. Returns stats array or WP_Error.
  */
@@ -902,7 +1287,23 @@ function kv_sync_process_page( $page_num, $chunk_size, $total_pages = 1 ) {
 
     $result = hz_get_limited_properties( $page_num, $chunk_size );
     if ( $result === false || ! is_array( $result ) ) {
-        return new WP_Error( 'api_fetch', 'Failed to fetch properties from API for page ' . $page_num . '. Check API credentials / rate limits.' );
+        $fetch_error = function_exists( 'kv_sync_get_last_fetch_error' )
+            ? kv_sync_get_last_fetch_error()
+            : [ 'type' => 'other', 'message' => 'Check API credentials / rate limits.' ];
+
+        $message = 'Failed to fetch properties from API for page ' . $page_num . ': ' . $fetch_error['message'];
+
+        if ( function_exists( 'kv_sync_log_entry' ) ) {
+            kv_sync_log_entry( [
+                'property_id'   => 'page-' . $page_num,
+                'property_name' => 'Page ' . $page_num,
+                'status'        => 'failed',
+                'error'         => '[' . strtoupper( $fetch_error['type'] ) . '] ' . $message,
+                'timestamp'     => current_time( 'Y-m-d H:i:s' ),
+            ] );
+        }
+
+        return new WP_Error( 'api_fetch', $message, [ 'error_type' => $fetch_error['type'] ] );
     }
 
     $properties = $result['properties'] ?? [];
@@ -948,21 +1349,73 @@ function kv_sync_process_page( $page_num, $chunk_size, $total_pages = 1 ) {
         }
 
         foreach ( $properties as $property ) {
+            $pid   = trim( (string) ( $property['id'] ?? 'unknown' ) );
+            $pname = trim( (string) ( $property['client_property_name'] ?? $property['name'] ?? 'unknown' ) );
+
+            $room_count  = is_array( $property['rooms'] ?? null ) ? count( $property['rooms'] ) : 0;
+            $image_count = is_array( $property['images'] ?? null ) ? count( $property['images'] ) : 0;
+            foreach ( ( is_array( $property['rooms'] ?? null ) ? $property['rooms'] : [] ) as $room ) {
+                $image_count += is_array( $room['images'] ?? null ) ? count( $room['images'] ) : 0;
+            }
+
+            if ( function_exists( 'kv_sync_write_log' ) ) {
+                $predicted_start = function_exists( 'kv_sync_predict_property_seconds' )
+                    ? kv_sync_predict_property_seconds( $room_count, $image_count )
+                    : null;
+                kv_sync_write_log( sprintf(
+                    'STARTED property %s (%s) on page %d — %d rooms, %d images%s',
+                    $pid, $pname, $page_num, $room_count, $image_count,
+                    $predicted_start !== null ? sprintf( ' — expected ~%.1fs', $predicted_start ) : ''
+                ) );
+            }
+
+            $started_at = microtime( true );
+
             try {
                 sq_mapping_properties( [ $property ] );
             } catch ( Throwable $map_error ) {
-                $pid   = trim( (string) ( $property['id'] ?? 'unknown' ) );
-                $pname = trim( (string) ( $property['client_property_name'] ?? $property['name'] ?? 'unknown' ) );
-                error_log( 'kv_sync_process_page mapping error on page ' . $page_num . ' property ' . $pid . ': ' . $map_error->getMessage() );
+                kv_sync_log_exception(
+                    sprintf( 'kv_sync_process_page mapping error on page %d property %s (%s)', $page_num, $pid, $pname ),
+                    $map_error
+                );
                 if ( function_exists( 'kv_sync_log_entry' ) ) {
                     kv_sync_log_entry( [
                         'property_id'   => $pid,
                         'property_name' => $pname,
                         'status'        => 'failed',
-                        'error'         => $map_error->getMessage(),
+                        'error'         => $map_error->getMessage() . ' (full trace in kv-sync-debug.log)',
                         'timestamp'     => current_time( 'Y-m-d H:i:s' ),
                     ] );
                 }
+                continue;
+            }
+
+            $elapsed = microtime( true ) - $started_at;
+
+            if ( function_exists( 'kv_sync_record_timing_sample' ) ) {
+                kv_sync_record_timing_sample( $room_count, $image_count, $elapsed );
+            }
+
+            if ( function_exists( 'kv_sync_predict_property_seconds' ) && function_exists( 'kv_sync_log_entry' ) ) {
+                $predicted = kv_sync_predict_property_seconds( $room_count, $image_count );
+                $threshold = max( 20.0, $predicted * 1.75 );
+                $is_slow   = $elapsed > $threshold;
+
+                kv_sync_log_entry( [
+                    'property_id'   => $pid,
+                    'property_name' => $pname,
+                    'status'        => 'success',
+                    'error'         => sprintf(
+                        '%stook %.1fs to sync (%d rooms, %d images) — expected ~%.1fs.%s',
+                        $is_slow ? 'SLOW: ' : '',
+                        $elapsed,
+                        $room_count,
+                        $image_count,
+                        $predicted,
+                        $is_slow ? ' Investigate if this recurs.' : ''
+                    ),
+                    'timestamp'     => current_time( 'Y-m-d H:i:s' ),
+                ] );
             }
         }
     }
@@ -1115,7 +1568,7 @@ function kv_sync_finalize( $do_soft_delete = true ) {
         delete_option( 'kv_sync_seen_property_ids' );
         delete_option( 'kv_sync_seen_room_ids' );
     } catch ( Throwable $e ) {
-        error_log( 'kv_sync_finalize error: ' . $e->getMessage() );
+        kv_sync_log_exception( 'kv_sync_finalize error', $e );
         update_option( 'kv_sync_in_progress', false, false );
     }
 }

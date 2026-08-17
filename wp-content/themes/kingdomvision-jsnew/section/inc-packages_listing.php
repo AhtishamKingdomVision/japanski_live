@@ -301,6 +301,16 @@ $price_max         = $filter_inputs['price_max'];
                         </div>
                         <div class="dropdown_results" style="display: none;">
                             <ul class="properties">
+                                <?php
+                                $acc_ids = get_posts( [
+                                    'post_type'      => 'accommodation',
+                                    'post_status'    => 'publish',
+                                    'posts_per_page' => -1,
+                                    'orderby'        => 'title',
+                                    'order'          => 'ASC',
+                                    'fields'         => 'ids',
+                                ] );
+                                ?>
                                 <?php foreach ($acc_ids as $key => $value):
                                     $title = get_the_title($value);
                                     $property_id = get_field( 'property_id', $value );

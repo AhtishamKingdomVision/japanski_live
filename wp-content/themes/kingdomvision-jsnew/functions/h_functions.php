@@ -1567,23 +1567,14 @@ function hz_get_roomboss_data() {
 
                     if (!empty($bedrooms)) {
 
-                        $bedroom_meta = ['relation' => 'OR'];
-
-                        foreach ($bedrooms as $num) {
-
-                            $bedroom_meta[] = [
-
-                                'key'     => 'acc_no_of_bedrooms',
-
-                                'value'   => 'i:' . $num . ';',
-
-                                'compare' => 'LIKE',
-
-                            ];
-
-                        }
-
-                        $args['meta_query'][] = $bedroom_meta;
+                        // Indexable 'IN' match against the one-row-per-count 'bedroom_count'
+                        // meta, instead of a leading-wildcard LIKE scan against a serialized
+                        // array (which cannot use any index).
+                        $args['meta_query'][] = [
+                            'key'     => 'bedroom_count',
+                            'value'   => $bedrooms,
+                            'compare' => 'IN',
+                        ];
 
                     }
 
@@ -1915,23 +1906,14 @@ function hz_get_roomboss_data() {
 
             if (!empty($bedrooms)) {
 
-                $bedroom_meta = ['relation' => 'OR'];
-
-                foreach ($bedrooms as $num) {
-
-                    $bedroom_meta[] = [
-
-                        'key'     => 'acc_no_of_bedrooms',
-
-                        'value'   => 'i:' . $num . ';',
-
-                        'compare' => 'LIKE',
-
-                    ];
-
-                }
-
-                $args['meta_query'][] = $bedroom_meta;
+                // Indexable 'IN' match against the one-row-per-count 'bedroom_count'
+                // meta, instead of a leading-wildcard LIKE scan against a serialized
+                // array (which cannot use any index).
+                $args['meta_query'][] = [
+                    'key'     => 'bedroom_count',
+                    'value'   => $bedrooms,
+                    'compare' => 'IN',
+                ];
 
             }
 

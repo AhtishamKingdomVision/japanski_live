@@ -193,24 +193,20 @@ echo '<section class="full-section nearby_location" '.BackgroundFromSection($sec
             /* =========================
             PASS DATA TO JS
             ========================= */
-            echo '<script data-no-optimize="1" data-no-defer="1" data-cfasync="false">
-                window.nearbyData = ' . json_encode($mapArray) . ';
-                window.mainLocation = {
+            echo '<script>
+                var nearbyData = ' . json_encode($mapArray) . ';
+                var mainLocation = {
                     lat: ' . floatval($main_lat) . ',
                     lng: ' . floatval($main_lng) . ',
                     title: "' . esc_js($main_title) . '",
                     address: "' . esc_js($main_address) . '"
                 };
-                var nearbyData = window.nearbyData;
-                var mainLocation = window.mainLocation;
 
-                if( typeof jQuery !== "undefined" ){
-                    if( jQuery("ul.nearby-list li.nearby-item").length < 1 ){
-                        jQuery("section.nearby_location").hide();
-                    }
-                    else{
-                        jQuery("section.nearby_location").show();
-                    }
+                if( jQuery("ul.nearby-list li.nearby-item").length < 1 ){
+                    jQuery("section.nearby_location").hide();
+                }
+                else{
+                    jQuery("section.nearby_location").show();
                 }
             </script>';
         }

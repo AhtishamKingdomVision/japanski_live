@@ -1601,9 +1601,10 @@ jQuery(function ($) {
             // <input> can't host a spinner child — use "Sending…" label on the button.
             $btn.val('Sending…');
         } else {
-            $btn.html(
-                '<span class="kv-enquiry-btn-spinner" aria-hidden="true"></span>'
-            );
+            // $btn.html(
+            //     '<span class="kv-enquiry-btn-spinner" aria-hidden="true"></span>'
+            // );
+            $btn.text('Sending…');
         }
     }
 
@@ -3016,9 +3017,16 @@ jQuery(function ($) {
                 localStorage.removeItem('sb_resort');
             }
 
-            // Sync all search-card resort selects (hero + header + mobile)
+            // Sync all search-card resort selects (hero + header + mobile).
+            // Radios sharing this class (sidebar filter panel) are skipped here —
+            // .val('') on a radio falls through to setting its value PROPERTY
+            // directly (jQuery has no valHooks.set for radio/checkbox), which
+            // corrupted the value attribute permanently. They're already synced
+            // correctly (via .prop('checked', ...)) in the input[name="resort"]
+            // loop below.
             $('.js-sb-resort').each(function () {
                 const $el = $(this);
+                if ($el.is(':radio')) return;
                 if ($source && $el.is($source)) return;
 
                 if (isClear) {
@@ -3068,7 +3076,18 @@ jQuery(function ($) {
     }
 
     $(document).on('change', '.js-sb-resort', function () {
-        syncResortEverywhere($(this).val(), $(this));
+        const $this = $(this);
+        let val = $this.val();
+        // Self-heal: a radio whose value was previously corrupted (or any other
+        // legacy bad state) shouldn't be misread as "All Resorts" — rebuild it
+        // from its id (format resort-{slug}) instead.
+        if ($this.is(':radio') && !val) {
+            const id = $this.attr('id') || '';
+            if (id && id !== 'resort-all' && id.indexOf('resort-') === 0) {
+                val = id.slice('resort-'.length);
+            }
+        }
+        syncResortEverywhere(val, $this);
     });
 
     $(document).on('change', '.resort_name select, select[name="input_66"]', function () {

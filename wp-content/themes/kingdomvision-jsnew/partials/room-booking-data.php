@@ -576,7 +576,10 @@ if (!empty($wp_property_id)) {
                     data-bedroom="<?php echo esc_attr($bedrooms); ?>"
 
 
-                    data-room-id="<?php echo esc_attr($RoomId); ?>">
+                    data-room-id="<?php echo esc_attr($RoomId); ?>"
+
+
+                    data-room-type-id="<?php echo esc_attr($roomTypeId); ?>">
 
 
                     <div class="rb-room-top">

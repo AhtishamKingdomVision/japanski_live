@@ -11,6 +11,7 @@
     var syncRunId     = '';
     var TIMEOUT_MS    = parseInt( kvSync.timeoutMs, 10 ) || 300000;
     var MAX_RETRIES   = parseInt( kvSync.maxRetries, 10 ) || 2;
+    var TRANSIENT_RETRY_DELAY_MS = 5 * 60 * 1000; // 5 minutes — timeout / network / 504
 
     var $runBtn        = $( '#kv-run-sync' );
     var $resumeBtn     = $( '#kv-resume-sync' );
@@ -25,6 +26,152 @@
     var $statTotal    = $( '#kv-stat-total' );
     var $statAdded    = $( '#kv-stat-added' );
     var $statUpdated  = $( '#kv-stat-updated' );
+
+    var $modal      = $( '#kv-sync-modal' );
+    var $modalTitle = $( '#kv-sync-modal-title' );
+    var $modalMeta  = $( '#kv-sync-modal-meta' );
+    var $modalBody  = $( '#kv-sync-modal-body' );
+
+    var $logsTbody = $( '#kv-sync-logs-tbody' );
+
+    var logPollTimer = null;
+    var LOG_POLL_MS  = 3000;
+
+    /* ── Live log polling ── */
+
+    function startLogPolling() {
+        stopLogPolling();
+        pollLogs();
+        logPollTimer = setInterval( pollLogs, LOG_POLL_MS );
+    }
+
+    function stopLogPolling() {
+        if ( logPollTimer !== null ) {
+            clearInterval( logPollTimer );
+            logPollTimer = null;
+        }
+    }
+
+    function pollLogs() {
+        $.ajax( {
+            url     : kvSync.ajaxUrl,
+            method  : 'POST',
+            data    : { action : 'kv_sync_log_poll', nonce : kvSync.nonce },
+            timeout : 30000,
+        } )
+        .done( function ( response ) {
+            if ( ! response || ! response.success ) {
+                return;
+            }
+            var data = response.data || {};
+            if ( data.entries ) {
+                renderLogs( data.entries );
+            }
+        } )
+        .fail( function () {
+            /* Polling is best-effort — ignore transient failures */
+        } );
+    }
+
+    function renderLogs( entries ) {
+        if ( ! $logsTbody.length || ! Array.isArray( entries ) ) {
+            return;
+        }
+        if ( entries.length === 0 ) {
+            $logsTbody.empty().append(
+                $( '<tr>' ).append(
+                    $( '<td>' ).attr( 'colspan', 5 )
+                        .addClass( 'kv-sync-logs-table__empty' )
+                        .text( 'No sync logs yet. Run a sync to generate activity here.' )
+                )
+            );
+            return;
+        }
+        var rows = [];
+        $.each( entries, function ( i, log ) {
+            rows.push( buildLogRow( log ) );
+        } );
+        $logsTbody.empty().append( rows );
+    }
+
+    function buildLogRow( log ) {
+        var status = String( log.status || 'unknown' ).toLowerCase();
+        var badge  = 'kv-sync-badge--muted';
+        if ( status === 'success' ) {
+            badge = 'kv-sync-badge--success';
+        } else if ( status === 'failed' ) {
+            badge = 'kv-sync-badge--failed';
+        } else if ( status === 'processing' ) {
+            badge = 'kv-sync-badge--processing';
+        }
+
+        var error     = String( log.error || '' );
+        var errorBits = error.split( /\r\n|\r|\n/ );
+        var firstLine = errorBits[ 0 ] || '';
+        var more      = errorBits.length - 1;
+
+        var $notes = $( '<td>' ).addClass( 'kv-sync-logs-table__notes' );
+        if ( firstLine ) {
+            $notes.addClass( 'kv-sync-logs-table__notes--link' );
+            $notes.attr( 'data-error', error );
+            $notes.append( document.createTextNode( firstLine ) );
+            if ( more > 0 ) {
+                $notes.append(
+                    $( '<span>' ).addClass( 'kv-sync-logs-table__more' ).text( '+' + more + ' more' )
+                );
+            }
+        } else {
+            $notes.text( '–' );
+        }
+
+        return $( '<tr>' ).append(
+            $( '<td>' ).addClass( 'kv-sync-logs-table__mono' ).text( log.timestamp || '–' ),
+            $( '<td>' ).addClass( 'kv-sync-logs-table__mono' ).text( log.property_id || '–' ),
+            $( '<td>' ).text( log.property_name || '–' ),
+            $( '<td>' ).append(
+                $( '<span>' ).addClass( 'kv-sync-badge ' + badge )
+                    .text( status.charAt( 0 ).toUpperCase() + status.slice( 1 ) )
+            ),
+            $notes
+        );
+    }
+
+    /* ── Full-log popup ── */
+
+    function openLogModal( $cell ) {
+        var error = $cell.attr( 'data-error' );
+        if ( ! error ) {
+            return;
+        }
+        var $row = $cell.closest( 'tr' );
+        var pid  = $row.find( 'td' ).eq( 1 ).text();
+        var name = $row.find( 'td' ).eq( 2 ).text();
+        var time = $row.find( 'td' ).eq( 0 ).text();
+        var st   = $row.find( '.kv-sync-badge' ).text();
+
+        $modalTitle.text( 'Property ' + pid + ( name && name !== '–' ? ' — ' + name : '' ) );
+        $modalMeta.text( time + '  ·  ' + st );
+        $modalBody.text( error );
+        $modal.prop( 'hidden', false );
+        $( 'body' ).addClass( 'kv-sync-modal-open' );
+    }
+
+    function closeLogModal() {
+        $modal.prop( 'hidden', true );
+        $( 'body' ).removeClass( 'kv-sync-modal-open' );
+    }
+
+    $( document ).on( 'click', '.kv-sync-logs-table__notes--link', function () {
+        openLogModal( $( this ) );
+    } );
+
+    $( document ).on( 'click', '[data-kv-modal-close]', closeLogModal );
+
+    $( document ).on( 'keydown', function ( e ) {
+        if ( e.key === 'Escape' ) {
+            closeLogModal();
+        }
+    } );
 
     function showResumeUi() {
         $runBtn.hide().prop( 'disabled', false );
@@ -111,12 +258,31 @@
         return Math.min( 15000, 2000 * Math.pow( 2, Math.max( 0, attempt - 1 ) ) );
     }
 
+    function formatEta( seconds ) {
+        seconds = parseFloat( seconds );
+        if ( ! seconds || seconds <= 0 || isNaN( seconds ) ) {
+            return '';
+        }
+        var mins = Math.floor( seconds / 60 );
+        var secs = Math.round( seconds % 60 );
+        if ( mins >= 60 ) {
+            var hrs = Math.floor( mins / 60 );
+            mins = mins % 60;
+            return '  |  ETA: ~' + hrs + 'h ' + mins + 'm';
+        }
+        if ( mins > 0 ) {
+            return '  |  ETA: ~' + mins + 'm ' + secs + 's';
+        }
+        return '  |  ETA: ~' + secs + 's';
+    }
+
     function updateProgressFromData( data ) {
         var page       = data.page || 1;
         var totalPages = data.total_pages || 1;
         var failed     = parseInt( data.failed_count, 10 ) || 0;
         var phase      = data.phase || currentPhase;
         currentPhase   = phase;
+        var eta        = formatEta( data.eta_seconds );
 
         var pct;
         if ( phase === 'catchup' || phase === 'done' ) {
@@ -134,7 +300,8 @@
                 ( catchupPage ? ( ' — page ' + catchupPage ) : '' ) +
                 ( failed ? ( '  |  ' + failed + ' left' ) : '' ) +
                 '  |  Added: ' + ( data.added || 0 ) +
-                '  |  Updated: ' + ( data.updated || 0 )
+                '  |  Updated: ' + ( data.updated || 0 ) +
+                eta
             );
             $status.text( kvSync.i18n.catchupShort || 'Retrying skipped pages…' );
         } else {
@@ -142,7 +309,8 @@
                 'Page ' + page + ' of ' + totalPages +
                 ( failed ? ( '  |  Skipped: ' + failed ) : '' ) +
                 '  |  Added: ' + ( data.added || 0 ) +
-                '  |  Updated: ' + ( data.updated || 0 )
+                '  |  Updated: ' + ( data.updated || 0 ) +
+                eta
             );
             setSyncingStatus();
         }
@@ -190,6 +358,7 @@
         kvSync.resumePage  = 1;
         kvSync.resumeTotal = 1;
         setSyncingStatus();
+        startLogPolling();
 
         postAjax( {
             action : 'kv_sync_start',
@@ -247,6 +416,7 @@
                 .replace( '%d', kvSync.resumePage )
                 .replace( '%d', kvSync.resumeTotal )
         );
+        startLogPolling();
 
         postAjax( {
             action : 'kv_sync_resume',
@@ -356,11 +526,20 @@
             }
 
             if ( ! response || ! response.success ) {
-                maybeRetryOrSkip(
-                    ( response && response.data && response.data.message ) || kvSync.i18n.error,
-                    false,
-                    response && response.data
-                );
+                var errData    = response && response.data;
+                var errMsg     = ( errData && errData.message ) || kvSync.i18n.error;
+                var transient  = classifyTransientError( null, null, errData && errData.error_type );
+
+                if ( errData && errData.phase ) {
+                    currentPhase = errData.phase;
+                }
+
+                if ( transient ) {
+                    scheduleTransientRetry( transient, errMsg );
+                    return;
+                }
+
+                maybeRetryOrSkip( errMsg, false, errData );
                 return;
             }
 
@@ -391,6 +570,12 @@
             var isTimeout = textStatus === 'timeout' ||
                 ( xhr && ( xhr.statusText === 'timeout' || ( xhr.status === 0 && ! xhr.responseText ) ) );
 
+            var transientType = classifyTransientError( xhr, textStatus, null );
+            if ( transientType ) {
+                scheduleTransientRetry( transientType, extractAjaxError( xhr, textStatus ) );
+                return;
+            }
+
             maybeRetryOrSkip( extractAjaxError( xhr, textStatus ), isTimeout, null );
         } );
     }
@@ -412,6 +597,90 @@
             }
 
             scheduleNext( currentPhase === 'catchup' ? 1000 : 800 );
+    }
+
+    /**
+     * Classify a failed chunk request as 'timeout' | 'network' | '504' | null.
+     * These three get an indefinite 5-minute retry loop instead of the
+     * short retry-then-skip behavior used for other errors.
+     */
+    function classifyTransientError( xhr, textStatus, serverErrorType ) {
+        if ( serverErrorType === '504' || ( xhr && xhr.status === 504 ) ) {
+            return '504';
+        }
+        if ( serverErrorType === 'timeout' ) {
+            return 'timeout';
+        }
+        if ( serverErrorType === 'network' ) {
+            return 'network';
+        }
+        if ( textStatus === 'timeout' || ( xhr && xhr.statusText === 'timeout' ) ) {
+            return 'timeout';
+        }
+        if ( xhr && xhr.status === 0 ) {
+            return 'network';
+        }
+        return null;
+    }
+
+    function transientErrorLabel( type ) {
+        if ( type === '504' ) { return 'Server timeout (504)'; }
+        if ( type === 'timeout' ) { return 'Request timed out'; }
+        if ( type === 'network' ) { return 'Network issue — could not reach the server'; }
+        return 'Temporary error';
+    }
+
+    /**
+     * Timeout / network / 504 — wait 5 minutes and retry the same page
+     * indefinitely (does not count against MAX_RETRIES, never skips).
+     */
+    /**
+     * Best-effort: tell the server about a failure the server-side request
+     * never lived long enough to log itself (e.g. Cloudflare returning its
+     * own 504 page before kv_ajax_sync_chunk finishes). If the browser is
+     * genuinely offline this will also fail to reach the server — that's
+     * an inherent limit, not something to retry.
+     */
+    function reportClientErrorToLog( type, msg ) {
+        $.ajax( {
+            url     : kvSync.ajaxUrl,
+            method  : 'POST',
+            data    : {
+                action     : 'kv_sync_log_client_error',
+                nonce      : kvSync.nonce,
+                error_type : type,
+                message    : msg || '',
+                phase      : currentPhase,
+                page       : kvSync.resumePage || 0,
+            },
+            timeout : 15000,
+        } );
+        /* Fire-and-forget — no .done()/.fail() handling needed, the retry loop doesn't depend on this. */
+    }
+
+    function scheduleTransientRetry( type, msg ) {
+        if ( stopRequested ) {
+            finish( false );
+            return;
+        }
+
+        chunkInFlight = false;
+
+        var label = transientErrorLabel( type );
+        /* Cloudflare/host error pages can return their whole HTML body as "message" —
+         * only show it inline when it's actually short; full text still goes to console. */
+        var shortMsg = ( msg && msg.length > 0 && msg.length <= 150 ) ? msg : '';
+        var displayLabel = label + ( shortMsg ? ' (' + shortMsg + ')' : '' );
+
+        $status.text( displayLabel + ' — retrying in 5 minutes…' );
+
+        if ( window.console && window.console.warn ) {
+            window.console.warn( '[kv-sync] ' + label + ' — will retry in 5 minutes.' + ( msg ? ' Detail: ' + msg : '' ) );
+        }
+
+        reportClientErrorToLog( type, msg );
+
+        scheduleNext( TRANSIENT_RETRY_DELAY_MS );
     }
 
     /**
@@ -481,9 +750,16 @@
             }
 
             if ( ! response || ! response.success ) {
-                handleError(
-                    ( response && response.data && response.data.message ) || msg || kvSync.i18n.error
-                );
+                var skipErrData   = response && response.data;
+                var skipErrMsg    = ( skipErrData && skipErrData.message ) || msg || kvSync.i18n.error;
+                var skipTransient = classifyTransientError( null, null, skipErrData && skipErrData.error_type );
+
+                if ( skipTransient ) {
+                    scheduleTransientRetry( skipTransient, skipErrMsg );
+                    return;
+                }
+
+                handleError( skipErrMsg );
                 return;
             }
 
@@ -509,9 +785,20 @@
 
             scheduleNext( 1000 );
         } )
-        .fail( function ( xhr ) {
+        .fail( function ( xhr, textStatus ) {
             chunkInFlight = false;
-            handleError( extractAjaxError( xhr ) || msg );
+
+            if ( stopRequested || textStatus === 'abort' ) {
+                return;
+            }
+
+            var skipTransientType = classifyTransientError( xhr, textStatus, null );
+            if ( skipTransientType ) {
+                scheduleTransientRetry( skipTransientType, extractAjaxError( xhr, textStatus ) );
+                return;
+            }
+
+            handleError( extractAjaxError( xhr, textStatus ) || msg );
         } );
     }
 
@@ -550,6 +837,8 @@
         retryCount    = 0;
         stopRequested = false;
         clearRetryTimer();
+        stopLogPolling();
+        pollLogs();
 
         $stopBtn.hide().prop( 'disabled', false );
 
@@ -583,9 +872,82 @@
         currentXhr    = null;
         chunkInFlight = false;
         clearRetryTimer();
+        stopLogPolling();
         kvSync.isResumable = true;
         showResumeUi();
         $status.text( ( msg || kvSync.i18n.error ) );
     }
+
+    /* ── Background image queue panel ── */
+
+    var $queuePending    = $( '#kv-queue-pending' );
+    var $queueProcessing = $( '#kv-queue-processing' );
+    var $queueDone       = $( '#kv-queue-done' );
+    var $queueFailed     = $( '#kv-queue-failed' );
+    var $queueStatus     = $( '#kv-queue-status' );
+    var $queueProcessBtn = $( '#kv-queue-process-now' );
+    var QUEUE_POLL_MS    = 15000;
+    var queuePollTimer   = null;
+
+    function renderQueueCounts( counts ) {
+        if ( ! counts ) {
+            return;
+        }
+        $queuePending.text( counts.pending );
+        $queueProcessing.text( counts.processing );
+        $queueDone.text( counts.done );
+        $queueFailed.text( counts.failed );
+    }
+
+    function pollQueueStatus() {
+        $.ajax( {
+            url     : kvSync.ajaxUrl,
+            method  : 'POST',
+            data    : { action : 'kv_image_queue_status', nonce : kvSync.nonce },
+            timeout : 30000,
+        } )
+        .done( function ( response ) {
+            if ( response && response.success ) {
+                renderQueueCounts( response.data.counts );
+            }
+        } )
+        .fail( function () {
+            /* Polling is best-effort — ignore transient failures */
+        } );
+    }
+
+    if ( $queuePending.length ) {
+        pollQueueStatus();
+        queuePollTimer = setInterval( pollQueueStatus, QUEUE_POLL_MS );
+    }
+
+    $queueProcessBtn.on( 'click', function () {
+        $queueProcessBtn.prop( 'disabled', true );
+        $queueStatus.text( kvSync.i18n.queueProcessing || 'Processing…' );
+
+        $.ajax( {
+            url     : kvSync.ajaxUrl,
+            method  : 'POST',
+            data    : { action : 'kv_image_queue_process_now', nonce : kvSync.nonce },
+            timeout : 60000,
+        } )
+        .done( function ( response ) {
+            if ( response && response.success ) {
+                renderQueueCounts( response.data.counts );
+                var r = response.data.result || {};
+                $queueStatus.text(
+                    'Processed ' + ( r.processed || 0 ) + ' (' + ( r.succeeded || 0 ) + ' ok, ' + ( r.failed || 0 ) + ' failed).'
+                );
+            } else {
+                $queueStatus.text( extractAjaxError( null, '' ) || 'Error processing queue.' );
+            }
+        } )
+        .fail( function ( xhr, textStatus ) {
+            $queueStatus.text( extractAjaxError( xhr, textStatus ) || 'Error processing queue.' );
+        } )
+        .always( function () {
+            $queueProcessBtn.prop( 'disabled', false );
+        } );
+    } );
 
 } )( jQuery );

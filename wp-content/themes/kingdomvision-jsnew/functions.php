@@ -38,7 +38,7 @@ function theme_files()
 	wp_register_style('theme-style', $style_uri, array(), $style_version);
     wp_enqueue_style('theme-style');
 
-    wp_register_style('theme-styler', THEME_URL . '/css/responsive.css', false, '0.8');
+    wp_register_style('theme-styler', THEME_URL . '/css/responsive.css', false, filemtime(get_theme_file_path('/css/responsive.css')));
     wp_enqueue_style('theme-styler');
 
     wp_register_style('font-css', THEME_URL . '/css/fonts.css', false, null);
@@ -52,17 +52,9 @@ function theme_files()
     wp_register_script('hz-essentials', 'https://cdn.jsdelivr.net/gh/HumzaKV/hz_essentials@main/essentials.js', [], false, false);
     wp_enqueue_script('hz-essentials');
 
-    // Leaflet
-    if (!wp_script_is('leaflet', 'registered')) {
-        wp_register_script('leaflet', get_template_directory_uri() . '/leaflet/dist/leaflet.js', array('jquery'), false);
-    }
-
-    // Date Dropper
-    wp_register_script('datedropper_js', THEME_URL . '/js/datedropper.min.js', array('jquery'), '1.0', true);
-
     // KV-Script — version bump so WP Rocket minify cannot keep a stale bundle
-    $kv_script_ver = (string) filemtime(get_template_directory().'/kv-script.js') . '-enq-resort3';
-    wp_register_script('kv-script', get_template_directory_uri() . '/kv-script.js', array('jquery', 'leaflet', 'datedropper_js'), $kv_script_ver, true);
+    $kv_script_ver = (string) filemtime(get_template_directory().'/kv-script.js') . '-enq-resort2';
+    wp_register_script('kv-script', get_template_directory_uri() . '/kv-script.js', array('jquery'), $kv_script_ver, true);
 	wp_enqueue_script('kv-script');
 
     /*Hamza scrip*/
@@ -78,9 +70,11 @@ function theme_files()
     // Fancybox
     wp_register_style('fancybox', THEME_URL . '/fancybox/jquery.fancybox.min.css', false);
     wp_enqueue_style('fancybox');
-    wp_register_script('fancybox', THEME_URL . '/fancybox/jquery.fancybox.min.js', array('jquery', 'kv-script'), true);
+    wp_register_script('fancybox', THEME_URL . '/fancybox/jquery.fancybox.min.js', array('jquery', 'kv-script',), true);
     wp_enqueue_script('fancybox');
 
+    // Date Dropper
+    wp_register_script('datedropper_js', THEME_URL . '/js/datedropper.min.js', array('jquery', 'kv-script',), '1.0', true);
     wp_enqueue_script('datedropper_js');
 
     wp_register_script('select2_js', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', true);
@@ -794,19 +788,3 @@ add_filter('wp_resource_hints', function($urls, $relation_type) {
 }, 10, 2);
 
 add_filter('oembed_response_data', function($data) { unset($data['author_name'], $data['author_url']); return $data; });
-
-//Custom Blog Post Breadcrumb
-add_filter( 'wpseo_breadcrumb_links', function( $links ) {
-    if ( is_singular( 'post' ) ) {
-        $blog_page_id = get_page_by_path( 'blog' );
-        $blog_page_id = $blog_page_id ? $blog_page_id->ID : 0;
-        if ( $blog_page_id ) {
-            $blog_crumb = array(
-                'url'  => get_permalink( $blog_page_id ),
-                'text' => get_the_title( $blog_page_id ),
-            );
-            array_splice( $links, 1, 0, array( $blog_crumb ) );
-        }
-    }
-    return $links;
-});

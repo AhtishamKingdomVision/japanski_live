@@ -123,12 +123,31 @@ const AccommodationFilters = (function() {
         return accIdx === 0 || known.indexOf(before) === -1;
     }
 
+    /** Reliable resort slug for a radio: prefers its value, falls back to its
+     * id (format resort-{slug}) if the value attribute was unexpectedly
+     * cleared — keeps resort selection self-healing regardless of what
+     * cleared it. */
+    function resortSlugFor($el) {
+        const val = ($el.val() || '').toString();
+        if (val) return val;
+        const id = ($el.attr('id') || '').toString();
+        if (id && id !== 'resort-all' && id.indexOf('resort-') === 0) {
+            return id.slice('resort-'.length);
+        }
+        return '';
+    }
+
     /** Apply All Resorts to selects + radios (sidebar uses value=""). */
     function applyAllResortsSelection() {
         jQuery(CONFIG.selectors.resort + ', input[name="resort"]').each(function() {
             const $el = jQuery(this);
             if ($el.is(':radio')) {
-                $el.prop('checked', $el.val() === '' || $el.val() === 'all');
+                // Identify "All Resorts" by id, not by an empty value — if any
+                // other resort radio's value attribute has been cleared, matching
+                // on value alone would match multiple radios and (due to native
+                // radio-group exclusivity) leave the wrong one checked.
+                const isAllOption = ($el.attr('id') || '') === 'resort-all';
+                $el.prop('checked', isAllOption);
             } else if ($el.is('select')) {
                 if ($el.find('option[value="all"]').length) {
                     $el.val('all');
@@ -1032,11 +1051,7 @@ const AccommodationFilters = (function() {
                 append = true;
             }
 
-
-
             const isHotelSearch = localStorage.getItem(CONFIG.storage.hotelSearch) === 'true';
-
-
 
             if (!isHotelSearch) {
 
@@ -1102,6 +1117,16 @@ const AccommodationFilters = (function() {
                 UI.showLoader();
 
                 UI.ensureLoadMoreWrap();
+
+                // Hide only the Load More button/wrap while results are loading —
+                // updateLoadMoreButton() re-shows it after the search completes if
+                // has_more/booking_has_more says there's another page. The
+                // enquiry form is a separate sibling element (.load-more-enquiry-form,
+                // inserted after this wrap), so it's untouched by this.
+                if (State.cache.$loadMore && State.cache.$loadMore.length) {
+                    State.cache.$loadMore.hide();
+                }
+                jQuery(CONFIG.selectors.loadMoreWrap).hide();
 
             }
 
@@ -1650,7 +1675,10 @@ const AccommodationFilters = (function() {
 
                 if (shouldShowForm) {
                     UI.attachFormHtmlAfterLoadMore(data.form_html);
-                } else {
+                } else if (!append) {
+                    // A "load more" response with no form_html just means this page
+                    // didn't resend it — not that the already-attached form should
+                    // be torn down. Only clear it on a fresh (non-append) search.
                     UI.removeFormHtmlAfterLoadMore();
                 }
 
@@ -1711,7 +1739,9 @@ const AccommodationFilters = (function() {
 
             if (shouldShowForm) {
                 UI.attachFormHtmlAfterLoadMore(data.form_html);
-            } else {
+            } else if (!append) {
+                // Same rationale as above — don't tear down an already-attached
+                // form just because this append page didn't resend form_html.
                 UI.removeFormHtmlAfterLoadMore();
             }
             UI.updateCounts(data.room_count || 0, data.count || 0);
@@ -2923,7 +2953,14 @@ const AccommodationFilters = (function() {
 
             const value = $tab.attr('data-value') || $tab.data('value');
 
-            const apply = localStorage.getItem('apply-filters') ?? localStorage.setItem('apply-filters', 'true');
+            // localStorage.setItem() returns undefined, not the value stored, so using it
+            // as the ?? fallback left `apply` undefined (not 'true') on the very first
+            // filter removal of a session — the re-search below silently never fired.
+            let apply = localStorage.getItem('apply-filters');
+            if (apply === null) {
+                apply = 'true';
+                localStorage.setItem('apply-filters', apply);
+            }
 
 
 
@@ -2975,7 +3012,7 @@ const AccommodationFilters = (function() {
 
                 // Search.run(1, false);
 
-                $('#apply-filters').trigger('click');
+                jQuery('#apply-filters').trigger('click');
 
             }
 
@@ -2987,7 +3024,10 @@ const AccommodationFilters = (function() {
 
             const $input = jQuery(e.target);
 
-            const resortVal = $input.val() || '';
+            // Self-heal: if this radio's own value came back empty despite it not
+            // being the "All Resorts" option, fall back to its id-derived slug so
+            // a corrupted value attribute can't be misread as "All Resorts".
+            const resortVal = resortSlugFor($input);
 
             const resortSlug = resortVal.toLowerCase();
 
@@ -3039,7 +3079,23 @@ const AccommodationFilters = (function() {
 
             }
 
-
+            // Reflect the change in the Applied Filters tag too — this only
+            // previously happened when the *sidebar* resort radio changed
+            // (via onFilterInputChange, bound to .ch-item inputs). The top
+            // search-bar resort dropdown shares .js-sb-resort and reaches this
+            // handler instead, so without this the search itself picked up the
+            // new resort correctly but the applied-filter tag stayed stale.
+            let resortLabel = '';
+            if ($input.is('select')) {
+                resortLabel = $input.find('option:selected').text().trim();
+            } else {
+                resortLabel = $input.siblings('label').text().trim()
+                    || $input.closest('.ch-item').find('label').text().trim();
+            }
+            if (!resortLabel) {
+                resortLabel = (resortSlug === 'all' || resortVal === '') ? 'All Resorts' : resortVal;
+            }
+            Filters.upsertSelected('resort', resortVal, resortLabel, true);
 
             // ✅ REMOVED: Search.run(1, false);
 
@@ -3909,10 +3965,6 @@ const AccommodationFilters = (function() {
                 jQuery('.search-card .guests-popover').removeClass('open show');
                 // Close room "Check Rates" guests so sync/render cannot scroll the page down to it.
                 jQuery('.room-filter-guests-popover').removeClass('active open show');
-
-                // Close enquiry "Get a Quote" guests (stopPropagation would skip its outside-click closer).
-                jQuery('.eq-guests-popover, #eq-guests-popover').removeClass('open show active');
-                
                 window.kvClearGuestsPopoverPin();
                 $pop.toggleClass('open', willOpen);
                 $card.find('.sb-guests-desktop').toggleClass('active', willOpen);
@@ -4416,11 +4468,12 @@ const AccommodationFilters = (function() {
 
             Filters.updateBaseArea(resortKey).then(() => {
 
-                if (resortKey) {
-
-                    Filters.lockFilterIfScoped('resort');
-
-                }
+                // Resort is tied to page context either way — a specific resort
+                // subpage or the general "All Resorts" page — so it's never a
+                // removable filter. Locking only when resortKey was truthy left
+                // the "All Resorts" tab closeable with no equivalent "no resort"
+                // state to fall back to.
+                Filters.lockFilterIfScoped('resort');
 
 
 

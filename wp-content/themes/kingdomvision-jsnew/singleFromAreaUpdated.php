@@ -24,6 +24,11 @@ else{
 }
 
 $fea_image = get_the_post_thumbnail_url( $post->ID );
+if( empty($fea_image) ){
+	// Not downloaded locally yet (queued for background sync) — hotlink the
+	// remote URL as a temporary stand-in.
+	$fea_image = get_post_meta( $post->ID, '_kv_pending_featured_image', true );
+}
 if( $fea_image && !empty($fea_image) ){
 
 	$merged_gallary = array( $fea_image, ...$merged_gallary );

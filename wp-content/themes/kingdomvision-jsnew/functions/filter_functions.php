@@ -197,18 +197,51 @@ function date_format_readable($date_str, $newFormat = 'Y-m-d', $format = 'Y-m-d'
 
 
 /**
+ * True for the general accommodation listing page (/accommodation/,
+ * /accommodation/deals/) and false for a resort-specific page
+ * (/niseko/accommodation/ etc). Mirrors isGlobalAccommodationPage() in
+ * js/accommodation-filters.js — keep both in sync if either changes.
+ *
+ * @param string $path URL path (e.g. from parse_url())
+ * @return bool
+ */
+function kv_is_global_accommodation_path( $path ) {
+    $parts = array_values( array_filter( explode( '/', (string) $path ) ) );
+    $acc_idx = array_search( 'accommodation', $parts, true );
+
+    if ( $acc_idx === false ) {
+        return false;
+    }
+
+    $known  = [ 'niseko', 'hakuba', 'furano', 'rusutsu' ];
+    $before = $acc_idx > 0 ? strtolower( (string) $parts[ $acc_idx - 1 ] ) : '';
+
+    return $acc_idx === 0 || ! in_array( $before, $known, true );
+}
+
+/**
 
  * Main search dispatcher - routes to booking system or local search
 
  * Validates input and delegates to appropriate search function
 
- * 
+ *
 
  * @return void Sends JSON response
 
  */
 
 function niseko_search() {
+
+    if ( function_exists( 'cf_log' ) ) {
+        cf_log(
+            'niseko_search ENTRY post=' . wp_json_encode( array_intersect_key( $_POST, array_flip( [
+                'checkin', 'checkout', 'hotel_search', 'price_min', 'price_max', 'bedrooms',
+                'resort', 'category_id', 'areas', 'accommodation_type', 'page', 'load_more',
+            ] ) ) ),
+            'kv_filter_timing', 'txt', false, true
+        );
+    }
 
     // Booking-system searches call an external API (up to 45s) plus extra WP work.
     // Give PHP enough headroom so the request can finish within the client's 60s window
@@ -245,7 +278,7 @@ function niseko_search() {
 
         $referer = wp_get_referer();
 
-        
+
 
         if ($referer) {
 
@@ -255,11 +288,18 @@ function niseko_search() {
 
             $required_segment = '/' . $resort_base . 'accommodation/';
 
-            
+            // On the general accommodation listing page (/accommodation/,
+            // /accommodation/deals/ — not a resort-specific page like
+            // /niseko/accommodation/), selecting a resort should just filter
+            // results in place. Redirecting away from it isn't wanted here;
+            // the redirect is only meaningful when searching from a
+            // resort-specific (or other) page toward a different resort's
+            // own dedicated page.
+            $is_global_accommodation_page = kv_is_global_accommodation_path( $referer_path );
 
             // If the referer path doesn't strictly contain the resort + /accommodation/ segment, trigger redirect
 
-            if (strpos($referer_path, $required_segment) === false) {
+            if ( ! $is_global_accommodation_page && strpos($referer_path, $required_segment) === false) {
 
                 return wp_send_json_success([
 
@@ -365,6 +405,8 @@ function niseko_search_local()
 
 
 
+        $kv_filter_t0 = microtime(true);
+
         $args = niseko_build_search_query_args($_POST);
 
         $all_acc_args = niseko_build_search_query_args($_POST, ['posts_per_page' => -1]);
@@ -468,11 +510,24 @@ function niseko_search_local()
             $id_args['meta_query'] = $args['meta_query'];
         }
 
+        $kv_filter_t_ids_start = microtime(true);
         $all_post_ids = get_posts( $id_args );
+        $kv_filter_t_ids_end = microtime(true);
         if ( ! is_array( $all_post_ids ) ) {
             $all_post_ids = [];
         }
         $all_post_ids = array_values( array_unique( array_map( 'intval', $all_post_ids ) ) );
+
+        if ( function_exists( 'cf_log' ) ) {
+            cf_log(
+                'niseko_search_local TIMING build_args=' . round( ( $kv_filter_t_ids_start - $kv_filter_t0 ) * 1000 ) . 'ms'
+                . ' id_query=' . round( ( $kv_filter_t_ids_end - $kv_filter_t_ids_start ) * 1000 ) . 'ms'
+                . ' id_count=' . count( $all_post_ids )
+                . ' meta_query=' . wp_json_encode( $id_args['meta_query'] ?? [] )
+                . ' post=' . wp_json_encode( array_intersect_key( $_POST, array_flip( [ 'price_min', 'price_max', 'bedrooms', 'category_id', 'resort', 'areas', 'accommodation_type' ] ) ) ),
+                'kv_filter_timing', 'txt', false, true
+            );
+        }
 
         if ( ! empty( $exclude_post_ids ) ) {
             $exclude_lookup = array_flip( $exclude_post_ids );
@@ -712,6 +767,14 @@ function niseko_search_local()
 
         $enquiry_html = get_acc_enquiry_form();
 
+        if ( function_exists( 'cf_log' ) && isset( $kv_filter_t0 ) ) {
+            cf_log(
+                'niseko_search_local TIMING TOTAL total=' . round( ( microtime(true) - $kv_filter_t0 ) * 1000 ) . 'ms'
+                . ' result_count=' . (int) $found_posts,
+                'kv_filter_timing', 'txt', false, true
+            );
+        }
+
         return wp_send_json_success([
 
             'html'      => $html_output,
@@ -721,7 +784,7 @@ function niseko_search_local()
             'room_count' => $room_count,
 
             'has_more'  => (bool) $has_more,
-            
+
             'form_html'  => $enquiry_html,
 
         ]);
@@ -761,6 +824,8 @@ function niseko_search_local()
  */
 
 function hz_search_in_booking_system() {
+
+    $kv_hzbs_t0 = microtime(true);
 
     try {
 
@@ -882,6 +947,13 @@ function hz_search_in_booking_system() {
 
         if (empty($hotel_ids)) {
 
+            if ( function_exists( 'cf_log' ) && isset( $kv_hzbs_t0 ) ) {
+                cf_log(
+                    'hz_search_in_booking_system EARLY_EXIT empty_hotel_ids elapsed=' . round( ( microtime(true) - $kv_hzbs_t0 ) * 1000 ) . 'ms',
+                    'kv_filter_timing', 'txt', false, true
+                );
+            }
+
             return wp_send_json_success(array_merge([
 
                 'html' => '<p>No properties match your search criteria. Please try different filters.</p>',
@@ -969,7 +1041,9 @@ function hz_search_in_booking_system() {
 
 
 
+            $kv_excl_wpq_start = microtime(true);
             $exclude_price_query = get_posts($exclude_price_args);
+            $kv_excl_wpq_end = microtime(true);
 
 
 
@@ -978,6 +1052,15 @@ function hz_search_in_booking_system() {
                 return get_post_meta($exclude_price_post, 'property_id', true);
 
             }, $exclude_price_query));
+
+            if ( function_exists( 'cf_log' ) ) {
+                cf_log(
+                    'hz_search_in_booking_system exclude_price get_posts=' . round( ( $kv_excl_wpq_end - $kv_excl_wpq_start ) * 1000 ) . 'ms'
+                    . ' meta_loop=' . round( ( microtime(true) - $kv_excl_wpq_end ) * 1000 ) . 'ms'
+                    . ' result_count=' . count( $exclude_price_query ),
+                    'kv_filter_timing', 'txt', false, true
+                );
+            }
 
 
 
@@ -1003,7 +1086,9 @@ function hz_search_in_booking_system() {
 
 
 
+            $kv_bb_ids_start = microtime(true);
             $bedbank_candidate_ids = array_values(array_filter(array_map('intval', (array) get_posts($bedbank_args))));
+            $kv_bb_ids_end = microtime(true);
 
 
 
@@ -1013,12 +1098,14 @@ function hz_search_in_booking_system() {
 
                 $ids_placeholder = implode(',', $bedbank_candidate_ids);
 
+                $kv_bb_meta_start = microtime(true);
                 $bedbank_meta_rows = $wpdb->get_results(
                     "SELECT post_id, meta_key, meta_value
                      FROM {$wpdb->postmeta}
                      WHERE post_id IN ({$ids_placeholder})
                        AND meta_key IN ('is_roomboss', 'property_id')"
                 );
+                $kv_bb_meta_end = microtime(true);
 
                 $bedbank_meta_by_post = [];
 
@@ -1040,6 +1127,17 @@ function hz_search_in_booking_system() {
                 }
 
                 $bedbank_property_ids = array_values(array_filter($bedbank_property_ids));
+
+                if ( function_exists( 'cf_log' ) ) {
+                    cf_log(
+                        'hz_search_in_booking_system bedbank get_posts=' . round( ( $kv_bb_ids_end - $kv_bb_ids_start ) * 1000 ) . 'ms'
+                        . ' wpdb_meta_query=' . round( ( $kv_bb_meta_end - $kv_bb_meta_start ) * 1000 ) . 'ms'
+                        . ' php_loop=' . round( ( microtime(true) - $kv_bb_meta_end ) * 1000 ) . 'ms'
+                        . ' candidate_count=' . count( $bedbank_candidate_ids )
+                        . ' bedbank_property_ids=' . count( $bedbank_property_ids ),
+                        'kv_filter_timing', 'txt', false, true
+                    );
+                }
 
             }
 
@@ -1072,6 +1170,15 @@ function hz_search_in_booking_system() {
 
 
         // cf_log( $merged_property_id, 'merged_property_id' );
+
+        if ( function_exists( 'cf_log' ) ) {
+            cf_log(
+                'hz_search_in_booking_system TIMING before_render elapsed=' . round( ( microtime(true) - $kv_hzbs_t0 ) * 1000 ) . 'ms'
+                . ' hotel_ids=' . count( $hotel_ids )
+                . ' merged_property_id=' . count( $merged_property_id ),
+                'kv_filter_timing', 'txt', false, true
+            );
+        }
 
         niseko_search_roomboss_wp($merged_property_id, $roombossData, $bookingPagination);
 
@@ -1239,35 +1346,42 @@ function kv_roomboss_available_ids_cached(
 
 
 
-        $sortedIds = $hotelIds;
-
-        sort($sortedIds);
+        // Cache key = search scope only (resort, dates, guests) — the actual API
+        // request never uses $hotelIds or offset/limit as narrowing input (they're
+        // not part of $bs_args), so keying on them just fragmented the cache into
+        // near-duplicate entries per local filter combination (bedrooms, price, etc.)
+        // that all needed the identical underlying RoomBoss response.
+        $resort_id = isset($args['resortId']) ? sanitize_text_field((string) $args['resortId']) : '';
 
         $cache_key = 'rb_full_' . md5(
+
+            $resort_id . '|' .
 
             $checkIn . '|' .
 
             $checkOut . '|' .
 
-            $guests . '|' .
-
-            $offset . '|' .
-
-            $limit . '|' .
-
-            wp_json_encode($args) . '|' .
-
-            implode(',', $sortedIds)
+            $guests
 
         );
 
 
 
+        $kv_rb_t0 = microtime(true);
         $cached_body = get_transient($cache_key);
 
 
 
         if ($cached_body !== false && is_array($cached_body)) {
+
+            if ( function_exists( 'cf_log' ) ) {
+                cf_log(
+                    'kv_roomboss_available_ids_cached CACHE_HIT cache_key=' . $cache_key
+                    . ' elapsed=' . round( ( microtime(true) - $kv_rb_t0 ) * 1000 ) . 'ms'
+                    . ' hotel_count=' . count( $hotelIds ),
+                    'kv_filter_timing', 'txt', false, true
+                );
+            }
 
             return $withMeta
 
@@ -1299,7 +1413,19 @@ function kv_roomboss_available_ids_cached(
 
 
 
+        $kv_rb_api_start = microtime(true);
         $response = wp_remote_get($url, $bs_args);
+        $kv_rb_api_end = microtime(true);
+
+        if ( function_exists( 'cf_log' ) ) {
+            cf_log(
+                'kv_roomboss_available_ids_cached CACHE_MISS cache_key=' . $cache_key
+                . ' api_call=' . round( ( $kv_rb_api_end - $kv_rb_api_start ) * 1000 ) . 'ms'
+                . ' hotel_count=' . count( $hotelIds )
+                . ' url=' . $url,
+                'kv_filter_timing', 'txt', false, true
+            );
+        }
 
 
 
@@ -2201,9 +2327,19 @@ function hz_get_local_property_ids_and_args(array $input): array {
 
         }
 
-        
 
+
+        $kv_local_wpq_start = microtime(true);
         $query = new WP_Query($args);
+        if ( function_exists( 'cf_log' ) ) {
+            cf_log(
+                'hz_get_local_property_ids_and_args WP_Query elapsed=' . round( ( microtime(true) - $kv_local_wpq_start ) * 1000 ) . 'ms'
+                . ' found=' . ( isset( $query->found_posts ) ? (int) $query->found_posts : 0 )
+                . ' meta_query=' . wp_json_encode( $args['meta_query'] ?? [] )
+                . ' tax_query=' . wp_json_encode( $args['tax_query'] ?? [] ),
+                'kv_filter_timing', 'txt', false, true
+            );
+        }
 
 
 
@@ -2309,27 +2445,17 @@ function hz_get_local_property_ids_and_args(array $input): array {
 
 
 
-        // ✅ STEP 4: Process price parameters
-
-        // Note: price_min can legitimately be 0, so !empty() would wrongly block it.
-
-        // Only send the range when price_max is explicitly provided and positive.
-
-        if (isset($input['price_max']) && $input['price_max'] !== '') {
-
-            $maxRange = (float) $input['price_max'];
-
-            if ($maxRange > 0) {
-
-                $minRange = isset($input['price_min']) && $input['price_min'] !== '' ? (float) $input['price_min'] : 0;
-
-                $booking_sys_args['minRange'] = $minRange;
-
-                $booking_sys_args['maxRange'] = $maxRange;
-
-            }
-
-        }
+        // ✅ STEP 4: Price is intentionally NOT sent to the booking system API.
+        //
+        // kv_roomboss_parse_availability() already extracts per-room ActualPrice from
+        // the API response and filters locally by $_POST price_min/price_max. Sending
+        // minRange/maxRange here as well was redundant server-side double-filtering,
+        // and because these values fed into kv_roomboss_available_ids_cached()'s cache
+        // key (via wp_json_encode($args)), every price change forced a fresh ~4-10s API
+        // call for the exact same date/property set that was already cached seconds
+        // earlier. Price must stay out of $booking_sys_args so the cache key is built
+        // from search scope only (dates, resort, guests, hotel_ids) — a price-only
+        // change now reuses the cached response and re-filters it locally instead.
 
 
 
@@ -3165,23 +3291,14 @@ function niseko_build_search_query_args(array $input, array $overrides = []): ar
 
     if (!empty($input['bedrooms']) && is_array($input['bedrooms'])) {
 
-        $bedroom_sub = ['relation' => 'OR'];
-
-        foreach ($input['bedrooms'] as $bedroom) {
-
-            $bedroom_sub[] = [
-
-                'key'     => 'acc_no_of_bedrooms',
-
-                'value'   => 'i:' . (int) $bedroom . ';',
-
-                'compare' => 'LIKE',
-
-            ];
-
-        }
-
-        $meta_query[] = $bedroom_sub;
+        // Indexable 'IN' match against the one-row-per-count 'bedroom_count' meta,
+        // instead of a leading-wildcard LIKE scan against a serialized array
+        // (which cannot use any index and was the main cause of slow filtering).
+        $meta_query[] = [
+            'key'     => 'bedroom_count',
+            'value'   => array_map('intval', $input['bedrooms']),
+            'compare' => 'IN',
+        ];
 
     }
 
@@ -3608,7 +3725,15 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
             );
         }
 
+        $kv_render_wpq_start = microtime(true);
         $all_post_ids = get_posts( $id_args );
+        if ( function_exists( 'cf_log' ) ) {
+            cf_log(
+                'niseko_search_roomboss_wp get_posts elapsed=' . round( ( microtime(true) - $kv_render_wpq_start ) * 1000 ) . 'ms'
+                . ' result_count=' . ( is_array( $all_post_ids ) ? count( $all_post_ids ) : 0 ),
+                'kv_filter_timing', 'txt', false, true
+            );
+        }
         if ( ! is_array( $all_post_ids ) ) {
             $all_post_ids = [];
         }
@@ -3655,6 +3780,7 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
             );
         }
 
+        $kv_slice_wpq_start = microtime(true);
         $query = new WP_Query(
             [
                 'post_type'      => 'accommodation',
@@ -3664,7 +3790,9 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
                 'orderby'        => 'post__in',
             ]
         );
+        $kv_slice_wpq_end = microtime(true);
 
+        $kv_roomcount_start = microtime(true);
         $property_ids = array_map(
             static function ( $post ) {
                 return get_post_meta( $post->ID, 'property_id', true );
@@ -3674,6 +3802,13 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
 
         $room_count = get_room_count_from_roomboss_hotels( $property_ids );
         $room_count = intval( $room_count );
+        if ( function_exists( 'cf_log' ) ) {
+            cf_log(
+                'niseko_search_roomboss_wp room_count_query=' . round( ( microtime(true) - $kv_roomcount_start ) * 1000 ) . 'ms'
+                . ' room_count=' . $room_count,
+                'kv_filter_timing', 'txt', false, true
+            );
+        }
 
         if ( ! is_object( $query ) || ! isset( $query->posts ) || ! is_array( $query->posts ) ) {
             wp_send_json_success(
@@ -3803,6 +3938,15 @@ function niseko_search_roomboss_wp(array $availableHotelIds, array $roombossData
             wp_reset_postdata();
 
             $enquiry_html = get_acc_enquiry_form();
+
+            if ( function_exists( 'cf_log' ) ) {
+                cf_log(
+                    'niseko_search_roomboss_wp slice_wp_query=' . round( ( $kv_slice_wpq_end - $kv_slice_wpq_start ) * 1000 ) . 'ms'
+                    . ' render_loop=' . round( ( microtime(true) - $kv_slice_wpq_end ) * 1000 ) . 'ms'
+                    . ' card_count=' . count( $slice_ids ),
+                    'kv_filter_timing', 'txt', false, true
+                );
+            }
 
             wp_send_json_success(array_merge([
 

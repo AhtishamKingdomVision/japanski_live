@@ -123,6 +123,17 @@
 .kv-color-blue   { color: var(--kv-ice); }
 .kv-color-green  { color: var(--kv-ok); }
 .kv-color-yellow { color: #b8860b; }
+.kv-color-red    { color: #c0392b; }
+
+.kv-sync-cards--queue {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: 16px;
+}
+
+.kv-sync-cards--queue .kv-sync-card {
+    min-height: auto;
+    padding: 14px 16px;
+}
 
 /* ── Two-column layout ── */
 .kv-sync-layout {
@@ -357,6 +368,112 @@
     color: var(--kv-muted);
     max-width: 280px;
     word-break: break-word;
+}
+
+.kv-sync-logs-table__notes--link {
+    color: var(--kv-ice);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kv-sync-logs-table__notes--link:hover {
+    text-decoration: underline;
+}
+
+.kv-sync-logs-table__empty {
+    text-align: center;
+    color: var(--kv-muted);
+    font-size: 13px;
+    padding: 30px 24px;
+}
+
+.kv-sync-logs-table__more {
+    margin-left: 6px;
+    color: #8d98a3;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ── Full-log popup ── */
+.kv-sync-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.kv-sync-modal[hidden] {
+    display: none;
+}
+
+.kv-sync-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(16, 21, 28, 0.55);
+}
+
+.kv-sync-modal__box {
+    position: relative;
+    width: min(760px, 100%);
+    max-height: 80vh;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(16, 21, 28, 0.35);
+    padding: 22px 26px 26px;
+    overflow: auto;
+}
+
+.kv-sync-modal__close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: 0;
+    background: none;
+    font-size: 26px;
+    line-height: 1;
+    color: var(--kv-muted);
+    cursor: pointer;
+}
+
+.kv-sync-modal__close:hover {
+    color: var(--kv-ink);
+}
+
+.kv-sync-modal__title {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--kv-ink);
+}
+
+.kv-sync-modal__meta {
+    margin: 0 0 14px;
+    font-size: 12px;
+    color: var(--kv-muted);
+}
+
+.kv-sync-modal__body {
+    margin: 0;
+    padding: 14px 16px;
+    background: #f4f7f9;
+    border: 1px solid var(--kv-line);
+    border-radius: 6px;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #2c3946;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+body.kv-sync-modal-open {
+    overflow: hidden;
 }
 
 .kv-sync-badge {

@@ -3058,3 +3058,966 @@ Full response body:
 <pre>STARTED property 417 (Setsu Niseko) on page 92 — 22 rooms, 174 images — expected ~120.6s -- -- -- 2026-08-17 10:53:03<br></pre>
 <pre>[SYNC] 2026-08-17 10:55:04 | Property page-92 (Client-side 504 (main phase)) | Status: FAILED | Error: Browser received a 504 error on this request and is retrying in 5 minutes. (japanskiexperience.com | 504: Gateway time-out Gateway time-out Error code 504 Visit cloudflare.com for more information. 2026-08-17 10:55:03 UTC You Browser Working Singapore Cloudflare Working staging15.japanskiexperience.com Host Error What happened? The web server reported a gateway time-out err) -- -- -- 2026-08-17 10:55:04<br></pre>
 <pre>[SYNC] 2026-08-17 11:17:43 | Property 397 (Toshokan Townhouse) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 11:17:43<br></pre>
+<pre>[SYNC] 2026-08-17 15:43:10 | Property 331 (Sora) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:43:10<br></pre>
+<pre>[SYNC] 2026-08-17 15:43:10 | Property 331 (Sora) | Status: SUCCESS | Error: took 64.3s to sync (2 rooms, 33 images) — expected ~71.0s. -- -- -- 2026-08-17 15:43:10<br></pre>
+<pre>STARTED property 330 (Hotel Taigakukan) on page 52 — 24 rooms, 223 images — expected ~577.4s -- -- -- 2026-08-17 15:43:10<br></pre>
+<pre>[SYNC] 2026-08-17 15:47:09 | Property 330 (Hotel Taigakukan) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:47:09<br></pre>
+<pre>[SYNC] 2026-08-17 15:47:09 | Property 330 (Hotel Taigakukan) | Status: SUCCESS | Error: took 239.2s to sync (24 rooms, 223 images) — expected ~446.2s. -- -- -- 2026-08-17 15:47:09<br></pre>
+<pre>STARTED property 329 (Slopeside Chalet) on page 52 — 1 rooms, 22 images — expected ~30.5s -- -- -- 2026-08-17 15:47:09<br></pre>
+<pre>[SYNC] 2026-08-17 15:47:29 | Property 329 (Slopeside Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:47:29<br></pre>
+<pre>[SYNC] 2026-08-17 15:47:29 | Property 329 (Slopeside Chalet) | Status: SUCCESS | Error: took 19.5s to sync (1 rooms, 22 images) — expected ~30.5s. -- -- -- 2026-08-17 15:47:29<br></pre>
+<pre>STARTED property 328 (Hakuba Cottage Ichizaemon) on page 53 — 1 rooms, 18 images — expected ~26.7s -- -- -- 2026-08-17 15:47:35<br></pre>
+<pre>[SYNC] 2026-08-17 15:47:51 | Property 328 (Hakuba Cottage Ichizaemon) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:47:51<br></pre>
+<pre>[SYNC] 2026-08-17 15:47:51 | Property 328 (Hakuba Cottage Ichizaemon) | Status: SUCCESS | Error: took 15.9s to sync (1 rooms, 18 images) — expected ~26.7s. -- -- -- 2026-08-17 15:47:51<br></pre>
+<pre>STARTED property 327 (Shiro Cottage) on page 53 — 1 rooms, 23 images — expected ~31.4s -- -- -- 2026-08-17 15:47:51<br></pre>
+<pre>[SYNC] 2026-08-17 15:48:04 | Property 327 (Shiro Cottage) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:48:04<br></pre>
+<pre>[SYNC] 2026-08-17 15:48:04 | Property 327 (Shiro Cottage) | Status: SUCCESS | Error: took 13.1s to sync (1 rooms, 23 images) — expected ~31.4s. -- -- -- 2026-08-17 15:48:04<br></pre>
+<pre>STARTED property 326 (Starry 8) on page 53 — 2 rooms, 22 images — expected ~40.4s -- -- -- 2026-08-17 15:48:04<br></pre>
+<pre>[SYNC] 2026-08-17 15:48:33 | Property 326 (Starry 8) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:48:33<br></pre>
+<pre>[SYNC] 2026-08-17 15:48:33 | Property 326 (Starry 8) | Status: SUCCESS | Error: took 28.6s to sync (2 rooms, 22 images) — expected ~40.4s. -- -- -- 2026-08-17 15:48:33<br></pre>
+<pre>STARTED property 325 (Starry Denim) on page 54 — 1 rooms, 27 images — expected ~35.1s -- -- -- 2026-08-17 15:48:41<br></pre>
+<pre>[SYNC] 2026-08-17 15:49:09 | Property 325 (Starry Denim) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:49:09<br></pre>
+<pre>[SYNC] 2026-08-17 15:49:09 | Property 325 (Starry Denim) | Status: SUCCESS | Error: took 28.2s to sync (1 rooms, 27 images) — expected ~35.1s. -- -- -- 2026-08-17 15:49:09<br></pre>
+<pre>STARTED property 324 (Passage Lodge) on page 54 — 3 rooms, 13 images — expected ~41.9s -- -- -- 2026-08-17 15:49:09<br></pre>
+<pre>[SYNC] 2026-08-17 15:49:30 | Property 324 (Passage Lodge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:49:30<br></pre>
+<pre>[SYNC] 2026-08-17 15:49:30 | Property 324 (Passage Lodge) | Status: SUCCESS | Error: took 20.7s to sync (3 rooms, 13 images) — expected ~41.9s. -- -- -- 2026-08-17 15:49:30<br></pre>
+<pre>STARTED property 323 (Shimogoryo House) on page 54 — 1 rooms, 9 images — expected ~18.3s -- -- -- 2026-08-17 15:49:30<br></pre>
+<pre>[SYNC] 2026-08-17 15:49:37 | Property 323 (Shimogoryo House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:49:37<br></pre>
+<pre>[SYNC] 2026-08-17 15:49:37 | Property 323 (Shimogoryo House) | Status: SUCCESS | Error: took 7.6s to sync (1 rooms, 9 images) — expected ~18.3s. -- -- -- 2026-08-17 15:49:37<br></pre>
+<pre>STARTED property 322 (Setsurin) on page 55 — 1 rooms, 19 images — expected ~27.7s -- -- -- 2026-08-17 15:49:46<br></pre>
+<pre>[SYNC] 2026-08-17 15:50:04 | Property 322 (Setsurin) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:50:04<br></pre>
+<pre>[SYNC] 2026-08-17 15:50:04 | Property 322 (Setsurin) | Status: SUCCESS | Error: took 18.4s to sync (1 rooms, 19 images) — expected ~27.7s. -- -- -- 2026-08-17 15:50:04<br></pre>
+<pre>STARTED property 321 (Private House Naturwald) on page 55 — 1 rooms, 15 images — expected ~24.0s -- -- -- 2026-08-17 15:50:04<br></pre>
+<pre>[SYNC] 2026-08-17 15:50:31 | Property 321 (Private House Naturwald) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:50:31<br></pre>
+<pre>[SYNC] 2026-08-17 15:50:31 | Property 321 (Private House Naturwald) | Status: SUCCESS | Error: took 27.3s to sync (1 rooms, 15 images) — expected ~23.9s. -- -- -- 2026-08-17 15:50:31<br></pre>
+<pre>STARTED property 320 (Orchid Furano) on page 55 — 3 rooms, 30 images — expected ~57.8s -- -- -- 2026-08-17 15:50:31<br></pre>
+<pre>[SYNC] 2026-08-17 15:50:56 | Property 320 (Orchid Furano) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:50:56<br></pre>
+<pre>[SYNC] 2026-08-17 15:50:56 | Property 320 (Orchid Furano) | Status: SUCCESS | Error: took 25.0s to sync (3 rooms, 30 images) — expected ~57.7s. -- -- -- 2026-08-17 15:50:56<br></pre>
+<pre>STARTED property 319 (Mountain View Lodge) on page 56 — 1 rooms, 16 images — expected ~24.8s -- -- -- 2026-08-17 15:51:07<br></pre>
+<pre>[SYNC] 2026-08-17 15:51:28 | Property 319 (Mountain View Lodge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:51:28<br></pre>
+<pre>[SYNC] 2026-08-17 15:51:28 | Property 319 (Mountain View Lodge) | Status: SUCCESS | Error: took 20.9s to sync (1 rooms, 16 images) — expected ~24.8s. -- -- -- 2026-08-17 15:51:28<br></pre>
+<pre>STARTED property 318 (Starry Residence Suite) on page 56 — 4 rooms, 54 images — expected ~90.0s -- -- -- 2026-08-17 15:51:28<br></pre>
+<pre>[SYNC] 2026-08-17 15:52:22 | Property 318 (Starry Residence Suite) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:52:22<br></pre>
+<pre>[SYNC] 2026-08-17 15:52:22 | Property 318 (Starry Residence Suite) | Status: SUCCESS | Error: took 54.3s to sync (4 rooms, 54 images) — expected ~89.4s. -- -- -- 2026-08-17 15:52:22<br></pre>
+<pre>STARTED property 317 (Yuki Ki Lodge) on page 56 — 1 rooms, 16 images — expected ~24.7s -- -- -- 2026-08-17 15:52:22<br></pre>
+<pre>[SYNC] 2026-08-17 15:52:40 | Property 317 (Yuki Ki Lodge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:52:40<br></pre>
+<pre>[SYNC] 2026-08-17 15:52:40 | Property 317 (Yuki Ki Lodge) | Status: SUCCESS | Error: took 17.9s to sync (1 rooms, 16 images) — expected ~24.7s. -- -- -- 2026-08-17 15:52:40<br></pre>
+<pre>STARTED property 316 (Echoland Apartments) on page 57 — 4 rooms, 37 images — expected ~73.9s -- -- -- 2026-08-17 15:53:11<br></pre>
+<pre>[SYNC] 2026-08-17 15:53:50 | Property 316 (Echoland Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:53:50<br></pre>
+<pre>[SYNC] 2026-08-17 15:53:50 | Property 316 (Echoland Apartments) | Status: SUCCESS | Error: took 38.3s to sync (4 rooms, 37 images) — expected ~73.7s. -- -- -- 2026-08-17 15:53:50<br></pre>
+<pre>STARTED property 315 (Momiji Chalets) on page 57 — 4 rooms, 19 images — expected ~57.3s -- -- -- 2026-08-17 15:53:50<br></pre>
+<pre>[SYNC] 2026-08-17 15:54:10 | Property 315 (Momiji Chalets) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:54:10<br></pre>
+<pre>[SYNC] 2026-08-17 15:54:10 | Property 315 (Momiji Chalets) | Status: SUCCESS | Error: took 20.2s to sync (4 rooms, 19 images) — expected ~57.2s. -- -- -- 2026-08-17 15:54:10<br></pre>
+<pre>STARTED property 314 (Mokuren Furano) on page 57 — 1 rooms, 15 images — expected ~23.7s -- -- -- 2026-08-17 15:54:10<br></pre>
+<pre>[SYNC] 2026-08-17 15:54:22 | Property 314 (Mokuren Furano) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:54:22<br></pre>
+<pre>[SYNC] 2026-08-17 15:54:22 | Property 314 (Mokuren Furano) | Status: SUCCESS | Error: took 12.0s to sync (1 rooms, 15 images) — expected ~23.7s. -- -- -- 2026-08-17 15:54:22<br></pre>
+<pre>STARTED property 313 (Happo Slopeside Apartments) on page 58 — 5 rooms, 51 images — expected ~96.6s -- -- -- 2026-08-17 15:54:27<br></pre>
+<pre>[SYNC] 2026-08-17 15:55:23 | Property 313 (Happo Slopeside Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:55:23<br></pre>
+<pre>[SYNC] 2026-08-17 15:55:23 | Property 313 (Happo Slopeside Apartments) | Status: SUCCESS | Error: took 56.0s to sync (5 rooms, 51 images) — expected ~96.1s. -- -- -- 2026-08-17 15:55:23<br></pre>
+<pre>STARTED property 311 (Happo View Apartments) on page 58 — 4 rooms, 54 images — expected ~88.9s -- -- -- 2026-08-17 15:55:23<br></pre>
+<pre>[SYNC] 2026-08-17 15:56:08 | Property 311 (Happo View Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:56:08<br></pre>
+<pre>[SYNC] 2026-08-17 15:56:08 | Property 311 (Happo View Apartments) | Status: SUCCESS | Error: took 44.5s to sync (4 rooms, 54 images) — expected ~88.2s. -- -- -- 2026-08-17 15:56:08<br></pre>
+<pre>STARTED property 310 (Happo View Chalet) on page 58 — 1 rooms, 29 images — expected ~35.8s -- -- -- 2026-08-17 15:56:08<br></pre>
+<pre>[SYNC] 2026-08-17 15:56:28 | Property 310 (Happo View Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:56:28<br></pre>
+<pre>[SYNC] 2026-08-17 15:56:28 | Property 310 (Happo View Chalet) | Status: SUCCESS | Error: took 20.4s to sync (1 rooms, 29 images) — expected ~35.8s. -- -- -- 2026-08-17 15:56:28<br></pre>
+<pre>STARTED property 308 (Yotei Cottage) on page 59 — 1 rooms, 17 images — expected ~25.1s -- -- -- 2026-08-17 15:56:39<br></pre>
+<pre>[SYNC] 2026-08-17 15:56:55 | Property 308 (Yotei Cottage) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:56:55<br></pre>
+<pre>[SYNC] 2026-08-17 15:56:55 | Property 308 (Yotei Cottage) | Status: SUCCESS | Error: took 16.4s to sync (1 rooms, 17 images) — expected ~25.1s. -- -- -- 2026-08-17 15:56:55<br></pre>
+<pre>STARTED property 306 (Alpine Azumi Apartments) on page 59 — 3 rooms, 43 images — expected ~68.3s -- -- -- 2026-08-17 15:56:55<br></pre>
+<pre>[SYNC] 2026-08-17 15:57:29 | Property 306 (Alpine Azumi Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:57:29<br></pre>
+<pre>[SYNC] 2026-08-17 15:57:29 | Property 306 (Alpine Azumi Apartments) | Status: SUCCESS | Error: took 33.6s to sync (3 rooms, 43 images) — expected ~68.0s. -- -- -- 2026-08-17 15:57:29<br></pre>
+<pre>STARTED property 305 (Sky Park Happo Apartments) on page 59 — 4 rooms, 56 images — expected ~89.5s -- -- -- 2026-08-17 15:57:29<br></pre>
+<pre>[SYNC] 2026-08-17 15:58:08 | Property 305 (Sky Park Happo Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:58:08<br></pre>
+<pre>[SYNC] 2026-08-17 15:58:08 | Property 305 (Sky Park Happo Apartments) | Status: SUCCESS | Error: took 39.1s to sync (4 rooms, 56 images) — expected ~88.5s. -- -- -- 2026-08-17 15:58:08<br></pre>
+<pre>STARTED property 304 (Miyuki Townhouse) on page 60 — 1 rooms, 18 images — expected ~25.5s -- -- -- 2026-08-17 15:58:15<br></pre>
+<pre>[SYNC] 2026-08-17 15:58:36 | Property 304 (Miyuki Townhouse) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:58:36<br></pre>
+<pre>[SYNC] 2026-08-17 15:58:36 | Property 304 (Miyuki Townhouse) | Status: SUCCESS | Error: took 21.0s to sync (1 rooms, 18 images) — expected ~25.5s. -- -- -- 2026-08-17 15:58:36<br></pre>
+<pre>STARTED property 303 (Gateway Hotel) on page 60 — 6 rooms, 54 images — expected ~107.3s -- -- -- 2026-08-17 15:58:36<br></pre>
+<pre>[SYNC] 2026-08-17 15:59:55 | Property 303 (Gateway Hotel) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 15:59:55<br></pre>
+<pre>[SYNC] 2026-08-17 15:59:55 | Property 303 (Gateway Hotel) | Status: SUCCESS | Error: took 78.4s to sync (6 rooms, 54 images) — expected ~107.0s. -- -- -- 2026-08-17 15:59:55<br></pre>
+<pre>STARTED property 302 (Villa Wellstone O'Sam) on page 60 — 1 rooms, 12 images — expected ~20.4s -- -- -- 2026-08-17 15:59:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:00:17 | Property 302 (Villa Wellstone O'Sam) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:00:17<br></pre>
+<pre>[SYNC] 2026-08-17 16:00:17 | Property 302 (Villa Wellstone O'Sam) | Status: SUCCESS | Error: took 22.4s to sync (1 rooms, 12 images) — expected ~20.4s. -- -- -- 2026-08-17 16:00:17<br></pre>
+<pre>STARTED property 301 (M House) on page 61 — 1 rooms, 21 images — expected ~27.9s -- -- -- 2026-08-17 16:00:21<br></pre>
+<pre>[SYNC] 2026-08-17 16:01:03 | Property 301 (M House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:01:03<br></pre>
+<pre>[SYNC] 2026-08-17 16:01:03 | Property 301 (M House) | Status: SUCCESS | Error: took 41.6s to sync (1 rooms, 21 images) — expected ~28.0s. -- -- -- 2026-08-17 16:01:03<br></pre>
+<pre>STARTED property 300 (Kitsune Cottages) on page 61 — 1 rooms, 23 images — expected ~29.7s -- -- -- 2026-08-17 16:01:03<br></pre>
+<pre>[SYNC] 2026-08-17 16:01:29 | Property 300 (Kitsune Cottages) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:01:29<br></pre>
+<pre>[SYNC] 2026-08-17 16:01:29 | Property 300 (Kitsune Cottages) | Status: SUCCESS | Error: took 26.5s to sync (1 rooms, 23 images) — expected ~29.7s. -- -- -- 2026-08-17 16:01:29<br></pre>
+<pre>STARTED property 299 (Kuranoya) on page 61 — 3 rooms, 24 images — expected ~50.9s -- -- -- 2026-08-17 16:01:29<br></pre>
+<pre>[SYNC] 2026-08-17 16:02:04 | Property 299 (Kuranoya) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:02:04<br></pre>
+<pre>[SYNC] 2026-08-17 16:02:04 | Property 299 (Kuranoya) | Status: SUCCESS | Error: took 35.0s to sync (3 rooms, 24 images) — expected ~50.9s. -- -- -- 2026-08-17 16:02:04<br></pre>
+<pre>STARTED property 298 (Kitanoya Furano) on page 62 — 2 rooms, 18 images — expected ~35.6s -- -- -- 2026-08-17 16:02:09<br></pre>
+<pre>[SYNC] 2026-08-17 16:02:39 | Property 408 (Shirokuma) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:02:39<br></pre>
+<pre>[SYNC] 2026-08-17 16:03:03 | Property 298 (Kitanoya Furano) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:03:03<br></pre>
+<pre>[SYNC] 2026-08-17 16:03:03 | Property 298 (Kitanoya Furano) | Status: SUCCESS | Error: took 53.2s to sync (2 rooms, 18 images) — expected ~35.6s. -- -- -- 2026-08-17 16:03:03<br></pre>
+<pre>STARTED property 297 (Summit Views Hakuba) on page 62 — 8 rooms, 37 images — expected ~112.8s -- -- -- 2026-08-17 16:03:03<br></pre>
+<pre>[SYNC] 2026-08-17 16:04:43 | Property 297 (Summit Views Hakuba) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:04:43<br></pre>
+<pre>[SYNC] 2026-08-17 16:04:43 | Property 297 (Summit Views Hakuba) | Status: SUCCESS | Error: took 100.0s to sync (8 rooms, 37 images) — expected ~112.7s. -- -- -- 2026-08-17 16:04:43<br></pre>
+<pre>STARTED property 296 (Kaku House) on page 62 — 1 rooms, 15 images — expected ~22.9s -- -- -- 2026-08-17 16:04:43<br></pre>
+<pre>[SYNC] 2026-08-17 16:05:09 | Property 296 (Kaku House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:05:09<br></pre>
+<pre>[SYNC] 2026-08-17 16:05:09 | Property 296 (Kaku House) | Status: SUCCESS | Error: took 26.6s to sync (1 rooms, 15 images) — expected ~22.9s. -- -- -- 2026-08-17 16:05:09<br></pre>
+<pre>STARTED property 295 (White Lake Hill) on page 63 — 1 rooms, 15 images — expected ~22.9s -- -- -- 2026-08-17 16:05:15<br></pre>
+<pre>[SYNC] 2026-08-17 16:05:48 | Property 295 (White Lake Hill) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:05:48<br></pre>
+<pre>[SYNC] 2026-08-17 16:05:48 | Property 295 (White Lake Hill) | Status: SUCCESS | Error: took 32.7s to sync (1 rooms, 15 images) — expected ~22.9s. -- -- -- 2026-08-17 16:05:48<br></pre>
+<pre>STARTED property 294 (Jadan House) on page 63 — 1 rooms, 22 images — expected ~28.8s -- -- -- 2026-08-17 16:05:48<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:05 | Property 294 (Jadan House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:06:05<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:05 | Property 294 (Jadan House) | Status: SUCCESS | Error: took 17.0s to sync (1 rooms, 22 images) — expected ~28.8s. -- -- -- 2026-08-17 16:06:05<br></pre>
+<pre>STARTED property 293 (Crows Nest Norikura) on page 63 — 1 rooms, 29 images — expected ~34.8s -- -- -- 2026-08-17 16:06:05<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:25 | Property 293 (Crows Nest Norikura) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:06:25<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:25 | Property 293 (Crows Nest Norikura) | Status: SUCCESS | Error: took 20.0s to sync (1 rooms, 29 images) — expected ~34.7s. -- -- -- 2026-08-17 16:06:25<br></pre>
+<pre>STARTED property 292 (Atelier Hakuba) on page 64 — 1 rooms, 23 images — expected ~29.6s -- -- -- 2026-08-17 16:06:30<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:44 | Property 292 (Atelier Hakuba) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:06:44<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:44 | Property 292 (Atelier Hakuba) | Status: SUCCESS | Error: took 14.4s to sync (1 rooms, 23 images) — expected ~29.6s. -- -- -- 2026-08-17 16:06:44<br></pre>
+<pre>STARTED property 291 (Hana Yuki) on page 64 — 1 rooms, 18 images — expected ~25.4s -- -- -- 2026-08-17 16:06:44<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:59 | Property 291 (Hana Yuki) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:06:59<br></pre>
+<pre>[SYNC] 2026-08-17 16:06:59 | Property 291 (Hana Yuki) | Status: SUCCESS | Error: took 14.3s to sync (1 rooms, 18 images) — expected ~25.4s. -- -- -- 2026-08-17 16:06:59<br></pre>
+<pre>STARTED property 290 (Hakuba Forest House) on page 64 — 1 rooms, 17 images — expected ~24.5s -- -- -- 2026-08-17 16:06:59<br></pre>
+<pre>[SYNC] 2026-08-17 16:07:16 | Property 290 (Hakuba Forest House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:07:16<br></pre>
+<pre>[SYNC] 2026-08-17 16:07:16 | Property 290 (Hakuba Forest House) | Status: SUCCESS | Error: took 17.6s to sync (1 rooms, 17 images) — expected ~24.5s. -- -- -- 2026-08-17 16:07:16<br></pre>
+<pre>STARTED property 289 (Hakobune Furano) on page 65 — 1 rooms, 18 images — expected ~25.4s -- -- -- 2026-08-17 16:07:22<br></pre>
+<pre>[SYNC] 2026-08-17 16:07:40 | Property 289 (Hakobune Furano) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:07:40<br></pre>
+<pre>[SYNC] 2026-08-17 16:07:40 | Property 289 (Hakobune Furano) | Status: SUCCESS | Error: took 18.6s to sync (1 rooms, 18 images) — expected ~25.4s. -- -- -- 2026-08-17 16:07:40<br></pre>
+<pre>STARTED property 288 (Hakuba Echoland Cottage) on page 65 — 1 rooms, 18 images — expected ~25.4s -- -- -- 2026-08-17 16:07:40<br></pre>
+<pre>[SYNC] 2026-08-17 16:07:55 | Property 288 (Hakuba Echoland Cottage) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:07:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:07:55 | Property 288 (Hakuba Echoland Cottage) | Status: SUCCESS | Error: took 14.2s to sync (1 rooms, 18 images) — expected ~25.4s. -- -- -- 2026-08-17 16:07:55<br></pre>
+<pre>STARTED property 287 (Yuhike House Misorano) on page 65 — 1 rooms, 17 images — expected ~24.5s -- -- -- 2026-08-17 16:07:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:07 | Property 287 (Yuhike House Misorano) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:08:07<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:07 | Property 287 (Yuhike House Misorano) | Status: SUCCESS | Error: took 12.7s to sync (1 rooms, 17 images) — expected ~24.5s. -- -- -- 2026-08-17 16:08:07<br></pre>
+<pre>STARTED property 286 (Fuyunoki) on page 66 — 2 rooms, 35 images — expected ~49.9s -- -- -- 2026-08-17 16:08:12<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:30 | Property 286 (Fuyunoki) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:08:30<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:30 | Property 286 (Fuyunoki) | Status: SUCCESS | Error: took 18.6s to sync (2 rooms, 35 images) — expected ~49.7s. -- -- -- 2026-08-17 16:08:30<br></pre>
+<pre>STARTED property 285 (Le Sauna Villa) on page 66 — 1 rooms, 23 images — expected ~29.5s -- -- -- 2026-08-17 16:08:30<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:42 | Property 285 (Le Sauna Villa) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:08:42<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:42 | Property 285 (Le Sauna Villa) | Status: SUCCESS | Error: took 12.1s to sync (1 rooms, 23 images) — expected ~29.4s. -- -- -- 2026-08-17 16:08:42<br></pre>
+<pre>STARTED property 284 (Hakuba Alpine Maison) on page 66 — 1 rooms, 23 images — expected ~29.4s -- -- -- 2026-08-17 16:08:42<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:59 | Property 284 (Hakuba Alpine Maison) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:08:59<br></pre>
+<pre>[SYNC] 2026-08-17 16:08:59 | Property 284 (Hakuba Alpine Maison) | Status: SUCCESS | Error: took 16.4s to sync (1 rooms, 23 images) — expected ~29.4s. -- -- -- 2026-08-17 16:08:59<br></pre>
+<pre>STARTED property 283 (Kamakura Apartments) on page 67 — 3 rooms, 21 images — expected ~48.3s -- -- -- 2026-08-17 16:09:06<br></pre>
+<pre>[SYNC] 2026-08-17 16:09:45 | Property 283 (Kamakura Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:09:45<br></pre>
+<pre>[SYNC] 2026-08-17 16:09:45 | Property 283 (Kamakura Apartments) | Status: SUCCESS | Error: took 38.9s to sync (3 rooms, 21 images) — expected ~48.3s. -- -- -- 2026-08-17 16:09:45<br></pre>
+<pre>STARTED property 282 (Sheraton Hokkaido Kiroro Resort Hotel) on page 67 — 3 rooms, 18 images — expected ~45.8s -- -- -- 2026-08-17 16:09:45<br></pre>
+<pre>[SYNC] 2026-08-17 16:10:08 | Property 282 (Sheraton Hokkaido Kiroro Resort Hotel) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:10:08<br></pre>
+<pre>[SYNC] 2026-08-17 16:10:08 | Property 282 (Sheraton Hokkaido Kiroro Resort Hotel) | Status: SUCCESS | Error: took 23.0s to sync (3 rooms, 18 images) — expected ~45.8s. -- -- -- 2026-08-17 16:10:08<br></pre>
+<pre>STARTED property 281 (Arbor Chalet) on page 67 — 1 rooms, 22 images — expected ~28.6s -- -- -- 2026-08-17 16:10:08<br></pre>
+<pre>[SYNC] 2026-08-17 16:10:28 | Property 281 (Arbor Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:10:28<br></pre>
+<pre>[SYNC] 2026-08-17 16:10:28 | Property 281 (Arbor Chalet) | Status: SUCCESS | Error: took 19.4s to sync (1 rooms, 22 images) — expected ~28.7s. -- -- -- 2026-08-17 16:10:28<br></pre>
+<pre>STARTED property 280 (Sunshine Hakuba Lodge) on page 68 — 6 rooms, 38 images — expected ~93.3s -- -- -- 2026-08-17 16:10:35<br></pre>
+<pre>[SYNC] 2026-08-17 16:11:34 | Property 280 (Sunshine Hakuba Lodge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:11:34<br></pre>
+<pre>[SYNC] 2026-08-17 16:11:34 | Property 280 (Sunshine Hakuba Lodge) | Status: SUCCESS | Error: took 59.2s to sync (6 rooms, 38 images) — expected ~93.2s. -- -- -- 2026-08-17 16:11:34<br></pre>
+<pre>STARTED property 279 (Forest View) on page 68 — 1 rooms, 17 images — expected ~24.5s -- -- -- 2026-08-17 16:11:34<br></pre>
+<pre>[SYNC] 2026-08-17 16:11:52 | Property 279 (Forest View) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:11:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:11:52 | Property 279 (Forest View) | Status: SUCCESS | Error: took 18.3s to sync (1 rooms, 17 images) — expected ~24.6s. -- -- -- 2026-08-17 16:11:52<br></pre>
+<pre>STARTED property 278 (Rosie's House) on page 68 — 1 rooms, 17 images — expected ~24.6s -- -- -- 2026-08-17 16:11:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:12:08 | Property 278 (Rosie's House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:12:09<br></pre>
+<pre>[SYNC] 2026-08-17 16:12:09 | Property 278 (Rosie's House) | Status: SUCCESS | Error: took 16.1s to sync (1 rooms, 17 images) — expected ~24.6s. -- -- -- 2026-08-17 16:12:09<br></pre>
+<pre>STARTED property 277 (Furano Sanso) on page 69 — 1 rooms, 24 images — expected ~30.5s -- -- -- 2026-08-17 16:12:23<br></pre>
+<pre>[SYNC] 2026-08-17 16:12:42 | Property 277 (Furano Sanso) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:12:42<br></pre>
+<pre>[SYNC] 2026-08-17 16:12:42 | Property 277 (Furano Sanso) | Status: SUCCESS | Error: took 18.2s to sync (1 rooms, 24 images) — expected ~30.5s. -- -- -- 2026-08-17 16:12:42<br></pre>
+<pre>STARTED property 276 (Mitsuki Chalet) on page 69 — 1 rooms, 14 images — expected ~22.1s -- -- -- 2026-08-17 16:12:42<br></pre>
+<pre>[SYNC] 2026-08-17 16:12:54 | Property 276 (Mitsuki Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:12:54<br></pre>
+<pre>[SYNC] 2026-08-17 16:12:54 | Property 276 (Mitsuki Chalet) | Status: SUCCESS | Error: took 12.7s to sync (1 rooms, 14 images) — expected ~22.1s. -- -- -- 2026-08-17 16:12:54<br></pre>
+<pre>STARTED property 275 (Furano Peak) on page 69 — 1 rooms, 22 images — expected ~28.9s -- -- -- 2026-08-17 16:12:54<br></pre>
+<pre>[SYNC] 2026-08-17 16:13:11 | Property 275 (Furano Peak) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:13:11<br></pre>
+<pre>[SYNC] 2026-08-17 16:13:11 | Property 275 (Furano Peak) | Status: SUCCESS | Error: took 16.3s to sync (1 rooms, 22 images) — expected ~28.9s. -- -- -- 2026-08-17 16:13:11<br></pre>
+<pre>STARTED property 274 (Hakuba Sunrise Apartments) on page 70 — 2 rooms, 12 images — expected ~30.7s -- -- -- 2026-08-17 16:13:16<br></pre>
+<pre>[SYNC] 2026-08-17 16:13:46 | Property 274 (Hakuba Sunrise Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:13:46<br></pre>
+<pre>[SYNC] 2026-08-17 16:13:46 | Property 274 (Hakuba Sunrise Apartments) | Status: SUCCESS | Error: took 30.2s to sync (2 rooms, 12 images) — expected ~30.7s. -- -- -- 2026-08-17 16:13:46<br></pre>
+<pre>STARTED property 273 (Diamond Dust) on page 70 — 2 rooms, 27 images — expected ~43.5s -- -- -- 2026-08-17 16:13:46<br></pre>
+<pre>[SYNC] 2026-08-17 16:14:09 | Property 273 (Diamond Dust) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:14:09<br></pre>
+<pre>[SYNC] 2026-08-17 16:14:09 | Property 273 (Diamond Dust) | Status: SUCCESS | Error: took 23.4s to sync (2 rooms, 27 images) — expected ~43.5s. -- -- -- 2026-08-17 16:14:09<br></pre>
+<pre>STARTED property 272 (Casi 15) on page 70 — 1 rooms, 17 images — expected ~24.7s -- -- -- 2026-08-17 16:14:09<br></pre>
+<pre>[SYNC] 2026-08-17 16:14:32 | Property 272 (Casi 15) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:14:32<br></pre>
+<pre>[SYNC] 2026-08-17 16:14:32 | Property 272 (Casi 15) | Status: SUCCESS | Error: took 23.1s to sync (1 rooms, 17 images) — expected ~24.8s. -- -- -- 2026-08-17 16:14:33<br></pre>
+<pre>STARTED property 271 (Bliss & Bless) on page 71 — 1 rooms, 17 images — expected ~24.8s -- -- -- 2026-08-17 16:14:38<br></pre>
+<pre>[SYNC] 2026-08-17 16:14:52 | Property 271 (Bliss & Bless) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:14:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:14:52 | Property 271 (Bliss & Bless) | Status: SUCCESS | Error: took 13.8s to sync (1 rooms, 17 images) — expected ~24.8s. -- -- -- 2026-08-17 16:14:52<br></pre>
+<pre>STARTED property 270 (La Vigne) on page 71 — 7 rooms, 54 images — expected ~118.0s -- -- -- 2026-08-17 16:14:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:15:52 | Property 270 (La Vigne) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:15:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:15:52 | Property 270 (La Vigne) | Status: SUCCESS | Error: took 60.2s to sync (7 rooms, 54 images) — expected ~117.4s. -- -- -- 2026-08-17 16:15:52<br></pre>
+<pre>STARTED property 269 (The S House) on page 71 — 1 rooms, 17 images — expected ~24.7s -- -- -- 2026-08-17 16:15:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:16:05 | Property 269 (The S House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:16:05<br></pre>
+<pre>[SYNC] 2026-08-17 16:16:05 | Property 269 (The S House) | Status: SUCCESS | Error: took 13.1s to sync (1 rooms, 17 images) — expected ~24.8s. -- -- -- 2026-08-17 16:16:05<br></pre>
+<pre>STARTED property 268 (Bella Corner) on page 72 — 1 rooms, 19 images — expected ~26.5s -- -- -- 2026-08-17 16:16:12<br></pre>
+<pre>[SYNC] 2026-08-17 16:16:30 | Property 268 (Bella Corner) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:16:30<br></pre>
+<pre>[SYNC] 2026-08-17 16:16:30 | Property 268 (Bella Corner) | Status: SUCCESS | Error: took 17.7s to sync (1 rooms, 19 images) — expected ~26.6s. -- -- -- 2026-08-17 16:16:30<br></pre>
+<pre>STARTED property 267 (Aerial Chalet) on page 72 — 1 rooms, 14 images — expected ~22.3s -- -- -- 2026-08-17 16:16:30<br></pre>
+<pre>[SYNC] 2026-08-17 16:16:52 | Property 267 (Aerial Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:16:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:16:52 | Property 267 (Aerial Chalet) | Status: SUCCESS | Error: took 22.1s to sync (1 rooms, 14 images) — expected ~22.3s. -- -- -- 2026-08-17 16:16:52<br></pre>
+<pre>STARTED property 266 (Hokujo) on page 72 — 1 rooms, 12 images — expected ~20.6s -- -- -- 2026-08-17 16:16:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:17:13 | Property 266 (Hokujo) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:17:13<br></pre>
+<pre>[SYNC] 2026-08-17 16:17:13 | Property 266 (Hokujo) | Status: SUCCESS | Error: took 20.5s to sync (1 rooms, 12 images) — expected ~20.6s. -- -- -- 2026-08-17 16:17:13<br></pre>
+<pre>STARTED property 265 (Bluebird Apartments) on page 73 — 1 rooms, 21 images — expected ~28.5s -- -- -- 2026-08-17 16:17:20<br></pre>
+<pre>[SYNC] 2026-08-17 16:18:03 | Property 265 (Bluebird Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:18:03<br></pre>
+<pre>[SYNC] 2026-08-17 16:18:03 | Property 265 (Bluebird Apartments) | Status: SUCCESS | Error: took 42.6s to sync (1 rooms, 21 images) — expected ~28.6s. -- -- -- 2026-08-17 16:18:03<br></pre>
+<pre>STARTED property 264 (AYA Furano) on page 73 — 1 rooms, 24 images — expected ~31.2s -- -- -- 2026-08-17 16:18:03<br></pre>
+<pre>[SYNC] 2026-08-17 16:18:18 | Property 409 (Hotel La Neige) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:18:18<br></pre>
+<pre>[SYNC] 2026-08-17 16:18:36 | Property 264 (AYA Furano) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:18:36<br></pre>
+<pre>[SYNC] 2026-08-17 16:18:36 | Property 264 (AYA Furano) | Status: SUCCESS | Error: took 32.9s to sync (1 rooms, 24 images) — expected ~31.3s. -- -- -- 2026-08-17 16:18:36<br></pre>
+<pre>STARTED property 263 (Bears Den Mountain Lodge) on page 73 — 1 rooms, 13 images — expected ~21.6s -- -- -- 2026-08-17 16:18:36<br></pre>
+<pre>[SYNC] 2026-08-17 16:18:53 | Property 263 (Bears Den Mountain Lodge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:18:53<br></pre>
+<pre>[SYNC] 2026-08-17 16:18:53 | Property 263 (Bears Den Mountain Lodge) | Status: SUCCESS | Error: took 17.0s to sync (1 rooms, 13 images) — expected ~21.6s. -- -- -- 2026-08-17 16:18:53<br></pre>
+<pre>STARTED property 262 (Golden Bell) on page 74 — 1 rooms, 29 images — expected ~35.9s -- -- -- 2026-08-17 16:19:03<br></pre>
+<pre>[SYNC] 2026-08-17 16:19:24 | Property 262 (Golden Bell) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:19:24<br></pre>
+<pre>[SYNC] 2026-08-17 16:19:24 | Property 262 (Golden Bell) | Status: SUCCESS | Error: took 21.6s to sync (1 rooms, 29 images) — expected ~35.9s. -- -- -- 2026-08-17 16:19:24<br></pre>
+<pre>STARTED property 261 (Asanoha) on page 74 — 1 rooms, 16 images — expected ~24.3s -- -- -- 2026-08-17 16:19:24<br></pre>
+<pre>[SYNC] 2026-08-17 16:19:39 | Property 261 (Asanoha) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:19:39<br></pre>
+<pre>[SYNC] 2026-08-17 16:19:39 | Property 261 (Asanoha) | Status: SUCCESS | Error: took 15.3s to sync (1 rooms, 16 images) — expected ~24.4s. -- -- -- 2026-08-17 16:19:39<br></pre>
+<pre>STARTED property 260 (Apres) on page 74 — 1 rooms, 23 images — expected ~30.6s -- -- -- 2026-08-17 16:19:39<br></pre>
+<pre>[SYNC] 2026-08-17 16:19:51 | Property 260 (Apres) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:19:51<br></pre>
+<pre>[SYNC] 2026-08-17 16:19:51 | Property 260 (Apres) | Status: SUCCESS | Error: took 11.9s to sync (1 rooms, 23 images) — expected ~30.6s. -- -- -- 2026-08-17 16:19:51<br></pre>
+<pre>STARTED property 259 (Hakuba Mountain Apartments) on page 75 — 2 rooms, 41 images — expected ~56.7s -- -- -- 2026-08-17 16:19:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:20:20 | Property 259 (Hakuba Mountain Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:20:20<br></pre>
+<pre>[SYNC] 2026-08-17 16:20:20 | Property 259 (Hakuba Mountain Apartments) | Status: SUCCESS | Error: took 24.7s to sync (2 rooms, 41 images) — expected ~56.4s. -- -- -- 2026-08-17 16:20:20<br></pre>
+<pre>STARTED property 258 (Akatsuki Furano) on page 75 — 1 rooms, 16 images — expected ~24.3s -- -- -- 2026-08-17 16:20:20<br></pre>
+<pre>[SYNC] 2026-08-17 16:20:40 | Property 258 (Akatsuki Furano) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:20:40<br></pre>
+<pre>[SYNC] 2026-08-17 16:20:40 | Property 258 (Akatsuki Furano) | Status: SUCCESS | Error: took 19.6s to sync (1 rooms, 16 images) — expected ~24.3s. -- -- -- 2026-08-17 16:20:40<br></pre>
+<pre>STARTED property 252 (Blue Heron) on page 75 — 1 rooms, 27 images — expected ~34.0s -- -- -- 2026-08-17 16:20:40<br></pre>
+<pre>[SYNC] 2026-08-17 16:20:55 | Property 252 (Blue Heron) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:20:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:20:55 | Property 252 (Blue Heron) | Status: SUCCESS | Error: took 15.5s to sync (1 rooms, 27 images) — expected ~34.0s. -- -- -- 2026-08-17 16:20:55<br></pre>
+<pre>STARTED property 254 (Hikari - Rusutsu Chalets) on page 76 — 4 rooms, 50 images — expected ~84.9s -- -- -- 2026-08-17 16:21:01<br></pre>
+<pre>[SYNC] 2026-08-17 16:21:49 | Property 254 (Hikari - Rusutsu Chalets) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:21:49<br></pre>
+<pre>[SYNC] 2026-08-17 16:21:49 | Property 254 (Hikari - Rusutsu Chalets) | Status: SUCCESS | Error: took 47.6s to sync (4 rooms, 50 images) — expected ~83.4s. -- -- -- 2026-08-17 16:21:49<br></pre>
+<pre>STARTED property 253 (Hupni) on page 76 — 1 rooms, 19 images — expected ~26.2s -- -- -- 2026-08-17 16:21:49<br></pre>
+<pre>[SYNC] 2026-08-17 16:22:06 | Property 253 (Hupni) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:22:06<br></pre>
+<pre>[SYNC] 2026-08-17 16:22:06 | Property 253 (Hupni) | Status: SUCCESS | Error: took 17.5s to sync (1 rooms, 19 images) — expected ~26.2s. -- -- -- 2026-08-17 16:22:06<br></pre>
+<pre>STARTED property 255 (Rusutsu Resort Hotel & Convention) on page 76 — 3 rooms, 16 images — expected ~44.9s -- -- -- 2026-08-17 16:22:06<br></pre>
+<pre>[SYNC] 2026-08-17 16:22:55 | Property 255 (Rusutsu Resort Hotel & Convention) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:22:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:22:55 | Property 255 (Rusutsu Resort Hotel & Convention) | Status: SUCCESS | Error: took 49.2s to sync (3 rooms, 16 images) — expected ~44.9s. -- -- -- 2026-08-17 16:22:55<br></pre>
+<pre>STARTED property 256 (The Vale Rusutsu) on page 77 — 14 rooms, 75 images — expected ~209.8s -- -- -- 2026-08-17 16:23:01<br></pre>
+<pre>[SYNC] 2026-08-17 16:25:23 | Property 256 (The Vale Rusutsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:25:23<br></pre>
+<pre>[SYNC] 2026-08-17 16:25:23 | Property 256 (The Vale Rusutsu) | Status: SUCCESS | Error: took 142.1s to sync (14 rooms, 75 images) — expected ~206.0s. -- -- -- 2026-08-17 16:25:23<br></pre>
+<pre>STARTED property 257 (Villa Rusutsu) on page 77 — 4 rooms, 41 images — expected ~75.2s -- -- -- 2026-08-17 16:25:23<br></pre>
+<pre>[SYNC] 2026-08-17 16:25:55 | Property 257 (Villa Rusutsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:25:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:25:55 | Property 257 (Villa Rusutsu) | Status: SUCCESS | Error: took 31.3s to sync (4 rooms, 41 images) — expected ~75.0s. -- -- -- 2026-08-17 16:25:55<br></pre>
+<pre>STARTED property 240 (Akayane Lodge) on page 77 — 3 rooms, 28 images — expected ~54.0s -- -- -- 2026-08-17 16:25:55<br></pre>
+<pre>[SYNC] 2026-08-17 16:26:24 | Property 240 (Akayane Lodge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:26:24<br></pre>
+<pre>[SYNC] 2026-08-17 16:26:24 | Property 240 (Akayane Lodge) | Status: SUCCESS | Error: took 29.8s to sync (3 rooms, 28 images) — expected ~54.0s. -- -- -- 2026-08-17 16:26:24<br></pre>
+<pre>STARTED property 241 (ArtHouse Apartments) on page 78 — 2 rooms, 23 images — expected ~39.2s -- -- -- 2026-08-17 16:26:30<br></pre>
+<pre>STARTED property 241 (ArtHouse Apartments) on page 78 — 2 rooms, 23 images — expected ~39.2s -- -- -- 2026-08-17 16:54:26<br></pre>
+<pre>[SYNC] 2026-08-17 16:54:37 | Property 241 (ArtHouse Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:54:37<br></pre>
+<pre>[SYNC] 2026-08-17 16:54:37 | Property 241 (ArtHouse Apartments) | Status: SUCCESS | Error: SLOW: took 1687.3s to sync (2 rooms, 23 images) — expected ~38.7s. Investigate if this recurs. -- -- -- 2026-08-17 16:54:37<br></pre>
+<pre>STARTED property 242 (Chise Fukuro) on page 78 — 1 rooms, 17 images — expected ~23.5s -- -- -- 2026-08-17 16:54:37<br></pre>
+<pre>[SYNC] 2026-08-17 16:54:58 | Property 241 (ArtHouse Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:54:58<br></pre>
+<pre>[SYNC] 2026-08-17 16:54:58 | Property 241 (ArtHouse Apartments) | Status: SUCCESS | Error: took 31.4s to sync (2 rooms, 23 images) — expected ~39.2s. -- -- -- 2026-08-17 16:54:58<br></pre>
+<pre>STARTED property 242 (Chise Fukuro) on page 78 — 1 rooms, 17 images — expected ~23.7s -- -- -- 2026-08-17 16:54:58<br></pre>
+<pre>[SYNC] 2026-08-17 16:55:28 | Property 242 (Chise Fukuro) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:55:28<br></pre>
+<pre>[SYNC] 2026-08-17 16:55:28 | Property 242 (Chise Fukuro) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:55:28<br></pre>
+<pre>[SYNC] 2026-08-17 16:55:28 | Property 242 (Chise Fukuro) | Status: SUCCESS | Error: SLOW: took 50.8s to sync (1 rooms, 17 images) — expected ~23.5s. Investigate if this recurs. -- -- -- 2026-08-17 16:55:28<br></pre>
+<pre>STARTED property 245 (Furano Lodge 10) on page 78 — 1 rooms, 16 images — expected ~22.7s -- -- -- 2026-08-17 16:55:28<br></pre>
+<pre>[SYNC] 2026-08-17 16:55:28 | Property 242 (Chise Fukuro) | Status: SUCCESS | Error: took 30.1s to sync (1 rooms, 17 images) — expected ~23.7s. -- -- -- 2026-08-17 16:55:28<br></pre>
+<pre>STARTED property 245 (Furano Lodge 10) on page 78 — 1 rooms, 16 images — expected ~22.9s -- -- -- 2026-08-17 16:55:28<br></pre>
+<pre>[SYNC] 2026-08-17 16:56:06 | Property 245 (Furano Lodge 10) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:56:06<br></pre>
+<pre>[SYNC] 2026-08-17 16:56:06 | Property 245 (Furano Lodge 10) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:56:06<br></pre>
+<pre>[SYNC] 2026-08-17 16:56:06 | Property 245 (Furano Lodge 10) | Status: SUCCESS | Error: took 38.0s to sync (1 rooms, 16 images) — expected ~22.7s. -- -- -- 2026-08-17 16:56:06<br></pre>
+<pre>[SYNC] 2026-08-17 16:56:06 | Property 245 (Furano Lodge 10) | Status: SUCCESS | Error: took 38.0s to sync (1 rooms, 16 images) — expected ~22.9s. -- -- -- 2026-08-17 16:56:06<br></pre>
+<pre>STARTED property 246 (Hosanna) on page 79 — 1 rooms, 18 images — expected ~24.4s -- -- -- 2026-08-17 16:56:17<br></pre>
+<pre>[SYNC] 2026-08-17 16:56:47 | Property 246 (Hosanna) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:56:47<br></pre>
+<pre>[SYNC] 2026-08-17 16:56:47 | Property 246 (Hosanna) | Status: SUCCESS | Error: took 29.9s to sync (1 rooms, 18 images) — expected ~24.4s. -- -- -- 2026-08-17 16:56:47<br></pre>
+<pre>STARTED property 247 (Kaku Place) on page 79 — 5 rooms, 12 images — expected ~64.6s -- -- -- 2026-08-17 16:56:47<br></pre>
+<pre>[SYNC] 2026-08-17 16:57:29 | Property 247 (Kaku Place) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:57:29<br></pre>
+<pre>[SYNC] 2026-08-17 16:57:29 | Property 247 (Kaku Place) | Status: SUCCESS | Error: took 42.1s to sync (5 rooms, 12 images) — expected ~64.3s. -- -- -- 2026-08-17 16:57:29<br></pre>
+<pre>STARTED property 249 (Shochikubai) on page 79 — 1 rooms, 18 images — expected ~24.5s -- -- -- 2026-08-17 16:57:29<br></pre>
+<pre>[SYNC] 2026-08-17 16:57:45 | Property 249 (Shochikubai) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:57:45<br></pre>
+<pre>[SYNC] 2026-08-17 16:57:45 | Property 249 (Shochikubai) | Status: SUCCESS | Error: took 16.0s to sync (1 rooms, 18 images) — expected ~24.5s. -- -- -- 2026-08-17 16:57:45<br></pre>
+<pre>STARTED property 250 (Villa Matsu) on page 80 — 1 rooms, 17 images — expected ~23.8s -- -- -- 2026-08-17 16:57:52<br></pre>
+<pre>[SYNC] 2026-08-17 16:58:11 | Property 250 (Villa Matsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:58:11<br></pre>
+<pre>[SYNC] 2026-08-17 16:58:11 | Property 250 (Villa Matsu) | Status: SUCCESS | Error: took 19.2s to sync (1 rooms, 17 images) — expected ~23.9s. -- -- -- 2026-08-17 16:58:11<br></pre>
+<pre>STARTED property 251 (Wildwood) on page 80 — 1 rooms, 18 images — expected ~24.7s -- -- -- 2026-08-17 16:58:11<br></pre>
+<pre>[SYNC] 2026-08-17 16:58:32 | Property 251 (Wildwood) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:58:32<br></pre>
+<pre>[SYNC] 2026-08-17 16:58:32 | Property 251 (Wildwood) | Status: SUCCESS | Error: took 21.2s to sync (1 rooms, 18 images) — expected ~24.7s. -- -- -- 2026-08-17 16:58:32<br></pre>
+<pre>STARTED property 200 (Hakuba Panorama Hotel) on page 80 — 3 rooms, 23 images — expected ~50.5s -- -- -- 2026-08-17 16:58:32<br></pre>
+<pre>[SYNC] 2026-08-17 16:59:05 | Property 200 (Hakuba Panorama Hotel) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:59:05<br></pre>
+<pre>[SYNC] 2026-08-17 16:59:05 | Property 200 (Hakuba Panorama Hotel) | Status: SUCCESS | Error: took 32.8s to sync (3 rooms, 23 images) — expected ~50.5s. -- -- -- 2026-08-17 16:59:05<br></pre>
+<pre>STARTED property 201 (Le Bocage  Echoland Chalets/ Apartments) on page 81 — 4 rooms, 9 images — expected ~50.9s -- -- -- 2026-08-17 16:59:11<br></pre>
+<pre>[SYNC] 2026-08-17 16:59:32 | Property 201 (Le Bocage  Echoland Chalets/ Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:59:32<br></pre>
+<pre>[SYNC] 2026-08-17 16:59:32 | Property 201 (Le Bocage  Echoland Chalets/ Apartments) | Status: SUCCESS | Error: took 20.6s to sync (4 rooms, 9 images) — expected ~50.6s. -- -- -- 2026-08-17 16:59:32<br></pre>
+<pre>STARTED property 202 (Creekside Chalets) on page 81 — 1 rooms, 21 images — expected ~27.2s -- -- -- 2026-08-17 16:59:32<br></pre>
+<pre>[SYNC] 2026-08-17 16:59:58 | Property 202 (Creekside Chalets) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 16:59:58<br></pre>
+<pre>[SYNC] 2026-08-17 16:59:58 | Property 202 (Creekside Chalets) | Status: SUCCESS | Error: took 26.3s to sync (1 rooms, 21 images) — expected ~25.6s. -- -- -- 2026-08-17 16:59:58<br></pre>
+<pre>STARTED property 203 (5 Peaks) on page 81 — 1 rooms, 16 images — expected ~22.3s -- -- -- 2026-08-17 16:59:58<br></pre>
+<pre>[SYNC] 2026-08-17 17:00:31 | Property 203 (5 Peaks) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:00:31<br></pre>
+<pre>[SYNC] 2026-08-17 17:00:31 | Property 203 (5 Peaks) | Status: SUCCESS | Error: took 32.3s to sync (1 rooms, 16 images) — expected ~22.3s. -- -- -- 2026-08-17 17:00:31<br></pre>
+<pre>STARTED property 204 (Ahiru) on page 82 — 1 rooms, 16 images — expected ~22.3s -- -- -- 2026-08-17 17:00:39<br></pre>
+<pre>[SYNC] 2026-08-17 17:01:09 | Property 204 (Ahiru) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:01:09<br></pre>
+<pre>[SYNC] 2026-08-17 17:01:09 | Property 204 (Ahiru) | Status: SUCCESS | Error: took 30.5s to sync (1 rooms, 16 images) — expected ~22.3s. -- -- -- 2026-08-17 17:01:09<br></pre>
+<pre>STARTED property 205 (Alpinarc Chalet (6BR only)) on page 82 — 3 rooms, 28 images — expected ~53.7s -- -- -- 2026-08-17 17:01:09<br></pre>
+<pre>[SYNC] 2026-08-17 17:02:13 | Property 205 (Alpinarc Chalet (6BR only)) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:02:13<br></pre>
+<pre>[SYNC] 2026-08-17 17:02:13 | Property 205 (Alpinarc Chalet (6BR only)) | Status: SUCCESS | Error: took 64.0s to sync (3 rooms, 28 images) — expected ~53.8s. -- -- -- 2026-08-17 17:02:13<br></pre>
+<pre>STARTED property 206 (Aoi) on page 82 — 1 rooms, 8 images — expected ~17.1s -- -- -- 2026-08-17 17:02:13<br></pre>
+<pre>[SYNC] 2026-08-17 17:02:37 | Property 206 (Aoi) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:02:37<br></pre>
+<pre>[SYNC] 2026-08-17 17:02:37 | Property 206 (Aoi) | Status: SUCCESS | Error: took 24.0s to sync (1 rooms, 8 images) — expected ~17.0s. -- -- -- 2026-08-17 17:02:37<br></pre>
+<pre>STARTED property 207 (Villa Bavaria) on page 83 — 1 rooms, 16 images — expected ~22.2s -- -- -- 2026-08-17 17:02:44<br></pre>
+<pre>[SYNC] 2026-08-17 17:03:03 | Property 207 (Villa Bavaria) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:03:03<br></pre>
+<pre>[SYNC] 2026-08-17 17:03:03 | Property 207 (Villa Bavaria) | Status: SUCCESS | Error: took 18.2s to sync (1 rooms, 16 images) — expected ~21.7s. -- -- -- 2026-08-17 17:03:03<br></pre>
+<pre>STARTED property 208 (The Bergamot) on page 83 — 2 rooms, 16 images — expected ~34.0s -- -- -- 2026-08-17 17:03:03<br></pre>
+<pre>[SYNC] 2026-08-17 17:03:34 | Property 208 (The Bergamot) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:03:34<br></pre>
+<pre>[SYNC] 2026-08-17 17:03:34 | Property 208 (The Bergamot) | Status: SUCCESS | Error: took 31.8s to sync (2 rooms, 16 images) — expected ~34.0s. -- -- -- 2026-08-17 17:03:34<br></pre>
+<pre>STARTED property 209 (Bikei Chalet) on page 83 — 2 rooms, 11 images — expected ~31.1s -- -- -- 2026-08-17 17:03:34<br></pre>
+<pre>[SYNC] 2026-08-17 17:04:11 | Property 209 (Bikei Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:04:11<br></pre>
+<pre>[SYNC] 2026-08-17 17:04:11 | Property 209 (Bikei Chalet) | Status: SUCCESS | Error: took 37.0s to sync (2 rooms, 11 images) — expected ~31.2s. -- -- -- 2026-08-17 17:04:11<br></pre>
+<pre>STARTED property 210 (Black Crane) on page 84 — 2 rooms, 16 images — expected ~34.1s -- -- -- 2026-08-17 17:04:19<br></pre>
+<pre>[SYNC] 2026-08-17 17:04:42 | Property 210 (Black Crane) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:04:42<br></pre>
+<pre>[SYNC] 2026-08-17 17:04:42 | Property 210 (Black Crane) | Status: SUCCESS | Error: took 23.2s to sync (2 rooms, 16 images) — expected ~34.0s. -- -- -- 2026-08-17 17:04:42<br></pre>
+<pre>STARTED property 211 (Chalet Hérisson) on page 84 — 1 rooms, 14 images — expected ~20.5s -- -- -- 2026-08-17 17:04:42<br></pre>
+<pre>[SYNC] 2026-08-17 17:04:57 | Property 211 (Chalet Hérisson) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:04:57<br></pre>
+<pre>[SYNC] 2026-08-17 17:04:57 | Property 211 (Chalet Hérisson) | Status: SUCCESS | Error: took 14.7s to sync (1 rooms, 14 images) — expected ~20.6s. -- -- -- 2026-08-17 17:04:57<br></pre>
+<pre>STARTED property 212 (Cherrywoods Place) on page 84 — 2 rooms, 15 images — expected ~33.5s -- -- -- 2026-08-17 17:04:57<br></pre>
+<pre>[SYNC] 2026-08-17 17:05:11 | Property 212 (Cherrywoods Place) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:05:11<br></pre>
+<pre>[SYNC] 2026-08-17 17:05:11 | Property 212 (Cherrywoods Place) | Status: SUCCESS | Error: took 13.6s to sync (2 rooms, 15 images) — expected ~33.5s. -- -- -- 2026-08-17 17:05:11<br></pre>
+<pre>STARTED property 213 (Echowoods) on page 85 — 1 rooms, 11 images — expected ~18.8s -- -- -- 2026-08-17 17:05:16<br></pre>
+<pre>[SYNC] 2026-08-17 17:05:33 | Property 213 (Echowoods) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:05:33<br></pre>
+<pre>[SYNC] 2026-08-17 17:05:33 | Property 213 (Echowoods) | Status: SUCCESS | Error: took 16.9s to sync (1 rooms, 11 images) — expected ~18.8s. -- -- -- 2026-08-17 17:05:33<br></pre>
+<pre>STARTED property 214 (Everglow) on page 85 — 2 rooms, 23 images — expected ~38.3s -- -- -- 2026-08-17 17:05:33<br></pre>
+<pre>[SYNC] 2026-08-17 17:05:59 | Property 214 (Everglow) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:05:59<br></pre>
+<pre>[SYNC] 2026-08-17 17:05:59 | Property 214 (Everglow) | Status: SUCCESS | Error: took 25.5s to sync (2 rooms, 23 images) — expected ~38.3s. -- -- -- 2026-08-17 17:05:59<br></pre>
+<pre>STARTED property 215 (Firefly Apartments) on page 85 — 2 rooms, 13 images — expected ~32.4s -- -- -- 2026-08-17 17:05:59<br></pre>
+<pre>[SYNC] 2026-08-17 17:06:24 | Property 215 (Firefly Apartments) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:06:24<br></pre>
+<pre>[SYNC] 2026-08-17 17:06:24 | Property 215 (Firefly Apartments) | Status: SUCCESS | Error: took 25.7s to sync (2 rooms, 13 images) — expected ~32.4s. -- -- -- 2026-08-17 17:06:24<br></pre>
+<pre>STARTED property 216 (Forest Gardens) on page 86 — 2 rooms, 16 images — expected ~34.1s -- -- -- 2026-08-17 17:06:33<br></pre>
+<pre>[SYNC] 2026-08-17 17:07:23 | Property 216 (Forest Gardens) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:07:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:07:23 | Property 216 (Forest Gardens) | Status: SUCCESS | Error: took 49.6s to sync (2 rooms, 16 images) — expected ~34.1s. -- -- -- 2026-08-17 17:07:23<br></pre>
+<pre>STARTED property 217 (Grey Wolf) on page 86 — 1 rooms, 16 images — expected ~21.8s -- -- -- 2026-08-17 17:07:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:07:47 | Property 217 (Grey Wolf) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:07:47<br></pre>
+<pre>[SYNC] 2026-08-17 17:07:47 | Property 217 (Grey Wolf) | Status: SUCCESS | Error: took 23.6s to sync (1 rooms, 16 images) — expected ~21.8s. -- -- -- 2026-08-17 17:07:47<br></pre>
+<pre>STARTED property 219 (Hakuba MAHOROBA) on page 86 — 3 rooms, 24 images — expected ~51.2s -- -- -- 2026-08-17 17:07:47<br></pre>
+<pre>[SYNC] 2026-08-17 17:08:39 | Property 219 (Hakuba MAHOROBA) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:08:39<br></pre>
+<pre>[SYNC] 2026-08-17 17:08:39 | Property 219 (Hakuba MAHOROBA) | Status: SUCCESS | Error: took 51.9s to sync (3 rooms, 24 images) — expected ~51.3s. -- -- -- 2026-08-17 17:08:39<br></pre>
+<pre>STARTED property 220 (Hakuba Powder Mountain) on page 87 — 3 rooms, 26 images — expected ~52.4s -- -- -- 2026-08-17 17:08:44<br></pre>
+<pre>[SYNC] 2026-08-17 17:09:29 | Property 220 (Hakuba Powder Mountain) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:09:29<br></pre>
+<pre>[SYNC] 2026-08-17 17:09:29 | Property 220 (Hakuba Powder Mountain) | Status: SUCCESS | Error: took 45.2s to sync (3 rooms, 26 images) — expected ~52.5s. -- -- -- 2026-08-17 17:09:29<br></pre>
+<pre>STARTED property 221 (Hida Peaks Chalet) on page 87 — 1 rooms, 32 images — expected ~31.3s -- -- -- 2026-08-17 17:09:30<br></pre>
+<pre>[SYNC] 2026-08-17 17:10:00 | Property 221 (Hida Peaks Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:10:00<br></pre>
+<pre>[SYNC] 2026-08-17 17:10:00 | Property 221 (Hida Peaks Chalet) | Status: SUCCESS | Error: took 30.3s to sync (1 rooms, 32 images) — expected ~31.5s. -- -- -- 2026-08-17 17:10:00<br></pre>
+<pre>STARTED property 222 (Hinoki Chalet) on page 87 — 1 rooms, 21 images — expected ~24.9s -- -- -- 2026-08-17 17:10:00<br></pre>
+<pre>[SYNC] 2026-08-17 17:10:25 | Property 222 (Hinoki Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:10:25<br></pre>
+<pre>[SYNC] 2026-08-17 17:10:25 | Property 222 (Hinoki Chalet) | Status: SUCCESS | Error: took 24.7s to sync (1 rooms, 21 images) — expected ~25.0s. -- -- -- 2026-08-17 17:10:25<br></pre>
+<pre>STARTED property 223 (Kyla) on page 88 — 3 rooms, 26 images — expected ~52.6s -- -- -- 2026-08-17 17:10:30<br></pre>
+<pre>[SYNC] 2026-08-17 17:11:23 | Property 223 (Kyla) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:11:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:11:23 | Property 223 (Kyla) | Status: SUCCESS | Error: took 52.2s to sync (3 rooms, 26 images) — expected ~52.7s. -- -- -- 2026-08-17 17:11:23<br></pre>
+<pre>STARTED property 224 (villa Lily) on page 88 — 1 rooms, 11 images — expected ~19.0s -- -- -- 2026-08-17 17:11:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:11:55 | Property 224 (villa Lily) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:11:55<br></pre>
+<pre>[SYNC] 2026-08-17 17:11:55 | Property 224 (villa Lily) | Status: SUCCESS | Error: took 32.0s to sync (1 rooms, 11 images) — expected ~18.9s. -- -- -- 2026-08-17 17:11:55<br></pre>
+<pre>STARTED property 225 (MK House) on page 88 — 1 rooms, 10 images — expected ~18.3s -- -- -- 2026-08-17 17:11:55<br></pre>
+<pre>[SYNC] 2026-08-17 17:12:22 | Property 225 (MK House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:12:22<br></pre>
+<pre>[SYNC] 2026-08-17 17:12:22 | Property 225 (MK House) | Status: SUCCESS | Error: took 27.5s to sync (1 rooms, 10 images) — expected ~18.3s. -- -- -- 2026-08-17 17:12:22<br></pre>
+<pre>STARTED property 228 (Origami Twins) on page 89 — 2 rooms, 21 images — expected ~37.2s -- -- -- 2026-08-17 17:12:30<br></pre>
+<pre>[SYNC] 2026-08-17 17:12:57 | Property 228 (Origami Twins) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:12:57<br></pre>
+<pre>[SYNC] 2026-08-17 17:12:57 | Property 228 (Origami Twins) | Status: SUCCESS | Error: took 27.1s to sync (2 rooms, 21 images) — expected ~37.2s. -- -- -- 2026-08-17 17:12:57<br></pre>
+<pre>STARTED property 230 (RINDO (was JWK)) on page 89 — 1 rooms, 11 images — expected ~18.9s -- -- -- 2026-08-17 17:12:57<br></pre>
+<pre>[SYNC] 2026-08-17 17:13:11 | Property 230 (RINDO (was JWK)) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:13:11<br></pre>
+<pre>[SYNC] 2026-08-17 17:13:11 | Property 230 (RINDO (was JWK)) | Status: SUCCESS | Error: took 13.6s to sync (1 rooms, 11 images) — expected ~18.9s. -- -- -- 2026-08-17 17:13:11<br></pre>
+<pre>STARTED property 231 (Sanzan) on page 89 — 1 rooms, 16 images — expected ~21.9s -- -- -- 2026-08-17 17:13:11<br></pre>
+<pre>[SYNC] 2026-08-17 17:13:27 | Property 231 (Sanzan) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:13:27<br></pre>
+<pre>[SYNC] 2026-08-17 17:13:27 | Property 231 (Sanzan) | Status: SUCCESS | Error: took 16.3s to sync (1 rooms, 16 images) — expected ~21.9s. -- -- -- 2026-08-17 17:13:27<br></pre>
+<pre>STARTED property 232 (Silver Maple Chalet) on page 90 — 1 rooms, 16 images — expected ~21.9s -- -- -- 2026-08-17 17:13:34<br></pre>
+<pre>[SYNC] 2026-08-17 17:13:49 | Property 232 (Silver Maple Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:13:49<br></pre>
+<pre>[SYNC] 2026-08-17 17:13:49 | Property 232 (Silver Maple Chalet) | Status: SUCCESS | Error: took 15.2s to sync (1 rooms, 16 images) — expected ~21.9s. -- -- -- 2026-08-17 17:13:49<br></pre>
+<pre>STARTED property 233 (villa Sono) on page 90 — 1 rooms, 9 images — expected ~17.7s -- -- -- 2026-08-17 17:13:49<br></pre>
+<pre>[SYNC] 2026-08-17 17:14:04 | Property 233 (villa Sono) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:14:04<br></pre>
+<pre>[SYNC] 2026-08-17 17:14:04 | Property 233 (villa Sono) | Status: SUCCESS | Error: took 15.1s to sync (1 rooms, 9 images) — expected ~17.7s. -- -- -- 2026-08-17 17:14:04<br></pre>
+<pre>STARTED property 234 (Summit Chalet Hakuba) on page 90 — 2 rooms, 10 images — expected ~30.7s -- -- -- 2026-08-17 17:14:04<br></pre>
+<pre>[SYNC] 2026-08-17 17:14:32 | Property 234 (Summit Chalet Hakuba) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:14:32<br></pre>
+<pre>[SYNC] 2026-08-17 17:14:32 | Property 234 (Summit Chalet Hakuba) | Status: SUCCESS | Error: took 27.2s to sync (2 rooms, 10 images) — expected ~30.7s. -- -- -- 2026-08-17 17:14:32<br></pre>
+<pre>STARTED property 235 (Vive Boutique Hotel & Spa) on page 91 — 5 rooms, 37 images — expected ~83.8s -- -- -- 2026-08-17 17:14:40<br></pre>
+<pre>[SYNC] 2026-08-17 17:15:15 | Property 235 (Vive Boutique Hotel & Spa) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:15:15<br></pre>
+<pre>[SYNC] 2026-08-17 17:15:15 | Property 235 (Vive Boutique Hotel & Spa) | Status: SUCCESS | Error: took 34.8s to sync (5 rooms, 37 images) — expected ~83.6s. -- -- -- 2026-08-17 17:15:15<br></pre>
+<pre>STARTED property 236 (White Fox Chalet) on page 91 — 2 rooms, 21 images — expected ~37.1s -- -- -- 2026-08-17 17:15:15<br></pre>
+<pre>[SYNC] 2026-08-17 17:15:47 | Property 236 (White Fox Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:15:47<br></pre>
+<pre>[SYNC] 2026-08-17 17:15:47 | Property 236 (White Fox Chalet) | Status: SUCCESS | Error: took 32.6s to sync (2 rooms, 21 images) — expected ~37.1s. -- -- -- 2026-08-17 17:15:47<br></pre>
+<pre>STARTED property 239 (Hakuba  Momiji) on page 91 — 3 rooms, 14 images — expected ~45.2s -- -- -- 2026-08-17 17:15:47<br></pre>
+<pre>[SYNC] 2026-08-17 17:15:58 | Property 239 (Hakuba  Momiji) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:15:58<br></pre>
+<pre>[SYNC] 2026-08-17 17:15:58 | Property 239 (Hakuba  Momiji) | Status: SUCCESS | Error: took 10.9s to sync (3 rooms, 14 images) — expected ~45.2s. -- -- -- 2026-08-17 17:15:58<br></pre>
+<pre>STARTED property 4 (Akatsuki) on page 92 — 1 rooms, 15 images — expected ~21.4s -- -- -- 2026-08-17 17:16:05<br></pre>
+<pre>[SYNC] 2026-08-17 17:16:35 | Property 4 (Akatsuki) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:16:35<br></pre>
+<pre>[SYNC] 2026-08-17 17:16:35 | Property 4 (Akatsuki) | Status: SUCCESS | Error: took 29.7s to sync (1 rooms, 15 images) — expected ~21.3s. -- -- -- 2026-08-17 17:16:35<br></pre>
+<pre>STARTED property 5 (Akazora) on page 92 — 4 rooms, 26 images — expected ~64.6s -- -- -- 2026-08-17 17:16:35<br></pre>
+<pre>[SYNC] 2026-08-17 17:17:36 | Property 5 (Akazora) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:17:36<br></pre>
+<pre>[SYNC] 2026-08-17 17:17:36 | Property 5 (Akazora) | Status: SUCCESS | Error: took 61.4s to sync (4 rooms, 26 images) — expected ~64.7s. -- -- -- 2026-08-17 17:17:36<br></pre>
+<pre>STARTED property 6 (Alpen Ridge) on page 92 — 14 rooms, 273 images — expected ~337.1s -- -- -- 2026-08-17 17:17:36<br></pre>
+<pre>[SYNC] 2026-08-17 17:20:05 | Property 410 (Hakuba Hifumi) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:20:05<br></pre>
+<pre>[SYNC] 2026-08-17 17:20:55 | Property 6 (Alpen Ridge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:20:55<br></pre>
+<pre>[SYNC] 2026-08-17 17:20:55 | Property 6 (Alpen Ridge) | Status: SUCCESS | Error: took 198.5s to sync (14 rooms, 273 images) — expected ~264.8s. -- -- -- 2026-08-17 17:20:55<br></pre>
+<pre>STARTED property 7 (Always Niseko) on page 93 — 5 rooms, 26 images — expected ~76.8s -- -- -- 2026-08-17 17:21:01<br></pre>
+<pre>[SYNC] 2026-08-17 17:22:06 | Property 7 (Always Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:22:06<br></pre>
+<pre>[SYNC] 2026-08-17 17:22:06 | Property 7 (Always Niseko) | Status: SUCCESS | Error: took 65.9s to sync (5 rooms, 26 images) — expected ~76.7s. -- -- -- 2026-08-17 17:22:06<br></pre>
+<pre>STARTED property 8 (Annabel) on page 93 — 1 rooms, 11 images — expected ~16.8s -- -- -- 2026-08-17 17:22:06<br></pre>
+<pre>[SYNC] 2026-08-17 17:22:26 | Property 8 (Annabel) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:22:26<br></pre>
+<pre>[SYNC] 2026-08-17 17:22:26 | Property 8 (Annabel) | Status: SUCCESS | Error: took 19.8s to sync (1 rooms, 11 images) — expected ~16.8s. -- -- -- 2026-08-17 17:22:26<br></pre>
+<pre>STARTED property 9 (Annupuri Residences - Setsurin (雪林）) on page 93 — 1 rooms, 15 images — expected ~17.7s -- -- -- 2026-08-17 17:22:26<br></pre>
+<pre>[SYNC] 2026-08-17 17:22:44 | Property 9 (Annupuri Residences - Setsurin (雪林）) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:22:44<br></pre>
+<pre>[SYNC] 2026-08-17 17:22:44 | Property 9 (Annupuri Residences - Setsurin (雪林）) | Status: SUCCESS | Error: took 17.5s to sync (1 rooms, 15 images) — expected ~17.6s. -- -- -- 2026-08-17 17:22:44<br></pre>
+<pre>STARTED property 10 (Annupuri Residences - Tancho (丹頂）) on page 94 — 1 rooms, 15 images — expected ~17.6s -- -- -- 2026-08-17 17:22:50<br></pre>
+<pre>[SYNC] 2026-08-17 17:23:04 | Property 10 (Annupuri Residences - Tancho (丹頂）) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:23:04<br></pre>
+<pre>[SYNC] 2026-08-17 17:23:04 | Property 10 (Annupuri Residences - Tancho (丹頂）) | Status: SUCCESS | Error: took 14.3s to sync (1 rooms, 15 images) — expected ~17.7s. -- -- -- 2026-08-17 17:23:04<br></pre>
+<pre>STARTED property 12 (Asahi) on page 94 — 1 rooms, 10 images — expected ~16.5s -- -- -- 2026-08-17 17:23:04<br></pre>
+<pre>[SYNC] 2026-08-17 17:23:12 | Property 12 (Asahi) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:23:12<br></pre>
+<pre>[SYNC] 2026-08-17 17:23:12 | Property 12 (Asahi) | Status: SUCCESS | Error: took 7.7s to sync (1 rooms, 10 images) — expected ~16.5s. -- -- -- 2026-08-17 17:23:12<br></pre>
+<pre>STARTED property 13 (Aspect Niseko) on page 94 — 10 rooms, 64 images — expected ~156.4s -- -- -- 2026-08-17 17:23:12<br></pre>
+<pre>[SYNC] 2026-08-17 17:25:03 | Property 13 (Aspect Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:25:03<br></pre>
+<pre>[SYNC] 2026-08-17 17:25:03 | Property 13 (Aspect Niseko) | Status: SUCCESS | Error: took 110.9s to sync (10 rooms, 64 images) — expected ~154.8s. -- -- -- 2026-08-17 17:25:03<br></pre>
+<pre>STARTED property 1 (AYA Niseko) on page 95 — 18 rooms, 83 images — expected ~270.6s -- -- -- 2026-08-17 17:25:09<br></pre>
+<pre>[SYNC] 2026-08-17 17:27:53 | Property 1 (AYA Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:27:53<br></pre>
+<pre>[SYNC] 2026-08-17 17:27:53 | Property 1 (AYA Niseko) | Status: SUCCESS | Error: took 163.9s to sync (18 rooms, 83 images) — expected ~254.0s. -- -- -- 2026-08-17 17:27:53<br></pre>
+<pre>STARTED property 2 (AYA Villas) on page 95 — 2 rooms, 21 images — expected ~32.2s -- -- -- 2026-08-17 17:27:53<br></pre>
+<pre>[SYNC] 2026-08-17 17:28:13 | Property 2 (AYA Villas) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:28:13<br></pre>
+<pre>[SYNC] 2026-08-17 17:28:13 | Property 2 (AYA Villas) | Status: SUCCESS | Error: took 20.3s to sync (2 rooms, 21 images) — expected ~32.2s. -- -- -- 2026-08-17 17:28:13<br></pre>
+<pre>STARTED property 14 (Baw Baw Sansou) on page 95 — 1 rooms, 12 images — expected ~16.6s -- -- -- 2026-08-17 17:28:13<br></pre>
+<pre>[SYNC] 2026-08-17 17:28:31 | Property 14 (Baw Baw Sansou) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:28:31<br></pre>
+<pre>[SYNC] 2026-08-17 17:28:31 | Property 14 (Baw Baw Sansou) | Status: SUCCESS | Error: took 17.6s to sync (1 rooms, 12 images) — expected ~18.5s. -- -- -- 2026-08-17 17:28:31<br></pre>
+<pre>STARTED property 15 (Big Valley 1) on page 96 — 1 rooms, 9 images — expected ~17.8s -- -- -- 2026-08-17 17:34:42<br></pre>
+<pre>[SYNC] 2026-08-17 17:34:59 | Property 15 (Big Valley 1) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:34:59<br></pre>
+<pre>[SYNC] 2026-08-17 17:34:59 | Property 15 (Big Valley 1) | Status: SUCCESS | Error: took 17.1s to sync (1 rooms, 9 images) — expected ~17.7s. -- -- -- 2026-08-17 17:34:59<br></pre>
+<pre>STARTED property 16 (Big Valley 2) on page 96 — 1 rooms, 14 images — expected ~18.8s -- -- -- 2026-08-17 17:34:59<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:10 | Property 16 (Big Valley 2) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:35:10<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:10 | Property 16 (Big Valley 2) | Status: SUCCESS | Error: took 10.7s to sync (1 rooms, 14 images) — expected ~18.7s. -- -- -- 2026-08-17 17:35:10<br></pre>
+<pre>STARTED property 17 (Big Valley 3) on page 96 — 1 rooms, 9 images — expected ~17.6s -- -- -- 2026-08-17 17:35:10<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:21 | Property 17 (Big Valley 3) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:35:21<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:21 | Property 17 (Big Valley 3) | Status: SUCCESS | Error: took 11.2s to sync (1 rooms, 9 images) — expected ~17.4s. -- -- -- 2026-08-17 17:35:21<br></pre>
+<pre>API returned HTTP 429 — page=97 perPage=3
+URL: https://trip.japanskiexperience.com/api/get-all-properties?page=97&per_page=3
+Full response body:
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Too Many Requests</title>
+
+        <style>
+            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}code{font-family:monospace,monospace;font-size:1em}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}code{font-family:Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--bg-opacity:1;background-color:#fff;background-color:rgba(255,255,255,var(--bg-opacity))}.bg-gray-100{--bg-opacity:1;background-color:#f7fafc;background-color:rgba(247,250,252,var(--bg-opacity))}.border-gray-200{--border-opacity:1;border-color:#edf2f7;border-color:rgba(237,242,247,var(--border-opacity))}.border-gray-400{--border-opacity:1;border-color:#cbd5e0;border-color:rgba(203,213,224,var(--border-opacity))}.border-t{border-top-width:1px}.border-r{border-right-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-xl{max-width:36rem}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.text-center{text-align:center}.text-gray-200{--text-opacity:1;color:#edf2f7;color:rgba(237,242,247,var(--text-opacity))}.text-gray-300{--text-opacity:1;color:#e2e8f0;color:rgba(226,232,240,var(--text-opacity))}.text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.text-gray-500{--text-opacity:1;color:#a0aec0;color:rgba(160,174,192,var(--text-opacity))}.text-gray-600{--text-opacity:1;color:#718096;color:rgba(113,128,150,var(--text-opacity))}.text-gray-700{--text-opacity:1;color:#4a5568;color:rgba(74,85,104,var(--text-opacity))}.text-gray-900{--text-opacity:1;color:#1a202c;color:rgba(26,32,44,var(--text-opacity))}.uppercase{text-transform:uppercase}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.tracking-wider{letter-spacing:.05em}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@-webkit-keyframes spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@-webkit-keyframes ping{0%{transform:scale(1);opacity:1}75%,to{transform:scale(2);opacity:0}}@keyframes ping{0%{transform:scale(1);opacity:1}75%,to{transform:scale(2);opacity:0}}@-webkit-keyframes pulse{0%,to{opacity:1}50%{opacity:.5}}@keyframes pulse{0%,to{opacity:1}50%{opacity:.5}}@-webkit-keyframes bounce{0%,to{transform:translateY(-25%);-webkit-animation-timing-function:cubic-bezier(.8,0,1,1);animation-timing-function:cubic-bezier(.8,0,1,1)}50%{transform:translateY(0);-webkit-animation-timing-function:cubic-bezier(0,0,.2,1);animation-timing-function:cubic-bezier(0,0,.2,1)}}@keyframes bounce{0%,to{transform:translateY(-25%);-webkit-animation-timing-function:cubic-bezier(.8,0,1,1);animation-timing-function:cubic-bezier(.8,0,1,1)}50%{transform:translateY(0);-webkit-animation-timing-function:cubic-bezier(0,0,.2,1);animation-timing-function:cubic-bezier(0,0,.2,1)}}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--bg-opacity:1;background-color:#2d3748;background-color:rgba(45,55,72,var(--bg-opacity))}.dark\:bg-gray-900{--bg-opacity:1;background-color:#1a202c;background-color:rgba(26,32,44,var(--bg-opacity))}.dark\:border-gray-700{--border-opacity:1;border-color:#4a5568;border-color:rgba(74,85,104,var(--border-opacity))}.dark\:text-white{--text-opacity:1;color:#fff;color:rgba(255,255,255,var(--text-opacity))}.dark\:text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}}
+        </style>
+
+        <style>
+            body {
+                font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+            <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
+                <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
+                    <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider">
+                        429                    </div>
+
+                    <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
+                        Too Many Requests                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+ -- -- -- 2026-08-17 17:35:28<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:28 | Property page-97 (Page 97) | Status: FAILED | Error: [HTTP_ERROR] Failed to fetch properties from API for page 97: API returned HTTP 429 — Too Many Requests
+
+        
+
+        
+    
+    
+        
+            
+                
+                    
+                        429                    
+
+                    
+                        Too Many Requests -- -- -- 2026-08-17 17:35:28<br></pre>
+<pre>API returned HTTP 429 — page=97 perPage=3
+URL: https://trip.japanskiexperience.com/api/get-all-properties?page=97&per_page=3
+Full response body:
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Too Many Requests</title>
+
+        <style>
+            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}code{font-family:monospace,monospace;font-size:1em}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}code{font-family:Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--bg-opacity:1;background-color:#fff;background-color:rgba(255,255,255,var(--bg-opacity))}.bg-gray-100{--bg-opacity:1;background-color:#f7fafc;background-color:rgba(247,250,252,var(--bg-opacity))}.border-gray-200{--border-opacity:1;border-color:#edf2f7;border-color:rgba(237,242,247,var(--border-opacity))}.border-gray-400{--border-opacity:1;border-color:#cbd5e0;border-color:rgba(203,213,224,var(--border-opacity))}.border-t{border-top-width:1px}.border-r{border-right-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-xl{max-width:36rem}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.text-center{text-align:center}.text-gray-200{--text-opacity:1;color:#edf2f7;color:rgba(237,242,247,var(--text-opacity))}.text-gray-300{--text-opacity:1;color:#e2e8f0;color:rgba(226,232,240,var(--text-opacity))}.text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.text-gray-500{--text-opacity:1;color:#a0aec0;color:rgba(160,174,192,var(--text-opacity))}.text-gray-600{--text-opacity:1;color:#718096;color:rgba(113,128,150,var(--text-opacity))}.text-gray-700{--text-opacity:1;color:#4a5568;color:rgba(74,85,104,var(--text-opacity))}.text-gray-900{--text-opacity:1;color:#1a202c;color:rgba(26,32,44,var(--text-opacity))}.uppercase{text-transform:uppercase}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.tracking-wider{letter-spacing:.05em}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@-webkit-keyframes spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@-webkit-keyframes ping{0%{transform:scale(1);opacity:1}75%,to{transform:scale(2);opacity:0}}@keyframes ping{0%{transform:scale(1);opacity:1}75%,to{transform:scale(2);opacity:0}}@-webkit-keyframes pulse{0%,to{opacity:1}50%{opacity:.5}}@keyframes pulse{0%,to{opacity:1}50%{opacity:.5}}@-webkit-keyframes bounce{0%,to{transform:translateY(-25%);-webkit-animation-timing-function:cubic-bezier(.8,0,1,1);animation-timing-function:cubic-bezier(.8,0,1,1)}50%{transform:translateY(0);-webkit-animation-timing-function:cubic-bezier(0,0,.2,1);animation-timing-function:cubic-bezier(0,0,.2,1)}}@keyframes bounce{0%,to{transform:translateY(-25%);-webkit-animation-timing-function:cubic-bezier(.8,0,1,1);animation-timing-function:cubic-bezier(.8,0,1,1)}50%{transform:translateY(0);-webkit-animation-timing-function:cubic-bezier(0,0,.2,1);animation-timing-function:cubic-bezier(0,0,.2,1)}}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--bg-opacity:1;background-color:#2d3748;background-color:rgba(45,55,72,var(--bg-opacity))}.dark\:bg-gray-900{--bg-opacity:1;background-color:#1a202c;background-color:rgba(26,32,44,var(--bg-opacity))}.dark\:border-gray-700{--border-opacity:1;border-color:#4a5568;border-color:rgba(74,85,104,var(--border-opacity))}.dark\:text-white{--text-opacity:1;color:#fff;color:rgba(255,255,255,var(--text-opacity))}.dark\:text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}}
+        </style>
+
+        <style>
+            body {
+                font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+            <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
+                <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
+                    <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider">
+                        429                    </div>
+
+                    <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
+                        Too Many Requests                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+ -- -- -- 2026-08-17 17:35:34<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:34 | Property page-97 (Page 97) | Status: FAILED | Error: [HTTP_ERROR] Failed to fetch properties from API for page 97: API returned HTTP 429 — Too Many Requests
+
+        
+
+        
+    
+    
+        
+            
+                
+                    
+                        429                    
+
+                    
+                        Too Many Requests -- -- -- 2026-08-17 17:35:34<br></pre>
+<pre>STARTED property 19 (Boheme) on page 97 — 1 rooms, 17 images — expected ~19.3s -- -- -- 2026-08-17 17:35:43<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:58 | Property 19 (Boheme) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:35:58<br></pre>
+<pre>[SYNC] 2026-08-17 17:35:58 | Property 19 (Boheme) | Status: SUCCESS | Error: took 15.0s to sync (1 rooms, 17 images) — expected ~19.2s. -- -- -- 2026-08-17 17:35:58<br></pre>
+<pre>STARTED property 20 (Byakko) on page 97 — 1 rooms, 9 images — expected ~17.3s -- -- -- 2026-08-17 17:35:58<br></pre>
+<pre>[SYNC] 2026-08-17 17:36:05 | Property 20 (Byakko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:36:05<br></pre>
+<pre>[SYNC] 2026-08-17 17:36:05 | Property 20 (Byakko) | Status: SUCCESS | Error: took 7.2s to sync (1 rooms, 9 images) — expected ~17.1s. -- -- -- 2026-08-17 17:36:05<br></pre>
+<pre>STARTED property 21 (Chalet Banff) on page 97 — 2 rooms, 21 images — expected ~28.1s -- -- -- 2026-08-17 17:36:05<br></pre>
+<pre>[SYNC] 2026-08-17 17:36:36 | Property 21 (Chalet Banff) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:36:36<br></pre>
+<pre>[SYNC] 2026-08-17 17:36:36 | Property 21 (Chalet Banff) | Status: SUCCESS | Error: took 30.8s to sync (2 rooms, 21 images) — expected ~28.1s. -- -- -- 2026-08-17 17:36:36<br></pre>
+<pre>STARTED property 23 (Chalet Ivy) on page 98 — 10 rooms, 39 images — expected ~97.0s -- -- -- 2026-08-17 17:36:43<br></pre>
+<pre>[SYNC] 2026-08-17 17:38:20 | Property 23 (Chalet Ivy) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:38:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:38:20 | Property 23 (Chalet Ivy) | Status: SUCCESS | Error: took 96.5s to sync (10 rooms, 39 images) — expected ~94.6s. -- -- -- 2026-08-17 17:38:20<br></pre>
+<pre>STARTED property 24 (Chalet Murasaki) on page 98 — 3 rooms, 47 images — expected ~42.4s -- -- -- 2026-08-17 17:38:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:39:20 | Property 24 (Chalet Murasaki) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:39:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:39:20 | Property 24 (Chalet Murasaki) | Status: SUCCESS | Error: took 60.3s to sync (3 rooms, 47 images) — expected ~42.6s. -- -- -- 2026-08-17 17:39:20<br></pre>
+<pre>STARTED property 25 (Chalet W) on page 98 — 1 rooms, 17 images — expected ~19.2s -- -- -- 2026-08-17 17:39:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:39:50 | Property 25 (Chalet W) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:39:50<br></pre>
+<pre>[SYNC] 2026-08-17 17:39:50 | Property 25 (Chalet W) | Status: SUCCESS | Error: took 30.2s to sync (1 rooms, 17 images) — expected ~19.3s. -- -- -- 2026-08-17 17:39:50<br></pre>
+<pre>STARTED property 26 (Chatrium Niseko) on page 99 — 13 rooms, 82 images — expected ~128.9s -- -- -- 2026-08-17 17:39:57<br></pre>
+<pre>[SYNC] 2026-08-17 17:42:23 | Property 26 (Chatrium Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:42:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:42:23 | Property 26 (Chatrium Niseko) | Status: SUCCESS | Error: took 146.4s to sync (13 rooms, 82 images) — expected ~129.6s. -- -- -- 2026-08-17 17:42:23<br></pre>
+<pre>STARTED property 27 (Chihiro Niseko) on page 99 — 1 rooms, 34 images — expected ~23.6s -- -- -- 2026-08-17 17:42:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:42:41 | Property 27 (Chihiro Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:42:41<br></pre>
+<pre>[SYNC] 2026-08-17 17:42:41 | Property 27 (Chihiro Niseko) | Status: SUCCESS | Error: took 17.4s to sync (1 rooms, 34 images) — expected ~23.4s. -- -- -- 2026-08-17 17:42:41<br></pre>
+<pre>STARTED property 28 (Cisco Moon) on page 99 — 4 rooms, 43 images — expected ~49.4s -- -- -- 2026-08-17 17:42:41<br></pre>
+<pre>[SYNC] 2026-08-17 17:43:34 | Property 28 (Cisco Moon) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:43:34<br></pre>
+<pre>[SYNC] 2026-08-17 17:43:34 | Property 28 (Cisco Moon) | Status: SUCCESS | Error: took 53.5s to sync (4 rooms, 43 images) — expected ~49.4s. -- -- -- 2026-08-17 17:43:34<br></pre>
+<pre>STARTED property 29 (Cocoa Niseko) on page 100 — 1 rooms, 25 images — expected ~21.1s -- -- -- 2026-08-17 17:43:40<br></pre>
+<pre>[SYNC] 2026-08-17 17:44:04 | Property 29 (Cocoa Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:44:04<br></pre>
+<pre>[SYNC] 2026-08-17 17:44:04 | Property 29 (Cocoa Niseko) | Status: SUCCESS | Error: took 23.6s to sync (1 rooms, 25 images) — expected ~21.1s. -- -- -- 2026-08-17 17:44:04<br></pre>
+<pre>STARTED property 30 (Corniche Hirafu) on page 100 — 1 rooms, 16 images — expected ~18.9s -- -- -- 2026-08-17 17:44:04<br></pre>
+<pre>[SYNC] 2026-08-17 17:44:26 | Property 30 (Corniche Hirafu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:44:26<br></pre>
+<pre>[SYNC] 2026-08-17 17:44:26 | Property 30 (Corniche Hirafu) | Status: SUCCESS | Error: took 21.9s to sync (1 rooms, 16 images) — expected ~19.1s. -- -- -- 2026-08-17 17:44:26<br></pre>
+<pre>STARTED property 32 (Creekside) on page 100 — 1 rooms, 8 images — expected ~17.0s -- -- -- 2026-08-17 17:44:26<br></pre>
+<pre>[SYNC] 2026-08-17 17:44:39 | Property 32 (Creekside) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:44:39<br></pre>
+<pre>[SYNC] 2026-08-17 17:44:39 | Property 32 (Creekside) | Status: SUCCESS | Error: took 13.6s to sync (1 rooms, 8 images) — expected ~17.1s. -- -- -- 2026-08-17 17:44:39<br></pre>
+<pre>STARTED property 31 (Creekside Annupuri) on page 101 — 1 rooms, 19 images — expected ~19.9s -- -- -- 2026-08-17 17:44:47<br></pre>
+<pre>[SYNC] 2026-08-17 17:45:09 | Property 31 (Creekside Annupuri) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:45:09<br></pre>
+<pre>[SYNC] 2026-08-17 17:45:09 | Property 31 (Creekside Annupuri) | Status: SUCCESS | Error: took 21.2s to sync (1 rooms, 19 images) — expected ~20.1s. -- -- -- 2026-08-17 17:45:09<br></pre>
+<pre>STARTED property 33 (Creekside) on page 101 — 1 rooms, 9 images — expected ~17.5s -- -- -- 2026-08-17 17:45:09<br></pre>
+<pre>[SYNC] 2026-08-17 17:45:20 | Property 33 (Creekside) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:45:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:45:20 | Property 33 (Creekside) | Status: SUCCESS | Error: took 11.3s to sync (1 rooms, 9 images) — expected ~17.4s. -- -- -- 2026-08-17 17:45:20<br></pre>
+<pre>STARTED property 34 (Double Haven) on page 101 — 1 rooms, 5 images — expected ~16.4s -- -- -- 2026-08-17 17:45:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:45:30 | Property 34 (Double Haven) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:45:30<br></pre>
+<pre>[SYNC] 2026-08-17 17:45:30 | Property 34 (Double Haven) | Status: SUCCESS | Error: took 10.1s to sync (1 rooms, 5 images) — expected ~16.2s. -- -- -- 2026-08-17 17:45:30<br></pre>
+<pre>STARTED property 35 (El Cosmo) on page 102 — 1 rooms, 16 images — expected ~19.2s -- -- -- 2026-08-17 17:45:35<br></pre>
+<pre>[SYNC] 2026-08-17 17:46:01 | Property 35 (El Cosmo) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:46:01<br></pre>
+<pre>[SYNC] 2026-08-17 17:46:01 | Property 35 (El Cosmo) | Status: SUCCESS | Error: took 26.0s to sync (1 rooms, 16 images) — expected ~19.1s. -- -- -- 2026-08-17 17:46:01<br></pre>
+<pre>STARTED property 36 (Escarpment House) on page 102 — 1 rooms, 17 images — expected ~19.3s -- -- -- 2026-08-17 17:46:01<br></pre>
+<pre>[SYNC] 2026-08-17 17:47:55 | Property 36 (Escarpment House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:47:55<br></pre>
+<pre>[SYNC] 2026-08-17 17:47:55 | Property 36 (Escarpment House) | Status: SUCCESS | Error: SLOW: took 114.4s to sync (1 rooms, 17 images) — expected ~19.8s. Investigate if this recurs. -- -- -- 2026-08-17 17:47:55<br></pre>
+<pre>STARTED property 37 (Ezorisu) on page 102 — 1 rooms, 7 images — expected ~17.1s -- -- -- 2026-08-17 17:47:55<br></pre>
+<pre>[SYNC] 2026-08-17 17:48:05 | Property 37 (Ezorisu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:48:05<br></pre>
+<pre>[SYNC] 2026-08-17 17:48:05 | Property 37 (Ezorisu) | Status: SUCCESS | Error: took 9.9s to sync (1 rooms, 7 images) — expected ~17.0s. -- -- -- 2026-08-17 17:48:05<br></pre>
+<pre>STARTED property 38 (First Tracks) on page 103 — 2 rooms, 35 images — expected ~32.1s -- -- -- 2026-08-17 17:51:06<br></pre>
+<pre>[SYNC] 2026-08-17 17:51:41 | Property 38 (First Tracks) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:51:41<br></pre>
+<pre>[SYNC] 2026-08-17 17:51:41 | Property 38 (First Tracks) | Status: SUCCESS | Error: took 34.6s to sync (2 rooms, 35 images) — expected ~32.2s. -- -- -- 2026-08-17 17:51:41<br></pre>
+<pre>STARTED property 39 (Fo Sho Sansou) on page 103 — 2 rooms, 22 images — expected ~28.6s -- -- -- 2026-08-17 17:51:41<br></pre>
+<pre>[SYNC] 2026-08-17 17:51:51 | Property 39 (Fo Sho Sansou) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:51:51<br></pre>
+<pre>[SYNC] 2026-08-17 17:51:51 | Property 39 (Fo Sho Sansou) | Status: SUCCESS | Error: took 10.7s to sync (2 rooms, 22 images) — expected ~28.6s. -- -- -- 2026-08-17 17:51:51<br></pre>
+<pre>STARTED property 40 (Forest Estate) on page 103 — 1 rooms, 35 images — expected ~24.8s -- -- -- 2026-08-17 17:51:51<br></pre>
+<pre>[SYNC] 2026-08-17 17:52:06 | Property 40 (Forest Estate) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:52:06<br></pre>
+<pre>[SYNC] 2026-08-17 17:52:06 | Property 40 (Forest Estate) | Status: SUCCESS | Error: took 14.9s to sync (1 rooms, 35 images) — expected ~24.7s. -- -- -- 2026-08-17 17:52:06<br></pre>
+<pre>STARTED property 41 (Foxwood B) on page 104 — 1 rooms, 18 images — expected ~20.0s -- -- -- 2026-08-17 17:52:11<br></pre>
+<pre>[SYNC] 2026-08-17 17:52:32 | Property 41 (Foxwood B) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:52:32<br></pre>
+<pre>[SYNC] 2026-08-17 17:52:32 | Property 41 (Foxwood B) | Status: SUCCESS | Error: took 20.9s to sync (1 rooms, 18 images) — expected ~20.1s. -- -- -- 2026-08-17 17:52:32<br></pre>
+<pre>STARTED property 42 (Foxwood E) on page 104 — 1 rooms, 18 images — expected ~20.1s -- -- -- 2026-08-17 17:52:32<br></pre>
+<pre>[SYNC] 2026-08-17 17:52:46 | Property 42 (Foxwood E) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:52:46<br></pre>
+<pre>[SYNC] 2026-08-17 17:52:46 | Property 42 (Foxwood E) | Status: SUCCESS | Error: took 13.8s to sync (1 rooms, 18 images) — expected ~20.1s. -- -- -- 2026-08-17 17:52:46<br></pre>
+<pre>STARTED property 45 (Fūga no Mori) on page 104 — 1 rooms, 19 images — expected ~20.4s -- -- -- 2026-08-17 17:52:46<br></pre>
+<pre>[SYNC] 2026-08-17 17:53:00 | Property 45 (Fūga no Mori) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:53:00<br></pre>
+<pre>[SYNC] 2026-08-17 17:53:00 | Property 45 (Fūga no Mori) | Status: SUCCESS | Error: took 14.4s to sync (1 rooms, 19 images) — expected ~20.4s. -- -- -- 2026-08-17 17:53:00<br></pre>
+<pre>STARTED property 44 (Full Note) on page 105 — 5 rooms, 21 images — expected ~50.4s -- -- -- 2026-08-17 17:53:08<br></pre>
+<pre>[SYNC] 2026-08-17 17:53:59 | Property 44 (Full Note) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:53:59<br></pre>
+<pre>[SYNC] 2026-08-17 17:53:59 | Property 44 (Full Note) | Status: SUCCESS | Error: took 50.7s to sync (5 rooms, 21 images) — expected ~50.4s. -- -- -- 2026-08-17 17:53:59<br></pre>
+<pre>STARTED property 46 (Gekko Hanazono) on page 105 — 1 rooms, 30 images — expected ~23.4s -- -- -- 2026-08-17 17:53:59<br></pre>
+<pre>[SYNC] 2026-08-17 17:54:25 | Property 46 (Gekko Hanazono) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:54:25<br></pre>
+<pre>[SYNC] 2026-08-17 17:54:25 | Property 46 (Gekko Hanazono) | Status: SUCCESS | Error: took 26.5s to sync (1 rooms, 30 images) — expected ~23.4s. -- -- -- 2026-08-17 17:54:25<br></pre>
+<pre>STARTED property 47 (Gen-Myo) on page 105 — 1 rooms, 17 images — expected ~19.8s -- -- -- 2026-08-17 17:54:25<br></pre>
+<pre>[SYNC] 2026-08-17 17:54:49 | Property 47 (Gen-Myo) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:54:49<br></pre>
+<pre>[SYNC] 2026-08-17 17:54:49 | Property 47 (Gen-Myo) | Status: SUCCESS | Error: took 23.7s to sync (1 rooms, 17 images) — expected ~19.8s. -- -- -- 2026-08-17 17:54:49<br></pre>
+<pre>STARTED property 48 (Genji & Musashi) on page 106 — 3 rooms, 32 images — expected ~38.7s -- -- -- 2026-08-17 17:54:54<br></pre>
+<pre>[SYNC] 2026-08-17 17:55:41 | Property 48 (Genji & Musashi) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:55:41<br></pre>
+<pre>[SYNC] 2026-08-17 17:55:41 | Property 48 (Genji & Musashi) | Status: SUCCESS | Error: took 46.4s to sync (3 rooms, 32 images) — expected ~38.8s. -- -- -- 2026-08-17 17:55:41<br></pre>
+<pre>STARTED property 49 (Gensei) on page 106 — 3 rooms, 34 images — expected ~39.4s -- -- -- 2026-08-17 17:55:41<br></pre>
+<pre>[SYNC] 2026-08-17 17:56:23 | Property 49 (Gensei) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:56:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:56:23 | Property 49 (Gensei) | Status: SUCCESS | Error: took 42.1s to sync (3 rooms, 34 images) — expected ~39.4s. -- -- -- 2026-08-17 17:56:23<br></pre>
+<pre>STARTED property 50 (Ginsetsu) on page 106 — 1 rooms, 33 images — expected ~24.5s -- -- -- 2026-08-17 17:56:23<br></pre>
+<pre>[SYNC] 2026-08-17 17:56:49 | Property 50 (Ginsetsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:56:50<br></pre>
+<pre>[SYNC] 2026-08-17 17:56:50 | Property 50 (Ginsetsu) | Status: SUCCESS | Error: took 26.7s to sync (1 rooms, 33 images) — expected ~24.5s. -- -- -- 2026-08-17 17:56:50<br></pre>
+<pre>STARTED property 51 (Ginto Hirafu) on page 107 — 3 rooms, 27 images — expected ~37.4s -- -- -- 2026-08-17 17:56:57<br></pre>
+<pre>[SYNC] 2026-08-17 17:57:36 | Property 51 (Ginto Hirafu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:57:36<br></pre>
+<pre>[SYNC] 2026-08-17 17:57:36 | Property 51 (Ginto Hirafu) | Status: SUCCESS | Error: took 39.2s to sync (3 rooms, 27 images) — expected ~37.4s. -- -- -- 2026-08-17 17:57:36<br></pre>
+<pre>STARTED property 52 (Gondola Chalets) on page 107 — 3 rooms, 29 images — expected ~37.9s -- -- -- 2026-08-17 17:57:36<br></pre>
+<pre>[SYNC] 2026-08-17 17:58:20 | Property 52 (Gondola Chalets) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:58:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:58:20 | Property 52 (Gondola Chalets) | Status: SUCCESS | Error: took 44.0s to sync (3 rooms, 29 images) — expected ~38.0s. -- -- -- 2026-08-17 17:58:20<br></pre>
+<pre>STARTED property 53 (Greystone) on page 107 — 1 rooms, 35 images — expected ~25.0s -- -- -- 2026-08-17 17:58:20<br></pre>
+<pre>[SYNC] 2026-08-17 17:58:34 | Property 53 (Greystone) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:58:34<br></pre>
+<pre>[SYNC] 2026-08-17 17:58:34 | Property 53 (Greystone) | Status: SUCCESS | Error: took 14.4s to sync (1 rooms, 35 images) — expected ~24.9s. -- -- -- 2026-08-17 17:58:34<br></pre>
+<pre>STARTED property 54 (Gustav Hideaway) on page 108 — 1 rooms, 19 images — expected ~20.4s -- -- -- 2026-08-17 17:58:41<br></pre>
+<pre>[SYNC] 2026-08-17 17:59:02 | Property 54 (Gustav Hideaway) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:59:02<br></pre>
+<pre>[SYNC] 2026-08-17 17:59:02 | Property 54 (Gustav Hideaway) | Status: SUCCESS | Error: took 21.0s to sync (1 rooms, 19 images) — expected ~20.5s. -- -- -- 2026-08-17 17:59:02<br></pre>
+<pre>STARTED property 55 (Hachiko) on page 108 — 1 rooms, 18 images — expected ~20.2s -- -- -- 2026-08-17 17:59:02<br></pre>
+<pre>[SYNC] 2026-08-17 17:59:24 | Property 55 (Hachiko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:59:24<br></pre>
+<pre>[SYNC] 2026-08-17 17:59:24 | Property 55 (Hachiko) | Status: SUCCESS | Error: took 22.2s to sync (1 rooms, 18 images) — expected ~20.2s. -- -- -- 2026-08-17 17:59:24<br></pre>
+<pre>STARTED property 56 (Hakukin) on page 108 — 1 rooms, 15 images — expected ~19.4s -- -- -- 2026-08-17 17:59:24<br></pre>
+<pre>[SYNC] 2026-08-17 17:59:45 | Property 56 (Hakukin) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 17:59:45<br></pre>
+<pre>[SYNC] 2026-08-17 17:59:45 | Property 56 (Hakukin) | Status: SUCCESS | Error: took 21.0s to sync (1 rooms, 15 images) — expected ~19.3s. -- -- -- 2026-08-17 17:59:45<br></pre>
+<pre>STARTED property 57 (Hamiyuki) on page 109 — 1 rooms, 32 images — expected ~24.2s -- -- -- 2026-08-17 17:59:51<br></pre>
+<pre>[SYNC] 2026-08-17 18:00:09 | Property 57 (Hamiyuki) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:00:09<br></pre>
+<pre>[SYNC] 2026-08-17 18:00:09 | Property 57 (Hamiyuki) | Status: SUCCESS | Error: took 17.8s to sync (1 rooms, 32 images) — expected ~24.2s. -- -- -- 2026-08-17 18:00:09<br></pre>
+<pre>STARTED property 58 (Hana & Jo) on page 109 — 1 rooms, 30 images — expected ~23.6s -- -- -- 2026-08-17 18:00:09<br></pre>
+<pre>[SYNC] 2026-08-17 18:00:35 | Property 58 (Hana & Jo) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:00:35<br></pre>
+<pre>[SYNC] 2026-08-17 18:00:35 | Property 58 (Hana & Jo) | Status: SUCCESS | Error: took 26.3s to sync (1 rooms, 30 images) — expected ~23.7s. -- -- -- 2026-08-17 18:00:35<br></pre>
+<pre>STARTED property 59 (Tsubasa at Hanaridge) on page 109 — 1 rooms, 16 images — expected ~19.7s -- -- -- 2026-08-17 18:00:35<br></pre>
+<pre>[SYNC] 2026-08-17 18:01:15 | Property 59 (Tsubasa at Hanaridge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:01:15<br></pre>
+<pre>[SYNC] 2026-08-17 18:01:15 | Property 59 (Tsubasa at Hanaridge) | Status: SUCCESS | Error: SLOW: took 39.5s to sync (1 rooms, 16 images) — expected ~19.8s. Investigate if this recurs. -- -- -- 2026-08-17 18:01:15<br></pre>
+<pre>STARTED property 60 (Hangetsu) on page 110 — 2 rooms, 36 images — expected ~32.8s -- -- -- 2026-08-17 18:01:22<br></pre>
+<pre>[SYNC] 2026-08-17 18:01:50 | Property 60 (Hangetsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:01:51<br></pre>
+<pre>[SYNC] 2026-08-17 18:01:51 | Property 60 (Hangetsu) | Status: SUCCESS | Error: took 28.1s to sync (2 rooms, 36 images) — expected ~32.7s. -- -- -- 2026-08-17 18:01:51<br></pre>
+<pre>STARTED property 61 (Haru) on page 110 — 1 rooms, 19 images — expected ~20.6s -- -- -- 2026-08-17 18:01:51<br></pre>
+<pre>[SYNC] 2026-08-17 18:02:04 | Property 61 (Haru) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:02:04<br></pre>
+<pre>[SYNC] 2026-08-17 18:02:04 | Property 61 (Haru) | Status: SUCCESS | Error: took 13.5s to sync (1 rooms, 19 images) — expected ~20.7s. -- -- -- 2026-08-17 18:02:04<br></pre>
+<pre>STARTED property 62 (Hatsuyuki Townhouse) on page 110 — 2 rooms, 25 images — expected ~29.6s -- -- -- 2026-08-17 18:02:04<br></pre>
+<pre>[SYNC] 2026-08-17 18:02:31 | Property 62 (Hatsuyuki Townhouse) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:02:31<br></pre>
+<pre>[SYNC] 2026-08-17 18:02:31 | Property 62 (Hatsuyuki Townhouse) | Status: SUCCESS | Error: took 27.2s to sync (2 rooms, 25 images) — expected ~29.6s. -- -- -- 2026-08-17 18:02:31<br></pre>
+<pre>STARTED property 63 (Hibari) on page 111 — 1 rooms, 18 images — expected ~20.4s -- -- -- 2026-08-17 18:02:37<br></pre>
+<pre>[SYNC] 2026-08-17 18:03:01 | Property 63 (Hibari) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:03:01<br></pre>
+<pre>[SYNC] 2026-08-17 18:03:01 | Property 63 (Hibari) | Status: SUCCESS | Error: took 23.6s to sync (1 rooms, 18 images) — expected ~20.4s. -- -- -- 2026-08-17 18:03:01<br></pre>
+<pre>STARTED property 64 (Hideaway on Escarpment) on page 111 — 1 rooms, 17 images — expected ~20.1s -- -- -- 2026-08-17 18:03:01<br></pre>
+<pre>[SYNC] 2026-08-17 18:03:36 | Property 64 (Hideaway on Escarpment) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:03:36<br></pre>
+<pre>[SYNC] 2026-08-17 18:03:36 | Property 64 (Hideaway on Escarpment) | Status: SUCCESS | Error: took 35.3s to sync (1 rooms, 17 images) — expected ~20.2s. -- -- -- 2026-08-17 18:03:36<br></pre>
+<pre>STARTED property 65 (Hiiragi) on page 111 — 1 rooms, 18 images — expected ~20.5s -- -- -- 2026-08-17 18:03:36<br></pre>
+<pre>[SYNC] 2026-08-17 18:03:53 | Property 65 (Hiiragi) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:03:53<br></pre>
+<pre>[SYNC] 2026-08-17 18:03:53 | Property 65 (Hiiragi) | Status: SUCCESS | Error: took 16.7s to sync (1 rooms, 18 images) — expected ~20.5s. -- -- -- 2026-08-17 18:03:53<br></pre>
+<pre>STARTED property 66 (Hinzan) on page 112 — 4 rooms, 60 images — expected ~54.3s -- -- -- 2026-08-17 18:03:59<br></pre>
+<pre>[SYNC] 2026-08-17 18:04:55 | Property 66 (Hinzan) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:04:55<br></pre>
+<pre>[SYNC] 2026-08-17 18:04:55 | Property 66 (Hinzan) | Status: SUCCESS | Error: took 55.6s to sync (4 rooms, 60 images) — expected ~54.3s. -- -- -- 2026-08-17 18:04:55<br></pre>
+<pre>STARTED property 67 (Hiyoku) on page 112 — 1 rooms, 13 images — expected ~19.1s -- -- -- 2026-08-17 18:04:55<br></pre>
+<pre>[SYNC] 2026-08-17 18:05:12 | Property 67 (Hiyoku) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:05:12<br></pre>
+<pre>[SYNC] 2026-08-17 18:05:12 | Property 67 (Hiyoku) | Status: SUCCESS | Error: took 17.2s to sync (1 rooms, 13 images) — expected ~19.1s. -- -- -- 2026-08-17 18:05:12<br></pre>
+<pre>STARTED property 68 (Homerunner) on page 112 — 1 rooms, 18 images — expected ~20.6s -- -- -- 2026-08-17 18:05:12<br></pre>
+<pre>[SYNC] 2026-08-17 18:05:36 | Property 68 (Homerunner) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:05:36<br></pre>
+<pre>[SYNC] 2026-08-17 18:05:36 | Property 68 (Homerunner) | Status: SUCCESS | Error: took 24.4s to sync (1 rooms, 18 images) — expected ~20.5s. -- -- -- 2026-08-17 18:05:36<br></pre>
+<pre>STARTED property 71 (Intuition) on page 113 — 15 rooms, 53 images — expected ~131.1s -- -- -- 2026-08-17 18:05:43<br></pre>
+<pre>[SYNC] 2026-08-17 18:07:50 | Property 71 (Intuition) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:07:50<br></pre>
+<pre>[SYNC] 2026-08-17 18:07:50 | Property 71 (Intuition) | Status: SUCCESS | Error: took 127.7s to sync (15 rooms, 53 images) — expected ~135.5s. -- -- -- 2026-08-17 18:07:50<br></pre>
+<pre>STARTED property 69 (IORI) on page 113 — 1 rooms, 27 images — expected ~22.8s -- -- -- 2026-08-17 18:07:50<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:09 | Property 69 (IORI) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:08:09<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:09 | Property 69 (IORI) | Status: SUCCESS | Error: took 18.1s to sync (1 rooms, 27 images) — expected ~22.8s. -- -- -- 2026-08-17 18:08:09<br></pre>
+<pre>STARTED property 72 (Jade Rabbit) on page 113 — 1 rooms, 15 images — expected ~19.6s -- -- -- 2026-08-17 18:08:09<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:33 | Property 72 (Jade Rabbit) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:08:33<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:33 | Property 72 (Jade Rabbit) | Status: SUCCESS | Error: took 24.0s to sync (1 rooms, 15 images) — expected ~19.6s. -- -- -- 2026-08-17 18:08:33<br></pre>
+<pre>STARTED property 74 (Jun) on page 114 — 1 rooms, 10 images — expected ~18.2s -- -- -- 2026-08-17 18:08:38<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:47 | Property 74 (Jun) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:08:47<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:47 | Property 74 (Jun) | Status: SUCCESS | Error: took 9.1s to sync (1 rooms, 10 images) — expected ~18.2s. -- -- -- 2026-08-17 18:08:47<br></pre>
+<pre>STARTED property 75 (KAMAKURA) on page 114 — 1 rooms, 11 images — expected ~18.5s -- -- -- 2026-08-17 18:08:47<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:58 | Property 75 (KAMAKURA) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:08:58<br></pre>
+<pre>[SYNC] 2026-08-17 18:08:58 | Property 75 (KAMAKURA) | Status: SUCCESS | Error: took 11.1s to sync (1 rooms, 11 images) — expected ~18.4s. -- -- -- 2026-08-17 18:08:58<br></pre>
+<pre>STARTED property 76 (Karamatsu) on page 114 — 1 rooms, 8 images — expected ~17.6s -- -- -- 2026-08-17 18:08:58<br></pre>
+<pre>[SYNC] 2026-08-17 18:09:08 | Property 76 (Karamatsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:09:08<br></pre>
+<pre>[SYNC] 2026-08-17 18:09:08 | Property 76 (Karamatsu) | Status: SUCCESS | Error: took 10.3s to sync (1 rooms, 8 images) — expected ~17.5s. -- -- -- 2026-08-17 18:09:08<br></pre>
+<pre>STARTED property 77 (Kasetsu) on page 115 — 1 rooms, 12 images — expected ~18.6s -- -- -- 2026-08-17 18:09:13<br></pre>
+<pre>[SYNC] 2026-08-17 18:09:30 | Property 77 (Kasetsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:09:30<br></pre>
+<pre>[SYNC] 2026-08-17 18:09:30 | Property 77 (Kasetsu) | Status: SUCCESS | Error: took 16.8s to sync (1 rooms, 12 images) — expected ~18.7s. -- -- -- 2026-08-17 18:09:30<br></pre>
+<pre>STARTED property 78 (Kazahana Chalet) on page 115 — 1 rooms, 15 images — expected ~19.5s -- -- -- 2026-08-17 18:09:30<br></pre>
+<pre>[SYNC] 2026-08-17 18:09:47 | Property 78 (Kazahana Chalet) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:09:47<br></pre>
+<pre>[SYNC] 2026-08-17 18:09:47 | Property 78 (Kazahana Chalet) | Status: SUCCESS | Error: took 17.1s to sync (1 rooms, 15 images) — expected ~19.5s. -- -- -- 2026-08-17 18:09:47<br></pre>
+<pre>STARTED property 79 (Kazahana at Hanaridge) on page 115 — 1 rooms, 16 images — expected ~19.7s -- -- -- 2026-08-17 18:09:47<br></pre>
+<pre>[SYNC] 2026-08-17 18:10:02 | Property 79 (Kazahana at Hanaridge) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:10:02<br></pre>
+<pre>[SYNC] 2026-08-17 18:10:02 | Property 79 (Kazahana at Hanaridge) | Status: SUCCESS | Error: took 14.9s to sync (1 rooms, 16 images) — expected ~19.7s. -- -- -- 2026-08-17 18:10:02<br></pre>
+<pre>STARTED property 80 (Kazane) on page 116 — 1 rooms, 33 images — expected ~24.3s -- -- -- 2026-08-17 18:10:08<br></pre>
+<pre>[SYNC] 2026-08-17 18:10:26 | Property 80 (Kazane) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:10:26<br></pre>
+<pre>[SYNC] 2026-08-17 18:10:26 | Property 80 (Kazane) | Status: SUCCESS | Error: took 18.4s to sync (1 rooms, 33 images) — expected ~24.7s. -- -- -- 2026-08-17 18:10:26<br></pre>
+<pre>STARTED property 81 (Kimamaya Boutique Hotel) on page 116 — 4 rooms, 19 images — expected ~43.0s -- -- -- 2026-08-17 18:10:26<br></pre>
+<pre>[SYNC] 2026-08-17 18:11:00 | Property 81 (Kimamaya Boutique Hotel) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:11:00<br></pre>
+<pre>[SYNC] 2026-08-17 18:11:00 | Property 81 (Kimamaya Boutique Hotel) | Status: SUCCESS | Error: took 33.9s to sync (4 rooms, 19 images) — expected ~42.9s. -- -- -- 2026-08-17 18:11:00<br></pre>
+<pre>STARTED property 82 (Kira Kira) on page 116 — 5 rooms, 33 images — expected ~54.4s -- -- -- 2026-08-17 18:11:00<br></pre>
+<pre>[SYNC] 2026-08-17 18:11:34 | Property 82 (Kira Kira) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:11:34<br></pre>
+<pre>[SYNC] 2026-08-17 18:11:34 | Property 82 (Kira Kira) | Status: SUCCESS | Error: took 34.2s to sync (5 rooms, 33 images) — expected ~54.2s. -- -- -- 2026-08-17 18:11:34<br></pre>
+<pre>STARTED property 83 (Kiraku) on page 117 — 1 rooms, 13 images — expected ~18.8s -- -- -- 2026-08-17 18:11:40<br></pre>
+<pre>[SYNC] 2026-08-17 18:11:59 | Property 83 (Kiraku) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:11:59<br></pre>
+<pre>[SYNC] 2026-08-17 18:11:59 | Property 83 (Kiraku) | Status: SUCCESS | Error: took 19.0s to sync (1 rooms, 13 images) — expected ~18.9s. -- -- -- 2026-08-17 18:11:59<br></pre>
+<pre>STARTED property 84 (Kiseki) on page 117 — 2 rooms, 48 images — expected ~36.6s -- -- -- 2026-08-17 18:11:59<br></pre>
+<pre>[SYNC] 2026-08-17 18:12:32 | Property 84 (Kiseki) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:12:32<br></pre>
+<pre>[SYNC] 2026-08-17 18:12:32 | Property 84 (Kiseki) | Status: SUCCESS | Error: took 33.6s to sync (2 rooms, 48 images) — expected ~36.6s. -- -- -- 2026-08-17 18:12:32<br></pre>
+<pre>STARTED property 85 (Kisetsu) on page 117 — 1 rooms, 12 images — expected ~18.6s -- -- -- 2026-08-17 18:12:32<br></pre>
+<pre>[SYNC] 2026-08-17 18:12:45 | Property 85 (Kisetsu) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:12:45<br></pre>
+<pre>[SYNC] 2026-08-17 18:12:45 | Property 85 (Kisetsu) | Status: SUCCESS | Error: took 13.0s to sync (1 rooms, 12 images) — expected ~18.6s. -- -- -- 2026-08-17 18:12:45<br></pre>
+<pre>STARTED property 86 (Kitsune House) on page 118 — 1 rooms, 19 images — expected ~20.7s -- -- -- 2026-08-17 18:12:50<br></pre>
+<pre>[SYNC] 2026-08-17 18:13:10 | Property 86 (Kitsune House) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:13:10<br></pre>
+<pre>[SYNC] 2026-08-17 18:13:10 | Property 86 (Kitsune House) | Status: SUCCESS | Error: took 20.1s to sync (1 rooms, 19 images) — expected ~20.7s. -- -- -- 2026-08-17 18:13:10<br></pre>
+<pre>STARTED property 87 (Kizuna) on page 118 — 4 rooms, 59 images — expected ~54.6s -- -- -- 2026-08-17 18:13:10<br></pre>
+<pre>[SYNC] 2026-08-17 18:14:03 | Property 87 (Kizuna) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:14:03<br></pre>
+<pre>[SYNC] 2026-08-17 18:14:03 | Property 87 (Kizuna) | Status: SUCCESS | Error: took 53.1s to sync (4 rooms, 59 images) — expected ~54.6s. -- -- -- 2026-08-17 18:14:03<br></pre>
+<pre>STARTED property 88 (Koa Niseko) on page 118 — 2 rooms, 23 images — expected ~29.2s -- -- -- 2026-08-17 18:14:03<br></pre>
+<pre>[SYNC] 2026-08-17 18:14:34 | Property 88 (Koa Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:14:34<br></pre>
+<pre>[SYNC] 2026-08-17 18:14:34 | Property 88 (Koa Niseko) | Status: SUCCESS | Error: took 30.4s to sync (2 rooms, 23 images) — expected ~29.0s. -- -- -- 2026-08-17 18:14:34<br></pre>
+<pre>STARTED property 89 (Kohaku Niseko) on page 119 — 1 rooms, 23 images — expected ~21.6s -- -- -- 2026-08-17 18:14:39<br></pre>
+<pre>[SYNC] 2026-08-17 18:14:58 | Property 89 (Kohaku Niseko) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:14:58<br></pre>
+<pre>[SYNC] 2026-08-17 18:14:58 | Property 89 (Kohaku Niseko) | Status: SUCCESS | Error: took 19.2s to sync (1 rooms, 23 images) — expected ~21.5s. -- -- -- 2026-08-17 18:14:58<br></pre>
+<pre>STARTED property 90 (Koho) on page 119 — 1 rooms, 37 images — expected ~25.8s -- -- -- 2026-08-17 18:14:58<br></pre>
+<pre>[SYNC] 2026-08-17 18:15:18 | Property 90 (Koho) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:15:18<br></pre>
+<pre>[SYNC] 2026-08-17 18:15:18 | Property 90 (Koho) | Status: SUCCESS | Error: took 19.7s to sync (1 rooms, 37 images) — expected ~25.7s. -- -- -- 2026-08-17 18:15:18<br></pre>
+<pre>STARTED property 91 (Kokoro) on page 119 — 1 rooms, 6 images — expected ~16.4s -- -- -- 2026-08-17 18:15:18<br></pre>
+<pre>[SYNC] 2026-08-17 18:15:33 | Property 91 (Kokoro) | Status: SUCCESS | Error: none -- -- -- 2026-08-17 18:15:33<br></pre>
+<pre>[SYNC] 2026-08-17 18:15:33 | Property 91 (Kokoro) | Status: SUCCESS | Error: took 15.2s to sync (1 rooms, 6 images) — expected ~16.4s. -- -- -- 2026-08-17 18:15:33<br></pre>
+<pre>STARTED property 92 (Konayuki) on page 120 — 1 rooms, 10 images — expected ~17.6s -- -- -- 2026-08-17 20:36:15<br></pre>
+<pre>API request failed (network/timeout) — page=1 perPage=20
+URL: https://trip.japanskiexperience.com/api/get-all-properties?page=1&per_page=20
+Error: cURL error 28: SSL connection timeout
+Error data: null -- -- -- 2026-08-18 09:52:33<br></pre>
+<pre>API request failed (network/timeout) — page=1 perPage=20
+URL: https://trip.japanskiexperience.com/api/get-all-properties?page=1&per_page=20
+Error: cURL error 28: SSL connection timeout
+Error data: null -- -- -- 2026-08-18 10:00:29<br></pre>
+<pre>[SYNC] 2026-08-19 12:19:54 | Property 92 (Konayuki) | Status: SUCCESS | Error: none -- -- -- 2026-08-19 12:19:54<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:36:23<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:39:18<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:40:19<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:42:16<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:44:38<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:47:29<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:49:19<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:49:21<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:49:21<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:50:16<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:52:19<br></pre>
+<pre>API returned HTTP 404 — page=1 perPage=20
+URL: http://127.0.0.1:8000//api/get-all-properties?page=1&per_page=20
+Full response body:
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/scss/app.scss" /><link rel="stylesheet" href="http://[::1]:5173/resources/scss/icons.scss" /><script type="module" src="http://[::1]:5173/@vite/client"></script><script type="module" src="http://[::1]:5173/resources/js/head.js"></script><script type="module" src="http://[::1]:5173/resources/js/config.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="flex flex-col justify-center text-center gap-6">
+            <a href="/" class="flex justify-center mx-auto">
+                <img src="http://127.0.0.1:8000/images/logo-mix.png" class="image-mix logo-lg h-6 h-[60px]" alt="Light logo">
+            </a>
+            <p class="text-3xl font-semibold text-primary">404!</p>
+            <h1 class="text-4xl font-bold tracking-tight dark:text-gray-100">Page Not Found.</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Sorry, we couldn’t find the page you’re
+                looking for.</p>
+            <a href="/login" class="text-base font-medium text-primary"> Go back home </a>
+        </div>
+    </div>
+</div>
+ -- -- -- 2026-08-19 12:54:37<br></pre>

@@ -532,6 +532,7 @@ function kv_ajax_sync_start() {
         update_option( 'kv_sync_in_progress', true, false );
         update_option( 'kv_sync_phase', 'main', false );
         update_option( 'kv_sync_failed_pages', [], false );
+        update_option( 'kv_sync_pagination_known', false, false );
         delete_transient( 'kv_sync_chunk_lock' );
 
         /* Initialize seen-ID trackers for soft-delete detection at finalize */
@@ -572,15 +573,16 @@ function kv_ajax_sync_resume() {
         $total_pages = intval( get_option( 'hz_total_pages', 1 ) );
         $failed      = kv_sync_get_failed_pages();
         $phase       = (string) get_option( 'kv_sync_phase', 'main' );
+        $known       = kv_sync_pagination_is_known();
 
         /* Main finished but skipped pages remain → resume into catchup */
-        if ( $page_num > $total_pages && $total_pages > 1 && ! empty( $failed ) ) {
+        if ( $known && $page_num > $total_pages && ! empty( $failed ) ) {
             update_option( 'kv_sync_phase', 'catchup', false );
             $phase = 'catchup';
         }
 
         /* If already finished with nothing left to catch up, clear stale state */
-        if ( $page_num > $total_pages && $total_pages > 1 && empty( $failed ) ) {
+        if ( $known && $page_num > $total_pages && empty( $failed ) ) {
             $seen = get_option( 'kv_sync_seen_property_ids', [] );
             if ( ! empty( $seen ) ) {
                 kv_sync_finalize( true );
@@ -811,7 +813,7 @@ function kv_ajax_sync_chunk() {
         $phase       = (string) get_option( 'kv_sync_phase', 'main' );
 
         /* Main pass finished → retry skipped pages (catchup), then finalize */
-        if ( $page_num > $total_pages && $total_pages > 1 ) {
+        if ( kv_sync_pagination_is_known() && $page_num > $total_pages ) {
             if ( ! empty( $failed ) ) {
                 update_option( 'kv_sync_phase', 'catchup', false );
                 $phase = 'catchup';
@@ -864,23 +866,39 @@ function kv_ajax_sync_chunk() {
             }
 
             $failed_left = kv_sync_get_failed_pages();
-            $done        = empty( $failed_left );
-            if ( $done ) {
-                kv_sync_finalize( true );
+            $total_pages = intval( $processed['total_pages'] ?? $total_pages );
+            $cursor      = intval( get_option( 'hz_page', 1 ) );
+            if ( $catchup_page >= $cursor ) {
+                $cursor = $catchup_page + 1;
+                update_option( 'hz_page', $cursor, false );
+            }
+
+            $done      = false;
+            $phase_out = 'catchup';
+            if ( empty( $failed_left ) ) {
+                if ( kv_sync_pagination_is_known() && $cursor > $total_pages ) {
+                    kv_sync_finalize( true );
+                    $done      = true;
+                    $phase_out = 'done';
+                } else {
+                    update_option( 'kv_sync_phase', 'main', false );
+                    $phase_out = 'main';
+                }
             }
 
             delete_transient( $lock_key );
             $catchup_avg = kv_sync_get_avg_property_seconds();
             wp_send_json_success( array_merge( $processed, [
-                'done'         => $done,
-                'phase'        => 'catchup',
-                'page'         => $total_pages,
-                'total_pages'  => $total_pages,
-                'catchup_page' => $catchup_page,
-                'failed_count' => count( $failed_left ),
-                'skipped'      => false,
-                'partial'      => false,
-                'eta_seconds'  => ( $done || $catchup_avg === null ) ? 0 : ( $catchup_avg * count( $failed_left ) * $chunk_size ),
+                'done'              => $done,
+                'phase'             => $phase_out,
+                'page'              => $done ? $total_pages : $cursor,
+                'total_pages'       => $total_pages,
+                'catchup_page'      => $catchup_page,
+                'failed_count'      => count( $failed_left ),
+                'skipped'           => false,
+                'partial'           => false,
+                'pagination_known'  => kv_sync_pagination_is_known(),
+                'eta_seconds'       => ( $done || $catchup_avg === null ) ? 0 : ( $catchup_avg * max( 1, count( $failed_left ) ) * $chunk_size ),
             ] ) );
         }
 
@@ -932,14 +950,15 @@ function kv_ajax_sync_chunk() {
         delete_transient( $lock_key );
 
         wp_send_json_success( array_merge( $processed, [
-            'done'         => $done,
-            'phase'        => $phase_out,
-            'page'         => $page_num,
-            'total_pages'  => $total_pages,
-            'failed_count' => count( $failed ),
-            'skipped'      => false,
-            'partial'      => false,
-            'eta_seconds'  => $done ? 0 : kv_sync_estimate_remaining_seconds( $next_page, $total_pages, $chunk_size ),
+            'done'             => $done,
+            'phase'            => $phase_out,
+            'page'             => $page_num,
+            'total_pages'      => $total_pages,
+            'failed_count'     => count( $failed ),
+            'skipped'          => false,
+            'partial'          => false,
+            'pagination_known' => kv_sync_pagination_is_known(),
+            'eta_seconds'      => $done ? 0 : kv_sync_estimate_remaining_seconds( $next_page, $total_pages, $chunk_size ),
         ] ) );
     } catch ( Throwable $e ) {
         if ( $got_lock ) {
@@ -991,33 +1010,45 @@ function kv_ajax_sync_skip() {
             }
 
             $failed_left = kv_sync_get_failed_pages();
-            $done        = empty( $failed_left );
+            $known       = kv_sync_pagination_is_known();
+            $cursor      = intval( get_option( 'hz_page', 1 ) );
+            $done        = false;
             $partial     = false;
-            if ( $done ) {
-                /* Soft-delete skipped if any pages were permanently dropped this session */
-                kv_sync_finalize( false );
-                $partial = true;
+            $phase_out   = 'catchup';
+
+            if ( empty( $failed_left ) ) {
+                if ( $known && $cursor <= $total_pages ) {
+                    update_option( 'kv_sync_phase', 'main', false );
+                    $phase_out = 'main';
+                } else {
+                    kv_sync_finalize( false );
+                    $done      = true;
+                    $partial   = true;
+                    $phase_out = 'done';
+                }
             }
 
             $skip_catchup_avg = kv_sync_get_avg_property_seconds();
             wp_send_json_success( [
-                'done'         => $done,
-                'phase'        => $done ? 'done' : 'catchup',
-                'page'         => $total_pages,
-                'total_pages'  => $total_pages,
-                'failed_count' => count( $failed_left ),
-                'skipped'      => true,
-                'partial'      => $partial,
-                'added'        => intval( get_option( $done ? 'kv_sync_last_added' : 'kv_sync_session_added', 0 ) ),
-                'updated'      => intval( get_option( $done ? 'kv_sync_last_updated' : 'kv_sync_session_updated', 0 ) ),
-                'total'        => intval( get_option( 'kv_sync_total_properties', 0 ) ),
-                'last_sync'    => get_option( 'kv_sync_last_run', '' ),
-                'eta_seconds'  => ( $done || $skip_catchup_avg === null ) ? 0 : ( $skip_catchup_avg * count( $failed_left ) * $chunk_size ),
+                'done'             => $done,
+                'phase'            => $phase_out,
+                'page'             => $done ? $total_pages : $cursor,
+                'total_pages'      => $total_pages,
+                'failed_count'     => count( $failed_left ),
+                'skipped'          => true,
+                'partial'          => $partial,
+                'pagination_known' => $known,
+                'added'            => intval( get_option( $done ? 'kv_sync_last_added' : 'kv_sync_session_added', 0 ) ),
+                'updated'          => intval( get_option( $done ? 'kv_sync_last_updated' : 'kv_sync_session_updated', 0 ) ),
+                'total'            => intval( get_option( 'kv_sync_total_properties', 0 ) ),
+                'last_sync'        => get_option( 'kv_sync_last_run', '' ),
+                'eta_seconds'      => ( $done || $skip_catchup_avg === null ) ? 0 : ( $skip_catchup_avg * count( $failed_left ) * $chunk_size ),
             ] );
         }
 
-        /* Main phase: queue page for end-of-run retry, then advance */
-        if ( $page_num <= $total_pages ) {
+        /* Main phase: queue page for retry. Do not walk into unknown pages. */
+        $known = kv_sync_pagination_is_known();
+        if ( ! $known || $page_num <= $total_pages ) {
             kv_sync_queue_failed_page( $page_num );
             if ( function_exists( 'kv_sync_log_entry' ) ) {
                 kv_sync_log_entry( [
@@ -1030,37 +1061,45 @@ function kv_ajax_sync_skip() {
             }
         }
 
-        $next_page = $page_num + 1;
-        update_option( 'hz_page', $next_page, false );
-
         $failed    = kv_sync_get_failed_pages();
-        $main_done = ( $next_page > $total_pages && $total_pages > 1 );
         $done      = false;
         $phase_out = 'main';
+        $next_page = $page_num;
 
-        if ( $main_done ) {
-            if ( ! empty( $failed ) ) {
-                update_option( 'kv_sync_phase', 'catchup', false );
-                $phase_out = 'catchup';
-            } else {
-                kv_sync_finalize( true );
-                $done = true;
+        if ( ! $known ) {
+            /* Pagination not learned yet — retry this page in catchup, do not increment. */
+            update_option( 'kv_sync_phase', 'catchup', false );
+            $phase_out = 'catchup';
+        } else {
+            $next_page = $page_num + 1;
+            update_option( 'hz_page', $next_page, false );
+            $main_done = ( $next_page > $total_pages );
+
+            if ( $main_done ) {
+                if ( ! empty( $failed ) ) {
+                    update_option( 'kv_sync_phase', 'catchup', false );
+                    $phase_out = 'catchup';
+                } else {
+                    kv_sync_finalize( true );
+                    $done = true;
+                }
             }
         }
 
         wp_send_json_success( [
-            'done'         => $done,
-            'phase'        => $phase_out,
-            'page'         => $page_num,
-            'total_pages'  => $total_pages,
-            'failed_count' => count( $failed ),
-            'skipped'      => true,
-            'partial'      => false,
-            'added'        => intval( get_option( 'kv_sync_session_added', 0 ) ),
-            'updated'      => intval( get_option( 'kv_sync_session_updated', 0 ) ),
-            'total'        => intval( get_option( 'kv_sync_total_properties', 0 ) ),
-            'last_sync'    => get_option( 'kv_sync_last_run', '' ),
-            'eta_seconds'  => $done ? 0 : kv_sync_estimate_remaining_seconds( $next_page, $total_pages, $chunk_size ),
+            'done'             => $done,
+            'phase'            => $phase_out,
+            'page'             => $page_num,
+            'total_pages'      => $total_pages,
+            'failed_count'     => count( $failed ),
+            'skipped'          => true,
+            'partial'          => false,
+            'pagination_known' => $known,
+            'added'            => intval( get_option( 'kv_sync_session_added', 0 ) ),
+            'updated'          => intval( get_option( 'kv_sync_session_updated', 0 ) ),
+            'total'            => intval( get_option( 'kv_sync_total_properties', 0 ) ),
+            'last_sync'        => get_option( 'kv_sync_last_run', '' ),
+            'eta_seconds'      => $done ? 0 : kv_sync_estimate_remaining_seconds( max( $page_num, $next_page ), $total_pages, $chunk_size ),
         ] );
     } catch ( Throwable $e ) {
         kv_sync_log_exception( 'kv_ajax_sync_skip error', $e );
@@ -1094,15 +1133,20 @@ function kv_sync_queue_failed_page( $page_num ) {
     update_option( 'kv_sync_failed_pages', $failed, false );
 }
 
+function kv_sync_pagination_is_known() {
+    return (bool) get_option( 'kv_sync_pagination_known', false );
+}
+
 function kv_sync_done_payload( $page, $total_pages, $partial ) {
     return [
         'done'         => true,
         'phase'        => 'done',
         'page'         => $page,
         'total_pages'  => $total_pages,
-        'failed_count' => 0,
-        'skipped'      => false,
-        'partial'      => (bool) $partial,
+        'failed_count'     => 0,
+        'skipped'          => false,
+        'partial'          => (bool) $partial,
+        'pagination_known' => true,
         'added'        => intval( get_option( 'kv_sync_last_added', 0 ) ),
         'updated'      => intval( get_option( 'kv_sync_last_updated', 0 ) ),
         'total'        => intval( get_option( 'kv_sync_total_properties', 0 ) ),
@@ -1310,6 +1354,7 @@ function kv_sync_process_page( $page_num, $chunk_size, $total_pages = 1 ) {
     $api_total  = intval( $result['total_pages'] ?? 0 );
     if ( $api_total > 0 ) {
         update_option( 'hz_total_pages', $api_total, false );
+        update_option( 'kv_sync_pagination_known', true, false );
         $total_pages = $api_total;
     }
 
@@ -1372,7 +1417,7 @@ function kv_sync_process_page( $page_num, $chunk_size, $total_pages = 1 ) {
             $started_at = microtime( true );
 
             try {
-                sq_mapping_properties( [ $property ] );
+                sq_mapping_properties( [ $property ], true );
             } catch ( Throwable $map_error ) {
                 kv_sync_log_exception(
                     sprintf( 'kv_sync_process_page mapping error on page %d property %s (%s)', $page_num, $pid, $pname ),
@@ -1538,6 +1583,10 @@ function kv_sync_finalize( $do_soft_delete = true ) {
             }
         }
 
+        if ( function_exists( 'kv_update_accommodation_menu_order' ) ) {
+            kv_update_accommodation_menu_order();
+        }
+
         /* ── Persist stats ── */
         $total_posts = wp_count_posts( 'accommodation' );
         $total       = isset( $total_posts->publish ) ? intval( $total_posts->publish ) : 0;
@@ -1560,6 +1609,7 @@ function kv_sync_finalize( $do_soft_delete = true ) {
         update_option( 'kv_sync_in_progress', false, false );
         update_option( 'kv_sync_phase', 'main', false );
         update_option( 'kv_sync_failed_pages', [], false );
+        update_option( 'kv_sync_pagination_known', false, false );
 
         /* Reset total pages marker so Resume does not reappear after completion */
         update_option( 'hz_total_pages', 1, false );

@@ -1738,7 +1738,7 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     cf_log( 'valid_images', 'first_img' );
     cf_log( $valid_images, 'first_img' );
-    
+
     // Dedupe check only (fast, DB-only) — never download inline here. If the
     // image isn't already local, queue it for the background cron processor
     // instead of calling download_url() synchronously, so a large property's
@@ -2090,15 +2090,21 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
         // ✅ STEP 7: Validate properties in response
 
+        $pagination = is_array($result['pagination'] ?? null) ? $result['pagination'] : [];
+
+        $total_pages = isset($pagination['last_page']) ? intval($pagination['last_page']) : 0;
+
+
+
         if (empty($result['properties']) || !is_array($result['properties'])) {
 
             return [
 
                 'properties' => [],
 
-                'total_pages' => 0,
+                'total_pages' => $total_pages,
 
-                'pagination' => [],
+                'pagination' => $pagination,
 
             ];
 
@@ -2106,11 +2112,11 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
 
 
-        // ✅ STEP 8: Extract pagination data
+        if ( $total_pages < 1 ) {
 
-        $total_pages = isset($result['pagination']['last_page']) ? intval($result['pagination']['last_page']) : 1;
+            $total_pages = 1;
 
-        $pagination = is_array($result['pagination'] ?? null) ? $result['pagination'] : [];
+        }
 
 
 
@@ -2545,7 +2551,101 @@ function hz_get_data_from_booking_sys_func()
 
 
 
-function sq_mapping_properties($properties) {
+function kv_sync_normalize_for_fingerprint( $value ) {
+    if ( is_array( $value ) ) {
+        foreach ( $value as $k => $v ) {
+            $value[ $k ] = kv_sync_normalize_for_fingerprint( $v );
+        }
+        if ( array_keys( $value ) !== range( 0, count( $value ) - 1 ) ) {
+            ksort( $value );
+        }
+    }
+    return $value;
+}
+
+function kv_sync_property_fingerprint( array $property ) {
+    $rooms = [];
+    foreach ( ( is_array( $property['rooms'] ?? null ) ? $property['rooms'] : [] ) as $room ) {
+        if ( ! is_array( $room ) ) {
+            continue;
+        }
+        $room_images = [];
+        foreach ( ( is_array( $room['images'] ?? null ) ? $room['images'] : [] ) as $img ) {
+            if ( is_array( $img ) ) {
+                $room_images[] = [
+                    'id' => (string) ( $img['id'] ?? '' ),
+                    'url' => (string) ( $img['url'] ?? '' ),
+                    'is_main' => ! empty( $img['is_main'] ),
+                ];
+            }
+        }
+        usort(
+            $room_images,
+            static function ( $a, $b ) {
+                return strcmp( $a['id'], $b['id'] );
+            }
+        );
+        $rooms[] = [
+            'id' => (string) ( $room['id'] ?? '' ),
+            'name' => (string) ( $room['name'] ?? '' ),
+            'client_unit_name' => (string) ( $room['client_unit_name'] ?? '' ),
+            'updated_at' => (string) ( $room['updated_at'] ?? $room['updatedAt'] ?? '' ),
+            'room_boss_room_id' => (string) ( $room['room_boss_room_id'] ?? '' ),
+            'pricing_model' => $room['pricing_model'] ?? null,
+            'images' => $room_images,
+        ];
+    }
+
+    usort(
+        $rooms,
+        static function ( $a, $b ) {
+            return strcmp( $a['id'], $b['id'] );
+        }
+    );
+
+    $images = [];
+    foreach ( ( is_array( $property['images'] ?? null ) ? $property['images'] : [] ) as $img ) {
+        if ( is_array( $img ) ) {
+            $images[] = [
+                'id' => (string) ( $img['id'] ?? '' ),
+                'url' => (string) ( $img['url'] ?? '' ),
+                'is_main' => ! empty( $img['is_main'] ),
+            ];
+        }
+    }
+
+    usort(
+        $images,
+        static function ( $a, $b ) {
+            return strcmp( $a['id'], $b['id'] );
+        }
+    );
+
+    $detail = is_array( $property['detail'] ?? null ) ? $property['detail'] : [];
+
+    $payload = kv_sync_normalize_for_fingerprint( [
+        'id' => (string) ( $property['id'] ?? '' ),
+        'name' => (string) ( $property['name'] ?? '' ),
+        'client_property_name' => (string) ( $property['client_property_name'] ?? '' ),
+        'property_type' => (string) ( $property['property_type'] ?? '' ),
+        'status' => $property['status'] ?? null,
+        'is_enabled' => $property['is_enabled'] ?? null,
+        'is_active' => $property['is_active'] ?? null,
+        'remove_from_website' => ! empty( $property['remove_from_website'] ),
+        'deleted_at' => $property['deleted_at'] ?? null,
+        'updated_at' => (string) ( $property['updated_at'] ?? $property['updatedAt'] ?? '' ),
+        'detail_updated' => (string) ( $detail['updated_at'] ?? $detail['updatedAt'] ?? '' ),
+        'long_description' => (string) ( $detail['long_description'] ?? '' ),
+        'client_long_description' => (string) ( $detail['client_long_description'] ?? '' ),
+        'list_description' => (string) ( $detail['list_description'] ?? '' ),
+        'rooms' => $rooms,
+        'images' => $images,
+    ] );
+
+    return hash( 'sha256', wp_json_encode( $payload ) );
+}
+
+function sq_mapping_properties($properties, $defer_menu_order = false) {
 
     if (empty($properties) || !is_array($properties)) {
 
@@ -2637,6 +2737,14 @@ function sq_mapping_properties($properties) {
         }
 
         $hotelid = get_post_id_by_typeId($property_id, 'accommodation');
+
+        $fingerprint = kv_sync_property_fingerprint( $property );
+        if ( $hotelid && $fingerprint !== '' ) {
+            $stored_fp = (string) get_post_meta( $hotelid, '_kv_sync_fingerprint', true );
+            if ( $stored_fp !== '' && hash_equals( $stored_fp, $fingerprint ) ) {
+                continue;
+            }
+        }
 
         $property_type =  strtolower(trim((string) ($property['property_type'] ?? '')));
 
@@ -4171,7 +4279,6 @@ function sq_mapping_properties($properties) {
         // ✅ STEP 7j: Add accommodation images and update metadata
         cf_log( 'Property name', 'first_img' );
         cf_log( $property['name'], 'first_img' );
-        // pre( $upd_room_id, 1 );
         cf_log( 'Property images', 'first_img' );
         cf_log( $property['images'], 'first_img' );
 
@@ -4201,16 +4308,20 @@ function sq_mapping_properties($properties) {
 
             'status'        => 'success',
 
-            // 'error'         => $is_new_post ? 'NEW POST CREATED (ID ' . $upd_hotel_id . ')' : '',
-
             'error'         => '',
 
             'timestamp'     => current_time('Y-m-d H:i:s'),
 
         ]);
 
+        if ( ! empty( $upd_hotel_id ) && ! is_wp_error( $upd_hotel_id ) && ! empty( $fingerprint ) ) {
+            update_post_meta( (int) $upd_hotel_id, '_kv_sync_fingerprint', $fingerprint );
+        }
+
     }
-    kv_update_accommodation_menu_order();
+    if ( ! $defer_menu_order && function_exists( 'kv_update_accommodation_menu_order' ) ) {
+        kv_update_accommodation_menu_order();
+    }
 
 }
 

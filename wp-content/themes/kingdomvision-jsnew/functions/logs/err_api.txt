@@ -18,3 +18,19 @@
 <pre>API returned HTTP 429 -- -- -- 2026-08-13 14:58:10<br></pre>
 <pre>API returned HTTP 429 -- -- -- 2026-08-13 14:58:12<br></pre>
 <pre>API returned HTTP 429 -- -- -- 2026-08-13 14:58:14<br></pre>
+<pre>API returned HTTP 429 -- -- -- 2026-08-17 17:35:28<br></pre>
+<pre>API returned HTTP 429 -- -- -- 2026-08-17 17:35:34<br></pre>
+<pre>API Error: cURL error 28: SSL connection timeout -- -- -- 2026-08-18 09:52:33<br></pre>
+<pre>API Error: cURL error 28: SSL connection timeout -- -- -- 2026-08-18 10:00:29<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:36:23<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:39:18<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:40:19<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:42:16<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:44:38<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:47:29<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:49:19<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:49:21<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:49:21<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:50:16<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:52:19<br></pre>
+<pre>API returned HTTP 404 -- -- -- 2026-08-19 12:54:37<br></pre>

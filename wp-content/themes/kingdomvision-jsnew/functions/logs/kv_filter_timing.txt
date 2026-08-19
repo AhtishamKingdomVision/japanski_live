@@ -1987,3 +1987,6 @@
 <pre>kv_roomboss_available_ids_cached CACHE_MISS cache_key=rb_full_714397297f0985edc369910255ebacd4 api_call=1209ms hotel_count=2 url=https://stay.japanskiexperience.com/api/quotation-filteration -- -- -- 2026-08-17 04:56:43<br></pre>
 <pre>hz_search_in_booking_system exclude_price get_posts=3ms meta_loop=0ms result_count=0 -- -- -- 2026-08-17 04:56:43<br></pre>
 <pre>hz_search_in_booking_system bedbank get_posts=15ms wpdb_meta_query=1ms php_loop=0ms candidate_count=2 bedbank_property_ids=0 -- -- -- 2026-08-17 04:56:43<br></pre>
+<pre>niseko_search ENTRY post={"page":"1","checkin":"01\/12\/2026","checkout":"08\/12\/2026","resort":"","price_min":"","price_max":"","hotel_search":"1"} -- -- -- 2026-08-19 12:36:48<br></pre>
+<pre>hz_get_local_property_ids_and_args WP_Query elapsed=8ms found=374 meta_query={"relation":"AND"} tax_query=[] -- -- -- 2026-08-19 12:36:48<br></pre>
+<pre>kv_roomboss_available_ids_cached CACHE_MISS cache_key=rb_full_12b493658e9284a88de19b737bb140e5 api_call=862ms hotel_count=374 url=http://127.0.0.1:8000//api/quotation-filteration -- -- -- 2026-08-19 12:36:51<br></pre>

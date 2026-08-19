@@ -277,6 +277,7 @@
     }
 
     function updateProgressFromData( data ) {
+        var known      = data.pagination_known === true || data.pagination_known === 1 || data.pagination_known === '1';
         var page       = data.page || 1;
         var totalPages = data.total_pages || 1;
         var failed     = parseInt( data.failed_count, 10 ) || 0;
@@ -287,6 +288,8 @@
         var pct;
         if ( phase === 'catchup' || phase === 'done' ) {
             pct = 100;
+        } else if ( ! known ) {
+            pct = 0;
         } else {
             pct = totalPages > 0 ? Math.min( 99, Math.round( ( page / totalPages ) * 100 ) ) : 0;
         }
@@ -304,6 +307,15 @@
                 eta
             );
             $status.text( kvSync.i18n.catchupShort || 'Retrying skipped pages…' );
+        } else if ( ! known ) {
+            $progressLabel.text(
+                'Page ' + page + ' — waiting for API page count…' +
+                ( failed ? ( '  |  Skipped: ' + failed ) : '' ) +
+                '  |  Added: ' + ( data.added || 0 ) +
+                '  |  Updated: ' + ( data.updated || 0 ) +
+                eta
+            );
+            setSyncingStatus();
         } else {
             $progressLabel.text(
                 'Page ' + page + ' of ' + totalPages +

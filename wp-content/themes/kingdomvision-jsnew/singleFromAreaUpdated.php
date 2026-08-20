@@ -24,11 +24,6 @@ else{
 }
 
 $fea_image = get_the_post_thumbnail_url( $post->ID );
-if( empty($fea_image) ){
-	// Not downloaded locally yet (queued for background sync) — hotlink the
-	// remote URL as a temporary stand-in.
-	$fea_image = get_post_meta( $post->ID, '_kv_pending_featured_image', true );
-}
 if( $fea_image && !empty($fea_image) ){
 
 	$merged_gallary = array( $fea_image, ...$merged_gallary );
@@ -41,7 +36,9 @@ $ff_content   = get_field('form_footer_content', 'option');
 echo '<section class="form_area acc-single-banner accSingleBannerUpdate full-section" '. $section_style .' aria-labelledby="acc-title">';
 	echo '<div class="container">';
 		echo '<div class="left-side">';
-			echo '<a class="btn desktop-none quote_toggle" href="javascript:void();">Get a Quote</a>';
+			if( get_post_type() == 'accommodation' && $acc_form && !hz_isMobileOrTablet() ){				
+				echo '<a class="btn desktop-none quote_toggle" href="javascript:void();">Get a Quote</a>';
+			}
 
 			if (function_exists('yoast_breadcrumb')) {
 			    $links = apply_filters('wpseo_breadcrumb_links', []);

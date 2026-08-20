@@ -449,51 +449,51 @@ function jse_ajax_save_flywire_transaction() {
 add_action('wp_ajax_jse_save_flywire_transaction', 'jse_ajax_save_flywire_transaction');
 add_action('wp_ajax_nopriv_jse_save_flywire_transaction', 'jse_ajax_save_flywire_transaction');
 
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+
 /**
  * Proxy Laravel quotations/wp-store so X-WP-API-Token never goes to the browser.
  */
 function jse_ajax_wp_store_quotation() {
     check_ajax_referer( 'jse_flywire_booking_nonce', 'nonce' );
-
+ 
     $payload = isset( $_POST['payload'] ) ? json_decode( wp_unslash( $_POST['payload'] ), true ) : [];
     if ( ! is_array( $payload ) ) {
         wp_send_json_error( [ 'message' => 'Invalid quotation payload' ] );
     }
-
+ 
     $base = defined( 'KV_BOOKING_SYSTEM_BASE' ) ? KV_BOOKING_SYSTEM_BASE : 'https://trip.japanskiexperience.com';
     $url  = rtrim( $base, '/' ) . '/api/quotations/wp-store';
-
+ 
     $headers = function_exists( 'jse_laravel_wp_token_headers' )
         ? jse_laravel_wp_token_headers()
         : [
             'Content-Type' => 'application/json',
             'Accept'       => 'application/json',
         ];
-
+ 
     $response = wp_remote_post( $url, [
         'timeout' => 35,
         'headers' => $headers,
         'body'    => wp_json_encode( $payload ),
     ] );
-
+ 
     if ( is_wp_error( $response ) ) {
         wp_send_json_error( [ 'message' => $response->get_error_message() ] );
     }
-
+ 
     $code = wp_remote_retrieve_response_code( $response );
     $body = json_decode( wp_remote_retrieve_body( $response ), true );
     if ( ! is_array( $body ) ) {
         wp_send_json_error( [ 'message' => 'Invalid response from quotation service', 'http_code' => $code ] );
     }
-
+ 
     wp_send_json_success( $body );
 }
 add_action( 'wp_ajax_jse_wp_store_quotation', 'jse_ajax_wp_store_quotation' );
 add_action( 'wp_ajax_nopriv_jse_wp_store_quotation', 'jse_ajax_wp_store_quotation' );
-
-// ============================================================================
-// HELPER FUNCTIONS
-// ============================================================================
 
 /**
  * Convert value to number (intval or floatval)

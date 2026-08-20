@@ -58,11 +58,6 @@ try {
     // ✅ STEP 4: Process room image with fallback
     $image_url = (string) get_the_post_thumbnail_url($room_id, 'full');
     if (empty($image_url)) {
-        // Featured image not downloaded locally yet (queued for background
-        // sync) — hotlink the remote URL as a temporary stand-in.
-        $image_url = (string) get_post_meta($room_id, '_kv_pending_featured_image', true);
-    }
-    if (empty($image_url)) {
         $image_url = get_template_directory_uri() . '/images/placeholder-accomo.jpg';
     }
     $image_url = esc_url_raw($image_url);

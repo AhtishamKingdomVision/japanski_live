@@ -57,11 +57,11 @@ echo '<section ' . SectionAttributes($section, 'full-section content_with_video_
 			} else{
 				echo '<div class="cwvp_video" >';
 					if($upload_opt == 'upload'){
-						echo '<a class="cwvp_fancybox" aria-label="Watch our video" data-fancybox href="'.$video_upload.'">';
+						echo '<a class="cwvp_fancybox" data-fancybox href="'.$video_upload.'">';
 							echo '<img src="'.esc_url($video_thumbnail['url']).'" alt="'.esc_attr($video_thumbnail['alt']).'"/>';
 						echo '</a>';
 					} elseif ($upload_opt == 'url') {
-						echo '<a class="cwvp_fancybox" aria-label="Watch our video" data-fancybox href="'.$video_url.'">';
+						echo '<a class="cwvp_fancybox" data-fancybox href="'.$video_url.'">';
 							echo '<img src="'.esc_url($video_thumbnail['url']).'" alt="'.esc_attr($video_thumbnail['alt']).'"/>';
 						echo '</a>';
 					} elseif ($upload_opt == 'ex_video') {

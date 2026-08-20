@@ -40,7 +40,7 @@ try {
     $guests = intval(get_field('room_guests', $room_id) ?? 0);
     $bedrooms = intval(get_field('room_bedroom', $room_id) ?? 0);
     $bathrooms = intval(get_field('room_bathroom', $room_id) ?? 0);
-    $size = sanitize_text_field(get_field('room_size', $room_id) ?? '');
+    $size = sanitize_text_field(get_field('room_sqm', $room_id) ?? '');
     $features = get_the_terms($room_id, 'room_facilities');
     if (is_wp_error($features) || empty($features)) {
         $features = [];
@@ -78,11 +78,6 @@ try {
 
     // Add featured image to gallery if available
     $featured_image = get_the_post_thumbnail_url($room_id, 'large');
-    if (!$featured_image) {
-        // Not downloaded locally yet (queued for background sync) — hotlink
-        // the remote URL as a temporary stand-in.
-        $featured_image = get_post_meta($room_id, '_kv_pending_featured_image', true);
-    }
     if ($featured_image) {
         array_unshift($gallery, $featured_image);
     }

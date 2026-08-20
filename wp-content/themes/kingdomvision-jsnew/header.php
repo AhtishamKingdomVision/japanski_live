@@ -24,6 +24,7 @@ $buttons       = get_field('header_buttons', 'option');
 $header_filter = get_field('header_filter', 'option');
 $header_option = get_field('header_option');
 
+$is_enquire_page = get_field('enquire_page', 'option');
 echo '<div class="main_wrapper full-section">';
     
     // Main Wrapper
@@ -109,6 +110,7 @@ echo '<div class="main_wrapper full-section">';
                             '<nav class="yoast-breadcrumbs" aria-label="Breadcrumbs">',
                             '</nav>'
                         );
+
                     }
                 echo '</div>';
             echo '</div>';

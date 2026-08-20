@@ -1,0 +1,1984 @@
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:25<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:31<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:32<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:33<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:35<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:36<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:37<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:38<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:39<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:40<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:41<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:42<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:44<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:45<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:47<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:48<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:49<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:50<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:51<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 3
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:51<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:51<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:52<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:53<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:54<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:55<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:56<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:57<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:21:58<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:00<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:03<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:03<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:04<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:05<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:05<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:07<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:08<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:09<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:10<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:11<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:12<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:13<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:14<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:15<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:16<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:17<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:18<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:19<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:20<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:21<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:22<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:22<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:24<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:25<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:26<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:27<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:28<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:29<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:30<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:31<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:32<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:32<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:33<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:34<br></pre>
+<pre>Array
+(
+    [results] => Array
+        (
+            [1] => Array
+                (
+                    [min_price] => 
+                    [bedrooms] => Array
+                        (
+                        )
+
+                    [room_count] => 1
+                    [bookingPermission] => 
+                )
+
+        )
+
+    [pagination] => Array
+        (
+            [offset] => 0
+            [limit] => 50
+            [total_db_properties] => 190
+            [total_db_records] => 216
+            [total_pages] => 4
+            [max_offset] => 3
+            [next_offset] => 1
+            [has_more] => 1
+        )
+
+)
+ -- -- -- 2026-08-18 14:22:35<br></pre>

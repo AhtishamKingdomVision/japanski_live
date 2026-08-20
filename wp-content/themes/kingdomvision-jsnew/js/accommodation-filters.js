@@ -1051,7 +1051,11 @@ const AccommodationFilters = (function() {
                 append = true;
             }
 
+
+
             const isHotelSearch = localStorage.getItem(CONFIG.storage.hotelSearch) === 'true';
+
+
 
             if (!isHotelSearch) {
 
@@ -1117,16 +1121,6 @@ const AccommodationFilters = (function() {
                 UI.showLoader();
 
                 UI.ensureLoadMoreWrap();
-
-                // Hide only the Load More button/wrap while results are loading —
-                // updateLoadMoreButton() re-shows it after the search completes if
-                // has_more/booking_has_more says there's another page. The
-                // enquiry form is a separate sibling element (.load-more-enquiry-form,
-                // inserted after this wrap), so it's untouched by this.
-                if (State.cache.$loadMore && State.cache.$loadMore.length) {
-                    State.cache.$loadMore.hide();
-                }
-                jQuery(CONFIG.selectors.loadMoreWrap).hide();
 
             }
 
@@ -1675,10 +1669,7 @@ const AccommodationFilters = (function() {
 
                 if (shouldShowForm) {
                     UI.attachFormHtmlAfterLoadMore(data.form_html);
-                } else if (!append) {
-                    // A "load more" response with no form_html just means this page
-                    // didn't resend it — not that the already-attached form should
-                    // be torn down. Only clear it on a fresh (non-append) search.
+                } else {
                     UI.removeFormHtmlAfterLoadMore();
                 }
 
@@ -1739,9 +1730,7 @@ const AccommodationFilters = (function() {
 
             if (shouldShowForm) {
                 UI.attachFormHtmlAfterLoadMore(data.form_html);
-            } else if (!append) {
-                // Same rationale as above — don't tear down an already-attached
-                // form just because this append page didn't resend form_html.
+            } else {
                 UI.removeFormHtmlAfterLoadMore();
             }
             UI.updateCounts(data.room_count || 0, data.count || 0);
@@ -2098,7 +2087,17 @@ const AccommodationFilters = (function() {
 
             tab.text(label);
 
+            // Resort is tied to page context either way — a specific resort subpage
+            // or the general "All Resorts" page — so it's never a removable filter.
+            // Without this, a resort tag rebuilt here (e.g. by onResortChange on the
+            // general /accommodation/ page, where getURLContext() has no resort to
+            // match below) would keep its close button and count as "active",
+            // leaving the Reset button visible with nothing else applied.
+            if (type === 'resort') {
 
+                this.lockFilterIfScoped(type, value);
+
+            }
 
             // Lock if matching URL context
 
@@ -3002,7 +3001,11 @@ const AccommodationFilters = (function() {
 
             }
 
+            var close_len = jQuery('.filter-tabs .filter').not('.locked').find('.close_filter').length;
 
+            if( close_len == 0 ){
+                jQuery( '.filter-tab.reset' ).parent( '.filter' ).hide();
+            }
 
             $filter.remove();
 
@@ -3768,15 +3771,13 @@ const AccommodationFilters = (function() {
 
                 }
 
-                localStorage.setItem( 'red_list', 'true' );
+                localStorage.setItem('red_list', 'true');
                 
                 var header_height = jQuery('header').outerHeight() || 0;
 
-                var element = jQuery('#accom-search-form').length > 0 ? jQuery('#accom-search-form') : jQuery('.rooms-wrap');
-
                 jQuery( 'html, body' ).animate({
 
-                    scrollTop: (element.offset().top - header_height)
+                    scrollTop: (jQuery('#accom-search-form').offset().top - header_height) 
 
                 }, 1000);
 
@@ -3840,19 +3841,7 @@ const AccommodationFilters = (function() {
 
                 localStorage.setItem(CONFIG.storage.hotelSearch, 'true');
 
-                var element = jQuery('#accom-search-form').length > 0 ? jQuery('#accom-search-form') : jQuery('.rooms-wrap');
 
-                var header_height = jQuery('header').outerHeight() || 0;
-
-                if (element.length) {
-
-                    jQuery( 'html, body' ).animate({
-
-                        scrollTop: (element.offset().top - header_height)
-
-                    }, 1000);
-
-                }
 
                 const resortVal = (jQuery(el).closest('.search-row').find(CONFIG.selectors.resort).val()
 

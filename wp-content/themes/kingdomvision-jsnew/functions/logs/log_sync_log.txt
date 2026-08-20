@@ -1,69 +1,26 @@
 <pre>rateplans<br></pre>
 <pre>Array
 (
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
     [0] => Array
         (
-            [id] => 18
-            [rate_plan_id] => 460349
-            [names] => Winter Stay
+            [id] => 176
+            [rate_plan_id] => 440650
+            [names] => Standard Rates
             [client_rateplan_name] => Standard Rate
-            [descriptions] => Exclusive rates for stays 01 Dec 2026 to 30 Apr 2027. T&Cs apply.
-            [long_descriptions] => 2026 Winter Stay T&amp;Cs:- Season's minimum nights stay required.- 20% of total booking value is required upon booking (non-refundable).- 80% of total booking value is required 60 days prior to check-in, else automatic cancellation.- Additional terms may apply to your deposit at the time of booking.
+            [descriptions] => Self Contained, no meals included.
+            [long_descriptions] => 20% Deposit required within 10days of booking, Balance due 60days prior to arrival date.
             [client_description] => 
             [client_long_description] => 
         )
 
     [1] => Array
         (
-            [id] => 20
-            [rate_plan_id] => 460587
-            [names] => OTA Winter Rack Rate (Room Only)
-            [client_rateplan_name] => Standard Rate
-            [descriptions] => This rate is valid for winter stays from 01 Dec 2025 to 26 Apr 2026 booked through OTA. Season's minimum nights stay required apply.
-            [long_descriptions] => Payment and cancellation policy:- 100% of total booking value is required 7 days prior to check-in.- Additional terms may apply to your deposit at the time of booking.
-            [client_description] => <p><br></p>
-            [client_long_description] => <p><br></p>
-        )
-
-    [2] => Array
-        (
-            [id] => 34
-            [rate_plan_id] => 507848
-            [names] => OTA Winter Discounted Rate (Room Only)
-            [client_rateplan_name] => Standard Rate
-            [descriptions] => This rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027 booked through OTA. Season's minimum nights stay required apply.
-            [long_descriptions] => Payment and cancellation policy:- 100% of total booking value is required 7 days prior to check-in.- Additional terms may apply to your deposit at the time of booking.
-            [client_description] => <p><br></p>
-            [client_long_description] => <p><br></p>
-        )
-
-    [3] => Array
-        (
-            [id] => 53
-            [rate_plan_id] => 531978
-            [names] => Special Winter Offer
-            [client_rateplan_name] => Discounted rate.
-            [descriptions] => Exclusive 5% offer for stays 01 Dec 2026 to 30 Apr 2027. T&Cs apply.
-            [long_descriptions] => Special Winter Offer T&amp;Cs:- Season's minimum nights stay required to be eligible for discount.- Discount applies for bookings made from 01 June 2026 onwards.- 20% of total booking value is required upon booking (non-refundable).- 80% of total booking value is required 60 days prior to check-in, else automatic cancellation.- Promotions are applied ONLY at the time the booking is made. Newly initiated promotions and updated rates cannot be retroactively applied to bookings that have already been made.- Promotions are subject to change and potential withdrawal at any time.- Codes cannot be stacked.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [4] => Array
-        (
-            [id] => 450
-            [rate_plan_id] => 548637
-            [names] => EASTER EGG: Luxe Nomad Winter Stay
-            [client_rateplan_name] => 
-            [descriptions] => Congratulations, you've found our EASTER EGG!
-
-This discounted rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027. Season's minimum nights stay required apply.
-            [long_descriptions] => Luxe Nomad Winter Stay Offer T&amp;Cs:- Season's minimum nights stay required to be eligible for discount.- Discount applies for bookings made from 01 June 2026 onwards.- 20% of total booking value is required upon booking (non-refundable).- 80% of total booking value is required 60 days prior to check-in, else automatic cancellation.- Promotions are applied ONLY at the time the booking is made. Newly initiated promotions and updated rates cannot be retroactively applied to bookings that have already been made.- Promotions are subject to change and potential withdrawal at any time.- Codes cannot be stacked.
+            [id] => 470
+            [rate_plan_id] => 563742
+            [names] => 2026-2027 Winter Earlybird
+            [client_rateplan_name] => Early Bird Rate
+            [descriptions] => 2026-2027 Winter Earlybird 10% Off
+            [long_descriptions] => 10% Off for bookings made before 31July.Excludes period 18Dec - 16Jan
             [client_description] => 
             [client_long_description] => 
         )
@@ -73,6 +30,22 @@ This discounted rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027. 
 <pre>rate_plan_rows<br></pre>
 <pre>Array
 (
+    [0] => Array
+        (
+            [rate_plan_id] => 440650
+            [rate_plan_name] => Standard Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
+    [1] => Array
+        (
+            [rate_plan_id] => 563742
+            [rate_plan_name] => Early Bird Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
 )
 <br></pre>
 <pre>upd_field<br></pre>
@@ -82,24 +55,76 @@ This discounted rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027. 
 (
     [0] => Array
         (
-            [id] => 74
-            [rate_plan_id] => 504401
-            [names] => Winter Rate Plan
+            [id] => 176
+            [rate_plan_id] => 440650
+            [names] => Standard Rates
             [client_rateplan_name] => Standard Rate
-            [descriptions] => Winter Rate Plan
-            [long_descriptions] =>  
-            [client_description] => <p><br></p>
-            [client_long_description] => <p><br></p>
+            [descriptions] => Self Contained, no meals included.
+            [long_descriptions] => 20% Deposit required within 10days of booking, Balance due 60days prior to arrival date.
+            [client_description] => 
+            [client_long_description] => 
         )
 
     [1] => Array
         (
-            [id] => 79
-            [rate_plan_id] => 519449
-            [names] => Winter OTA (NOT Airbnb)
+            [id] => 470
+            [rate_plan_id] => 563742
+            [names] => 2026-2027 Winter Earlybird
+            [client_rateplan_name] => Early Bird Rate
+            [descriptions] => 2026-2027 Winter Earlybird 10% Off
+            [long_descriptions] => 10% Off for bookings made before 31July.Excludes period 18Dec - 16Jan
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+)
+<br></pre>
+<pre>rate_plan_rows<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [rate_plan_id] => 440650
+            [rate_plan_name] => Standard Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
+    [1] => Array
+        (
+            [rate_plan_id] => 563742
+            [rate_plan_name] => Early Bird Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
+)
+<br></pre>
+<pre>upd_field<br></pre>
+<pre><br></pre>
+<pre>rateplans<br></pre>
+<pre>Array
+(
+    [0] => Array
+        (
+            [id] => 176
+            [rate_plan_id] => 440650
+            [names] => Standard Rates
             [client_rateplan_name] => Standard Rate
-            [descriptions] => Winter OTA (Expedia, Booking.com, Trip.com). EXCLUDING Airbnb
-            [long_descriptions] =>  
+            [descriptions] => Self Contained, no meals included.
+            [long_descriptions] => 20% Deposit required within 10days of booking, Balance due 60days prior to arrival date.
+            [client_description] => 
+            [client_long_description] => 
+        )
+
+    [1] => Array
+        (
+            [id] => 470
+            [rate_plan_id] => 563742
+            [names] => 2026-2027 Winter Earlybird
+            [client_rateplan_name] => Early Bird Rate
+            [descriptions] => 2026-2027 Winter Earlybird 10% Off
+            [long_descriptions] => 10% Off for bookings made before 31July.Excludes period 18Dec - 16Jan
             [client_description] => 
             [client_long_description] => 
         )
@@ -109,229 +134,49 @@ This discounted rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027. 
 <pre>rate_plan_rows<br></pre>
 <pre>Array
 (
+    [0] => Array
+        (
+            [rate_plan_id] => 440650
+            [rate_plan_name] => Standard Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
+    [1] => Array
+        (
+            [rate_plan_id] => 563742
+            [rate_plan_name] => Early Bird Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
 )
 <br></pre>
 <pre>upd_field<br></pre>
-<pre>1<br></pre>
+<pre><br></pre>
 <pre>rateplans<br></pre>
 <pre>Array
 (
     [0] => Array
         (
-            [id] => 2
-            [rate_plan_id] => 455389
-            [names] => Standard Rate
-            [client_rateplan_name] => Standard Rate Client Name
-            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
-✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
-✓ High chairs and cots complimentary subject to availability
-✓ Bathroom and kitchen amenities included.
-✓ Housekeeping subject to length of stay and property.
-✓ Extra person fee subject to property
-            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
-            [client_description] => <p>Standard Rate Client Description</p>
-            [client_long_description] => <p>Standard Rate Client Long Description</p>
-        )
-
-    [1] => Array
-        (
-            [id] => 3
-            [rate_plan_id] => 468530
-            [names] => 10% direct discount 
-            [client_rateplan_name] => 10% JSE direct discount
-            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
-✓ High chairs and cots complimentary subject to availability
-✓ Bathroom and kitchen amenities included.
-✓ Housekeeping subject to length of stay and property.
-✓ Extra person fee subject to property
-            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [2] => Array
-        (
-            [id] => 4
-            [rate_plan_id] => 468590
-            [names] => Ota Rate Plan
+            [id] => 176
+            [rate_plan_id] => 440650
+            [names] => Standard Rates
             [client_rateplan_name] => Standard Rate
-            [descriptions] => Ota Rate Plan
-            [long_descriptions] => Ota Rate Plan
-            [client_description] => <p><br></p>
-            [client_long_description] => 
-        )
-
-    [3] => Array
-        (
-            [id] => 471
-            [rate_plan_id] => 519044
-            [names] => Agent Standard Rate
-            [client_rateplan_name] => 
-            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
-✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
-✓ High chairs and cots complimentary subject to availability
-✓ Bathroom and kitchen amenities included.
-✓ Housekeeping subject to length of stay and property.
-✓ Extra person fee subject to property
-            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
-            [client_description] => <p>Price excludes ¥3,680 per night resort fee.</p>
-            [client_long_description] => <p><br></p>
-        )
-
-)
-<br></pre>
-<pre>rate_plan_rows<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>upd_field<br></pre>
-<pre>1<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-    [0] => Array
-        (
-            [id] => 2
-            [rate_plan_id] => 455389
-            [names] => Standard Rate
-            [client_rateplan_name] => Standard Rate Client Name
-            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
-✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
-✓ High chairs and cots complimentary subject to availability
-✓ Bathroom and kitchen amenities included.
-✓ Housekeeping subject to length of stay and property.
-✓ Extra person fee subject to property
-            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
-            [client_description] => <p>Standard Rate Client Description</p>
-            [client_long_description] => <p>Standard Rate Client Long Description</p>
-        )
-
-    [1] => Array
-        (
-            [id] => 3
-            [rate_plan_id] => 468530
-            [names] => 10% direct discount 
-            [client_rateplan_name] => 10% JSE direct discount
-            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
-✓ High chairs and cots complimentary subject to availability
-✓ Bathroom and kitchen amenities included.
-✓ Housekeeping subject to length of stay and property.
-✓ Extra person fee subject to property
-            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [2] => Array
-        (
-            [id] => 4
-            [rate_plan_id] => 468590
-            [names] => Ota Rate Plan
-            [client_rateplan_name] => Standard Rate
-            [descriptions] => Ota Rate Plan
-            [long_descriptions] => Ota Rate Plan
-            [client_description] => <p><br></p>
-            [client_long_description] => 
-        )
-
-    [3] => Array
-        (
-            [id] => 471
-            [rate_plan_id] => 519044
-            [names] => Agent Standard Rate
-            [client_rateplan_name] => 
-            [descriptions] => ✓ All rates inclusive of consumption, accommodation tax and guest service fee.
-✓ Complimentary pick up& drop off either from Kutchan station or Welcome Centre (*We offer pick up & drop off from the closest bus stop for the properties in Rusutsu)
-✓ High chairs and cots complimentary subject to availability
-✓ Bathroom and kitchen amenities included.
-✓ Housekeeping subject to length of stay and property.
-✓ Extra person fee subject to property
-            [long_descriptions] => At the time of booking we will require a minimum 20% non-refundable deposit.A booking will not be confirmed until we receive the deposit payment.The balance will be due subject to time of making the booking but will be required 60 days prior to arrival.If final payment is not made within required time, we will assume you have chosen to cancel your booking and cancellation fees may apply as detailed below.Cancellation fees will be applied in accordance with the applicable cancellation policy below.For bookings made within 60 days 100% payment is required.https://nisekoportfolio.com/terms
-            [client_description] => <p>Price excludes ¥3,680 per night resort fee.</p>
-            [client_long_description] => <p><br></p>
-        )
-
-)
-<br></pre>
-<pre>rate_plan_rows<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>upd_field<br></pre>
-<pre>1<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-    [0] => Array
-        (
-            [id] => 429
-            [rate_plan_id] => 552248
-            [names] => Winter 2026-2027
-            [client_rateplan_name] => 
-            [descriptions] => Price and required minimum nights of stay vary depending on dates :
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
+            [descriptions] => Self Contained, no meals included.
+            [long_descriptions] => 20% Deposit required within 10days of booking, Balance due 60days prior to arrival date.
             [client_description] => 
             [client_long_description] => 
         )
 
     [1] => Array
         (
-            [id] => 430
-            [rate_plan_id] => 552269
-            [names] => Winter 26-27 Repeater 
-            [client_rateplan_name] => 
-            [descriptions] => 10% discount for repeater
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [2] => Array
-        (
-            [id] => 431
-            [rate_plan_id] => 552284
-            [names] => Winter 26-27 Early Bird
-            [client_rateplan_name] => 
-            [descriptions] => Early bird discount - 10%
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [3] => Array
-        (
-            [id] => 432
-            [rate_plan_id] => 552311
-            [names] => Winter 26-27 Repeater + Early Bird
-            [client_rateplan_name] => 
-            [descriptions] => Repeater(10%) + Early bird(10%)
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [4] => Array
-        (
-            [id] => 433
-            [rate_plan_id] => 552332
-            [names] => Winter 26-27 Excellent + Early Bird
-            [client_rateplan_name] => 
-            [descriptions] => Excellent(15%) + Early bird(10%)
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [5] => Array
-        (
-            [id] => 434
-            [rate_plan_id] => 552353
-            [names] => Winter 26-27 Non-Refundable
-            [client_rateplan_name] => 
-            [descriptions] => Full amount payment is required upon reservation. 15% discount is available except December 16 - January 5.
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require full payment within 4 days once invoice is sent.
+            [id] => 470
+            [rate_plan_id] => 563742
+            [names] => 2026-2027 Winter Earlybird
+            [client_rateplan_name] => Early Bird Rate
+            [descriptions] => 2026-2027 Winter Earlybird 10% Off
+            [long_descriptions] => 10% Off for bookings made before 31July.Excludes period 18Dec - 16Jan
             [client_description] => 
             [client_long_description] => 
         )
@@ -341,81 +186,53 @@ This discounted rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027. 
 <pre>rate_plan_rows<br></pre>
 <pre>Array
 (
+    [0] => Array
+        (
+            [rate_plan_id] => 440650
+            [rate_plan_name] => Standard Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
+    [1] => Array
+        (
+            [rate_plan_id] => 563742
+            [rate_plan_name] => Early Bird Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
 )
 <br></pre>
 <pre>upd_field<br></pre>
-<pre>1<br></pre>
+<pre><br></pre>
 <pre>rateplans<br></pre>
 <pre>Array
 (
     [0] => Array
         (
-            [id] => 429
-            [rate_plan_id] => 552248
-            [names] => Winter 2026-2027
-            [client_rateplan_name] => 
-            [descriptions] => Price and required minimum nights of stay vary depending on dates :
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
+            [id] => 436
+            [rate_plan_id] => 561140
+            [names] => Best Available Rate 2026-2027
+            [client_rateplan_name] => 10% Off Early Bird Rate
+            [descriptions] => Best Available Rate, bookable from Apr.6
+The room come with Breakfast (Buffet ※Due to the occupancy status of the accommodation, the menu may be changed to a set menu ).
+Room rate is inclusive of consumption tax, accommodation tax, Onsen tax and resort fee.
+There is no waiting list for rooms.
+
+            [long_descriptions] => General Information* Our&nbsp;check-in/check-out&nbsp;times are 15:00/10:00.* AYA Niseko maintains a strict “No Smoking” policy within its buildings.*&nbsp;Children&nbsp;under 7 years old at the time of stay may sleep alongside their parents without an additional fee. Children 7 years old will be charged the same rate as adults.*&nbsp;Baby cots&nbsp;are available for a fee (3,000 yen/night). Please let us know in advance, as there is a limit to the number of baby cots available.*&nbsp;Bedding configurations&nbsp;can be selected at the time of reservation. Any changes made within 3 days to arrival or during the stay will incur a 3,000 JPY fee per bedroom, murphy bed setup, and/or sofa bed setup.&nbsp;This also applies to guests staying on a long-stay plan.&nbsp;&nbsp;Facility Information* There are free public and private hot spring baths (Onsen) available on the first floor of the hotel for the exclusive use of staying guests. Reservations for&nbsp;Private Onsen&nbsp;can be made on the day of use by contacting the reception.&nbsp;&nbsp;Available start times for reservation: 10:30, 12:00,&nbsp;13:30, 15:00, 16:30. 18:00, 19:30, 21:00.*&nbsp;Humidifiers&nbsp;are available in all bedrooms.* All rooms (excluding Atelier) have kitchen facilities.*&nbsp;Washing machines and dryers&nbsp;are available in all rooms except for Studio and Atelier rooms. Free communal washer and dryers are available on each floor.*&nbsp;Heating and cooling systems&nbsp;are centrally controlled and there is no air conditioning in individual rooms. AYA Niseko switches between heating and cooling twice a year. The temperature can not be locally controlled in hotel rooms, but guests are able to adjust the intensity of the air flow.&nbsp;Housekeeping ScheduleAfter the 1st and 2nd night: Removal of trash, change of towels and replace of amenities.After the 3rd night: As above, with additional service such as changing of bed linen, floor cleaning and toilet/bathroom cleaning.&nbsp;Over 4 nights: The above cycle will be repeated.* Kitchen cleaning is not included. Additional cleaning is available upon request and it is charged at different rates depending on the room type.* A complete clean will be done once a week for those staying under the Long Stay plan.* If housekeeping conditions have been specified for a stay plan, the cleaning schedule outlined in the plan will take precedence over the above.&nbsp;&nbsp;2025-2026 Winter Concierge ServiceAYA's multilingual concierge is available to plan your ultimate AYA Niseko experience.&nbsp;Click&nbsp;HERE&nbsp;for details.&nbsp;Contact us to book private taxi from airport / Sapporo city, ski school, ski rental, restaurant, and etc.**The concierge service is only available to guests whose reservations are confirmed with a deposit.&nbsp;&nbsp;2026-2027 Winter Concierge ServiceDetails will be updated once services become available. Most of vendors start accepting reservation from September or later date. However we are happy to provide general information in advance once reservation is confirmed with a deposit.&nbsp;&nbsp;&nbsp;&nbsp;Payment Policy and Penalty&nbsp;&nbsp;WINTER ( 28 Nov 2025 - 4 Apr 2026) ( 28 Nov 2026 - 4 Apr 2027)Deposit :&nbsp;20% of the total room rate - Pay within 14 days of the booking date.&nbsp;(non-refundable)Balance :&nbsp;The remaining 80% of the total amount - Pay no later than 45 days prior to the arrival date. (non-refundable)For bookings made close to the arrival date, 100% of the total amount shall be paid within 5 days of the booking date, or by the due date stated on the invoice, whichever is earlier. (non-refundable)No show :&nbsp;100% penalty&nbsp;【No payment】 If the above payment deadlines are not met, AYA Niseko reserves the right to cancel the reservation without prior notice. No refund will be issued.【Amendment】 After deposit payment has been made, any amendments – including, but not limited to, changes to stay dates, shortening of the stay, or room type – shall be treated as a cancellation and re-booking for the specified date(s), and the deposit shall be forfeited. Additionally, changes made within 45 days prior to the scheduled arrival date shall incur a 100% penalty. No credit will be issued, and any amount paid will not be applied toward any future reservation, including bookings for the following year.&nbsp;【Conditions beyond AYA NISEKO's control】 Pandemics/epidemics; border, entry, quarantine or vaccination requirements; visa/travel‑document issues; cancellation, delays, or disruptions to flights and other transportation; weather or snow conditions; ski resort operations; personal injury or illness; accidents; and similar events are not grounds to make refunds, credit, or changes by AYA NISEKO. No refunds will be issued under any circumstances.&nbsp;The risks associated with cross-border travel are recognized at the time of booking, and therefore AYA Niseko strongly recommends that guests purchase&nbsp;comprehensive travel insurance.Additional person&nbsp;exceeding the standard occupancy (within maximum capacity) will be provided with a portable futon (not extra bed). Once the balance or full payment has been received, additional-person surcharges are non-refundable, even if the guest count is later reduced.&nbsp;.OWNER&nbsp;has priority right to book their own unit before they are released to the public. Hence, you may need to move from one room to another; any move will be to the same room type. If room change(s) is required, we will contact you within 1 week of your booking date. (i.e., date you submitted your booking.) Due to limited inventory,&nbsp;Penthouses, Residences and Ateliers may have little to no availability form the start.&nbsp;SUMMER (5 Apr 2026 - 2 Nov 2026)For Reservation Made via Our Website:* Payment can be made at check-in, however, advance payment is also available. It may take up to one business day after your reservation is confirmed to prepare the invoice. If you wish to make an advance payment, please proceed with the payment once the invoice appears at the bottom of your reservation details page.&nbsp;For Reservation Made Through Other Channels ( Including Travel Agencies):* The full payment amount must be paid 14 days prior to check-in date.* If the reservation is made less than 14 days prior to the check-in date, full payment must be made by by the due date stated on invoice.* If your reservation is canceled between 7 days and 2 days prior to check-in, a 50% cancellation fee will be charged.* Any cancellation made the day before or on the day of check-in will incur a 100% cancellation fee.* No-shows will incur a 100% cancellation fee.Summer Long Stay Plan:* The full payment amount must be paid no later than 30 days prior to check-in date.* The full payment amount must be paid within 5 days after the reservation is made if the reservation date or the payment due date is already 30 days prior to the check-in date.* If your reservation is canceled between 30 days and 15 days prior to check-in, a 50% cancellation fee will be charged.* If your reservation is canceled 14 days prior to check-in, a 100% cancellation fee will be charged.* No-shows will incur a 100% cancellation fee.&nbsp;【Minimum length of stay Policy for 2026-27 Winter】Nov 28 - Dec 5 : 1 nights in the same unitDec 6 - Dec 18 / Jan 4 - Feb 4 / Feb 15 - Mar 21 : 3 nights in the same unitDec 19 - Jan 3 / Feb 5 - Feb 14 : 5 nightWe cannot accept reservations that do not meet our required minimum length of stay policy.&nbsp;【Additional Guest】﻿Available only for 1.5 bedroom and larger, and only one extra person per unit allowed.Additional guest fee: 10,000 Yen. Provides daily breakfast and Japanese style futon, not an extra bed.
+            [client_description] => <p>Get 10% Off when you book early.</p>
+            [client_long_description] => <p>Get 10% Off when you book early. Conditions apply.</p>
         )
 
     [1] => Array
         (
-            [id] => 430
-            [rate_plan_id] => 552269
-            [names] => Winter 26-27 Repeater 
+            [id] => 480
+            [rate_plan_id] => 564661
+            [names] => 2026 Niseko Classic
             [client_rateplan_name] => 
-            [descriptions] => 10% discount for repeater
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [2] => Array
-        (
-            [id] => 431
-            [rate_plan_id] => 552284
-            [names] => Winter 26-27 Early Bird
-            [client_rateplan_name] => 
-            [descriptions] => Early bird discount - 10%
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [3] => Array
-        (
-            [id] => 432
-            [rate_plan_id] => 552311
-            [names] => Winter 26-27 Repeater + Early Bird
-            [client_rateplan_name] => 
-            [descriptions] => Repeater(10%) + Early bird(10%)
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [4] => Array
-        (
-            [id] => 433
-            [rate_plan_id] => 552332
-            [names] => Winter 26-27 Excellent + Early Bird
-            [client_rateplan_name] => 
-            [descriptions] => Excellent(15%) + Early bird(10%)
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require 20% deposit payment within 4 days once invoice is sent. Full payment must be received at least 60 days prior to your scheduled day of arrival.
-            [client_description] => 
-            [client_long_description] => 
-        )
-
-    [5] => Array
-        (
-            [id] => 434
-            [rate_plan_id] => 552353
-            [names] => Winter 26-27 Non-Refundable
-            [client_rateplan_name] => 
-            [descriptions] => Full amount payment is required upon reservation. 15% discount is available except December 16 - January 5.
-            [long_descriptions] => Valid email address and phone number is required upon confirmation. To confirm your booking, we require full payment within 4 days once invoice is sent.
+            [descriptions] => The Niseko Classic, which had been held in June until last year, will be held this year in August as a World Championship event. Aya Niseko is located in a quiet area just about 700 meters from the finish line, nestled between the Niseko Tokyu Grand Hirafu Ski Resort and the forests of the National Park. All of our room types come fully equipped with a kitchen, providing a comfortable environment where you can focus on your race.
+            [long_descriptions] => Aya Niseko offers a special plan to support all race participants.Plan Features・Up to 20% discount・Complimentary breakfast・One hour of free private onsen (once per stay, regardless of number of nights; please note that refunds are    not available in case you are unable to use this service)・Complimentary energy gel (one per guest)・Late check-out at 13:00 on race day (Gran Fondo / Medio Fondo) for guests checking out on the event day.・On race day after check-out, you may still use the large public onsen bath.・The public bath will be open from 2:00 a.m. on August 27 and 30.・For race finishers in the top 3 overall in the Gran Fondo/Medio Fondo, we will present a voucher for a pair stay 　valid during the summer season (in 2026 and 2027).・Bike storage and washing station available.・On August 27 and 30, breakfast service will start early to accommodate race start times.Room AmenitiesHumidifier, TV, hair dryer, shoehorn, bath mat, hand towel, face towel, toilet, music player, glassware, refrigerator, rice cooker, kettle, toaster, coffee maker, cutlery, washing machine, dryer, dishwasher, bathtub, bath towel, microwave, tablewarePlease note that Studio and Atelier rooms do not have washing machines or dryers.FacilitiesNatural hot spring public bath with open-air bath and sauna (for overnight guests only, free of charge)[Hours: 13:00–0:00 / 6:00–9:00]Private family bath: ¥3,000 per hour (tax included). Reservation available from morning of use.[Hours: 10:30–22:00 (last reservation 21:00); Thursdays: open from 13:30]Sports gym (for overnight guests only, free of charge)[Hours: 6:00–0:00]InformationAll rooms are non-smoking. There are no smoking areas inside the building.Parking (approx. 25 spaces) is first come, first served. If full, nearby parking may be introduced; thank you for your understanding.Baby beds available for rental at ¥3,000 per night (tax included).Cancellation PolicyPlease make sure to review our cancellation policy for this plan:No-show: 100% of room chargeSame-day cancellation: 100% of room chargeCancellation within 1 day of check-in: 100% of room chargeCancellation within 7 days of check-in: 50% of room charge
             [client_description] => 
             [client_long_description] => 
         )
@@ -425,87 +242,79 @@ This discounted rate is valid for winter stays from 01 Dec 2026 to 26 Apr 2027. 
 <pre>rate_plan_rows<br></pre>
 <pre>Array
 (
+    [0] => Array
+        (
+            [rate_plan_id] => 561140
+            [rate_plan_name] => 10% Off Early Bird Rate
+            [rate_plan_description] => <p>Get 10% Off when you book early.</p>
+            [rate_plan_long_descriptions] => <p>Get 10% Off when you book early. Conditions apply.</p>
+        )
+
+    [1] => Array
+        (
+            [rate_plan_id] => 564661
+            [rate_plan_name] => Standard Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
 )
 <br></pre>
 <pre>upd_field<br></pre>
-<pre>1<br></pre>
+<pre><br></pre>
 <pre>rateplans<br></pre>
 <pre>Array
 (
+    [0] => Array
+        (
+            [id] => 436
+            [rate_plan_id] => 561140
+            [names] => Best Available Rate 2026-2027
+            [client_rateplan_name] => 10% Off Early Bird Rate
+            [descriptions] => Best Available Rate, bookable from Apr.6
+The room come with Breakfast (Buffet ※Due to the occupancy status of the accommodation, the menu may be changed to a set menu ).
+Room rate is inclusive of consumption tax, accommodation tax, Onsen tax and resort fee.
+There is no waiting list for rooms.
+
+            [long_descriptions] => General Information* Our&nbsp;check-in/check-out&nbsp;times are 15:00/10:00.* AYA Niseko maintains a strict “No Smoking” policy within its buildings.*&nbsp;Children&nbsp;under 7 years old at the time of stay may sleep alongside their parents without an additional fee. Children 7 years old will be charged the same rate as adults.*&nbsp;Baby cots&nbsp;are available for a fee (3,000 yen/night). Please let us know in advance, as there is a limit to the number of baby cots available.*&nbsp;Bedding configurations&nbsp;can be selected at the time of reservation. Any changes made within 3 days to arrival or during the stay will incur a 3,000 JPY fee per bedroom, murphy bed setup, and/or sofa bed setup.&nbsp;This also applies to guests staying on a long-stay plan.&nbsp;&nbsp;Facility Information* There are free public and private hot spring baths (Onsen) available on the first floor of the hotel for the exclusive use of staying guests. Reservations for&nbsp;Private Onsen&nbsp;can be made on the day of use by contacting the reception.&nbsp;&nbsp;Available start times for reservation: 10:30, 12:00,&nbsp;13:30, 15:00, 16:30. 18:00, 19:30, 21:00.*&nbsp;Humidifiers&nbsp;are available in all bedrooms.* All rooms (excluding Atelier) have kitchen facilities.*&nbsp;Washing machines and dryers&nbsp;are available in all rooms except for Studio and Atelier rooms. Free communal washer and dryers are available on each floor.*&nbsp;Heating and cooling systems&nbsp;are centrally controlled and there is no air conditioning in individual rooms. AYA Niseko switches between heating and cooling twice a year. The temperature can not be locally controlled in hotel rooms, but guests are able to adjust the intensity of the air flow.&nbsp;Housekeeping ScheduleAfter the 1st and 2nd night: Removal of trash, change of towels and replace of amenities.After the 3rd night: As above, with additional service such as changing of bed linen, floor cleaning and toilet/bathroom cleaning.&nbsp;Over 4 nights: The above cycle will be repeated.* Kitchen cleaning is not included. Additional cleaning is available upon request and it is charged at different rates depending on the room type.* A complete clean will be done once a week for those staying under the Long Stay plan.* If housekeeping conditions have been specified for a stay plan, the cleaning schedule outlined in the plan will take precedence over the above.&nbsp;&nbsp;2025-2026 Winter Concierge ServiceAYA's multilingual concierge is available to plan your ultimate AYA Niseko experience.&nbsp;Click&nbsp;HERE&nbsp;for details.&nbsp;Contact us to book private taxi from airport / Sapporo city, ski school, ski rental, restaurant, and etc.**The concierge service is only available to guests whose reservations are confirmed with a deposit.&nbsp;&nbsp;2026-2027 Winter Concierge ServiceDetails will be updated once services become available. Most of vendors start accepting reservation from September or later date. However we are happy to provide general information in advance once reservation is confirmed with a deposit.&nbsp;&nbsp;&nbsp;&nbsp;Payment Policy and Penalty&nbsp;&nbsp;WINTER ( 28 Nov 2025 - 4 Apr 2026) ( 28 Nov 2026 - 4 Apr 2027)Deposit :&nbsp;20% of the total room rate - Pay within 14 days of the booking date.&nbsp;(non-refundable)Balance :&nbsp;The remaining 80% of the total amount - Pay no later than 45 days prior to the arrival date. (non-refundable)For bookings made close to the arrival date, 100% of the total amount shall be paid within 5 days of the booking date, or by the due date stated on the invoice, whichever is earlier. (non-refundable)No show :&nbsp;100% penalty&nbsp;【No payment】 If the above payment deadlines are not met, AYA Niseko reserves the right to cancel the reservation without prior notice. No refund will be issued.【Amendment】 After deposit payment has been made, any amendments – including, but not limited to, changes to stay dates, shortening of the stay, or room type – shall be treated as a cancellation and re-booking for the specified date(s), and the deposit shall be forfeited. Additionally, changes made within 45 days prior to the scheduled arrival date shall incur a 100% penalty. No credit will be issued, and any amount paid will not be applied toward any future reservation, including bookings for the following year.&nbsp;【Conditions beyond AYA NISEKO's control】 Pandemics/epidemics; border, entry, quarantine or vaccination requirements; visa/travel‑document issues; cancellation, delays, or disruptions to flights and other transportation; weather or snow conditions; ski resort operations; personal injury or illness; accidents; and similar events are not grounds to make refunds, credit, or changes by AYA NISEKO. No refunds will be issued under any circumstances.&nbsp;The risks associated with cross-border travel are recognized at the time of booking, and therefore AYA Niseko strongly recommends that guests purchase&nbsp;comprehensive travel insurance.Additional person&nbsp;exceeding the standard occupancy (within maximum capacity) will be provided with a portable futon (not extra bed). Once the balance or full payment has been received, additional-person surcharges are non-refundable, even if the guest count is later reduced.&nbsp;.OWNER&nbsp;has priority right to book their own unit before they are released to the public. Hence, you may need to move from one room to another; any move will be to the same room type. If room change(s) is required, we will contact you within 1 week of your booking date. (i.e., date you submitted your booking.) Due to limited inventory,&nbsp;Penthouses, Residences and Ateliers may have little to no availability form the start.&nbsp;SUMMER (5 Apr 2026 - 2 Nov 2026)For Reservation Made via Our Website:* Payment can be made at check-in, however, advance payment is also available. It may take up to one business day after your reservation is confirmed to prepare the invoice. If you wish to make an advance payment, please proceed with the payment once the invoice appears at the bottom of your reservation details page.&nbsp;For Reservation Made Through Other Channels ( Including Travel Agencies):* The full payment amount must be paid 14 days prior to check-in date.* If the reservation is made less than 14 days prior to the check-in date, full payment must be made by by the due date stated on invoice.* If your reservation is canceled between 7 days and 2 days prior to check-in, a 50% cancellation fee will be charged.* Any cancellation made the day before or on the day of check-in will incur a 100% cancellation fee.* No-shows will incur a 100% cancellation fee.Summer Long Stay Plan:* The full payment amount must be paid no later than 30 days prior to check-in date.* The full payment amount must be paid within 5 days after the reservation is made if the reservation date or the payment due date is already 30 days prior to the check-in date.* If your reservation is canceled between 30 days and 15 days prior to check-in, a 50% cancellation fee will be charged.* If your reservation is canceled 14 days prior to check-in, a 100% cancellation fee will be charged.* No-shows will incur a 100% cancellation fee.&nbsp;【Minimum length of stay Policy for 2026-27 Winter】Nov 28 - Dec 5 : 1 nights in the same unitDec 6 - Dec 18 / Jan 4 - Feb 4 / Feb 15 - Mar 21 : 3 nights in the same unitDec 19 - Jan 3 / Feb 5 - Feb 14 : 5 nightWe cannot accept reservations that do not meet our required minimum length of stay policy.&nbsp;【Additional Guest】﻿Available only for 1.5 bedroom and larger, and only one extra person per unit allowed.Additional guest fee: 10,000 Yen. Provides daily breakfast and Japanese style futon, not an extra bed.
+            [client_description] => <p>Get 10% Off when you book early.</p>
+            [client_long_description] => <p>Get 10% Off when you book early. Conditions apply.</p>
+        )
+
+    [1] => Array
+        (
+            [id] => 480
+            [rate_plan_id] => 564661
+            [names] => 2026 Niseko Classic
+            [client_rateplan_name] => 
+            [descriptions] => The Niseko Classic, which had been held in June until last year, will be held this year in August as a World Championship event. Aya Niseko is located in a quiet area just about 700 meters from the finish line, nestled between the Niseko Tokyu Grand Hirafu Ski Resort and the forests of the National Park. All of our room types come fully equipped with a kitchen, providing a comfortable environment where you can focus on your race.
+            [long_descriptions] => Aya Niseko offers a special plan to support all race participants.Plan Features・Up to 20% discount・Complimentary breakfast・One hour of free private onsen (once per stay, regardless of number of nights; please note that refunds are    not available in case you are unable to use this service)・Complimentary energy gel (one per guest)・Late check-out at 13:00 on race day (Gran Fondo / Medio Fondo) for guests checking out on the event day.・On race day after check-out, you may still use the large public onsen bath.・The public bath will be open from 2:00 a.m. on August 27 and 30.・For race finishers in the top 3 overall in the Gran Fondo/Medio Fondo, we will present a voucher for a pair stay 　valid during the summer season (in 2026 and 2027).・Bike storage and washing station available.・On August 27 and 30, breakfast service will start early to accommodate race start times.Room AmenitiesHumidifier, TV, hair dryer, shoehorn, bath mat, hand towel, face towel, toilet, music player, glassware, refrigerator, rice cooker, kettle, toaster, coffee maker, cutlery, washing machine, dryer, dishwasher, bathtub, bath towel, microwave, tablewarePlease note that Studio and Atelier rooms do not have washing machines or dryers.FacilitiesNatural hot spring public bath with open-air bath and sauna (for overnight guests only, free of charge)[Hours: 13:00–0:00 / 6:00–9:00]Private family bath: ¥3,000 per hour (tax included). Reservation available from morning of use.[Hours: 10:30–22:00 (last reservation 21:00); Thursdays: open from 13:30]Sports gym (for overnight guests only, free of charge)[Hours: 6:00–0:00]InformationAll rooms are non-smoking. There are no smoking areas inside the building.Parking (approx. 25 spaces) is first come, first served. If full, nearby parking may be introduced; thank you for your understanding.Baby beds available for rental at ¥3,000 per night (tax included).Cancellation PolicyPlease make sure to review our cancellation policy for this plan:No-show: 100% of room chargeSame-day cancellation: 100% of room chargeCancellation within 1 day of check-in: 100% of room chargeCancellation within 7 days of check-in: 50% of room charge
+            [client_description] => 
+            [client_long_description] => 
+        )
+
 )
 <br></pre>
-<pre>rateplans<br></pre>
+<pre>rate_plan_rows<br></pre>
 <pre>Array
 (
+    [0] => Array
+        (
+            [rate_plan_id] => 561140
+            [rate_plan_name] => 10% Off Early Bird Rate
+            [rate_plan_description] => <p>Get 10% Off when you book early.</p>
+            [rate_plan_long_descriptions] => <p>Get 10% Off when you book early. Conditions apply.</p>
+        )
+
+    [1] => Array
+        (
+            [rate_plan_id] => 564661
+            [rate_plan_name] => Standard Rate
+            [rate_plan_description] => 
+            [rate_plan_long_descriptions] => 
+        )
+
 )
 <br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
-<pre>rateplans<br></pre>
-<pre>Array
-(
-)
-<br></pre>
+<pre>upd_field<br></pre>
+<pre><br></pre>

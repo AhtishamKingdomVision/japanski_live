@@ -2657,10 +2657,16 @@ jQuery(function ($) {
                     $root.find('.enquiry_type input').attr('value', 'Product');
                     $propertyField.trigger('change');
                 }
-                // Client request: the enquiry property field must never be locked,
-                // anywhere — prefill only, always editable.
+                // On property singles (or when handoff mapped a name), mark as applied but
+                // keep the field editable on single accommodation pages (client request, mirrors Resort).
                 if (propertyVal && (isAccSingle || !!hotelName)) {
                     applied = true;
+                    if (!isAccSingle) {
+                        $propertyField.prop('readonly', true).addClass('disabled');
+                        if ($formWrap.length) {
+                            $formWrap.attr('data-bbf-lock-property', '1');
+                        }
+                    }
                 }
             }
 
@@ -2732,13 +2738,13 @@ jQuery(function ($) {
             $resortField.val('');
         }
 
-        // Client request: the enquiry resort field must never be locked, anywhere.
-        // isLocked is still accepted (many callers pass it) but intentionally ignored.
+        // Lock when resort is known (URL page or selected property). Keep value submittable.
+        const locked = !!isLocked && !!String($resortField.val() || '').trim();
         $resortField
-            .toggleClass('disabled', false)
+            .toggleClass('disabled', locked)
             .prop('disabled', false)
-            .attr('aria-disabled', 'false')
-            .attr('tabindex', '0')
+            .attr('aria-disabled', locked ? 'true' : 'false')
+            .attr('tabindex', locked ? '-1' : '0')
             .trigger('change');
     }
 
@@ -2759,8 +2765,12 @@ jQuery(function ($) {
         ).first();
 
         if (data.propertyName) {
-            // Client request: prefill only, never lock the property field.
-            $propertyField.val(data.propertyName).prop('readonly', false).removeClass('disabled');
+            $propertyField.val(data.propertyName);
+            if (lockProduct && !isListingPage && !isAccSingle) {
+                $propertyField.prop('readonly', true).addClass('disabled');
+            } else {
+                $propertyField.prop('readonly', false).removeClass('disabled');
+            }
         } else if (!isAccSingle) {
             $propertyField.val('').prop('readonly', false).removeClass('disabled');
         }
@@ -3136,17 +3146,23 @@ jQuery(function ($) {
     function setEnquiryBbfLocked($wrap, locked) {
         if (!$wrap || !$wrap.length) return;
 
-        // Edit button removed: never lock dates/guests. Client request: resort must
-        // never be locked either, anywhere — enquiryShouldLockResort()/data-bbf-lock-resort
-        // intentionally ignored here now.
+        // Edit button removed: never lock dates/guests. Only resort may stay locked for product CTAs.
         $wrap.removeClass('bbf-fields-locked');
         const f = getEnquiryBbfFields($wrap);
-        const keepResortLocked = false;
+        const keepResortLocked = enquiryShouldLockResort($wrap);
 
-        f.$resort
-            .removeClass('disabled')
-            .attr('aria-disabled', 'false')
-            .attr('tabindex', '0');
+        if (keepResortLocked) {
+            f.$resort
+                .addClass('disabled')
+                .attr('aria-disabled', 'true')
+                .attr('tabindex', '-1')
+                .prop('disabled', false);
+        } else {
+            f.$resort
+                .removeClass('disabled')
+                .attr('aria-disabled', 'false')
+                .attr('tabindex', '0');
+        }
         f.$dates.prop('readonly', false).removeAttr('tabindex');
         f.$guests.removeAttr('aria-disabled');
 
@@ -3264,10 +3280,21 @@ jQuery(function ($) {
         return false;
     });
 
-    // Client request: enquiry resort/property fields must never be locked, anywhere —
-    // removed the interaction blockers that used to fire on data-bbf-lock-resort/
-    // data-bbf-lock-property="1" wrappers (that attribute may still get set by older
-    // call sites, but nothing should act on it anymore for these two fields).
+    // Property/room Enquire: resort stays locked
+    $(document).on('mousedown focus click keydown', '.gform_wrapper[data-bbf-lock-resort="1"] .resort_name select, .gform_wrapper[data-bbf-lock-resort="1"] select[name="input_66"]', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $(this).blur();
+        return false;
+    });
+
+    // Property/room Enquire: property stays locked
+    $(document).on('mousedown focus click keydown', '.gform_wrapper[data-bbf-lock-property="1"] .property_name textarea, .gform_wrapper[data-bbf-lock-property="1"] #input_1_39', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $(this).blur();
+        return false;
+    });
 
     function initAllBbfToggles() {
         $('.gform_wrapper.quote_form_wrapper').each(function () {
@@ -3481,13 +3508,6 @@ jQuery(function ($) {
 
     const CHECKOUT_SEL = '#input_1_6, .js-sb-checkout, #sc-check-out';
 
-    // Display-only mirrors (e.g. the Change Guests popup's readonly date fields):
-    // must show the current dates and stay in sync, but never get an interactive
-    // picker attached — dates aren't editable from that popup.
-    const CHECKIN_DISPLAY_SEL = CHECKIN_SEL + ', .sv-check-in';
-
-    const CHECKOUT_DISPLAY_SEL = CHECKOUT_SEL + ', .sv-check-out';
-
 
 
     // d/m/Y (input value format) → m/d/Y (dateDropper option format)
@@ -3522,7 +3542,7 @@ jQuery(function ($) {
 
     function syncCheckin(val) {
 
-        $(CHECKIN_DISPLAY_SEL).val(val);
+        $(CHECKIN_SEL).val(val);
 
         localStorage.setItem('niseko_checkin', val);
 
@@ -3537,9 +3557,7 @@ jQuery(function ($) {
 
     function syncCheckout(val) {
 
-        $(CHECKOUT_DISPLAY_SEL).val(val);
-
-        $(CHECKOUT_SEL).prop('disabled', false);
+        $(CHECKOUT_SEL).val(val).prop('disabled', false);
 
         localStorage.setItem('niseko_checkout', val);
 
@@ -3756,9 +3774,9 @@ jQuery(function ($) {
 
     // Restore saved values into fields before picker init so pickers open at the correct date
 
-    if (savedCheckin) $(CHECKIN_DISPLAY_SEL).val(savedCheckin);
+    if (savedCheckin) $(CHECKIN_SEL).val(savedCheckin);
 
-    if (savedCheckout) $(CHECKOUT_DISPLAY_SEL).val(savedCheckout);
+    if (savedCheckout) $(CHECKOUT_SEL).val(savedCheckout);
 
     $(CHECKOUT_SEL).prop('disabled', false);
 

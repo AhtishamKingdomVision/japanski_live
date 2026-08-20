@@ -623,20 +623,90 @@ const FlywirePaymentManager = (() => {
      * Submit quotation to external API
      * Handles success and error responses with proper validation
      */
+    // const submitQuotationAPI = async (cart, customer) => {
+    //     try {
+    //         const payload = createQuotationPayload(cart, customer);
+    //         // return { success: false };
+            
+    //         // Log request
+    //         console.log('Quotation API Request:', payload);
+    //         logQuotationEvent('API_REQUEST', payload);
+
+    //         // Set timeout for API request (30 seconds)
+    //         const timeoutPromise = new Promise((_, reject) => 
+    //             setTimeout(() => reject(new Error('Quotation API timeout')), 30000)
+    //         );
+
+    //         const fetchPromise = fetch('https://stay.japanskiexperience.com/api/quotations/wp-store', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Accept': 'application/json'
+    //             },
+    //             body: JSON.stringify(payload)
+    //         });
+
+    //         const response = await Promise.race([fetchPromise, timeoutPromise]);
+    //         const data = await response.json();
+
+    //         console.log('Quotation API Response:', data);
+    //         logQuotationEvent('API_RESPONSE', data);
+
+    //         // Handle success response
+    //         if (data.title === 'success' && data.data) {
+    //             return {
+    //                 success: true,
+    //                 data: {
+    //                     booking_reference: data.data.booking_reference,
+    //                     quotation_id: data.data.quotation_id
+    //                 }
+    //             };
+    //         }
+
+    //         // Handle error responses
+    //         if (data.errors) {
+    //             handleQuotationAPIErrors(data.errors, data.invalid_room_prices);
+    //             return { success: false };
+    //         }
+
+    //         // Unknown response format
+    //         showError('Unexpected response from quotation service. Please try again.');
+    //         logQuotationEvent('API_UNKNOWN_RESPONSE', data);
+    //         return { success: false };
+
+    //     } catch (error) {
+    //         console.error('Quotation API Error:', error);
+    //         logQuotationEvent('API_ERROR', { 
+    //             message: error.message,
+    //             stack: error.stack 
+    //         });
+
+    //         if (error.message === 'Quotation API timeout') {
+    //             showError('Quotation service is not responding. Please check your connection and try again.');
+    //         } else if (error instanceof TypeError) {
+    //             showError('Failed to connect to quotation service. Please check your internet connection.');
+    //         } else {
+    //             showError('An error occurred while creating your quotation. Please try again.');
+    //         }
+            
+    //         return { success: false };
+    //     }
+    // };
+
     const submitQuotationAPI = async (cart, customer) => {
         try {
             const payload = createQuotationPayload(cart, customer);
             // return { success: false };
-            
+           
             // Log request
             console.log('Quotation API Request:', payload);
             logQuotationEvent('API_REQUEST', payload);
-
+ 
             // Set timeout for API request (30 seconds)
-            const timeoutPromise = new Promise((_, reject) => 
+            const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error('Quotation API timeout')), 30000)
             );
-
+ 
             const fetchPromise = fetch(CONFIG.ajaxUrl, {
                 method: 'POST',
                 headers: {
@@ -648,7 +718,7 @@ const FlywirePaymentManager = (() => {
                     payload: JSON.stringify(payload)
                 })
             });
-
+ 
             const response = await Promise.race([fetchPromise, timeoutPromise]);
             const wpData = await response.json();
             if ( ! wpData || wpData.success === false ) {
@@ -660,10 +730,10 @@ const FlywirePaymentManager = (() => {
                 return { success: false };
             }
             const data = wpData.data || {};
-
+ 
             console.log('Quotation API Response:', data);
             logQuotationEvent('API_RESPONSE', data);
-
+ 
             // Handle success response
             if (data.title === 'success' && data.data) {
                 return {
@@ -674,25 +744,25 @@ const FlywirePaymentManager = (() => {
                     }
                 };
             }
-
+ 
             // Handle error responses
             if (data.errors) {
                 handleQuotationAPIErrors(data.errors, data.invalid_room_prices);
                 return { success: false };
             }
-
+ 
             // Unknown response format
             showError('Unexpected response from quotation service. Please try again.');
             logQuotationEvent('API_UNKNOWN_RESPONSE', data);
             return { success: false };
-
+ 
         } catch (error) {
             console.error('Quotation API Error:', error);
-            logQuotationEvent('API_ERROR', { 
+            logQuotationEvent('API_ERROR', {
                 message: error.message,
-                stack: error.stack 
+                stack: error.stack
             });
-
+ 
             if (error.message === 'Quotation API timeout') {
                 showError('Quotation service is not responding. Please check your connection and try again.');
             } else if (error instanceof TypeError) {
@@ -700,7 +770,7 @@ const FlywirePaymentManager = (() => {
             } else {
                 showError('An error occurred while creating your quotation. Please try again.');
             }
-            
+           
             return { success: false };
         }
     };

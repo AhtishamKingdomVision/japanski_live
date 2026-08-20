@@ -40,6 +40,17 @@ try {
     // ✅ STEP 3: Process resort and area information
     $display_categories = hz_get_allowed_accommodation_areas($post_id);
 
+    // ✅ STEP 4: Load rooms once (all rooms — RoomBoss + manual/BedBank), reused
+    // for both room count and the BedBank min-price fallback below.
+    $room_count = 0;
+    $hotel_data = null;
+    if (!empty($property_id_attr) && function_exists('get_hotel_rooms')) {
+        $hotel_data = get_hotel_rooms($property_id_attr, [], '');
+        if (is_array($hotel_data) && isset($hotel_data['rooms'])) {
+            $room_count = count($hotel_data['rooms']);
+        }
+    }
+
     // ✅ STEP 5: Calculate pricing with fallback to RoomBoss
     $rb_price = 0;
     $rb = $GLOBALS['kv_roomboss_current'] ?? null;
@@ -51,15 +62,35 @@ try {
 
                 $rb_price = (float) $rb['min_price'];
             }
-        
+
             if ( $rb['bookingPermission'] ) {
                 $bookingPermission = $rb['bookingPermission'];
             }
 
     }
+
+    // BedBank properties have no live RoomBoss price — fall back to the
+    // lowest "Room price" set on their manually-added japan_rooms.
+    $bedbank_room_price = 0;
+    if (!$is_roomboss && !empty($hotel_data['rooms'])) {
+        $bedbank_room_prices = [];
+        foreach ($hotel_data['rooms'] as $bedbank_room) {
+            if (!is_object($bedbank_room) || empty($bedbank_room->ID)) {
+                continue;
+            }
+            $room_price = (float) get_field('room_price', $bedbank_room->ID);
+            if ($room_price > 0) {
+                $bedbank_room_prices[] = $room_price;
+            }
+        }
+        if (!empty($bedbank_room_prices)) {
+            $bedbank_room_price = min($bedbank_room_prices);
+        }
+    }
+
     // Prefer live search price when available so BedBank rates show when
     // "Exclude prices" is unchecked.
-    $price = max((float) $db_price, (float) $rb_price);
+    $price = max((float) $db_price, (float) $rb_price, (float) $bedbank_room_price);
     $is_price_excluded = function_exists('kv_is_price_excluded')
         ? kv_is_price_excluded($post_id)
         : (get_post_meta($post_id, 'is_price_excluded', true) === '1');
@@ -91,15 +122,6 @@ try {
     // Fallback to placeholder if no image found
     if (empty($image_url)) {
         $image_url = get_template_directory_uri() . '/images/placeholder-accomo.jpg';
-    }
-
-    // ✅ STEP 7: Get room count safely (all rooms — RoomBoss + manual/BedBank)
-    $room_count = 0;
-    if (!empty($property_id_attr) && function_exists('get_hotel_rooms')) {
-        $hotel_data = get_hotel_rooms($property_id_attr, [], '');
-        if (is_array($hotel_data) && isset($hotel_data['rooms'])) {
-            $room_count = count($hotel_data['rooms']);
-        }
     }
 
     // ✅ STEP 8: Prepare button state

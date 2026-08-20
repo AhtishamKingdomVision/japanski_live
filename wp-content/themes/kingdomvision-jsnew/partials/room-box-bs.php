@@ -117,18 +117,18 @@ try {
 ?>
 
 <div class="room-card t1" data-bedroom="<?php echo esc_attr($bedrooms); ?>" actual_room_id="<?php echo esc_attr($room_id); ?>">
-    <div class="room-img" style="position: relative;">
-        <a href="<?php echo esc_url($image_url); ?>" data-fancybox="room-gallery-<?php echo $room_post_id; ?>" class="room-img-link">
-            <div class="room-img"
-                style="background-image: url('<?php echo esc_url($image_url); ?>');"
-                aria-label="<?php echo esc_attr($name); ?>"
-                role="img">
+
+    <a href="<?php echo esc_url($image_url); ?>" data-fancybox="room-gallery-<?php echo $room_id; ?>" class="room-img-link">
+        <div class="room-img"
+            style="background-image: url('<?php echo esc_url($image_url); ?>');"
+            aria-label="<?php echo esc_attr($name); ?>"
+            role="img">
+            <div class="detail_btn">
+                <img src="<?php echo get_template_directory_uri() . '/images/search-icon.png'?>" alt="Search">
             </div>
-        </a>
-        <div class="detail_btn">
-            <img src="<?php echo get_template_directory_uri() . '/images/search-icon.png'?>" class="search-detail-btn" alt="Search">
         </div>
-    </div>
+    </a>
+    
     <?php if (!empty($room_merged_gallary)) : ?>
         <div class="hidden-gallery" style="display:none;">
             <?php foreach ($room_merged_gallary as $gal_url) :
@@ -179,15 +179,15 @@ try {
                 <?php elseif ($is_roomboss) :
                         if (!empty($bookingPermission)) :
                             if (strpos($bookingPermission, 'REQUEST') !== false) : ?>                    
-                                <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>" data-room-id="<?php echo esc_attr($room_id); ?>">Book Now</button>
+                                <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
                             <?php elseif (strpos($bookingPermission, 'RESERVATION') == false) : ?>
-                                <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>" data-room-id="<?php echo esc_attr($room_id); ?>">Book Now</button>
+                                <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
                             <?php endif; ?>
                         <?php else : ?>
-                            <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>" data-room-id="<?php echo esc_attr($room_id); ?>">Book Now</button>
+                            <button bookingPermission="<?php echo $bookingPermission ?>" class="btn book-btn bs_btn roomboss_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Book Now</button>
                         <?php endif; ?>
                 <?php else : ?>
-                            <button bookingPermission="<?php echo $bookingPermission ?>" class="btn chk-avl-btn book-btn bs_btn bedbank_btn" hotel-id="<?php echo esc_attr($property_id); ?>" data-room-id="<?php echo esc_attr($room_id); ?>">Request Booking</button>
+                            <button bookingPermission="<?php echo $bookingPermission ?>" class="btn chk-avl-btn book-btn bs_btn bedbank_btn" hotel-id="<?php echo esc_attr($property_id); ?>">Request Booking</button>
                 <?php endif; ?>
                 <a href="javascript:;" class="btn details-btn" property-id="<?php echo esc_attr($property_id); ?>" room-id="<?php echo esc_attr($room_id); ?>"> Details </a>
             </div>

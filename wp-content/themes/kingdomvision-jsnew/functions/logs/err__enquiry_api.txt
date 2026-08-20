@@ -19,3 +19,42 @@
 <pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ):  -- -- -- 2026-07-18 00:24:01<br></pre>
 <pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-07-20 14:01:44<br></pre>
 <pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ):  -- -- -- 2026-07-20 14:01:44<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 5s (attempt 1 of 2). -- -- -- 2026-07-22 03:17:28<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-07-22 08:05:34<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 3s (attempt 2 of 2). -- -- -- 2026-07-22 08:05:44<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-07-22 18:46:41<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 3s (attempt 2 of 2). -- -- -- 2026-07-22 18:46:51<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 9s (attempt 1 of 2). -- -- -- 2026-07-23 10:44:05<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-07-24 02:26:56<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 6s (attempt 2 of 2). -- -- -- 2026-07-24 02:27:06<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-07-30 01:25:50<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 6s (attempt 2 of 2). -- -- -- 2026-07-30 01:26:01<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-07-30 14:41:50<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 1s (attempt 2 of 2). -- -- -- 2026-07-30 14:42:00<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 2s (attempt 1 of 2). -- -- -- 2026-08-03 06:16:54<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-03 12:00:21<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-03 12:00:21<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 56: Recv failure: Connection reset by peer -- -- -- 2026-08-03 12:04:13<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 56: Recv failure: Connection reset by peer -- -- -- 2026-08-03 12:04:13<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15003 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:05:19<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15003 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:05:19<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:06:48<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 13:06:48<br></pre>
+<pre>API Error for https://stay.japanskiexperience.com/api/v1/third-party-enquiry: cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 14:43:56<br></pre>
+<pre>API Request failed for https://stay.japanskiexperience.com/api/v1/third-party-enquiry (Status: ): cURL error 28: Operation timed out after 15002 milliseconds with 0 bytes received -- -- -- 2026-08-10 14:43:56<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 2s (attempt 1 of 2). -- -- -- 2026-08-15 12:26:37<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 7s (attempt 1 of 2). -- -- -- 2026-08-16 03:42:40<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-08-16 11:57:42<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 9s (attempt 2 of 2). -- -- -- 2026-08-16 11:57:52<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-08-17 02:27:34<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-08-17 02:27:39<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 2 of 2). -- -- -- 2026-08-17 02:27:44<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 2 of 2). -- -- -- 2026-08-17 02:27:49<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 7s (attempt 1 of 2). -- -- -- 2026-08-17 03:27:24<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-08-17 09:14:03<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 3s (attempt 2 of 2). -- -- -- 2026-08-17 09:14:13<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 3s (attempt 1 of 2). -- -- -- 2026-08-17 12:28:49<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 5s (attempt 1 of 2). -- -- -- 2026-08-18 14:25:06<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-08-19 07:26:17<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 7s (attempt 2 of 2). -- -- -- 2026-08-19 07:26:27<br></pre>
+<pre>API rate limited (429) for https://stay.japanskiexperience.com/api/v1/third-party-enquiry. Retrying in 10s (attempt 1 of 2). -- -- -- 2026-08-19 08:11:26<br></pre>

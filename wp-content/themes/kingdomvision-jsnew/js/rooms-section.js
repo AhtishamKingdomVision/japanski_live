@@ -496,6 +496,9 @@
                 $.ajax({
                     url: kv_object.ajaxurl + '?v=' + new Date().getTime(),
                     method: 'POST',
+                    beforeSend: function() {
+                        $('.room-list').addClass('blurred');
+                    },
                     data: {
                         action: 'niseko_search_roomboss_single',
                         checkin: silent_checkin,
@@ -503,6 +506,7 @@
                         property_id: silent_property_id,
                     },
                     success: function(res) {
+                        $('.room-list').removeClass('blurred');
                         if (res.success) {
                             rb_storage.set(silent_acc_id + '_rates_checked', 'true');
                             $('#room-results').html(res.data.html);
@@ -518,6 +522,9 @@
                                 });
                             }
                         }
+                    },
+                    error: function() {
+                        $('.room-list').removeClass('blurred');
                     }
                 });
 

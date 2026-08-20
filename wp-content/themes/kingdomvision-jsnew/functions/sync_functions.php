@@ -665,22 +665,7 @@ function kv_upsert_taxonomy_term($taxonomy, $term_name, $parent_id = 0, $slug = 
 
 
 /**
- * Write a line to the dedicated bulk-sync log, kept separate from the site's
- * general debug.log so sync diagnostics aren't buried among everything else.
- * Uses cf_log() (functions/logs/kv_bulk_sync.txt) — same mechanism as the
- * existing err_api / err_image_sync logs — so it's viewable via a direct URL.
- */
-function kv_sync_write_log( $line ) {
-    if ( function_exists( 'cf_log' ) ) {
-        cf_log( $line, 'kv_bulk_sync', 'txt', false, true );
-        return;
-    }
 
-    // essentials.php not loaded yet — fall back to PHP's own error log.
-    error_log( $line );
-}
-
-/**
  * Log a sync entry for a property with status, error details, and timestamp.
 
  *
@@ -754,7 +739,7 @@ function kv_sync_log_entry( array $entry ) {
 
     );
 
-    kv_sync_write_log( $line );
+    error_log( $line );
 
 }
 
@@ -888,37 +873,6 @@ function kv_build_booking_image_filename( $url, $booking_image_id = 0 ) {
 
  */
 
-/**
- * Fast, indexable lookup: exact match on a dedicated '_kv_booking_image_id'
- * meta field, populated on every attachment kv_sideload_or_find_image()
- * creates (and backfilled by kv_find_attachment_by_booking_image_id_in_filename()
- * the first time it finds a pre-existing attachment the slow way). Checked
- * before the LIKE-based filename scan below, which requires scanning every
- * attachment's filename (no index can serve a leading-wildcard LIKE) and was
- * measured taking ~1.5s per image on this site's media library size.
- */
-function kv_find_attachment_by_booking_image_id_meta( $booking_image_id ) {
-    global $wpdb;
-
-    $booking_image_id = absint( $booking_image_id );
-    if ( $booking_image_id < 1 ) {
-        return null;
-    }
-
-    $attachment_id = $wpdb->get_var(
-        $wpdb->prepare(
-            "SELECT post_id FROM {$wpdb->postmeta}
-             WHERE meta_key = '_kv_booking_image_id'
-             AND meta_value = %d
-             ORDER BY post_id ASC
-             LIMIT 1",
-            $booking_image_id
-        )
-    );
-
-    return $attachment_id ? (int) $attachment_id : null;
-}
-
 function kv_find_attachment_by_booking_image_id_in_filename( $booking_image_id ) {
 
     global $wpdb;
@@ -969,13 +923,6 @@ function kv_find_attachment_by_booking_image_id_in_filename( $booking_image_id )
 
 
 
-    if ( $attachment_id ) {
-        // Backfill the fast exact-match meta so every check after this one for
-        // this same attachment takes the indexable path instead of repeating
-        // this scan.
-        update_post_meta( (int) $attachment_id, '_kv_booking_image_id', $booking_image_id );
-    }
-
     return $attachment_id ? (int) $attachment_id : null;
 
 }
@@ -1020,17 +967,32 @@ function __media_sideload_image( $file, $post_id = 0, $desc = null, $return_type
 
         cf_log( $file );
 
-        // Download file to temp location. download_url()'s default timeout is 300s —
-        // a single slow/unresponsive image host can hang an entire property (and the
-        // whole sync loop behind it) for up to 5 minutes. 30s is generous for a normal
-        // image and fails fast enough that the caller's error handling can move on.
+        // Download file to temp location.
 
-        $file_array['tmp_name'] = download_url( $file, 30 );
+        $file_array['tmp_name'] = download_url( $file );
 
-        // If error storing temporarily, return the error. Must run before any log call
-        // that stringifies $file_array — download_url() returns a WP_Error on failure,
-        // and implode()'ing it fatals with "Object of class WP_Error could not be
-        // converted to string" instead of being handled here.
+        cf_log(
+
+            'Image Sync Info [file_array] post_id=' . (int) $post_id
+
+            . ' name=' . (string) $file_array['name']
+
+            . ' url=' . (string) $file
+
+            . ' | ' . implode( ',', $file_array ),
+
+            'err_image_sync',
+
+            'txt',
+
+            false,
+
+            true
+
+        );
+
+        // If error storing temporarily, return the error.
+
         if ( is_wp_error( $file_array['tmp_name'] ) ) {
 
             if ( function_exists( 'cf_log' ) ) {
@@ -1060,26 +1022,6 @@ function __media_sideload_image( $file, $post_id = 0, $desc = null, $return_type
             return $file_array['tmp_name'];
 
         }
-
-        cf_log(
-
-            'Image Sync Info [file_array] post_id=' . (int) $post_id
-
-            . ' name=' . (string) $file_array['name']
-
-            . ' url=' . (string) $file
-
-            . ' | ' . implode( ',', $file_array ),
-
-            'err_image_sync',
-
-            'txt',
-
-            false,
-
-            true
-
-        );
 
 
 
@@ -1229,58 +1171,6 @@ function kv_find_attachment_by_filename($filename) {
 
  */
 
-/**
- * Dedupe-only lookup: does a local attachment for this URL/booking_image_id
- * already exist? Pure DB reads, no download_url()/sideload call — safe to run
- * synchronously inside the main sync request.
- *
- * @param string $url               Image URL to check
- * @param int    $booking_image_id  API images[].id
- * @return int|null Attachment ID if found locally, null otherwise
- */
-function kv_find_existing_sideloaded_image( $url, $booking_image_id = 0 ) {
-
-    $url              = esc_url_raw( trim( (string) $url ) );
-    $booking_image_id = absint( $booking_image_id );
-
-    if ( $url === '' ) {
-        return null;
-    }
-
-    // 1) Primary duplicate key: exact-match on the dedicated meta field first
-    // (fast, indexable — this is what most calls hit once the media library
-    // has been through this path at least once). Falls back to the slower
-    // filename-prefix scan only for attachments that predate this field.
-    if ( $booking_image_id > 0 ) {
-        $existing_id = kv_find_attachment_by_booking_image_id_meta( $booking_image_id );
-        if ( $existing_id ) {
-            return $existing_id;
-        }
-
-        $existing_id = kv_find_attachment_by_booking_image_id_in_filename( $booking_image_id );
-        if ( $existing_id ) {
-            return $existing_id;
-        }
-    }
-
-    $path     = parse_url( $url, PHP_URL_PATH );
-    $filename = $path ? basename( $path ) : '';
-
-    if ( empty( $filename ) && $booking_image_id < 1 ) {
-        return null;
-    }
-
-    // 2) Fallback for older media that has no [id] in the filename yet.
-    if ( $booking_image_id < 1 && ! empty( $filename ) ) {
-        $existing_id = kv_find_attachment_by_filename( $filename );
-        if ( $existing_id ) {
-            return $existing_id;
-        }
-    }
-
-    return null;
-}
-
 function kv_sideload_or_find_image( $url, $post_id, $booking_image_id = 0 ) {
 
     $url              = esc_url_raw( trim( (string) $url ) );
@@ -1299,11 +1189,47 @@ function kv_sideload_or_find_image( $url, $post_id, $booking_image_id = 0 ) {
 
 
 
-    $existing_id = kv_find_existing_sideloaded_image( $url, $booking_image_id );
+    // 1) Primary duplicate key: filename starts with "{booking_image_id}-".
 
-    if ( $existing_id ) {
+    if ( $booking_image_id > 0 ) {
 
-        return $existing_id;
+        $existing_id = kv_find_attachment_by_booking_image_id_in_filename( $booking_image_id );
+
+        if ( $existing_id ) {
+
+            return $existing_id;
+
+        }
+
+    }
+
+
+
+    $path     = parse_url( $url, PHP_URL_PATH );
+
+    $filename = $path ? basename( $path ) : '';
+
+
+
+    if ( empty( $filename ) && $booking_image_id < 1 ) {
+
+        return null;
+
+    }
+
+
+
+    // 2) Fallback for older media that has no [id] in the filename yet.
+
+    if ( $booking_image_id < 1 && ! empty( $filename ) ) {
+
+        $existing_id = kv_find_attachment_by_filename( $filename );
+
+        if ( $existing_id ) {
+
+            return $existing_id;
+
+        }
 
     }
 
@@ -1356,13 +1282,6 @@ function kv_sideload_or_find_image( $url, $post_id, $booking_image_id = 0 ) {
     }
 
 
-
-    if ( $booking_image_id > 0 ) {
-        // So the next lookup for this exact image (this property's next sync,
-        // or another room referencing the same photo) hits the fast exact-match
-        // path instead of the LIKE-scan.
-        update_post_meta( (int) $attachment_id, '_kv_booking_image_id', $booking_image_id );
-    }
 
     return (int) $attachment_id;
 
@@ -1738,13 +1657,8 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     cf_log( 'valid_images', 'first_img' );
     cf_log( $valid_images, 'first_img' );
-
-    // Dedupe check only (fast, DB-only) — never download inline here. If the
-    // image isn't already local, queue it for the background cron processor
-    // instead of calling download_url() synchronously, so a large property's
-    // worth of featured images can never make this request run long enough to
-    // hit Cloudflare's edge timeout.
-    $attachment_id = kv_find_existing_sideloaded_image( $first_url, $booking_image_id );
+    
+    $attachment_id = kv_sideload_or_find_image( $first_url, $post_id, $booking_image_id );
 
     cf_log( 'attachment_id', 'first_img' );
     cf_log( $attachment_id, 'first_img' );
@@ -1752,8 +1666,6 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
     if ( $attachment_id ) {
 
         set_post_thumbnail( $post_id, $attachment_id );
-
-        delete_post_meta( $post_id, '_kv_pending_featured_image' );
 
         if ( function_exists( 'cf_log' ) ) {
 
@@ -1783,21 +1695,11 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
     } else {
 
-        if ( function_exists( 'kv_image_queue_enqueue' ) ) {
-
-            kv_image_queue_enqueue( $post_id, $type, 'featured', $first_url, $booking_image_id );
-
-        }
-
-        // Remote URL hotlinked as a temporary featured image until the queue
-        // processor downloads it and swaps in the real attachment.
-        update_post_meta( $post_id, '_kv_pending_featured_image', $first_url );
-
         if ( function_exists( 'cf_log' ) ) {
 
             cf_log(
 
-                'Image Sync Queued [featured_queued] type=' . $type
+                'Image Sync Error [featured_failed] type=' . $type
 
                 . ' post_id=' . $post_id
 
@@ -1805,7 +1707,7 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
                 . ' url=' . $first_url
 
-                . ' | Not found locally, queued for background download',
+                . ' | Featured image could not be sideloaded',
 
                 'err_image_sync',
 
@@ -1846,69 +1748,12 @@ function hz_add_img_from_booking_sys( $images, $post_id, $type ) {
 
 
 /**
- * Classify a failed API call so callers can decide how to retry.
- * Kept as a side-channel (not a return value change) because
- * hz_get_limited_properties() is used by other cron jobs that rely on
- * strict `=== false` failure checks.
- *
- * @param string $type    'timeout' | 'network' | '504' | 'http_error' | 'other'
- * @param string $message Human-readable detail for logs/UI
- */
-function kv_sync_set_last_fetch_error( $type, $message ) {
-    $GLOBALS['kv_sync_last_fetch_error'] = [
-        'type'    => $type,
-        'message' => $message,
-    ];
-}
 
-function kv_sync_get_last_fetch_error() {
-    if ( isset( $GLOBALS['kv_sync_last_fetch_error'] ) && is_array( $GLOBALS['kv_sync_last_fetch_error'] ) ) {
-        return $GLOBALS['kv_sync_last_fetch_error'];
-    }
-    return [ 'type' => 'other', 'message' => 'Unknown error' ];
-}
-
-/**
- * Classify a WP_Error from wp_remote_post() as a timeout, network, or other failure.
- */
-function kv_sync_classify_wp_error( WP_Error $error ) {
-    $message  = $error->get_error_message();
-    $haystack = strtolower( $message );
-
-    if ( strpos( $haystack, 'timed out' ) !== false || strpos( $haystack, 'timeout' ) !== false ) {
-        return 'timeout';
-    }
-
-    $network_needles = [
-        'could not resolve host',
-        "couldn't resolve host",
-        'connection refused',
-        'network is unreachable',
-        'no route to host',
-        'connection reset',
-        'failed to connect',
-        'ssl connect error',
-        'curl error 6',  // could not resolve host
-        'curl error 7',  // failed to connect
-        'curl error 28', // timeout (also caught above, kept for safety)
-        'curl error 35', // ssl connect error
-        'curl error 56', // connection reset
-    ];
-    foreach ( $network_needles as $needle ) {
-        if ( strpos( $haystack, $needle ) !== false ) {
-            return 'network';
-        }
-    }
-
-    return 'other';
-}
-
-/**
  * Fetch paginated list of properties from Booking System API
 
  * Retrieves accommodation properties with pagination metadata
 
- *
+ * 
 
  * @param int $page Page number to fetch (default: 1)
 
@@ -1980,8 +1825,6 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
             error_log('Failed to get booking system API args in hz_get_limited_properties');
 
-            kv_sync_set_last_fetch_error( 'other', 'Missing booking system API credentials.' );
-
             return false;
 
         }
@@ -2003,15 +1846,6 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
             cf_log( 'API Error: ' . $response->get_error_message(), 'err_api', 'txt', false, true );
 
-            if ( function_exists( 'kv_sync_write_log' ) ) {
-                kv_sync_write_log( sprintf(
-                    "API request failed (network/timeout) — page=%d perPage=%d\nURL: %s\nError: %s\nError data: %s",
-                    $page, $perPage, $apiUrl, $response->get_error_message(), wp_json_encode( $response->get_error_data() )
-                ) );
-            }
-
-            kv_sync_set_last_fetch_error( kv_sync_classify_wp_error( $response ), $response->get_error_message() );
-
             return false;
 
         }
@@ -2024,22 +1858,7 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
         if ($http_code !== 200) {
 
-            $error_body = wp_remote_retrieve_body( $response );
-
             cf_log( 'API returned HTTP ' . $http_code, 'err_api', 'txt', false, true );
-
-            if ( function_exists( 'kv_sync_write_log' ) ) {
-                kv_sync_write_log( sprintf(
-                    "API returned HTTP %d — page=%d perPage=%d\nURL: %s\nFull response body:\n%s",
-                    $http_code, $page, $perPage, $apiUrl, $error_body !== '' ? $error_body : '(empty body)'
-                ) );
-            }
-
-            $fetch_error_type = ( $http_code === 504 ) ? '504' : 'http_error';
-            kv_sync_set_last_fetch_error(
-                $fetch_error_type,
-                'API returned HTTP ' . $http_code . ( $error_body !== '' ? ' — ' . mb_substr( wp_strip_all_tags( $error_body ), 0, 300 ) : '' )
-            );
 
             return false;
 
@@ -2057,8 +1876,6 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
             cf_log('Empty response body from API', 'err_api', 'txt', false, true);
 
-            kv_sync_set_last_fetch_error( 'other', 'Empty response body from API.' );
-
             return false;
 
         }
@@ -2073,15 +1890,6 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
             cf_log('Invalid JSON in API response', 'err_api', 'txt', false, true);
 
-            if ( function_exists( 'kv_sync_write_log' ) ) {
-                kv_sync_write_log( sprintf(
-                    "Invalid JSON in API response — page=%d perPage=%d\nURL: %s\nFull response body:\n%s",
-                    $page, $perPage, $apiUrl, $body
-                ) );
-            }
-
-            kv_sync_set_last_fetch_error( 'other', 'Invalid JSON in API response.' );
-
             return false;
 
         }
@@ -2090,21 +1898,15 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
         // ✅ STEP 7: Validate properties in response
 
-        $pagination = is_array($result['pagination'] ?? null) ? $result['pagination'] : [];
-
-        $total_pages = isset($pagination['last_page']) ? intval($pagination['last_page']) : 0;
-
-
-
         if (empty($result['properties']) || !is_array($result['properties'])) {
 
             return [
 
                 'properties' => [],
 
-                'total_pages' => $total_pages,
+                'total_pages' => 0,
 
-                'pagination' => $pagination,
+                'pagination' => [],
 
             ];
 
@@ -2112,11 +1914,11 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
 
 
 
-        if ( $total_pages < 1 ) {
+        // ✅ STEP 8: Extract pagination data
 
-            $total_pages = 1;
+        $total_pages = isset($result['pagination']['last_page']) ? intval($result['pagination']['last_page']) : 1;
 
-        }
+        $pagination = is_array($result['pagination'] ?? null) ? $result['pagination'] : [];
 
 
 
@@ -2141,15 +1943,6 @@ function hz_get_limited_properties($page = 1, $perPage = 1)
         // ❌ Catch unexpected errors
 
         error_log('Error in hz_get_limited_properties: ' . $e->getMessage());
-
-        if ( function_exists( 'kv_sync_write_log' ) ) {
-            kv_sync_write_log( sprintf(
-                "Exception in hz_get_limited_properties — page=%d perPage=%d\nException: %s\nFile: %s:%d\nTrace:\n%s",
-                $page, $perPage, $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString()
-            ) );
-        }
-
-        kv_sync_set_last_fetch_error( 'other', $e->getMessage() );
 
         return false;
 
@@ -2551,101 +2344,7 @@ function hz_get_data_from_booking_sys_func()
 
 
 
-function kv_sync_normalize_for_fingerprint( $value ) {
-    if ( is_array( $value ) ) {
-        foreach ( $value as $k => $v ) {
-            $value[ $k ] = kv_sync_normalize_for_fingerprint( $v );
-        }
-        if ( array_keys( $value ) !== range( 0, count( $value ) - 1 ) ) {
-            ksort( $value );
-        }
-    }
-    return $value;
-}
-
-function kv_sync_property_fingerprint( array $property ) {
-    $rooms = [];
-    foreach ( ( is_array( $property['rooms'] ?? null ) ? $property['rooms'] : [] ) as $room ) {
-        if ( ! is_array( $room ) ) {
-            continue;
-        }
-        $room_images = [];
-        foreach ( ( is_array( $room['images'] ?? null ) ? $room['images'] : [] ) as $img ) {
-            if ( is_array( $img ) ) {
-                $room_images[] = [
-                    'id' => (string) ( $img['id'] ?? '' ),
-                    'url' => (string) ( $img['url'] ?? '' ),
-                    'is_main' => ! empty( $img['is_main'] ),
-                ];
-            }
-        }
-        usort(
-            $room_images,
-            static function ( $a, $b ) {
-                return strcmp( $a['id'], $b['id'] );
-            }
-        );
-        $rooms[] = [
-            'id' => (string) ( $room['id'] ?? '' ),
-            'name' => (string) ( $room['name'] ?? '' ),
-            'client_unit_name' => (string) ( $room['client_unit_name'] ?? '' ),
-            'updated_at' => (string) ( $room['updated_at'] ?? $room['updatedAt'] ?? '' ),
-            'room_boss_room_id' => (string) ( $room['room_boss_room_id'] ?? '' ),
-            'pricing_model' => $room['pricing_model'] ?? null,
-            'images' => $room_images,
-        ];
-    }
-
-    usort(
-        $rooms,
-        static function ( $a, $b ) {
-            return strcmp( $a['id'], $b['id'] );
-        }
-    );
-
-    $images = [];
-    foreach ( ( is_array( $property['images'] ?? null ) ? $property['images'] : [] ) as $img ) {
-        if ( is_array( $img ) ) {
-            $images[] = [
-                'id' => (string) ( $img['id'] ?? '' ),
-                'url' => (string) ( $img['url'] ?? '' ),
-                'is_main' => ! empty( $img['is_main'] ),
-            ];
-        }
-    }
-
-    usort(
-        $images,
-        static function ( $a, $b ) {
-            return strcmp( $a['id'], $b['id'] );
-        }
-    );
-
-    $detail = is_array( $property['detail'] ?? null ) ? $property['detail'] : [];
-
-    $payload = kv_sync_normalize_for_fingerprint( [
-        'id' => (string) ( $property['id'] ?? '' ),
-        'name' => (string) ( $property['name'] ?? '' ),
-        'client_property_name' => (string) ( $property['client_property_name'] ?? '' ),
-        'property_type' => (string) ( $property['property_type'] ?? '' ),
-        'status' => $property['status'] ?? null,
-        'is_enabled' => $property['is_enabled'] ?? null,
-        'is_active' => $property['is_active'] ?? null,
-        'remove_from_website' => ! empty( $property['remove_from_website'] ),
-        'deleted_at' => $property['deleted_at'] ?? null,
-        'updated_at' => (string) ( $property['updated_at'] ?? $property['updatedAt'] ?? '' ),
-        'detail_updated' => (string) ( $detail['updated_at'] ?? $detail['updatedAt'] ?? '' ),
-        'long_description' => (string) ( $detail['long_description'] ?? '' ),
-        'client_long_description' => (string) ( $detail['client_long_description'] ?? '' ),
-        'list_description' => (string) ( $detail['list_description'] ?? '' ),
-        'rooms' => $rooms,
-        'images' => $images,
-    ] );
-
-    return hash( 'sha256', wp_json_encode( $payload ) );
-}
-
-function sq_mapping_properties($properties, $defer_menu_order = false) {
+function sq_mapping_properties($properties) {
 
     if (empty($properties) || !is_array($properties)) {
 
@@ -2662,10 +2361,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
     // ✅ STEP 7: Process each property
 
     foreach ($properties as $property) {
-
-        $kv_prop_t0 = microtime(true);
-        $kv_prop_t  = $kv_prop_t0;
-        $kv_prop_timing = [];
 
         // ✅ STEP 7a: Validate property structure
 
@@ -2737,14 +2432,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
         }
 
         $hotelid = get_post_id_by_typeId($property_id, 'accommodation');
-
-        $fingerprint = kv_sync_property_fingerprint( $property );
-        if ( $hotelid && $fingerprint !== '' ) {
-            $stored_fp = (string) get_post_meta( $hotelid, '_kv_sync_fingerprint', true );
-            if ( $stored_fp !== '' && hash_equals( $stored_fp, $fingerprint ) ) {
-                continue;
-            }
-        }
 
         $property_type =  strtolower(trim((string) ($property['property_type'] ?? '')));
 
@@ -3280,7 +2967,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
         // ✅ STEP 7i: Insert or update accommodation post
 
         $upd_hotel_id = wp_insert_post($hotel_data, true);
-        $kv_prop_timing['pre_insert'] = round( ( microtime(true) - $kv_prop_t ) * 1000 ); $kv_prop_t = microtime(true);
 
         if (is_wp_error($upd_hotel_id)) {
 
@@ -3312,17 +2998,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
             update_post_meta( $upd_hotel_id, '_kv_api_inactive_draft', '1' );
         } elseif ( $status === 'publish' ) {
             delete_post_meta( $upd_hotel_id, '_kv_api_inactive_draft' );
-        }
-
-        // Store bedroom counts as separate, single-value meta rows (one row per
-        // count) instead of relying only on the serialized 'acc_no_of_bedrooms'
-        // array. This lets bedroom filtering use an indexable `compare => 'IN'`
-        // meta_query instead of a leading-wildcard LIKE scan against serialized
-        // data, which cannot use any index and was the main cause of slow filter
-        // response times.
-        delete_post_meta( $upd_hotel_id, 'bedroom_count' );
-        foreach ( $bedrooms as $bedroom_count ) {
-            add_post_meta( $upd_hotel_id, 'bedroom_count', (int) $bedroom_count, false );
         }
 
        /* if not empty property_type add it in term "property_types" */
@@ -3708,7 +3383,7 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
 
                 /*check if client_rateplan_name contains keyword "discount" mark the accomdation as discount*/
 
-                $pivot = $rateplan['pivot'] ?? [];
+                $pivot = $rateplan['pivot'];
 
                 // if( $pivot['is_archived'] == 0 ){
                 //     continue;
@@ -3750,8 +3425,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
 
         }
 
-        $kv_prop_timing['post_insert_to_rooms'] = round( ( microtime(true) - $kv_prop_t ) * 1000 ); $kv_prop_t = microtime(true);
-
         // ✅ STEP 7m: Process room types for this accommodation
 
         $room_ids = [];
@@ -3768,20 +3441,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
                 ] );
             }
         }
-
-        // Resume support for large properties (20+ rooms): each room's per-room
-        // work (rate plans, ACF fields, terms, images) can be expensive enough
-        // that a property with many rooms exceeds the platform's hard request
-        // time limit before all rooms finish, and every retry previously
-        // restarted from room 1 — so a property whose rooms alone take longer
-        // than the limit could never complete no matter how many times it
-        // retried. This persists { api_room_id => wp_post_id } as each room
-        // finishes, so a cut-off retry only does the expensive work for rooms
-        // not yet done (already-done ones just get their publish status
-        // corrected, since the draft-reset above runs unconditionally).
-        $kv_sync_room_progress_key = '_kv_sync_room_progress';
-        $kv_sync_room_progress     = get_post_meta( $upd_hotel_id, $kv_sync_room_progress_key, true );
-        $kv_sync_room_progress     = is_array( $kv_sync_room_progress ) ? $kv_sync_room_progress : [];
 
         if (!empty($roomTypes) && is_array($roomTypes)) {
 
@@ -3858,25 +3517,9 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
 
                 $status = isset( $roomType['global_status'] ) && $roomType['global_status'] == 1 ? 'publish' :'draft';
 
-                if ( isset( $kv_sync_room_progress[ $room_id ] ) ) {
-                    // Already fully processed in an earlier attempt at this same
-                    // property — just correct the publish status the draft-reset
-                    // above overwrote, skipping the expensive per-room work below.
-                    wp_update_post( [
-                        'ID'          => (int) $kv_sync_room_progress[ $room_id ],
-                        'post_status' => $status,
-                    ] );
-                    continue;
-                }
-
-                $kv_room_t0 = microtime(true);
-                $kv_room_t  = $kv_room_t0;
-                $kv_room_timing = [];
-
                 // Get or create room post
 
                 $rooms = get_hotel_rooms($property_id, [$room_id]);
-                $kv_room_timing['get_hotel_rooms'] = round( ( microtime(true) - $kv_room_t ) * 1000 ); $kv_room_t = microtime(true);
 
                 
 
@@ -4021,7 +3664,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
                 // Insert or update room post
 
                 $upd_room_id = wp_insert_post($room_data);
-                $kv_room_timing['wp_insert_post'] = round( ( microtime(true) - $kv_room_t ) * 1000 ); $kv_room_t = microtime(true);
 
                 if (is_wp_error($upd_room_id)) {
 
@@ -4090,7 +3732,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
                     }
 
                 }
-                $kv_room_timing['facilities'] = round( ( microtime(true) - $kv_room_t ) * 1000 ); $kv_room_t = microtime(true);
 
                 if (!empty($bedding_options)) {
 
@@ -4139,7 +3780,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
                     }
 
                 }
-                $kv_room_timing['bedding_options'] = round( ( microtime(true) - $kv_room_t ) * 1000 ); $kv_room_t = microtime(true);
                 // pre( 'guest_types' );
                 // pre( $guest_types, 1 );
                 if (!empty($guest_types) && isset($guest_types[0])) {
@@ -4198,7 +3838,11 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
 
                 }
 
-                $kv_room_timing['guest_types'] = round( ( microtime(true) - $kv_room_t ) * 1000 ); $kv_room_t = microtime(true);
+                if( $unit_ids ) {
+
+                    wp_set_object_terms($upd_hotel_id, $unit_ids, 'unit_ammenites');
+
+                }
 
                 $room_ids[] = $upd_room_id;
 
@@ -4212,7 +3856,6 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
                 cf_log( $room_imgs, 'first_img' );
 
                 hz_add_img_from_booking_sys($room_imgs, $upd_room_id, 'room');
-                $kv_room_timing['images'] = round( ( microtime(true) - $kv_room_t ) * 1000 ); $kv_room_t = microtime(true);
 
 
 
@@ -4223,49 +3866,14 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
                     update_post_meta($upd_room_id, $meta_key, $meta_value);
 
                 }
-                $kv_room_timing['meta_writes'] = round( ( microtime(true) - $kv_room_t ) * 1000 ); $kv_room_t = microtime(true);
-                $kv_room_timing['count'] = count( $room_meta_input );
-
-                if ( function_exists( 'cf_log' ) ) {
-                    cf_log(
-                        'ROOM_TIMING room_id=' . $room_id . ' name=' . $room_name
-                        . ' total=' . round( ( microtime(true) - $kv_room_t0 ) * 1000 ) . 'ms'
-                        . ' ' . wp_json_encode( $kv_room_timing ),
-                        'kv_room_timing', 'txt', false, true
-                    );
-                }
 
                 if (!$room_is_roomboss) {
                     delete_post_meta($upd_room_id, 'room_hotel_id');
                     delete_post_meta($upd_room_id, 'room_type_id');
                 }
 
-                // Room fully processed — persist immediately so a request that
-                // gets cut off partway through a later room in this same
-                // property doesn't lose the work already done for this one.
-                $kv_sync_room_progress[ $room_id ] = $upd_room_id;
-                update_post_meta( $upd_hotel_id, $kv_sync_room_progress_key, $kv_sync_room_progress );
-
             }
 
-            // All rooms for this property finished in this attempt — clear the
-            // resume marker so the next genuinely fresh sync run (not a retry
-            // of this same cut-off attempt) starts clean rather than skipping
-            // rooms forever based on stale progress.
-            delete_post_meta( $upd_hotel_id, $kv_sync_room_progress_key );
-
-        }
-
-        $kv_prop_timing['room_loop_total'] = round( ( microtime(true) - $kv_prop_t ) * 1000 ); $kv_prop_t = microtime(true);
-        $kv_prop_timing['room_count'] = isset( $roomTypes ) && is_array( $roomTypes ) ? count( $roomTypes ) : 0;
-
-        // Property-level amenities derived from rate plans ($unit_ids, populated
-        // earlier and unchanged since). Previously this ran once per room inside
-        // the loop above with an identical, already-final value each time — pure
-        // repeated work (20 wasted taxonomy writes + cache invalidations on a
-        // 21-room property) that only needs to happen once.
-        if ( $unit_ids ) {
-            wp_set_object_terms( $upd_hotel_id, $unit_ids, 'unit_ammenites' );
         }
 
         // ✅ STEP 7n: Update accommodation with room relationships
@@ -4279,20 +3887,11 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
         // ✅ STEP 7j: Add accommodation images and update metadata
         cf_log( 'Property name', 'first_img' );
         cf_log( $property['name'], 'first_img' );
+        // pre( $upd_room_id, 1 );
         cf_log( 'Property images', 'first_img' );
         cf_log( $property['images'], 'first_img' );
 
         hz_add_img_from_booking_sys(@$property['images'], $upd_hotel_id, 'accommodation');
-        $kv_prop_timing['property_images'] = round( ( microtime(true) - $kv_prop_t ) * 1000 ); $kv_prop_t = microtime(true);
-
-        if ( function_exists( 'cf_log' ) ) {
-            cf_log(
-                'PROPERTY_TIMING property_id=' . ( $property['id'] ?? '' ) . ' name=' . ( $property['name'] ?? '' )
-                . ' total=' . round( ( microtime(true) - $kv_prop_t0 ) * 1000 ) . 'ms'
-                . ' ' . wp_json_encode( $kv_prop_timing ),
-                'kv_room_timing', 'txt', false, true
-            );
-        }
 
         // Log successful sync (the wrapper above logs 'created' vs 'updated'
 
@@ -4308,20 +3907,16 @@ function sq_mapping_properties($properties, $defer_menu_order = false) {
 
             'status'        => 'success',
 
+            // 'error'         => $is_new_post ? 'NEW POST CREATED (ID ' . $upd_hotel_id . ')' : '',
+
             'error'         => '',
 
             'timestamp'     => current_time('Y-m-d H:i:s'),
 
         ]);
 
-        if ( ! empty( $upd_hotel_id ) && ! is_wp_error( $upd_hotel_id ) && ! empty( $fingerprint ) ) {
-            update_post_meta( (int) $upd_hotel_id, '_kv_sync_fingerprint', $fingerprint );
-        }
-
     }
-    if ( ! $defer_menu_order && function_exists( 'kv_update_accommodation_menu_order' ) ) {
-        kv_update_accommodation_menu_order();
-    }
+    kv_update_accommodation_menu_order();
 
 }
 

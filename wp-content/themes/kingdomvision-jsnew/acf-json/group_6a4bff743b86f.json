@@ -425,6 +425,7 @@
                                     "bidirectional": 0,
                                     "multiple": 0,
                                     "bidirectional_target": [],
+                                    "readonly": 1,
                                     "parent_repeater": "field_6a4bff7450a44"
                                 },
                                 {
@@ -526,5 +527,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1785846315
+    "modified": 1785943776
 }

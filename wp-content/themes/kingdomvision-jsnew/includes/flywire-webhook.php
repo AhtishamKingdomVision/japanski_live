@@ -512,13 +512,12 @@ function jse_sync_authorized_payment_to_quotation($quotation_id, $booking_refere
 
         $response = wp_remote_post($api_url, [
 
-            'headers' => [
-
-                'Content-Type' => 'application/json',
-
-                'Accept' => 'application/json'
-
-            ],
+            'headers' => function_exists( 'jse_laravel_wp_token_headers' )
+                ? jse_laravel_wp_token_headers()
+                : [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ],
 
             'body' => wp_json_encode([
 
@@ -658,11 +657,11 @@ function jse_delete_quotation_by_id($quotation_id) {
 
             'method' => 'DELETE',
 
-            'headers' => [
-
-                'Accept' => 'application/json'
-
-            ],
+            'headers' => function_exists( 'jse_laravel_wp_token_headers' )
+                ? jse_laravel_wp_token_headers()
+                : [
+                    'Accept' => 'application/json',
+                ],
 
             'timeout' => 15,
 

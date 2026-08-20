@@ -96,21 +96,24 @@
         // Define API URL and authentication token
 
         $api_url = KV_BOOKING_SYSTEM_BASE . '/api/wp-property-faqs';
-        $auth_token = KV_BS_authToken; // As provided in the curl command
 
         // Prepare the request body
         $body = [
             'propertyIds' => [(int)$property_api_id],
         ];
 
+        $headers = function_exists( 'jse_laravel_wp_token_headers' )
+            ? jse_laravel_wp_token_headers()
+            : [
+                'Content-Type' => 'application/json',
+                'Accept'       => 'application/json',
+            ];
+
         // Prepare the arguments for wp_remote_post
         $args = [
             'method'    => 'POST',
             'timeout'   => 30,
-            'headers'   => [
-                'Content-Type'  => 'application/json',
-                'Authorization' => 'Bearer ' . $auth_token,
-            ],
+            'headers'   => $headers,
             'body'      => json_encode($body),
         ];
 

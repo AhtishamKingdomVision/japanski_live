@@ -1315,15 +1315,20 @@ function jse_schema_scan_page_builder($post_id, $current_domain) {
 
                 if ($property_api_id) {
 
+                    $faq_base = defined( 'KV_BOOKING_SYSTEM_BASE' ) ? KV_BOOKING_SYSTEM_BASE : 'https://trip.japanskiexperience.com';
+                    $faq_headers = function_exists( 'jse_laravel_wp_token_headers' )
+                        ? jse_laravel_wp_token_headers()
+                        : [
+                            'Content-Type' => 'application/json',
+                            'Accept'       => 'application/json',
+                        ];
+
                     $response = wp_remote_post(
-                        'https://stay.japanskiexperience.com/api/wp-property-faqs',
+                        rtrim( $faq_base, '/' ) . '/api/wp-property-faqs',
                         [
                             'method'  => 'POST',
                             'timeout' => 30,
-                            'headers' => [
-                                'Content-Type'  => 'application/json',
-                                'Authorization' => 'Bearer 12587|W4oROCSRowx1SqVWUrCg7wy4NNhESs4sjsevdtJee2f6b8af',
-                            ],
+                            'headers' => $faq_headers,
                             'body' => wp_json_encode([
                                 'propertyIds' => [(int) $property_api_id],
                             ]),
@@ -2681,18 +2686,21 @@ function jse_schema_accommodation_faq_nodes($post_id) {
 
     if ($property_api_id) {
 
-        $api_url    = 'https://stay.japanskiexperience.com/api/wp-property-faqs';
-        $auth_token = get_field('trip_api_token', 'option');
+        $faq_base = defined( 'KV_BOOKING_SYSTEM_BASE' ) ? KV_BOOKING_SYSTEM_BASE : 'https://trip.japanskiexperience.com';
+        $api_url  = rtrim( $faq_base, '/' ) . '/api/wp-property-faqs';
+        $faq_headers = function_exists( 'jse_laravel_wp_token_headers' )
+            ? jse_laravel_wp_token_headers()
+            : [
+                'Content-Type' => 'application/json',
+                'Accept'       => 'application/json',
+            ];
 
         $response = wp_remote_post(
             $api_url,
             [
                 'method'  => 'POST',
                 'timeout' => 30,
-                'headers' => [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $auth_token,
-                ],
+                'headers' => $faq_headers,
                 'body' => wp_json_encode([
                     'propertyIds' => [(int) $property_api_id],
                 ]),

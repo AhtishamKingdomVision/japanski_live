@@ -637,17 +637,29 @@ const FlywirePaymentManager = (() => {
                 setTimeout(() => reject(new Error('Quotation API timeout')), 30000)
             );
 
-            const fetchPromise = fetch('https://trip.japanskiexperience.com/api/quotations/wp-store', {
+            const fetchPromise = fetch(CONFIG.ajaxUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: JSON.stringify(payload)
+                body: new URLSearchParams({
+                    action: 'jse_wp_store_quotation',
+                    nonce: CONFIG.nonce,
+                    payload: JSON.stringify(payload)
+                })
             });
 
             const response = await Promise.race([fetchPromise, timeoutPromise]);
-            const data = await response.json();
+            const wpData = await response.json();
+            if ( ! wpData || wpData.success === false ) {
+                const errMsg = ( wpData && wpData.data && wpData.data.message )
+                    ? wpData.data.message
+                    : 'Failed to create quotation. Please try again.';
+                showError( errMsg );
+                logQuotationEvent( 'API_WP_ERROR', wpData );
+                return { success: false };
+            }
+            const data = wpData.data || {};
 
             console.log('Quotation API Response:', data);
             logQuotationEvent('API_RESPONSE', data);

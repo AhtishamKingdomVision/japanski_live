@@ -4021,3 +4021,5 @@ Full response body:
     </div>
 </div>
  -- -- -- 2026-08-19 12:54:37<br></pre>
+<pre>[SYNC] 2026-08-19 17:33:03 | Property 466 (Fuyu Hotaru) | Status: SUCCESS | Error: none -- -- -- 2026-08-19 17:33:03<br></pre>
+<pre>[SYNC] 2026-08-20 10:17:53 | Property 467 (Lala Acorn) | Status: SUCCESS | Error: none -- -- -- 2026-08-20 10:17:53<br></pre>

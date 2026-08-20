@@ -1,5 +1,6 @@
 <?php
 define( 'WP_CACHE', true ); // Added by WP Rocket
+define( 'JSE_WP_API_TOKEN', 'e8a48ebb371d50b14b0c43e73313dc58f464702849a2703c3edbdf274689048a' );
 
 /**
  * The base configuration for WordPress

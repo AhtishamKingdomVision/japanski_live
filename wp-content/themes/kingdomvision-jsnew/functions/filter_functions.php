@@ -26,6 +26,35 @@ if (!defined('KV_BS_authToken')) {
     define('KV_BS_authToken', $authToken); // This token seems to be duplicated in h_functions.php as well. Consider centralizing.
 }
 
+/**
+ * Shared secret for Laravel `wordpress.token` middleware (header X-WP-API-Token).
+ * Value lives in wp-config.php as JSE_WP_API_TOKEN (fallback: JSE_LARAVEL_TOKEN).
+ */
+function jse_wp_api_token() {
+    if ( defined( 'JSE_WP_API_TOKEN' ) && JSE_WP_API_TOKEN !== '' ) {
+        return trim( (string) JSE_WP_API_TOKEN );
+    }
+    if ( defined( 'JSE_LARAVEL_TOKEN' ) && JSE_LARAVEL_TOKEN !== '' ) {
+        return trim( (string) JSE_LARAVEL_TOKEN );
+    }
+    return '';
+}
+
+function jse_laravel_wp_token_headers( array $extra = [] ) {
+    $headers = array_merge(
+        [
+            'Content-Type' => 'application/json',
+            'Accept'       => 'application/json',
+        ],
+        $extra
+    );
+    $token = jse_wp_api_token();
+    if ( $token !== '' ) {
+        $headers['X-WP-API-Token'] = $token;
+    }
+    return $headers;
+}
+
 define('KV_ROOMBOSS_BASE', 'https://api.roomboss.com/extws');
 
 define('KV_ROOMBOSS_USER', 'JSE');
